@@ -2,8 +2,10 @@
 GenesisBench: how language intelligence can be used to improve physical intelligence.
 
 ## Basic Idea
-Inspired by 
+Inspired by
+
 https://arxiv.org/pdf/2606.19980
+
 https://arxiv.org/pdf/2606.19980
 
 We want to evaluate how “language intelligence” can be used to improve “physical intelligence”. Similar to the idea of https://posttrainbench.com/, we want to evaluate how the coding agents can be used to train the policies that can be used to run on the robotics hardware.
