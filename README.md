@@ -6,13 +6,15 @@ Inspired by
 
 https://arxiv.org/pdf/2606.19980
 
-https://trinkle23897.github.io/learning-beyond-gradients/
+https://research.nvidia.com/labs/gear/aspire/assets/Aspire.pdf?v=20260630d
 
-https://research.nvidia.com/labs/gear/aspire/
+https://trinkle23897.github.io/learning-beyond-gradients/
 
 https://arxiv.org/pdf/2606.19980
 
 https://github.com/jellyheadandrew/autoresearch-robotics
+
+https://github.com/karpathy/autoresearch
 
 We want to evaluate how “language intelligence” can be used to improve “physical intelligence”. Similar to the idea of https://posttrainbench.com/, we want to evaluate how the coding agents can be used to train the policies that can be used to run on the robotics hardware.
 
