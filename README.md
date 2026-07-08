@@ -1,5 +1,5 @@
 # GenesisBench
-GenesisBench: how language intelligence can be used to improve physical intelligence.
+GenesisBench: how **language intelligence** can be used to improve **physical intelligence**.
 
 ## Basic Idea
 Inspired by
