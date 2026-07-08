@@ -18,6 +18,8 @@ https://github.com/jellyheadandrew/autoresearch-robotics
 
 https://github.com/karpathy/autoresearch
 
+How brittle are the VLA models in robotics https://medium.com/@yananchen1116/how-brittle-are-the-vla-models-in-robotics-66ab85286ecf
+
 ## Basic Idea
 
 We want to evaluate how “language intelligence” can be used to improve “physical intelligence”. Similar to the idea of https://posttrainbench.com/, we want to evaluate how the coding agents can be used to train the policies that can be used to run on the robotics hardware.
@@ -27,8 +29,6 @@ one simulation environment like https://github.com/isaac-sim/IsaacSim or a https
 and also the coding agent will be given some computational resources, like computation nodes with H100
 
 Here are some preliminary tasks ideas: https://www.benchflow.ai/genesis
-
-How brittle are the VLA models in robotics https://medium.com/@yananchen1116/how-brittle-are-the-vla-models-in-robotics-66ab85286ecf
 
 <img width="940" height="829" alt="image" src="https://github.com/user-attachments/assets/024f2e46-eba3-4472-9700-92b33032a9fd" />
 
