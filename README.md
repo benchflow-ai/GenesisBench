@@ -1,8 +1,7 @@
 # GenesisBench
 GenesisBench: how **language intelligence** can be used to improve **physical intelligence**.
 
-## Basic Idea
-Inspired by
+## Research Background
 
 https://arxiv.org/pdf/2606.19980
 
@@ -16,6 +15,8 @@ https://github.com/jellyheadandrew/autoresearch-robotics
 
 https://github.com/karpathy/autoresearch
 
+## Basic Idea
+
 We want to evaluate how “language intelligence” can be used to improve “physical intelligence”. Similar to the idea of https://posttrainbench.com/, we want to evaluate how the coding agents can be used to train the policies that can be used to run on the robotics hardware.
 
 So the idea is that the coding agents that we want to benhttps://genesis-world.readthedocs.io/en/latest/chmark will be given some resources (similar to posttrainbench), for example:
@@ -27,6 +28,16 @@ Here are some preliminary tasks ideas: https://www.benchflow.ai/genesis
 How brittle are the VLA models in robotics https://medium.com/@yananchen1116/how-brittle-are-the-vla-models-in-robotics-66ab85286ecf
 
 <img width="940" height="829" alt="image" src="https://github.com/user-attachments/assets/024f2e46-eba3-4472-9700-92b33032a9fd" />
+
+## Awesome Simulation Frameworks
+
+https://github.com/isaac-sim/IsaacSim
+
+https://genesis-world.readthedocs.io/en/latest/
+
+https://github.com/robocasa/robocasa
+
+https://github.com/google-deepmind/mujoco
 
 ## Reference
 
