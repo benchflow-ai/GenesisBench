@@ -1,5 +1,7 @@
 # GenesisBench
+
 GenesisBench 1.0: how **language intelligence** can be used to improve **physical intelligence**.
+
 GenesisBench 2.0: how **world intelligence** can be used to improve **physical intelligence**.
 
 ## Research Background
