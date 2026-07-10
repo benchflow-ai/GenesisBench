@@ -8,12 +8,12 @@
 <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
 <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&display=swap" rel="stylesheet">
 <style>
-/* ============ tokens — from posttrain-arena globals.css ============ */
+/* ============ tokens — posttrain-arena structure, monochrome pencil palette ============ */
 :root{
-  --paper:#fbf9f2; --paper-2:#f1eee2; --paper-3:#ece7d9; --card:#fefef9;
-  --forest:#4f6c52; --forest-deep:#3c5440; --forest-ink:#1c1a14;
-  --clay:#8f5a45; --ink:#232019; --ink-soft:#5e5446;
-  --line:#e6e1d6; --line-strong:#c8c0b1; --gold:#b89358;
+  --paper:#f6f3ea; --paper-2:#edeade; --paper-3:#e4e1d3; --card:#fcfbf6;
+  --forest:#1a1a1a; --forest-deep:#000000; --forest-ink:#111111;
+  --clay:#555555; --ink:#222222; --ink-soft:#666666;
+  --line:#e2dfd4; --line-strong:#c6c3b6; --gold:#8a8a8a;
   --font:"Satoshi",ui-sans-serif,system-ui,sans-serif;
   --gutter:clamp(20px,5vw,72px);
   --text-hero:clamp(2.3rem,4.8vw,4.3rem);
@@ -68,9 +68,6 @@ nav.primary a:hover{color:var(--forest)}
 .btn-solid:hover{background:var(--forest-deep)}
 .btn-ghost{background:transparent;color:var(--forest-ink);border:1px solid var(--line-strong)}
 .btn-ghost:hover{border-color:var(--forest);color:var(--forest)}
-.hero-cap{position:relative;z-index:2;margin-top:auto;font-size:.8125rem;color:var(--ink-soft)}
-.hero-cap span{display:inline-block;padding:.35rem .65rem;border-radius:2px;
-  background:color-mix(in srgb,var(--paper) 74%,transparent);backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}
 @media(max-width:480px){
   .hero{min-height:clamp(520px,74vh,640px);padding-top:clamp(96px,18vh,140px)}
   .hero-title{font-size:clamp(2.5rem,12.5vw,3.4rem)}
@@ -176,7 +173,6 @@ footer{background:var(--paper-2);border-top:1px solid var(--line);padding-block:
         </div>
       </div>
     </div>
-    <div class="wrap hero-cap"><span>From a single arm to a humanoid — an early service robot · dexterous robotic hands · ABB YuMi · Willow Garage PR2 · Boston Dynamics Atlas · Tesla Optimus.</span></div>
   </section>
 
   <!-- ============ THE IDEA ============ -->
@@ -256,7 +252,7 @@ footer{background:var(--paper-2);border-top:1px solid var(--line);padding-block:
         <a href="https://www.benchflow.ai" target="_blank" rel="noopener">BenchFlow</a>
       </div>
     </div>
-    <p class="fsmall">© 2026 BenchFlow · GenesisBench 2.0. Hero figures drawn from real, publicly-demonstrated robots — an early service robot, dexterous robotic hands, ABB YuMi, Willow Garage PR2, Boston Dynamics Atlas, and Tesla Optimus.</p>
+    <p class="fsmall">© 2026 BenchFlow · GenesisBench 2.0. Hero: the evolution of robot embodiment, drawn in pencil — from a simple machine to arms, legs, and a full humanoid.</p>
   </div>
 </footer>
 </body>
