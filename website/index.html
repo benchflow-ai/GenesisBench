@@ -3,17 +3,20 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>GenesisBench — how language intelligence improves physical intelligence</title>
-<meta name="description" content="GenesisBench evaluates how coding agents turn language intelligence into physical intelligence — training robot policies in simulation, scored on what transfers.">
+<title>GenesisBench — how language intelligence can be used to improve physical intelligence</title>
+<meta name="description" content="GenesisBench evaluates how LLM agents can train the policies that run on real robot hardware — language intelligence improving physical intelligence.">
 <link rel="preconnect" href="https://api.fontshare.com" crossorigin>
 <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,500;1,600&family=Chakra+Petch:wght@500;600&display=swap" rel="stylesheet">
 <style>
 /* ============ tokens — posttrain-arena structure, monochrome pencil palette ============ */
 :root{
-  --paper:#f6f3ea; --paper-2:#edeade; --paper-3:#e4e1d3; --card:#fcfbf6;
-  --forest:#1a1a1a; --forest-deep:#000000; --forest-ink:#111111;
-  --clay:#555555; --ink:#222222; --ink-soft:#666666;
-  --line:#e2dfd4; --line-strong:#c6c3b6; --gold:#8a8a8a;
+  --paper:#fafafa; --paper-2:#f0f0f0; --paper-3:#e7e7e7; --card:#ffffff;
+  --forest:#111111; --forest-deep:#000000; --forest-ink:#0c0c0c;
+  --clay:#555555; --ink:#1c1c1c; --ink-soft:#6a6a6a;
+  --line:#e8e8e8; --line-strong:#cfcfcf; --gold:#8a8a8a;
   --font:"Satoshi",ui-sans-serif,system-ui,sans-serif;
   --gutter:clamp(20px,5vw,72px);
   --text-hero:clamp(2.3rem,4.8vw,4.3rem);
@@ -61,6 +64,10 @@ nav.primary a:hover{color:var(--forest)}
 .hero-title em{font-style:normal;color:var(--forest)}
 .hero-deck{margin-top:clamp(1rem,2vw,1.4rem);max-width:46ch;font-weight:300;font-size:var(--text-deck);
   line-height:1.42;letter-spacing:-0.005em;color:var(--ink)}
+.li-poem{font-family:"Cormorant Garamond",Georgia,serif;font-style:italic;font-weight:600;
+  font-size:1.16em;letter-spacing:.01em;color:var(--forest-ink)}
+.pi-tech{font-family:"Chakra Petch","Satoshi",sans-serif;font-weight:600;font-size:.97em;
+  letter-spacing:.015em;color:var(--forest-ink)}
 .hero-actions{margin-top:clamp(1.3rem,2.4vw,1.8rem);display:flex;flex-wrap:wrap;gap:.85rem;align-items:center}
 .btn{display:inline-flex;align-items:center;gap:.5rem;font-size:1rem;font-weight:500;text-decoration:none;
   padding:.7rem 1.4rem;border-radius:2px;transition:background .15s,color .15s,border-color .15s}
@@ -90,40 +97,78 @@ section.block + section.block{border-top:1px solid var(--line)}
   text-decoration-color:color-mix(in srgb,var(--forest) 35%,transparent)}
 .prose-link:hover{text-decoration-color:var(--forest)}
 
-/* step cards (posttrain steps-icons recipe) */
-.steps{margin-top:clamp(2.2rem,4vw,3rem);display:grid;gap:1.25rem;grid-template-columns:repeat(4,minmax(0,1fr));
-  list-style:none;counter-reset:step}
-@media(max-width:1080px){.steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:620px){.steps{grid-template-columns:1fr}}
-.steps li{position:relative;display:flex;flex-direction:column;gap:.65rem;align-items:center;justify-content:flex-start;
-  min-height:12.5rem;padding:.95rem .85rem 1rem;text-align:center;background:var(--card);
-  border:1px solid var(--line);border-radius:6px}
-@media(max-width:620px){.steps li{min-height:0}}
-.step-n{counter-increment:step;display:grid;place-items:center;width:2rem;height:2rem;border-radius:50%;
-  background:color-mix(in srgb,var(--forest) 12%,transparent);color:var(--forest);font-weight:700;font-size:.95rem}
-.step-n::before{content:counter(step,decimal-leading-zero)}
-.steps h3{font-size:1.0625rem}
-.steps p{font-size:.9375rem;line-height:1.45;color:var(--ink-soft)}
+/* interactive timeline */
+.tl{margin-top:clamp(2.2rem,4vw,3rem)}
+.tl-track{position:relative;display:grid;grid-template-columns:repeat(6,1fr);gap:0;align-items:start}
+.tl-line{position:absolute;left:calc(100%/12);right:calc(100%/12);top:11px;height:2px;background:var(--line-strong);border-radius:1px;overflow:hidden}
+.tl-progress{display:block;height:100%;width:0%;background:var(--forest-ink);transition:width .45s cubic-bezier(.2,.7,.2,1)}
+.tl-node{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:.45rem;
+  background:none;border:0;padding:0 .4rem;cursor:pointer;font-family:inherit;color:var(--ink-soft)}
+.tl-dot{width:24px;height:24px;border-radius:50%;background:var(--paper);border:2px solid var(--line-strong);
+  transition:border-color .25s,background .25s,transform .25s}
+.tl-node:hover .tl-dot{border-color:var(--forest-ink);transform:scale(1.12)}
+.tl-node.is-active .tl-dot{background:var(--forest-ink);border-color:var(--forest-ink)}
+.tl-num{font-size:.8125rem;font-weight:700;letter-spacing:.06em;color:var(--ink-soft)}
+.tl-name{font-size:.875rem;font-weight:500;color:var(--forest-ink);letter-spacing:-.008em;text-align:center}
+.tl-node.is-active .tl-num{color:var(--forest-ink)}
+.tl-next .tl-dot{border-style:dashed;background:var(--paper)}
+.tl-next.is-active .tl-dot{background:var(--paper);border-color:var(--forest-ink);border-style:dashed}
+.tl-next .tl-name{color:var(--ink-soft);font-style:italic}
+.tl-panel{margin-top:1.6rem;background:var(--card);border:1px solid var(--line);border-radius:6px;
+  padding:1.15rem 1.3rem;max-width:44rem;min-height:6.2rem}
+.tl-panel h3{font-size:1.0625rem;margin-bottom:.35rem}
+.tl-panel p{font-size:.9875rem;line-height:1.55;color:var(--ink)}
+.tl-panel.is-swap h3,.tl-panel.is-swap p{opacity:0;transform:translateY(5px)}
+.tl-panel h3,.tl-panel p{transition:opacity .22s ease,transform .22s ease}
+@media(max-width:620px){
+  .tl-track{grid-template-columns:1fr;gap:.9rem;justify-items:start}
+  .tl-line{left:11px;right:auto;top:12px;bottom:12px;width:2px;height:auto}
+  .tl-progress{width:100%!important;height:var(--tlv,0%);transition:height .45s cubic-bezier(.2,.7,.2,1)}
+  .tl-node{flex-direction:row;gap:.7rem}
+  .tl-name{text-align:left}
+}
 
-/* framework cards */
-.fw-grid{display:grid;gap:1.25rem;grid-template-columns:repeat(4,minmax(0,1fr))}
-@media(max-width:1080px){.fw-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:620px){.fw-grid{grid-template-columns:1fr}}
-.fw-grid a{display:flex;flex-direction:column;gap:.55rem;min-height:8.4rem;padding:1rem .95rem;
-  background:var(--card);border:1px solid var(--line);border-radius:6px;text-decoration:none;
-  font-size:.9375rem;line-height:1.4;color:var(--ink);transition:border-color .15s,transform .15s}
-.fw-grid a:hover{border-color:var(--forest);transform:translateY(-2px)}
-.fw-grid b{font-size:1.0625rem;font-weight:500;color:var(--forest-ink);letter-spacing:-.008em}
-.fw-grid span{color:var(--ink-soft)}
-.fw-grid .go{margin-top:auto;color:var(--forest);font-weight:500;font-size:.875rem}
+/* environments diagram */
+.env{margin-top:clamp(1.6rem,3vw,2.4rem)}
+.env-root{width:max-content;margin-inline:auto;padding:.45rem 1.05rem;border:1px solid var(--line-strong);
+  border-radius:999px;background:var(--card);font-weight:500;font-size:.9375rem;color:var(--forest-ink);
+  letter-spacing:.01em}
+.env-stem{width:2px;height:20px;background:var(--line-strong);margin-inline:auto}
+.env-bar{position:relative;height:2px;background:var(--line-strong);width:50%;margin-inline:auto}
+.env-bar::before,.env-bar::after{content:"";position:absolute;top:0;width:2px;height:20px;background:var(--line-strong)}
+.env-bar::before{left:0}.env-bar::after{right:0}
+.env-grid{position:relative;margin-top:20px;display:grid;grid-template-columns:1fr 1fr;gap:clamp(1.4rem,3vw,2.4rem)}
+.env-card{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:1.15rem 1.25rem 1.25rem}
+.env-card h3{font-size:1.0625rem;margin-bottom:.4rem}
+.env-card p{font-size:.9375rem;line-height:1.5;color:var(--ink-soft)}
+.env-chips{margin-top:.9rem;display:flex;flex-wrap:wrap;gap:.5rem}
+.env-chips a{display:inline-flex;align-items:center;padding:.34rem .7rem;border:1px solid var(--line-strong);
+  border-radius:999px;text-decoration:none;font-size:.875rem;font-weight:500;color:var(--forest-ink);
+  transition:border-color .15s,background .15s}
+.env-chips a:hover{border-color:var(--forest-ink);background:var(--paper-2)}
+.env-ghost{display:inline-flex;padding:.34rem .7rem;border:1px dashed var(--line-strong);border-radius:999px;
+  font-size:.875rem;color:var(--ink-soft)}
+.env-mid{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:1}
+.env-mid span{display:inline-block;padding:.3rem .65rem;border:1px dashed var(--line-strong);border-radius:999px;
+  background:var(--paper);font-size:.8125rem;color:var(--ink-soft);white-space:nowrap}
+@media(max-width:720px){
+  .env-bar,.env-stem{display:none}
+  .env-root{margin-bottom:1rem}
+  .env-grid{grid-template-columns:1fr;margin-top:0;gap:2.4rem}
+  .env-mid{position:static;transform:none;justify-self:center;order:2;margin:-1.6rem 0}
+  .env-card:first-child{order:1}.env-card:last-child{order:3}
+}
 
 /* research list */
-.refs{list-style:none;display:grid;gap:.55rem .9rem;grid-template-columns:1fr 1fr}
+.refs{list-style:none;display:grid;gap:.9rem;grid-template-columns:1fr 1fr}
 @media(max-width:720px){.refs{grid-template-columns:1fr}}
-.refs li{padding:.7rem .9rem;background:var(--card);border:1px solid var(--line);border-radius:6px;font-size:.9375rem;line-height:1.4}
-.refs a{color:var(--forest-ink);text-decoration:none;font-weight:500}
-.refs a:hover{color:var(--forest);text-decoration:underline;text-underline-offset:3px}
-.refs span{display:block;color:var(--ink-soft);font-size:.8125rem;margin-top:.15rem}
+.refcard{display:block;padding:.95rem 1.1rem;background:var(--card);border:1px solid var(--line);border-radius:6px;
+  text-decoration:none;color:inherit;transition:border-color .15s,transform .15s}
+.refcard:hover{border-color:var(--forest-ink);transform:translateY(-2px)}
+.ref-head{display:flex;align-items:baseline;justify-content:space-between;gap:1rem}
+.ref-head b{font-size:.9875rem;font-weight:500;color:var(--forest-ink);letter-spacing:-.008em}
+.ref-tag{flex-shrink:0;font-size:.6875rem;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-soft)}
+.ref-desc{display:block;margin-top:.35rem;font-size:.875rem;line-height:1.5;color:var(--ink-soft)}
 
 /* footer */
 footer{background:var(--paper-2);border-top:1px solid var(--line);padding-block:clamp(2.4rem,5vw,3.6rem)}
@@ -145,9 +190,8 @@ footer{background:var(--paper-2);border-top:1px solid var(--line);padding-block:
   <div class="wrap hgrid">
     <a class="logo" href="#top" aria-label="GenesisBench home">GenesisBench</a>
     <nav class="primary" aria-label="Primary">
-      <a href="#idea">The idea</a>
-      <a href="#frameworks">Frameworks</a>
-      <a href="https://www.benchflow.ai/genesis" target="_blank" rel="noopener">Tasks</a>
+      <a href="#idea">How it works</a>
+      <a href="#frameworks">Environments</a>
       <a href="#research">Research</a>
     </nav>
     <div class="hicons">
@@ -166,9 +210,9 @@ footer{background:var(--paper-2);border-top:1px solid var(--line);padding-block:
     <div class="wrap">
       <div class="hero-box">
         <h1 class="hero-title">GenesisBench</h1>
-        <p class="hero-deck">how <em style="font-style:normal">language intelligence</em> can be used to improve physical intelligence.</p>
+        <p class="hero-deck">How <em class="li-poem">language intelligence</em> can be used to improve <span class="pi-tech">physical intelligence</span>.</p>
         <div class="hero-actions">
-          <a class="btn btn-solid" href="#idea">Read the idea</a>
+          <a class="btn btn-solid" href="#idea">How it works</a>
           <a class="btn btn-ghost" href="https://github.com/benchflow-ai/GenesisBench" target="_blank" rel="noopener">View on GitHub</a>
         </div>
       </div>
@@ -178,24 +222,31 @@ footer{background:var(--paper-2);border-top:1px solid var(--line);padding-block:
   <!-- ============ THE IDEA ============ -->
   <section class="block" id="idea">
     <div class="wrap sec">
-      <h2 class="sec-label">The idea</h2>
+      <h2 class="sec-label">How it works</h2>
       <div class="sec-body">
-        <p class="lead">Most robotics benchmarks fix the environment and test a policy. We invert that contract:
-        we test whether a <b>coding agent</b> can build one.</p>
-        <p class="prose">In the spirit of <a class="prose-link" href="https://posttrainbench.com" target="_blank" rel="noopener">post-training benchmarks for language models</a>,
-        each agent is given real resources — a physics simulator and compute nodes with H100s — and left to work:
-        write the code, shape the rewards, train the policy. GenesisBench scores what the resulting policies
-        actually achieve, in simulation and on robot hardware.</p>
-        <p class="prose">GenesisBench 1.0 asks how <b>language intelligence</b> improves physical intelligence.
-        GenesisBench 2.0 extends the question to <b>world intelligence</b>.</p>
-        <ol class="steps">
-          <li><span class="step-n" aria-hidden="true"></span><h3>Provision</h3><p>Each agent gets a simulation environment — Genesis, Isaac Sim, RoboCasa, or MuJoCo — and H100 compute.</p></li>
-          <li><span class="step-n" aria-hidden="true"></span><h3>Train</h3><p>The agent writes the code, shapes the rewards, and post-trains a control policy. No human in the loop.</p></li>
-          <li><span class="step-n" aria-hidden="true"></span><h3>Evaluate</h3><p>Policies are scored on held-out tasks and perturbations — generalization, not memorization.</p></li>
-          <li><span class="step-n" aria-hidden="true"></span><h3>Transfer</h3><p>The strongest policies run on real robot hardware to measure the sim-to-real gap.</p></li>
-        </ol>
-        <p class="prose" style="margin-top:clamp(1.5rem,2.4vw,2rem)">Preliminary task ideas are previewed at
-        <a class="prose-link" href="https://www.benchflow.ai/genesis" target="_blank" rel="noopener">benchflow.ai/genesis</a>.</p>
+        <p class="lead">GenesisBench evaluates how <b>LLM agents</b> can train the policies that run
+        on real robot hardware.</p>
+        <div class="tl" id="tl">
+          <div class="tl-track" role="tablist" aria-label="The GenesisBench pipeline">
+            <div class="tl-line" aria-hidden="true"><span class="tl-progress" id="tlProgress"></span></div>
+            <button class="tl-node is-active" role="tab" aria-selected="true" id="tlTab0" aria-controls="tlPanel" data-i="0">
+              <span class="tl-dot"></span><span class="tl-num">01</span><span class="tl-name">Heuristics&nbsp;·&nbsp;sim</span></button>
+            <button class="tl-node" role="tab" aria-selected="false" id="tlTab1" aria-controls="tlPanel" data-i="1">
+              <span class="tl-dot"></span><span class="tl-num">02</span><span class="tl-name">VLA&nbsp;·&nbsp;sim</span></button>
+            <button class="tl-node" role="tab" aria-selected="false" id="tlTab2" aria-controls="tlPanel" data-i="2">
+              <span class="tl-dot"></span><span class="tl-num">03</span><span class="tl-name">Heuristics&nbsp;·&nbsp;real</span></button>
+            <button class="tl-node" role="tab" aria-selected="false" id="tlTab3" aria-controls="tlPanel" data-i="3">
+              <span class="tl-dot"></span><span class="tl-num">04</span><span class="tl-name">VLA&nbsp;·&nbsp;real</span></button>
+            <button class="tl-node" role="tab" aria-selected="false" id="tlTab4" aria-controls="tlPanel" data-i="4">
+              <span class="tl-dot"></span><span class="tl-num">05</span><span class="tl-name">More&nbsp;hardware</span></button>
+            <button class="tl-node tl-next" role="tab" aria-selected="false" id="tlTab5" aria-controls="tlPanel" data-i="5">
+              <span class="tl-dot"></span><span class="tl-num">2.0</span><span class="tl-name">World&nbsp;intelligence</span></button>
+          </div>
+          <div class="tl-panel" id="tlPanel" role="tabpanel" tabindex="0" aria-live="polite">
+            <h3 id="tlTitle">Heuristic policies in simulation</h3>
+            <p id="tlBody">No training and no H100s yet — agents iterate on code logic alone, optimizing heuristic policies for performance in simulation.</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
@@ -203,14 +254,31 @@ footer{background:var(--paper-2);border-top:1px solid var(--line);padding-block:
   <!-- ============ FRAMEWORKS ============ -->
   <section class="block" id="frameworks">
     <div class="wrap sec">
-      <h2 class="sec-label">Frameworks</h2>
+      <h2 class="sec-label">Environments</h2>
       <div class="sec-body" style="max-width:none">
-        <p class="lead" style="max-width:48rem">Built on the simulators the field already trusts.</p>
-        <div class="fw-grid">
-          <a href="https://genesis-world.readthedocs.io/en/latest/" target="_blank" rel="noopener"><b>Genesis</b><span>A generative, universal physics engine for robotics and embodied AI.</span><span class="go">Documentation →</span></a>
-          <a href="https://github.com/isaac-sim/IsaacSim" target="_blank" rel="noopener"><b>Isaac Sim</b><span>NVIDIA's GPU-accelerated robotics simulation platform at scale.</span><span class="go">GitHub →</span></a>
-          <a href="https://github.com/robocasa/robocasa" target="_blank" rel="noopener"><b>RoboCasa</b><span>Large-scale simulation of everyday household tasks.</span><span class="go">GitHub →</span></a>
-          <a href="https://github.com/google-deepmind/mujoco" target="_blank" rel="noopener"><b>MuJoCo</b><span>The reference engine for contact-rich robot control.</span><span class="go">GitHub →</span></a>
+        <p class="lead" style="max-width:48rem">Two environments: simulation for training and evaluation, the real world for operation.</p>
+        <div class="env">
+          <div class="env-root">Environments</div>
+          <div class="env-stem" aria-hidden="true"></div>
+          <div class="env-bar" aria-hidden="true"></div>
+          <div class="env-grid">
+            <div class="env-card">
+              <h3>Simulation</h3>
+              <p>Policies are trained and evaluated in simulation — the simulator shows how they are really working.</p>
+              <div class="env-chips">
+                <a href="https://genesis-world.readthedocs.io/en/latest/" target="_blank" rel="noopener">Genesis<span aria-hidden="true">&nbsp;↗</span></a>
+                <a href="https://github.com/isaac-sim/IsaacSim" target="_blank" rel="noopener">Isaac&nbsp;Sim<span aria-hidden="true">&nbsp;↗</span></a>
+                <a href="https://github.com/robocasa/robocasa" target="_blank" rel="noopener">RoboCasa<span aria-hidden="true">&nbsp;↗</span></a>
+                <a href="https://github.com/google-deepmind/mujoco" target="_blank" rel="noopener">MuJoCo<span aria-hidden="true">&nbsp;↗</span></a>
+              </div>
+            </div>
+            <div class="env-mid" aria-hidden="true"><span>sim&nbsp;→&nbsp;real</span></div>
+            <div class="env-card">
+              <h3>Real-world operation</h3>
+              <p>The goal: policies that can be used to run on real robotics hardware.</p>
+              <div class="env-chips"><span class="env-ghost">real robot hardware</span></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -221,18 +289,41 @@ footer{background:var(--paper-2);border-top:1px solid var(--line);padding-block:
     <div class="wrap sec">
       <h2 class="sec-label">Research background</h2>
       <div class="sec-body" style="max-width:none">
-        <p class="lead" style="max-width:48rem">The question sits at the intersection of agentic coding, post-training, and embodied AI.</p>
+        <p class="lead" style="max-width:48rem">GenesisBench builds on research at the intersection of agentic coding, post-training, and embodied AI.</p>
         <ul class="refs">
-          <li><a href="https://research.nvidia.com/labs/gear/aspire/" target="_blank" rel="noopener">Aspire</a><span>NVIDIA GEAR — agentic skill acquisition for robots</span></li>
-          <li><a href="https://research.nvidia.com/labs/gear/enpire/" target="_blank" rel="noopener">EnPire</a><span>NVIDIA GEAR — environment generation for robot learning</span></li>
-          <li><a href="https://research.nvidia.com/labs/gear/simfoundry" target="_blank" rel="noopener">SimFoundry</a><span>NVIDIA GEAR — scalable simulation task foundry</span></li>
-          <li><a href="https://trinkle23897.github.io/learning-beyond-gradients/" target="_blank" rel="noopener">Learning Beyond Gradients</a><span>agentic learning beyond gradient descent</span></li>
-          <li><a href="https://github.com/jellyheadandrew/autoresearch-robotics" target="_blank" rel="noopener">Autoresearch for Robotics</a><span>autonomous research agents for robot learning</span></li>
-          <li><a href="https://github.com/karpathy/autoresearch" target="_blank" rel="noopener">Autoresearch</a><span>Karpathy — agents that do the research themselves</span></li>
-          <li><a href="https://medium.com/@yananchen1116/how-brittle-are-the-vla-models-in-robotics-66ab85286ecf" target="_blank" rel="noopener">How brittle are VLA models?</a><span>why today's vision-language-action models break</span></li>
-          <li><a href="https://robo-arena.github.io/" target="_blank" rel="noopener">RoboArena</a><span>distributed real-world evaluation of robot policies</span></li>
-          <li><a href="https://qwen.ai/blog?id=qwen-robotsuite" target="_blank" rel="noopener">Qwen RobotSuite</a><span>open robot-learning suite from the Qwen team</span></li>
-          <li><a href="https://insight-vla.github.io/" target="_blank" rel="noopener">Insight-VLA</a><span>introspective vision-language-action models</span></li>
+          <li><a class="refcard" href="https://research.nvidia.com/labs/gear/aspire/" target="_blank" rel="noopener">
+            <span class="ref-head"><b>ASPIRE</b><span class="ref-tag">NVIDIA GEAR</span></span>
+            <span class="ref-desc">Agentic skills discovery for robotics.</span></a></li>
+          <li><a class="refcard" href="https://arxiv.org/abs/2606.19980" target="_blank" rel="noopener">
+            <span class="ref-head"><b>ENPIRE</b><span class="ref-tag">NVIDIA GEAR · arXiv</span></span>
+            <span class="ref-desc">Agentic robot policy self-improvement in the real world.</span></a></li>
+          <li><a class="refcard" href="https://research.nvidia.com/labs/gear/simfoundry" target="_blank" rel="noopener">
+            <span class="ref-head"><b>SimFoundry</b><span class="ref-tag">NVIDIA GEAR</span></span>
+            <span class="ref-desc">Automated scene generation for policy learning and evaluation.</span></a></li>
+          <li><a class="refcard" href="https://trinkle23897.github.io/learning-beyond-gradients/" target="_blank" rel="noopener">
+            <span class="ref-head"><b>Learning Beyond Gradients</b><span class="ref-tag">Essay</span></span>
+            <span class="ref-desc">On learning beyond gradient descent.</span></a></li>
+          <li><a class="refcard" href="https://github.com/jellyheadandrew/autoresearch-robotics" target="_blank" rel="noopener">
+            <span class="ref-head"><b>Autoresearch for Robotics</b><span class="ref-tag">GitHub</span></span>
+            <span class="ref-desc">Autonomous research agents for robotics.</span></a></li>
+          <li><a class="refcard" href="https://github.com/karpathy/autoresearch" target="_blank" rel="noopener">
+            <span class="ref-head"><b>Autoresearch</b><span class="ref-tag">GitHub</span></span>
+            <span class="ref-desc">Autonomous research, by Andrej Karpathy.</span></a></li>
+          <li><a class="refcard" href="https://medium.com/@yananchen1116/how-brittle-are-the-vla-models-in-robotics-66ab85286ecf" target="_blank" rel="noopener">
+            <span class="ref-head"><b>How Brittle Are VLA Models?</b><span class="ref-tag">Article</span></span>
+            <span class="ref-desc">On the brittleness of today's vision-language-action models.</span></a></li>
+          <li><a class="refcard" href="https://robo-arena.github.io/" target="_blank" rel="noopener">
+            <span class="ref-head"><b>RoboArena</b><span class="ref-tag">Project</span></span>
+            <span class="ref-desc">Distributed real-world evaluation of robot policies.</span></a></li>
+          <li><a class="refcard" href="https://qwen.ai/blog?id=qwen-robotsuite" target="_blank" rel="noopener">
+            <span class="ref-head"><b>Qwen RobotSuite</b><span class="ref-tag">Qwen</span></span>
+            <span class="ref-desc">A robotics suite from the Qwen team.</span></a></li>
+          <li><a class="refcard" href="https://research.nvidia.com/publication/2026-06_humanoidmimicgen-data-generation-loco-manipulation-whole-body-planning" target="_blank" rel="noopener">
+            <span class="ref-head"><b>HumanoidMimicGen</b><span class="ref-tag">NVIDIA</span></span>
+            <span class="ref-desc">Data generation for loco-manipulation and whole-body planning.</span></a></li>
+          <li><a class="refcard" href="https://insight-vla.github.io/" target="_blank" rel="noopener">
+            <span class="ref-head"><b>InSight</b><span class="ref-tag">Project</span></span>
+            <span class="ref-desc">Self-guided skill acquisition via steerable VLAs.</span></a></li>
         </ul>
       </div>
     </div>
@@ -244,16 +335,62 @@ footer{background:var(--paper-2);border-top:1px solid var(--line);padding-block:
     <div class="fgrid">
       <div>
         <div class="fbrand">GenesisBench</div>
-        <p class="fline">how language intelligence can be used to improve physical intelligence.</p>
+        <p class="fline">How <em class="li-poem">language intelligence</em> can be used to improve <span class="pi-tech">physical intelligence</span>.</p>
       </div>
       <div class="flinks">
         <a href="https://github.com/benchflow-ai/GenesisBench" target="_blank" rel="noopener">GitHub</a>
-        <a href="https://www.benchflow.ai/genesis" target="_blank" rel="noopener">Tasks</a>
         <a href="https://www.benchflow.ai" target="_blank" rel="noopener">BenchFlow</a>
       </div>
     </div>
-    <p class="fsmall">© 2026 BenchFlow · GenesisBench 2.0. Hero: the evolution of robot embodiment, drawn in pencil — from a simple machine to arms, legs, and a full humanoid.</p>
+    <p class="fsmall">© 2026 BenchFlow</p>
   </div>
 </footer>
+<script>
+(function(){
+  var STAGES=[
+    {t:"Heuristic policies in simulation",b:"No training and no H100s yet — agents iterate on code logic alone, optimizing heuristic policies for performance in simulation."},
+    {t:"VLA training in simulation",b:"Agents receive H100 nodes to train vision-language-action policies, iterating for performance in simulation."},
+    {t:"Heuristic policies in the real world",b:"Heuristic policies leave the simulator — agents iterate them directly on real robot hardware."},
+    {t:"VLA training in the real world",b:"VLA policies are trained on real robot hardware rather than in simulation."},
+    {t:"Scaling across hardware",b:"The benchmark expands to more robots and more environments — new hardware, new embodiments, new tasks."},
+    {t:"GenesisBench 2.0",b:"GenesisBench 1.0 asks how language intelligence can be used to improve physical intelligence. GenesisBench 2.0 asks the same of world intelligence."}
+  ];
+  var nodes=[].slice.call(document.querySelectorAll(".tl-node"));
+  var panel=document.getElementById("tlPanel"),title=document.getElementById("tlTitle"),
+      body=document.getElementById("tlBody"),prog=document.getElementById("tlProgress");
+  var cur=0,timer=null,reduced=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function render(i){
+    title.textContent=STAGES[i].t; body.textContent=STAGES[i].b;
+    nodes.forEach(function(n,j){n.classList.toggle("is-active",j===i);n.setAttribute("aria-selected",j===i?"true":"false");});
+    var pct=(i/(nodes.length-1))*100;
+    prog.style.width=pct+"%"; prog.style.setProperty("--tlv",pct+"%"); prog.style.height="";
+    if(matchMedia("(max-width:620px)").matches){prog.style.height=pct+"%";prog.style.width="100%";}
+  }
+  function select(i,user){
+    i=(i+STAGES.length)%STAGES.length;
+    if(i===cur){render(i);return;}
+    cur=i;
+    if(reduced){render(i);return;}
+    panel.classList.add("is-swap");
+    setTimeout(function(){render(i);panel.classList.remove("is-swap");},180);
+  }
+  function stopAuto(){if(timer){clearInterval(timer);timer=null;}}
+  nodes.forEach(function(n){
+    n.addEventListener("click",function(){stopAuto();select(+n.dataset.i,true);});
+    n.addEventListener("keydown",function(e){
+      if(e.key==="ArrowRight"){stopAuto();select(cur+1,true);nodes[cur].focus();e.preventDefault();}
+      if(e.key==="ArrowLeft"){stopAuto();select(cur-1,true);nodes[cur].focus();e.preventDefault();}
+    });
+  });
+  document.getElementById("tl").addEventListener("pointerenter",stopAuto,{once:true});
+  if(!reduced){
+    timer=setInterval(function(){select(cur+1);},4200);
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(!e.isIntersecting)stopAuto();});});
+    io.observe(document.getElementById("tl"));
+  }
+  render(0);
+  addEventListener("resize",function(){render(cur);});
+})();
+</script>
 </body>
 </html>
