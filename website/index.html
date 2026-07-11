@@ -160,8 +160,8 @@ section.block + section.block{border-top:1px solid var(--line)}
 }
 
 /* research list */
-.refs{list-style:none;display:grid;gap:.9rem;grid-template-columns:1fr 1fr}
-@media(max-width:720px){.refs{grid-template-columns:1fr}}
+.refs{list-style:none;display:grid;gap:.9rem;grid-template-columns:1fr}
+
 .refcard{display:block;padding:.95rem 1.1rem;background:var(--card);border:1px solid var(--line);border-radius:6px;
   text-decoration:none;color:inherit;transition:border-color .15s,transform .15s}
 .refcard:hover{border-color:var(--forest-ink);transform:translateY(-2px)}
@@ -179,7 +179,7 @@ section.block + section.block{border-top:1px solid var(--line)}
 .refs-more .chev{transition:transform .25s ease}
 .refs-more[open] .chev{transform:rotate(180deg)}
 .refs-count{font-size:.75rem;font-weight:600;padding:.1rem .5rem;border:1px solid var(--line-strong);border-radius:999px;color:var(--ink-soft)}
-.refs-more .refs{margin-top:.9rem;max-width:none}
+.refs-more .refs{margin-top:.9rem;max-width:48rem}
 .refs-more[open] .refs{animation:refsIn .3s ease}
 @keyframes refsIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){.refs-more[open] .refs{animation:none}}
@@ -311,39 +311,39 @@ footer{background:var(--paper-2);border-top:1px solid var(--line);padding-block:
         <details class="refs-more">
           <summary><svg class="chev" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>All references<span class="refs-count">11</span></summary>
           <ul class="refs">
-          <li><a class="refcard" href="https://research.nvidia.com/labs/gear/aspire/" target="_blank" rel="noopener">
-            <span class="ref-head"><b>ASPIRE</b><span class="ref-tag">NVIDIA GEAR</span></span>
-            <span class="ref-desc">Agentic skills discovery for robotics.</span></a></li>
-          <li><a class="refcard" href="https://arxiv.org/abs/2606.19980" target="_blank" rel="noopener">
-            <span class="ref-head"><b>ENPIRE</b><span class="ref-tag">NVIDIA GEAR · arXiv</span></span>
-            <span class="ref-desc">Agentic robot policy self-improvement in the real world.</span></a></li>
-          <li><a class="refcard" href="https://research.nvidia.com/labs/gear/simfoundry" target="_blank" rel="noopener">
-            <span class="ref-head"><b>SimFoundry</b><span class="ref-tag">NVIDIA GEAR</span></span>
-            <span class="ref-desc">Automated scene generation for policy learning and evaluation.</span></a></li>
-          <li><a class="refcard" href="https://trinkle23897.github.io/learning-beyond-gradients/" target="_blank" rel="noopener">
+          <li><a class="refcard ref-featured" href="https://research.nvidia.com/labs/gear/aspire/" target="_blank" rel="noopener">
+            <span class="ref-head"><b>ASPIRE: Agentic Skills Discovery for Robotics</b><span class="ref-tag">NVIDIA GEAR</span></span>
+            <span class="ref-desc">Lu, Wu, Kou, et&nbsp;al. — agents that discover and refine robot control programs in a self-improving loop.</span></a></li>
+          <li><a class="refcard ref-featured" href="https://arxiv.org/abs/2606.19980" target="_blank" rel="noopener">
+            <span class="ref-head"><b>ENPIRE: Agentic Robot Policy Self-Improvement in the Real World</b><span class="ref-tag">NVIDIA GEAR · arXiv:2606.19980</span></span>
+            <span class="ref-desc">Xiao, Xie, Zhang, Lin, et&nbsp;al. — LLM agents improving robot policies through closed-loop real-world iteration.</span></a></li>
+          <li><a class="refcard ref-featured" href="https://research.nvidia.com/labs/gear/simfoundry" target="_blank" rel="noopener">
+            <span class="ref-head"><b>SimFoundry: Modular and Automated Scene Generation for Policy Learning and Evaluation</b><span class="ref-tag">NVIDIA GEAR</span></span>
+            <span class="ref-desc">Ranawaka, Wong, Pai, et&nbsp;al. — automated scene generation for training and evaluating policies.</span></a></li>
+          <li><a class="refcard ref-featured" href="https://trinkle23897.github.io/learning-beyond-gradients/" target="_blank" rel="noopener">
             <span class="ref-head"><b>Learning Beyond Gradients</b><span class="ref-tag">Essay</span></span>
-            <span class="ref-desc">On learning beyond gradient descent.</span></a></li>
-          <li><a class="refcard" href="https://github.com/jellyheadandrew/autoresearch-robotics" target="_blank" rel="noopener">
+            <span class="ref-desc">Jiayi Weng — heuristic learning: coding agents iterating programmatic policies instead of gradient descent.</span></a></li>
+          <li><a class="refcard ref-featured" href="https://github.com/jellyheadandrew/autoresearch-robotics" target="_blank" rel="noopener">
             <span class="ref-head"><b>Autoresearch for Robotics</b><span class="ref-tag">GitHub</span></span>
-            <span class="ref-desc">Autonomous research agents for robotics.</span></a></li>
-          <li><a class="refcard" href="https://github.com/karpathy/autoresearch" target="_blank" rel="noopener">
+            <span class="ref-desc">Autonomous robotics research with simulation feedback.</span></a></li>
+          <li><a class="refcard ref-featured" href="https://github.com/karpathy/autoresearch" target="_blank" rel="noopener">
             <span class="ref-head"><b>Autoresearch</b><span class="ref-tag">GitHub</span></span>
-            <span class="ref-desc">Autonomous research, by Andrej Karpathy.</span></a></li>
-          <li><a class="refcard" href="https://medium.com/@yananchen1116/how-brittle-are-the-vla-models-in-robotics-66ab85286ecf" target="_blank" rel="noopener">
-            <span class="ref-head"><b>How Brittle Are VLA Models?</b><span class="ref-tag">Article</span></span>
-            <span class="ref-desc">On the brittleness of today's vision-language-action models.</span></a></li>
-          <li><a class="refcard" href="https://robo-arena.github.io/" target="_blank" rel="noopener">
-            <span class="ref-head"><b>RoboArena</b><span class="ref-tag">Project</span></span>
-            <span class="ref-desc">Distributed real-world evaluation of robot policies.</span></a></li>
-          <li><a class="refcard" href="https://qwen.ai/blog?id=qwen-robotsuite" target="_blank" rel="noopener">
+            <span class="ref-desc">Andrej Karpathy — AI agents running training research automatically.</span></a></li>
+          <li><a class="refcard ref-featured" href="https://medium.com/@yananchen1116/how-brittle-are-the-vla-models-in-robotics-66ab85286ecf" target="_blank" rel="noopener">
+            <span class="ref-head"><b>How Brittle Are the VLA Models in Robotics?</b><span class="ref-tag">Article</span></span>
+            <span class="ref-desc">Yanan Chen — on the brittleness of today's vision-language-action models.</span></a></li>
+          <li><a class="refcard ref-featured" href="https://robo-arena.github.io/" target="_blank" rel="noopener">
+            <span class="ref-head"><b>RoboArena: Distributed Real-World Evaluation of Generalist Robot Policies</b><span class="ref-tag">Project</span></span>
+            <span class="ref-desc">A distributed framework for evaluating robot policies in the real world.</span></a></li>
+          <li><a class="refcard ref-featured" href="https://qwen.ai/blog?id=qwen-robotsuite" target="_blank" rel="noopener">
             <span class="ref-head"><b>Qwen RobotSuite</b><span class="ref-tag">Qwen</span></span>
-            <span class="ref-desc">A robotics suite from the Qwen team.</span></a></li>
-          <li><a class="refcard" href="https://research.nvidia.com/publication/2026-06_humanoidmimicgen-data-generation-loco-manipulation-whole-body-planning" target="_blank" rel="noopener">
-            <span class="ref-head"><b>HumanoidMimicGen</b><span class="ref-tag">NVIDIA</span></span>
-            <span class="ref-desc">Data generation for loco-manipulation and whole-body planning.</span></a></li>
-          <li><a class="refcard" href="https://insight-vla.github.io/" target="_blank" rel="noopener">
-            <span class="ref-head"><b>InSight</b><span class="ref-tag">Project</span></span>
-            <span class="ref-desc">Self-guided skill acquisition via steerable VLAs.</span></a></li>
+            <span class="ref-desc">The Qwen team's robotics suite.</span></a></li>
+          <li><a class="refcard ref-featured" href="https://research.nvidia.com/publication/2026-06_humanoidmimicgen-data-generation-loco-manipulation-whole-body-planning" target="_blank" rel="noopener">
+            <span class="ref-head"><b>HumanoidMimicGen: Data Generation for Loco-Manipulation via Whole-Body Planning</b><span class="ref-tag">NVIDIA</span></span>
+            <span class="ref-desc">Lin, Mandlekar, Garrett, et&nbsp;al. — data generation for humanoid loco-manipulation.</span></a></li>
+          <li><a class="refcard ref-featured" href="https://insight-vla.github.io/" target="_blank" rel="noopener">
+            <span class="ref-head"><b>InSight: Self-Guided Skill Acquisition via Steerable VLAs</b><span class="ref-tag">Project</span></span>
+            <span class="ref-desc">Wang, Osterberg, Tian, et&nbsp;al. (Stanford) — self-guided skill acquisition via steerable VLAs.</span></a></li>
         </ul>
         </details>
       </div>
