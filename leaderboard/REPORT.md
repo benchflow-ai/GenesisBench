@@ -1,4 +1,4 @@
-# GenesisBench Ant v1 Results
+# GenesisBench Simulation Heuristics Ant v1 Results
 
 ## Setup
 
@@ -19,6 +19,9 @@
 
 The normalized score maps the frozen starter controller to `0` and the frozen
 higher-harmonic reference controller to `100`. Scores above `100` are allowed.
+The current verifier recalibrates those trusted policies on the evaluation
+platform to avoid small MuJoCo platform drift; the table records the original
+published sweep.
 
 ## Leaderboard
 
@@ -50,10 +53,10 @@ surviving for more steps.
 
 ## Evidence
 
-- Machine-readable leaderboard: `leaderboard/ant_v1.json`
+- Machine-readable leaderboard: `leaderboard/simulation_heuristics_ant_v1.json`
 - Packaged policies and scores: `leaderboard/submissions/`
-- Deterministic verifier: `tasks/ant_v1/verifier/evaluate_hidden.py`
-- Run and audit commands: `experiments/ant_v1/README.md`
+- Deterministic verifier: `tasks/simulation_heuristics_ant_v1/verifier/evaluate_hidden.py`
+- Run and audit commands: `experiments/simulation_heuristics_ant_v1/README.md`
 
 Every packaged policy was re-evaluated after packaging, and all four scores
 matched their recorded score exactly.

@@ -12,5 +12,6 @@ This directory was generated from the GenesisBench task template.
 6. Calibrate random, starter, and stronger reference anchors.
 7. Run a real coding-agent canary.
 
-Study `tasks/ant_v1/` for a complete implementation.
-
+Study `tasks/simulation_heuristics_ant_v1/` for a complete implementation.
+The scaffold intentionally contains verifier/oracle placeholders, so
+`bench tasks check` will fail until they are replaced.

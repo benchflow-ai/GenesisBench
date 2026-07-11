@@ -1,0 +1,12 @@
+{
+  "environment": "Gymnasium Ant-v5 with 27 observations and no contact cost",
+  "max_steps": 1000,
+  "reference_policy": {
+    "description": "Frozen higher-harmonic rhythmic policy",
+    "path": "anchor_policies/reference_policy.py"
+  },
+  "starter_policy": {
+    "description": "Public weak CPG/PD starter",
+    "path": "anchor_policies/starter_policy.py"
+  }
+}

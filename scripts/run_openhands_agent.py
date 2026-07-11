@@ -5,6 +5,7 @@ import argparse
 import json
 import os
 import shutil
+import sys
 import time
 from pathlib import Path
 from typing import Any
@@ -151,12 +152,15 @@ def main() -> None:
         visualizer=None,
         delete_on_close=False,
         tags={
-            "benchmark": "genesisbench-ant-v1",
+            "benchmark": "simulation_heuristics_ant_v1",
             "model": config["id"],
         },
     )
 
-    prompt = (workspace / "prompt.md").read_text()
+    sys.path.insert(0, str(workspace / "_runtime"))
+    from genesisbench.task_document import TaskDocument
+
+    prompt = TaskDocument.from_path(workspace / "task.md").instruction
     started_at = time.time()
     status = "completed"
     error: str | None = None

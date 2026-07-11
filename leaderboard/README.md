@@ -1,6 +1,6 @@
-# GenesisBench Ant v1 Leaderboard
+# GenesisBench Simulation Heuristics Ant v1 Leaderboard
 
-![GenesisBench Ant v1 leaderboard](ant_v1_leaderboard.png)
+![GenesisBench Simulation Heuristics Ant v1 leaderboard](simulation_heuristics_ant_v1_leaderboard.png)
 
 | Rank | Agent model | Harness | Reasoning | Score | Normalized | Nominal | Robust | Fall rate |
 | ---: | --- | --- | --- | ---: | ---: | ---: | ---: | ---: |

@@ -3,8 +3,9 @@ from __future__ import annotations
 
 import argparse
 import shutil
-import tomllib
 from pathlib import Path
+
+from genesisbench.task_document import TaskDocument
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -31,7 +32,8 @@ def prepare_task(
     if not source.is_dir() or task_name.startswith("_"):
         raise FileNotFoundError(source)
 
-    config = tomllib.loads((source / "task.toml").read_text())
+    document = TaskDocument.from_path(source / "task.md")
+    config = document.genesisbench
     starter_path = _safe_relative_path(
         config["starter"]["path"],
         field="starter.path",
@@ -52,6 +54,8 @@ def prepare_task(
         output,
         ignore=shutil.ignore_patterns(
             "verifier",
+            "oracle",
+            "evidence",
             "__pycache__",
             "*.pyc",
         ),
@@ -73,8 +77,13 @@ def prepare_task(
     else:
         raise FileNotFoundError(starter)
 
-    if (output / "verifier").exists():
-        raise RuntimeError("Prepared workspace unexpectedly contains verifier/")
+    hidden_paths = ("verifier", "oracle", "evidence")
+    leaked = [name for name in hidden_paths if (output / name).exists()]
+    if leaked:
+        raise RuntimeError(
+            "Prepared workspace unexpectedly contains hidden paths: "
+            + ", ".join(leaked)
+        )
     return output
 
 
@@ -114,4 +123,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

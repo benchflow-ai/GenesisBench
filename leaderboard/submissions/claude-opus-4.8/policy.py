@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Tuned rhythmic CPG/PD controller for GenesisBench Ant v1.
+"""Tuned rhythmic CPG/PD controller for GenesisBench Simulation Heuristics Ant v1.
 
 A trot-gait central pattern generator drives per-joint sinusoidal targets that
 are tracked by a stiff PD law with velocity damping. The continuous gait

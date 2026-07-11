@@ -222,7 +222,7 @@ def _make_ant_env(
         )
     ):
         temporary_directory = tempfile.TemporaryDirectory(
-            prefix="genesisbench-ant-"
+            prefix="genesisbench-simulation-heuristics-ant-v1-"
         )
         xml_path = Path(temporary_directory.name) / f"{variant.name}.xml"
         _write_variant_xml(variant, xml_path)

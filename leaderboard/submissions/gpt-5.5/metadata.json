@@ -1,6 +1,7 @@
 {
-  "benchmark": "ant_v1",
+  "benchmark": "simulation_heuristics_ant_v1",
   "budget_minutes": 30,
+  "finished_at": 1783727822.0114229,
   "harness": "OpenHands SDK",
   "model": "GPT-5.5",
   "model_id": "gpt-5.5",

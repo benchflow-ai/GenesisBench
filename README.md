@@ -20,12 +20,15 @@ The workflow is inspired by [PostTrainBench](https://posttrainbench.com/), but
 the optimized artifact controls a physical system rather than being an
 instruction-tuned language model.
 
-## Reference Task: Ant v1
+## Reference Task: Simulation Heuristics Ant v1
 
-`tasks/ant_v1/` is the first executable task and the canonical example for
+`tasks/simulation_heuristics_ant_v1/` is the first executable task and the canonical example for
 future contributors. An agent receives a weak rhythmic CPG/PD controller for
 Gymnasium `Ant-v5`, repeatedly edits and evaluates it, and submits
 `final_policy/policy.py`.
+
+The package follows BenchFlow `0.6.5`'s native `task.md` format
+(`schema_version: "1.3"`, document version `"0.6"`).
 
 Final scoring uses full 1,000-step episodes:
 
@@ -42,7 +45,7 @@ leaderboard can inject a private suite without changing the task contract.
 
 Requirements:
 
-- Python 3.11+
+- Python 3.12+
 - [`uv`](https://docs.astral.sh/uv/)
 - Docker for isolated agent experiments
 
@@ -51,33 +54,37 @@ Install and validate:
 ```bash
 uv sync --extra dev
 uv run python scripts/validate_tasks.py
+uv run bench tasks check \
+  tasks/simulation_heuristics_ant_v1 \
+  --level publication-grade
 uv run pytest -q
 ```
 
 Evaluate the starter policy:
 
 ```bash
-uv run python tasks/ant_v1/evaluate.py \
-  --policy tasks/ant_v1/starter_policy/policy.py
+uv run python tasks/simulation_heuristics_ant_v1/evaluate.py \
+  --policy tasks/simulation_heuristics_ant_v1/starter_policy/policy.py
 ```
 
 Prepare exactly the public workspace an agent receives:
 
 ```bash
 uv run python scripts/prepare_task.py \
-  ant_v1 \
-  /tmp/genesisbench-ant-v1 \
+  simulation_heuristics_ant_v1 \
+  /tmp/genesisbench-simulation-heuristics-ant-v1 \
   --force
 ```
 
-The prepared workspace deliberately excludes `verifier/`.
+The prepared OpenHands workspace deliberately excludes `verifier/`, `oracle/`,
+and `evidence/`.
 
 ## OpenHands Experiment
 
 Build the isolated runner:
 
 ```bash
-sh scripts/build_ant_runner_image.sh
+sh scripts/build_simulation_heuristics_ant_v1_runner_image.sh
 ```
 
 Configure credentials:
@@ -89,17 +96,17 @@ cp .env.example .env
 Run one agent:
 
 ```bash
-uv run python scripts/run_ant_experiment.py \
+uv run python scripts/run_simulation_heuristics_ant_v1_experiment.py \
   --model gpt-5.6-sol \
   --minutes 30
 ```
 
-See `experiments/ant_v1/README.md` for model routes, fairness controls, artifact
+See `experiments/simulation_heuristics_ant_v1/README.md` for model routes, fairness controls, artifact
 layout, and leaderboard regeneration.
 
 ## Current Leaderboard
 
-![GenesisBench Ant v1 leaderboard](leaderboard/ant_v1_leaderboard.png)
+![GenesisBench Simulation Heuristics Ant v1 leaderboard](leaderboard/simulation_heuristics_ant_v1_leaderboard.png)
 
 The first four-model OpenHands sweep used equal 30-minute budgets and each
 model's highest supported reasoning setting. Machine-readable results and
@@ -127,7 +134,7 @@ uv run python scripts/create_task.py my_robot_task \
 Then:
 
 1. Read `tasks/README.md`.
-2. Study the complete reference task in `tasks/ant_v1/`.
+2. Study the complete reference task in `tasks/simulation_heuristics_ant_v1/`.
 3. Implement the starter artifact, public evaluator, and clean final verifier.
 4. Run `uv run python scripts/validate_tasks.py`.
 5. Include a real coding-agent canary and reproducible score evidence.

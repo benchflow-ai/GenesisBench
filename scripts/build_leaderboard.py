@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
@@ -52,6 +53,11 @@ def _sanitize_score_paths(value: Any, *, policy_path: str) -> Any:
 
 def _package_policy(source: Path, destination: Path) -> None:
     content = source.read_text()
+    content = re.sub(
+        r"GenesisBench\s+Ant\s+v1",
+        "GenesisBench Simulation Heuristics Ant v1",
+        content,
+    )
     if "Licensed under the Apache License, Version 2.0" not in content:
         content = APACHE_NOTICE + content
     destination.write_text(content)
@@ -67,15 +73,14 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--output",
         type=Path,
-        default=REPO_ROOT / "leaderboard" / "ant_v1.json",
+        default=REPO_ROOT / "leaderboard" / "simulation_heuristics_ant_v1.json",
     )
     return parser.parse_args()
 
 
-def main() -> None:
-    args = parse_args()
+def _rows_from_runs(runs_root: Path) -> list[dict[str, Any]]:
     rows: list[dict[str, Any]] = []
-    for score_path in args.runs_root.glob("*/*/score.json"):
+    for score_path in runs_root.glob("*/*/score.json"):
         run_dir = score_path.parent
         metadata_path = run_dir / "run_metadata.json"
         if not metadata_path.is_file():
@@ -113,10 +118,53 @@ def main() -> None:
                     metadata["model"].get("thinking_effort"),
                 ),
                 "_source_run_dir": run_dir,
-                "run_id": str(run_dir.relative_to(args.runs_root)),
+                "run_id": str(run_dir.relative_to(runs_root)),
                 "finished_at": metadata["finished_at"],
             }
         )
+    return rows
+
+
+def _rows_from_submissions(submissions_root: Path) -> list[dict[str, Any]]:
+    rows = []
+    for metadata_path in submissions_root.glob("*/metadata.json"):
+        submission_dir = metadata_path.parent
+        score_path = submission_dir / "score.json"
+        if not score_path.is_file():
+            continue
+        metadata = json.loads(metadata_path.read_text())
+        score = json.loads(score_path.read_text())
+        if metadata.get("model_id") not in EXPECTED_MODELS:
+            continue
+        rows.append(
+            {
+                "model_id": metadata["model_id"],
+                "model": metadata["model"],
+                "harness": metadata["harness"],
+                "score": score["score"],
+                "normalized_score": score["normalized_score"],
+                "hidden_nominal": score["hidden_nominal"]["mean_return"],
+                "hidden_robustness": score["hidden_robustness"]["mean_return"],
+                "fall_rate": (
+                    0.7 * score["hidden_nominal"]["fall_rate"]
+                    + 0.3 * score["hidden_robustness"]["fall_rate"]
+                ),
+                "budget_minutes": metadata["budget_minutes"],
+                "runtime": metadata["runtime"],
+                "reasoning": metadata["reasoning"],
+                "run_id": metadata["source_run_id"],
+                "finished_at": metadata.get("finished_at", 0),
+                "_submission_dir": submission_dir,
+            }
+        )
+    return rows
+
+
+def main() -> None:
+    args = parse_args()
+    rows = _rows_from_runs(args.runs_root)
+    if not rows:
+        rows = _rows_from_submissions(args.output.parent / "submissions")
     latest_by_model: dict[str, dict[str, Any]] = {}
     for row in sorted(rows, key=lambda item: item["finished_at"]):
         latest_by_model[row["model_id"]] = row
@@ -129,16 +177,23 @@ def main() -> None:
         row["rank"] = rank
         submission_dir = args.output.parent / "submissions" / row["model_id"]
         submission_dir.mkdir(parents=True, exist_ok=True)
-        source_run_dir = row.pop("_source_run_dir")
-        _package_policy(
-            source_run_dir / "workspace" / "final_policy" / "policy.py",
-            submission_dir / "policy.py",
-        )
+        source_run_dir = row.pop("_source_run_dir", None)
+        row.pop("_submission_dir", None)
+        if source_run_dir is not None:
+            _package_policy(
+                source_run_dir / "workspace" / "final_policy" / "policy.py",
+                submission_dir / "policy.py",
+            )
         packaged_policy = str(
             (submission_dir / "policy.py").relative_to(REPO_ROOT)
         )
+        source_score_path = (
+            source_run_dir / "score.json"
+            if source_run_dir is not None
+            else submission_dir / "score.json"
+        )
         sanitized_score = _sanitize_score_paths(
-            json.loads((source_run_dir / "score.json").read_text()),
+            json.loads(source_score_path.read_text()),
             policy_path=packaged_policy,
         )
         (submission_dir / "score.json").write_text(
@@ -147,7 +202,7 @@ def main() -> None:
         (submission_dir / "metadata.json").write_text(
             json.dumps(
                 {
-                    "benchmark": "ant_v1",
+                    "benchmark": "simulation_heuristics_ant_v1",
                     "model_id": row["model_id"],
                     "model": row["model"],
                     "harness": row["harness"],
@@ -155,6 +210,7 @@ def main() -> None:
                     "budget_minutes": row["budget_minutes"],
                     "runtime": row["runtime"],
                     "source_run_id": row["run_id"],
+                    "finished_at": row["finished_at"],
                 },
                 indent=2,
                 sort_keys=True,
@@ -164,17 +220,24 @@ def main() -> None:
         row["submission_path"] = packaged_policy
 
     payload = {
-        "benchmark": "ant_v1",
-        "generated_at": datetime.now(UTC).isoformat(),
+        "benchmark": "simulation_heuristics_ant_v1",
+        "generated_at": (
+            datetime.fromtimestamp(
+                max(row["finished_at"] for row in ranked),
+                UTC,
+            ).isoformat()
+            if ranked
+            else datetime.now(UTC).isoformat()
+        ),
         "rows": ranked,
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n")
 
     markdown = [
-        "# GenesisBench Ant v1 Leaderboard",
+        "# GenesisBench Simulation Heuristics Ant v1 Leaderboard",
         "",
-        "![GenesisBench Ant v1 leaderboard](ant_v1_leaderboard.png)",
+        "![GenesisBench Simulation Heuristics Ant v1 leaderboard](simulation_heuristics_ant_v1_leaderboard.png)",
         "",
         "| Rank | Agent model | Harness | Reasoning | Score | Normalized | Nominal | Robust | Fall rate |",
         "| ---: | --- | --- | --- | ---: | ---: | ---: | ---: | ---: |",
