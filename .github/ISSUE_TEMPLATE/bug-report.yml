@@ -1,0 +1,35 @@
+name: Bug report
+description: Report a reproducibility, evaluator, tooling, or documentation issue.
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: What happened, and what did you expect?
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction
+      description: Include the exact command and relevant output.
+      render: shell
+    validations:
+      required: true
+  - type: input
+    id: platform
+    attributes:
+      label: Platform
+      placeholder: macOS arm64, Ubuntu amd64, etc.
+    validations:
+      required: true
+  - type: textarea
+    id: versions
+    attributes:
+      label: Versions
+      description: Include Python, uv, Docker, simulator, and GenesisBench revision.
+    validations:
+      required: true

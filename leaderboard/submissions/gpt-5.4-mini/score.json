@@ -1,0 +1,140 @@
+{
+  "hidden_nominal": {
+    "episodes": [
+      {
+        "invalid_action": false,
+        "length": 1000,
+        "mean_action_latency_ms": 0.012068499461747706,
+        "policy_error": null,
+        "return": 2336.2342049266413,
+        "seed": 101,
+        "terminated": false,
+        "truncated": true,
+        "variant": "nominal",
+        "x_position": 70.94899645824498,
+        "x_velocity": 2.73489846549694
+      },
+      {
+        "invalid_action": false,
+        "length": 1000,
+        "mean_action_latency_ms": 0.01032105425838381,
+        "policy_error": null,
+        "return": 2623.262454676401,
+        "seed": 211,
+        "terminated": false,
+        "truncated": true,
+        "variant": "nominal",
+        "x_position": 85.19413979261414,
+        "x_velocity": 2.4296669220652234
+      },
+      {
+        "invalid_action": false,
+        "length": 1000,
+        "mean_action_latency_ms": 0.012761832098476589,
+        "policy_error": null,
+        "return": 1546.7255648775574,
+        "seed": 307,
+        "terminated": false,
+        "truncated": true,
+        "variant": "nominal",
+        "x_position": 31.420300909580707,
+        "x_velocity": 0.8907749558830602
+      },
+      {
+        "invalid_action": false,
+        "length": 1000,
+        "mean_action_latency_ms": 0.013148700469173491,
+        "policy_error": null,
+        "return": 2677.7725874237535,
+        "seed": 401,
+        "terminated": false,
+        "truncated": true,
+        "variant": "nominal",
+        "x_position": 87.96295678358726,
+        "x_velocity": 0.5487439789902737
+      }
+    ],
+    "fall_rate": 0.0,
+    "invalid_episode_rate": 0.0,
+    "max_return": 2677.7725874237535,
+    "max_steps": 1000,
+    "mean_action_latency_ms": 0.012075021571945399,
+    "mean_return": 2295.998702976088,
+    "mean_x_position": 68.88159848600677,
+    "min_return": 1546.7255648775574,
+    "policy_path": "leaderboard/submissions/gpt-5.4-mini/policy.py",
+    "score": 2295.998702976088
+  },
+  "hidden_nominal_weight": 0.7,
+  "hidden_robustness": {
+    "episodes": [
+      {
+        "invalid_action": false,
+        "length": 1000,
+        "mean_action_latency_ms": 0.012804782600142062,
+        "policy_error": null,
+        "return": 2706.72564827673,
+        "seed": 503,
+        "terminated": false,
+        "truncated": true,
+        "variant": "light_low_friction",
+        "x_position": 89.30911385234455,
+        "x_velocity": -0.2963739503900342
+      },
+      {
+        "invalid_action": false,
+        "length": 1000,
+        "mean_action_latency_ms": 0.014751335023902357,
+        "policy_error": null,
+        "return": 3044.873046309879,
+        "seed": 601,
+        "terminated": false,
+        "truncated": true,
+        "variant": "light_low_friction",
+        "x_position": 106.3078074867188,
+        "x_velocity": 2.104900099667475
+      },
+      {
+        "invalid_action": false,
+        "length": 1000,
+        "mean_action_latency_ms": 0.01840152614749968,
+        "policy_error": null,
+        "return": 2430.2055868060443,
+        "seed": 503,
+        "terminated": false,
+        "truncated": true,
+        "variant": "heavy_weak_actuators",
+        "x_position": 76.01448764229745,
+        "x_velocity": 0.5450844874451377
+      },
+      {
+        "invalid_action": false,
+        "length": 1000,
+        "mean_action_latency_ms": 0.012832549517042935,
+        "policy_error": null,
+        "return": 1983.7410815931246,
+        "seed": 601,
+        "terminated": false,
+        "truncated": true,
+        "variant": "heavy_weak_actuators",
+        "x_position": 53.79747372743399,
+        "x_velocity": 1.816188927882365
+      }
+    ],
+    "fall_rate": 0.0,
+    "invalid_episode_rate": 0.0,
+    "max_return": 3044.873046309879,
+    "max_steps": 1000,
+    "mean_action_latency_ms": 0.014697548322146758,
+    "mean_return": 2541.3863407464446,
+    "mean_x_position": 81.35722067719871,
+    "min_return": 1983.7410815931246,
+    "policy_path": "leaderboard/submissions/gpt-5.4-mini/policy.py",
+    "score": 2541.3863407464446
+  },
+  "hidden_robustness_weight": 0.3,
+  "normalized_score": -1.8297021104621964,
+  "reference_score": 3071.5626964052326,
+  "score": 2369.614994307195,
+  "starter_score": 2382.2277700037166
+}

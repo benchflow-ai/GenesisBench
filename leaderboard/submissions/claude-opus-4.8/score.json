@@ -1,0 +1,140 @@
+{
+  "hidden_nominal": {
+    "episodes": [
+      {
+        "invalid_action": false,
+        "length": 1000,
+        "mean_action_latency_ms": 0.012999018770642579,
+        "policy_error": null,
+        "return": 2419.1077798756246,
+        "seed": 101,
+        "terminated": false,
+        "truncated": true,
+        "variant": "nominal",
+        "x_position": 77.97544325365483,
+        "x_velocity": 2.2450119159151427
+      },
+      {
+        "invalid_action": false,
+        "length": 1000,
+        "mean_action_latency_ms": 0.012110859272070229,
+        "policy_error": null,
+        "return": 1681.3446230011264,
+        "seed": 211,
+        "terminated": false,
+        "truncated": true,
+        "variant": "nominal",
+        "x_position": 40.984123067407985,
+        "x_velocity": 2.142255426244617
+      },
+      {
+        "invalid_action": false,
+        "length": 1000,
+        "mean_action_latency_ms": 0.014374108170159161,
+        "policy_error": null,
+        "return": 2868.547484729909,
+        "seed": 307,
+        "terminated": false,
+        "truncated": true,
+        "variant": "nominal",
+        "x_position": 100.39840889277087,
+        "x_velocity": 1.8531636397901252
+      },
+      {
+        "invalid_action": false,
+        "length": 1000,
+        "mean_action_latency_ms": 0.013859221013262868,
+        "policy_error": null,
+        "return": 2135.35890501261,
+        "seed": 401,
+        "terminated": false,
+        "truncated": true,
+        "variant": "nominal",
+        "x_position": 63.747209320276795,
+        "x_velocity": -0.7826881452967882
+      }
+    ],
+    "fall_rate": 0.0,
+    "invalid_episode_rate": 0.0,
+    "max_return": 2868.547484729909,
+    "max_steps": 1000,
+    "mean_action_latency_ms": 0.01333580180653371,
+    "mean_return": 2276.0896981548176,
+    "mean_x_position": 70.77629613352762,
+    "min_return": 1681.3446230011264,
+    "policy_path": "leaderboard/submissions/claude-opus-4.8/policy.py",
+    "score": 2276.0896981548176
+  },
+  "hidden_nominal_weight": 0.7,
+  "hidden_robustness": {
+    "episodes": [
+      {
+        "invalid_action": false,
+        "length": 1000,
+        "mean_action_latency_ms": 0.015357296564616263,
+        "policy_error": null,
+        "return": 1744.8608693814897,
+        "seed": 503,
+        "terminated": false,
+        "truncated": true,
+        "variant": "light_low_friction",
+        "x_position": 44.13999692203366,
+        "x_velocity": 0.9944427936019906
+      },
+      {
+        "invalid_action": false,
+        "length": 1000,
+        "mean_action_latency_ms": 0.017938197241164744,
+        "policy_error": null,
+        "return": 3042.5211005249644,
+        "seed": 601,
+        "terminated": false,
+        "truncated": true,
+        "variant": "light_low_friction",
+        "x_position": 109.15594298181536,
+        "x_velocity": 2.0798621846918763
+      },
+      {
+        "invalid_action": false,
+        "length": 1000,
+        "mean_action_latency_ms": 0.02154649596195668,
+        "policy_error": null,
+        "return": 1674.050999491138,
+        "seed": 503,
+        "terminated": false,
+        "truncated": true,
+        "variant": "heavy_weak_actuators",
+        "x_position": 41.446464056104006,
+        "x_velocity": 1.646653783642904
+      },
+      {
+        "invalid_action": false,
+        "length": 1000,
+        "mean_action_latency_ms": 0.013965119142085314,
+        "policy_error": null,
+        "return": 2104.4689910091683,
+        "seed": 601,
+        "terminated": false,
+        "truncated": true,
+        "variant": "heavy_weak_actuators",
+        "x_position": 63.074546564486724,
+        "x_velocity": 2.0527258909991986
+      }
+    ],
+    "fall_rate": 0.0,
+    "invalid_episode_rate": 0.0,
+    "max_return": 3042.5211005249644,
+    "max_steps": 1000,
+    "mean_action_latency_ms": 0.01720177722745575,
+    "mean_return": 2141.4754901016904,
+    "mean_x_position": 64.45423763110995,
+    "min_return": 1674.050999491138,
+    "policy_path": "leaderboard/submissions/claude-opus-4.8/policy.py",
+    "score": 2141.4754901016904
+  },
+  "hidden_robustness_weight": 0.3,
+  "normalized_score": -21.255608653070436,
+  "reference_score": 3071.5626964052326,
+  "score": 2235.7054357388793,
+  "starter_score": 2382.2277700037166
+}

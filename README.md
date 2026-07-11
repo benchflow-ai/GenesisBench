@@ -1,83 +1,162 @@
 # GenesisBench
 
-GenesisBench 1.0: how **language intelligence** can be used to improve **physical intelligence**.
+[![CI](https://github.com/benchflow-ai/GenesisBench/actions/workflows/ci.yml/badge.svg)](https://github.com/benchflow-ai/GenesisBench/actions/workflows/ci.yml)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
 
-GenesisBench 2.0: how **world intelligence** can be used to improve **physical intelligence**.
+GenesisBench evaluates how coding agents can use **language intelligence** to
+improve **physical intelligence**.
+
+A task gives an autonomous coding agent:
+
+- a robotics environment or simulator;
+- a fixed starter policy, controller, planner, or training system;
+- queryable development feedback;
+- a bounded research budget;
+- a standardized final-artifact contract.
+
+After the agent exits, GenesisBench independently evaluates its final artifact
+on a clean, hidden suite and assigns the resulting robotics score to the agent.
+The workflow is inspired by [PostTrainBench](https://posttrainbench.com/), but
+the optimized artifact controls a physical system rather than being an
+instruction-tuned language model.
+
+## Reference Task: Ant v1
+
+`tasks/ant_v1/` is the first executable task and the canonical example for
+future contributors. An agent receives a weak rhythmic CPG/PD controller for
+Gymnasium `Ant-v5`, repeatedly edits and evaluates it, and submits
+`final_policy/policy.py`.
+
+Final scoring uses full 1,000-step episodes:
+
+```text
+score = 0.70 * hidden nominal mean return
+      + 0.30 * hidden dynamics-robustness mean return
+```
+
+The checked-in reproducibility suite includes unseen seeds and conservative
+mass, friction, damping, and actuator perturbations. An official hosted
+leaderboard can inject a private suite without changing the task contract.
+
+## Quick Start
+
+Requirements:
+
+- Python 3.11+
+- [`uv`](https://docs.astral.sh/uv/)
+- Docker for isolated agent experiments
+
+Install and validate:
+
+```bash
+uv sync --extra dev
+uv run python scripts/validate_tasks.py
+uv run pytest -q
+```
+
+Evaluate the starter policy:
+
+```bash
+uv run python tasks/ant_v1/evaluate.py \
+  --policy tasks/ant_v1/starter_policy/policy.py
+```
+
+Prepare exactly the public workspace an agent receives:
+
+```bash
+uv run python scripts/prepare_task.py \
+  ant_v1 \
+  /tmp/genesisbench-ant-v1 \
+  --force
+```
+
+The prepared workspace deliberately excludes `verifier/`.
+
+## OpenHands Experiment
+
+Build the isolated runner:
+
+```bash
+sh scripts/build_ant_runner_image.sh
+```
+
+Configure credentials:
+
+```bash
+cp .env.example .env
+```
+
+Run one agent:
+
+```bash
+uv run python scripts/run_ant_experiment.py \
+  --model gpt-5.6-sol \
+  --minutes 30
+```
+
+See `experiments/ant_v1/README.md` for model routes, fairness controls, artifact
+layout, and leaderboard regeneration.
+
+## Current Leaderboard
+
+![GenesisBench Ant v1 leaderboard](leaderboard/ant_v1_leaderboard.png)
+
+The first four-model OpenHands sweep used equal 30-minute budgets and each
+model's highest supported reasoning setting. Machine-readable results and
+packaged policies are in `leaderboard/`.
+
+| Rank | Model | Hidden-suite score |
+| ---: | --- | ---: |
+| 1 | GPT-5.6 Sol | 3417.86 |
+| 2 | GPT-5.5 | 2382.23 |
+| 3 | GPT-5.4 Mini | 2369.61 |
+| 4 | Claude Opus 4.8 | 2235.71 |
+
+These are single-run research results, not multi-trial estimates of model
+quality. See `leaderboard/REPORT.md` for setup details and limitations.
+
+## Contribute a Task
+
+Create a scaffold:
+
+```bash
+uv run python scripts/create_task.py my_robot_task \
+  --title "My Robot Policy Improvement Task"
+```
+
+Then:
+
+1. Read `tasks/README.md`.
+2. Study the complete reference task in `tasks/ant_v1/`.
+3. Implement the starter artifact, public evaluator, and clean final verifier.
+4. Run `uv run python scripts/validate_tasks.py`.
+5. Include a real coding-agent canary and reproducible score evidence.
+
+See `CONTRIBUTING.md` for the full contribution workflow.
+
+## Roadmap
+
+- **GenesisBench 1.0:** language intelligence improves physical intelligence.
+- **GenesisBench 2.0:** world intelligence improves physical intelligence.
+- Add manipulation, navigation, whole-body control, data generation, and
+  sim-to-real tasks while preserving task-level resource accounting and clean
+  final evaluation.
 
 ## Research Background
 
-https://arxiv.org/pdf/2606.19980
+- [Learning Beyond Gradients](https://trinkle23897.github.io/learning-beyond-gradients/)
+- [Autoresearch](https://github.com/karpathy/autoresearch)
+- [Autoresearch Robotics](https://github.com/jellyheadandrew/autoresearch-robotics)
+- [Genesis](https://genesis-world.readthedocs.io/en/latest/)
+- [MuJoCo](https://github.com/google-deepmind/mujoco)
+- [Isaac Sim](https://github.com/isaac-sim/IsaacSim)
+- [RoboCasa](https://github.com/robocasa/robocasa)
+- [NVIDIA ASPIRE](https://research.nvidia.com/labs/gear/aspire/)
+- [NVIDIA ENPIRE](https://research.nvidia.com/labs/gear/enpire/)
 
-https://research.nvidia.com/labs/gear/aspire/assets/Aspire.pdf?v=20260630d
+## License
 
-https://trinkle23897.github.io/learning-beyond-gradients/
+GenesisBench is licensed under GPL-3.0. See `LICENSE`.
 
-https://arxiv.org/pdf/2606.19980
-
-https://github.com/jellyheadandrew/autoresearch-robotics
-
-https://github.com/karpathy/autoresearch
-
-How brittle are the VLA models in robotics https://medium.com/@yananchen1116/how-brittle-are-the-vla-models-in-robotics-66ab85286ecf
-
-## Basic Idea
-
-We want to evaluate how “language intelligence” can be used to improve “physical intelligence”. Similar to the idea of https://posttrainbench.com/, we want to evaluate how the coding agents can be used to train the policies that can be used to run on the robotics hardware.
-
-So the idea is that the coding agents that we want to benhttps://genesis-world.readthedocs.io/en/latest/chmark will be given some resources (similar to posttrainbench), for example:
-one simulation environment like https://github.com/isaac-sim/IsaacSim or a https://genesis-world.readthedocs.io/en/latest/ that can simulate how the policies are really working
-and also the coding agent will be given some computational resources, like computation nodes with H100
-
-Here are some preliminary tasks ideas: https://www.benchflow.ai/genesis
-
-<img width="940" height="829" alt="image" src="https://github.com/user-attachments/assets/024f2e46-eba3-4472-9700-92b33032a9fd" />
-
-## Awesome Simulation Frameworks
-
-https://github.com/isaac-sim/IsaacSim
-
-https://genesis-world.readthedocs.io/en/latest/
-
-https://github.com/robocasa/robocasa
-
-https://github.com/google-deepmind/mujoco
-
-## Reference
-
-https://robo-arena.github.io/
-
-https://qwen.ai/blog?id=qwen-robotsuite
-
-https://research.nvidia.com/publication/2026-06_humanoidmimicgen-data-generation-loco-manipulation-whole-body-planning
-
-https://research.nvidia.com/labs/gear/enpire/
-
-https://x.com/yukez/status/2072697990402170906?s=46
-
-https://research.nvidia.com/labs/gear/simfoundry
-
-https://x.com/dair_ai/status/2072719460721733762?s=20
-
-https://genesis-world.readthedocs.io/en/latest/
-
-https://x.com/stevencheng/status/2073696596081229848?s=20
-
-https://x.com/lukas_m_ziegler/status/2073106046940327985?s=20
-
-https://x.com/stevencheng/status/2073353686076842219?s=20
-
-https://x.com/oprydai/status/2073660849311416817?s=20
-
-https://x.com/oyhsu/status/2044421868015534332?s=20
-
-https://x.com/oyhsu/status/2074203659026530789
-
-https://research.nvidia.com/labs/gear/enpire/
-
-https://research.nvidia.com/labs/gear/aspire/
-
-https://insight-vla.github.io/
-
-https://trinkle23897.github.io/learning-beyond-gradients/
-
-https://github.com/jellyheadandrew/autoresearch-robotics
+Some reference-policy code is derived from Apache-2.0-licensed work. See
+`THIRD_PARTY_NOTICES.md` and `LICENSES/Apache-2.0.txt`.

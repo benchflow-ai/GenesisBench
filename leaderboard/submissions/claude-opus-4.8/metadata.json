@@ -1,0 +1,10 @@
+{
+  "benchmark": "ant_v1",
+  "budget_minutes": 30,
+  "harness": "OpenHands SDK ACPAgent",
+  "model": "Claude Opus 4.8",
+  "model_id": "claude-opus-4.8",
+  "reasoning": "max",
+  "runtime": "docker",
+  "source_run_id": "20260710T230500Z/claude-opus-4.8"
+}

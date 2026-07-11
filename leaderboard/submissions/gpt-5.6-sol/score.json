@@ -1,0 +1,140 @@
+{
+  "hidden_nominal": {
+    "episodes": [
+      {
+        "invalid_action": false,
+        "length": 1000,
+        "mean_action_latency_ms": 0.022423535119742155,
+        "policy_error": null,
+        "return": 3310.0757367533597,
+        "seed": 101,
+        "terminated": false,
+        "truncated": true,
+        "variant": "nominal",
+        "x_position": 123.94618167789184,
+        "x_velocity": 2.4977556227642594
+      },
+      {
+        "invalid_action": false,
+        "length": 1000,
+        "mean_action_latency_ms": 0.019708189531229436,
+        "policy_error": null,
+        "return": 3499.4870240516734,
+        "seed": 211,
+        "terminated": false,
+        "truncated": true,
+        "variant": "nominal",
+        "x_position": 133.34524591939666,
+        "x_velocity": 3.1751548096218585
+      },
+      {
+        "invalid_action": false,
+        "length": 1000,
+        "mean_action_latency_ms": 0.022972293896600604,
+        "policy_error": null,
+        "return": 3411.801875910998,
+        "seed": 307,
+        "terminated": false,
+        "truncated": true,
+        "variant": "nominal",
+        "x_position": 128.9709677661423,
+        "x_velocity": 2.614149409005222
+      },
+      {
+        "invalid_action": false,
+        "length": 1000,
+        "mean_action_latency_ms": 0.023645443376153708,
+        "policy_error": null,
+        "return": 3376.786308840587,
+        "seed": 401,
+        "terminated": false,
+        "truncated": true,
+        "variant": "nominal",
+        "x_position": 127.25958600544459,
+        "x_velocity": 2.400224327522835
+      }
+    ],
+    "fall_rate": 0.0,
+    "invalid_episode_rate": 0.0,
+    "max_return": 3499.4870240516734,
+    "max_steps": 1000,
+    "mean_action_latency_ms": 0.022187365480931476,
+    "mean_return": 3399.5377363891544,
+    "mean_x_position": 128.38049534221884,
+    "min_return": 3310.0757367533597,
+    "policy_path": "leaderboard/submissions/gpt-5.6-sol/policy.py",
+    "score": 3399.5377363891544
+  },
+  "hidden_nominal_weight": 0.7,
+  "hidden_robustness": {
+    "episodes": [
+      {
+        "invalid_action": false,
+        "length": 1000,
+        "mean_action_latency_ms": 0.024099159403704107,
+        "policy_error": null,
+        "return": 3620.1966404207674,
+        "seed": 503,
+        "terminated": false,
+        "truncated": true,
+        "variant": "light_low_friction",
+        "x_position": 139.32608694993328,
+        "x_velocity": 2.553441550859361
+      },
+      {
+        "invalid_action": false,
+        "length": 1000,
+        "mean_action_latency_ms": 0.03016681259032339,
+        "policy_error": null,
+        "return": 3667.427870036026,
+        "seed": 601,
+        "terminated": false,
+        "truncated": true,
+        "variant": "light_low_friction",
+        "x_position": 141.77499258830161,
+        "x_velocity": 2.9638235041289818
+      },
+      {
+        "invalid_action": false,
+        "length": 1000,
+        "mean_action_latency_ms": 0.03558685549069196,
+        "policy_error": null,
+        "return": 3274.925086858123,
+        "seed": 503,
+        "terminated": false,
+        "truncated": true,
+        "variant": "heavy_weak_actuators",
+        "x_position": 123.16375667318769,
+        "x_velocity": 2.4681427934484645
+      },
+      {
+        "invalid_action": false,
+        "length": 1000,
+        "mean_action_latency_ms": 0.02365046157501638,
+        "policy_error": null,
+        "return": 3279.92710195996,
+        "seed": 601,
+        "terminated": false,
+        "truncated": true,
+        "variant": "heavy_weak_actuators",
+        "x_position": 123.52867727583029,
+        "x_velocity": 3.4419421057305044
+      }
+    ],
+    "fall_rate": 0.0,
+    "invalid_episode_rate": 0.0,
+    "max_return": 3667.427870036026,
+    "max_steps": 1000,
+    "mean_action_latency_ms": 0.02837582226493396,
+    "mean_return": 3460.619174818719,
+    "mean_x_position": 131.94837837181322,
+    "min_return": 3274.925086858123,
+    "policy_path": "leaderboard/submissions/gpt-5.6-sol/policy.py",
+    "score": 3460.619174818719
+  },
+  "hidden_robustness_weight": 0.3,
+  "normalized_score": 150.23675114222806,
+  "reference_score": 3071.5626964052326,
+  "score": 3417.8621679180233,
+  "starter_score": 2382.2277700037166
+}
