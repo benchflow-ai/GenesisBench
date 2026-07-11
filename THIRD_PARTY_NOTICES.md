@@ -5,8 +5,9 @@
 The following files contain or adapt controller structure and parameterization
 from the public `learning-beyond-gradients` artifacts:
 
-- `tasks/ant_v1/starter_policy/policy.py`
-- `tasks/ant_v1/verifier/reference_policy.py`
+- `tasks/simulation_heuristics_ant_v1/starter_policy/policy.py`
+- `tasks/simulation_heuristics_ant_v1/oracle/policy.py`
+- `tasks/simulation_heuristics_ant_v1/verifier/anchor_policies/*.py`
 - policies under `leaderboard/submissions/` that retain or adapt that starter
   structure
 

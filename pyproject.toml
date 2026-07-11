@@ -7,7 +7,7 @@ name = "genesisbench"
 version = "0.1.0"
 description = "A benchmark for coding agents that improve robot-control policies."
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.12"
 license = { file = "LICENSE" }
 authors = [
   { name = "GenesisBench Contributors" },
@@ -24,13 +24,13 @@ classifiers = [
   "Intended Audience :: Science/Research",
   "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
   "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Topic :: Scientific/Engineering :: Artificial Intelligence",
 ]
 dependencies = [
   "gymnasium[mujoco]>=1.2.2,<2",
   "numpy>=1.26,<3",
+  "pyyaml>=6,<7",
 ]
 
 [project.urls]
@@ -40,13 +40,14 @@ Repository = "https://github.com/benchflow-ai/GenesisBench"
 
 [project.optional-dependencies]
 dev = [
+  "benchflow>=0.6.5,<0.7",
   "matplotlib>=3.10,<4",
   "pytest>=8.4,<9",
   "ruff>=0.12,<1",
 ]
 
 [project.scripts]
-genesisbench-eval-ant = "genesisbench.cli:main"
+genesisbench-eval-simulation-heuristics-ant-v1 = "genesisbench.cli:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/genesisbench"]

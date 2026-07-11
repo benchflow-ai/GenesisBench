@@ -5,11 +5,12 @@ from pathlib import Path
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-LEADERBOARD = REPO_ROOT / "leaderboard" / "ant_v1.json"
+LEADERBOARD = REPO_ROOT / "leaderboard" / "simulation_heuristics_ant_v1.json"
 
 
 def test_packaged_leaderboard_is_self_contained() -> None:
     payload = json.loads(LEADERBOARD.read_text())
+    assert payload["benchmark"] == "simulation_heuristics_ant_v1"
     assert len(payload["rows"]) == 4
 
     for row in payload["rows"]:

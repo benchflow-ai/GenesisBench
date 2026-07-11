@@ -3,8 +3,11 @@
 GenesisBench tasks evaluate whether a coding agent can improve a physical
 policy or robotics software artifact under a fixed resource budget.
 
-Use `tasks/ant_v1/` as the canonical working example and `tasks/_template/` as
+Use `tasks/simulation_heuristics_ant_v1/` as the canonical working example and `tasks/_template/` as
 the scaffold source.
+
+GenesisBench follows BenchFlow `0.6.5`'s
+[native task package standard](https://github.com/benchflow-ai/benchflow/blob/main/docs/task-standard.md).
 
 ## Create a task
 
@@ -23,11 +26,13 @@ Every task must define:
 
 1. **Fixed starting artifact** — a controller, planner, policy, model, or
    training system that runs before the agent starts.
-2. **Agent-facing objective** — one clear optimization goal in `prompt.md`.
+2. **Agent-facing objective** — one clear optimization goal in the `task.md`
+   body.
 3. **Queryable development feedback** — a reasonably fast `evaluate.py`.
 4. **Bounded resources** — wall-clock plus simulator interactions, compute, or
    physical trials where relevant.
-5. **Standard final artifact** — declared in `[submission]` in `task.toml`.
+5. **Standard final artifact** — declared under
+   `metadata.genesisbench.submission` in `task.md`.
 6. **Clean final verifier** — executed after the agent exits and not exposed in
    the task workspace.
 7. **Robust final suite** — unseen seeds, scenarios, dynamics, or hardware
@@ -40,13 +45,17 @@ Every task must define:
 ```text
 tasks/<task_name>/
   README.md
-  benchmark.txt
-  task.toml
-  prompt.md
+  task.md
   evaluate.py
-  <starter path declared in task.toml>
+  environment/
+    Dockerfile
+  <starter path declared in task.md>
   task_context/
+  oracle/
+    solve.sh
   verifier/
+    verifier.md
+    test.sh
     evaluate_hidden.py
 ```
 
@@ -55,44 +64,51 @@ Task-specific files and assets may be added as needed.
 ## Public workspace boundary
 
 `scripts/prepare_task.py` copies the agent-visible task and deliberately
-excludes `verifier/`. Never rely only on prompt instructions to protect hidden
-evaluation data.
+excludes `verifier/`, `oracle/`, and `evidence/`. Never rely only on prompt
+instructions to protect hidden evaluation data.
 
 The checked-in verifier can be a reproducibility suite. An official public
 leaderboard should inject a private final suite when public source access would
 otherwise reveal seeds, scenarios, answers, or dynamics parameters.
 
-## `task.toml` core fields
+## `task.md` core fields
 
-```toml
-version = "1.0"
-name = "my_robot_task"
-title = "My Robot Policy Improvement Task"
+```markdown
+---
+schema_version: "1.3"
+task:
+  name: genesisbench/my_robot_task
+  description: One-sentence task description.
+  authors:
+    - name: Your Name
+metadata:
+  category: locomotion
+  difficulty: medium
+  tags: [robotics]
+  reference_task: false
+  genesisbench:
+    starter:
+      path: starter_policy
+    submission:
+      directory: final_policy
+      entrypoint: policy.py
+agent:
+  timeout_sec: 1800
+verifier:
+  timeout_sec: 300
+environment:
+  cpus: 1
+  memory_mb: 2048
+  workdir: /app
+benchflow:
+  document_version: "0.6"
+---
 
-[metadata]
-description = "One-sentence task description."
-author = "Your Name"
-category = "locomotion"
-difficulty = "medium"
-tags = ["robotics"]
-reference_task = false
-
-[starter]
-path = "starter_policy"
-
-[submission]
-directory = "final_policy"
-entrypoint = "policy.py"
-
-[budget]
-wall_clock_minutes = 30
-
-[verifier]
-entrypoint = "verifier/evaluate_hidden.py"
-supports_private_config = true
+Write the complete agent instruction here.
 ```
 
-Additional environment and evaluation fields are task-specific.
+This follows BenchFlow `0.6.5`'s native task document format. Do not add
+`task.toml`, `instruction.md`, or `prompt.md` mirrors.
 
 ## Development and final evaluation
 
@@ -120,6 +136,7 @@ Before opening a contribution:
 
 ```bash
 uv run python scripts/validate_tasks.py
+uv run bench tasks check tasks/<task_name> --level publication-grade
 uv run pytest -q
 uv run ruff check .
 ```
@@ -145,4 +162,3 @@ Also demonstrate:
 - Trusting an agent-reported score instead of independently evaluating its
   final artifact.
 - Publishing simulation results as evidence of real-robot transfer.
-

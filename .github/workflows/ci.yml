@@ -35,8 +35,24 @@ jobs:
       - name: Validate task contracts
         run: uv run python scripts/validate_tasks.py
 
+      - name: Validate native BenchFlow package
+        run: >-
+          uv run bench tasks check
+          tasks/simulation_heuristics_ant_v1
+          --level publication-grade
+
+      - name: Run native BenchFlow oracle
+        run: >-
+          uv run bench eval run
+          --tasks-dir tasks/simulation_heuristics_ant_v1
+          --agent oracle
+          --sandbox docker
+          --context-root .
+          --jobs-dir /tmp/genesisbench-oracle
+          --concurrency 1
+
       - name: Audit packaged leaderboard
-        run: uv run python scripts/audit_ant_leaderboard.py
+        run: uv run python scripts/audit_simulation_heuristics_ant_v1_leaderboard.py
 
       - name: Lint
         run: uv run ruff check .

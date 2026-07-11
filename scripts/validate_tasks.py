@@ -2,9 +2,12 @@
 from __future__ import annotations
 
 import argparse
+import json
 import tempfile
-import tomllib
 from pathlib import Path
+
+from benchflow.task import TaskDocument as BenchFlowTaskDocument
+from genesisbench.task_document import TaskDocument
 
 if __package__:
     from scripts.prepare_task import (
@@ -22,18 +25,20 @@ else:
 
 REQUIRED_FILES = (
     "README.md",
-    "benchmark.txt",
-    "task.toml",
-    "prompt.md",
+    "task.md",
     "evaluate.py",
 )
 REQUIRED_METADATA = (
-    "description",
-    "author",
     "category",
     "difficulty",
     "tags",
     "reference_task",
+    "genesisbench",
+)
+FORBIDDEN_SPLIT_FILES = (
+    "task.toml",
+    "instruction.md",
+    "prompt.md",
 )
 
 
@@ -61,41 +66,51 @@ def validate_task(
         return issues
 
     try:
-        config = tomllib.loads((task_directory / "task.toml").read_text())
-    except Exception as error:
-        return [f"invalid task.toml: {type(error).__name__}: {error}"]
-
-    if config.get("version") != "1.0":
-        issues.append("version must be '1.0'")
-    if config.get("name") != task_name:
-        issues.append(
-            f"task.toml name must match directory: {task_name!r}"
+        benchflow_document = BenchFlowTaskDocument.from_path(
+            task_directory / "task.md"
         )
-    if not isinstance(config.get("title"), str) or not config["title"].strip():
-        issues.append("title must be a non-empty string")
+        document = TaskDocument.from_path(task_directory / "task.md")
+    except Exception as error:
+        return [f"invalid task.md: {type(error).__name__}: {error}"]
 
-    metadata = config.get("metadata")
+    if benchflow_document.config.schema_version != "1.3":
+        issues.append("schema_version must be '1.3'")
+    expected_package_name = f"genesisbench/{task_name}"
+    if document.package_name != expected_package_name:
+        issues.append(
+            "task.name must match directory: "
+            f"{expected_package_name!r}"
+        )
+    if not document.instruction:
+        issues.append("task.md prompt body must not be empty")
+
+    metadata = document.frontmatter.get("metadata")
     if not isinstance(metadata, dict):
-        issues.append("missing [metadata] table")
-    else:
-        for field in REQUIRED_METADATA:
-            if field not in metadata:
-                issues.append(f"metadata.{field} is required")
-        if "tags" in metadata and not (
-            isinstance(metadata["tags"], list)
-            and all(isinstance(tag, str) and tag for tag in metadata["tags"])
-        ):
-            issues.append("metadata.tags must be a list of strings")
-        if "reference_task" in metadata and not isinstance(
-            metadata["reference_task"],
-            bool,
-        ):
-            issues.append("metadata.reference_task must be boolean")
+        issues.append("missing metadata mapping")
+        metadata = {}
+    for field in REQUIRED_METADATA:
+        if field not in metadata:
+            issues.append(f"metadata.{field} is required")
+    if "tags" in metadata and not (
+        isinstance(metadata["tags"], list)
+        and all(isinstance(tag, str) and tag for tag in metadata["tags"])
+    ):
+        issues.append("metadata.tags must be a list of strings")
+    if "reference_task" in metadata and not isinstance(
+        metadata["reference_task"],
+        bool,
+    ):
+        issues.append("metadata.reference_task must be boolean")
+
+    genesisbench = metadata.get("genesisbench", {})
+    if not isinstance(genesisbench, dict):
+        issues.append("metadata.genesisbench must be a mapping")
+        genesisbench = {}
 
     try:
         starter_path = _safe_relative_path(
-            config["starter"]["path"],
-            field="starter.path",
+            genesisbench["starter"]["path"],
+            field="metadata.genesisbench.starter.path",
         )
     except (KeyError, TypeError, ValueError) as error:
         issues.append(str(error))
@@ -103,75 +118,88 @@ def validate_task(
 
     try:
         submission_directory = _safe_relative_path(
-            config["submission"]["directory"],
-            field="submission.directory",
+            genesisbench["submission"]["directory"],
+            field="metadata.genesisbench.submission.directory",
         )
         submission_entrypoint = _safe_relative_path(
-            config["submission"]["entrypoint"],
-            field="submission.entrypoint",
+            genesisbench["submission"]["entrypoint"],
+            field="metadata.genesisbench.submission.entrypoint",
         )
     except (KeyError, TypeError, ValueError) as error:
         issues.append(str(error))
         submission_directory = None
         submission_entrypoint = None
 
-    try:
-        verifier_entrypoint = _safe_relative_path(
-            config["verifier"]["entrypoint"],
-            field="verifier.entrypoint",
-        )
-    except (KeyError, TypeError, ValueError) as error:
-        issues.append(str(error))
-        verifier_entrypoint = None
-
-    budget = config.get("budget")
-    if not isinstance(budget, dict) or not isinstance(
-        budget.get("wall_clock_minutes"),
-        int,
-    ):
-        issues.append("budget.wall_clock_minutes must be an integer")
-    elif budget["wall_clock_minutes"] <= 0:
-        issues.append("budget.wall_clock_minutes must be positive")
+    if benchflow_document.config.agent.timeout_sec is None:
+        issues.append("agent.timeout_sec is required")
 
     if starter_path is not None:
         starter = task_directory / starter_path
         if not starter.exists():
-            issues.append(f"starter.path does not exist: {starter_path}")
+            issues.append(f"starter path does not exist: {starter_path}")
         if submission_entrypoint is not None and starter.is_dir():
             starter_entrypoint = starter / submission_entrypoint
             if not starter_entrypoint.is_file():
                 issues.append(
-                    "starter artifact must contain submission.entrypoint: "
+                    "starter artifact must contain submission entrypoint: "
                     f"{starter_path / submission_entrypoint}"
                 )
 
-    if verifier_entrypoint is not None and not (
-        task_directory / verifier_entrypoint
-    ).is_file():
+    verifier_metadata = genesisbench.get("verifier", {})
+    if not isinstance(verifier_metadata, dict):
+        issues.append("metadata.genesisbench.verifier must be a mapping")
+        verifier_metadata = {}
+    if not isinstance(
+        verifier_metadata.get("supports_private_config"),
+        bool,
+    ):
         issues.append(
-            f"verifier.entrypoint does not exist: {verifier_entrypoint}"
+            "metadata.genesisbench.verifier.supports_private_config "
+            "must be boolean"
         )
-
-    verifier = config.get("verifier", {})
-    if not isinstance(verifier.get("supports_private_config"), bool):
-        issues.append("verifier.supports_private_config must be boolean")
     for field in ("reproduction_config", "anchors"):
-        if field not in verifier:
+        if field not in verifier_metadata:
             continue
         try:
             relative = _safe_relative_path(
-                verifier[field],
-                field=f"verifier.{field}",
+                verifier_metadata[field],
+                field=f"metadata.genesisbench.verifier.{field}",
             )
         except ValueError as error:
             issues.append(str(error))
             continue
         if not (task_directory / relative).is_file():
-            issues.append(f"verifier.{field} does not exist: {relative}")
+            issues.append(f"verifier {field} does not exist: {relative}")
+        elif field == "anchors":
+            anchors = json.loads((task_directory / relative).read_text())
+            for anchor_name in ("starter_policy", "reference_policy"):
+                anchor = anchors.get(anchor_name, {})
+                if "path" not in anchor:
+                    continue
+                anchor_path = _safe_relative_path(
+                    anchor["path"],
+                    field=f"anchors.{anchor_name}.path",
+                )
+                resolved = (task_directory / relative).parent / anchor_path
+                if not resolved.is_file():
+                    issues.append(
+                        f"anchor policy does not exist: {anchor_path}"
+                    )
 
     task_context = task_directory / "task_context"
     if not task_context.is_dir() or not any(task_context.glob("*.md")):
         issues.append("task_context/ must contain at least one Markdown file")
+    if not (task_directory / "environment" / "Dockerfile").is_file():
+        issues.append("environment/Dockerfile is required")
+    if not (task_directory / "verifier" / "verifier.md").is_file():
+        issues.append("verifier/verifier.md is required")
+    if not (task_directory / "verifier" / "test.sh").is_file():
+        issues.append("verifier/test.sh is required")
+    for filename in FORBIDDEN_SPLIT_FILES:
+        if (task_directory / filename).exists():
+            issues.append(
+                f"native task must not contain split-layout mirror: {filename}"
+            )
 
     if issues:
         return issues
@@ -183,8 +211,11 @@ def validate_task(
             tasks_root=task_directory.parent,
             runtime_source=runtime_source,
         )
-        if (prepared / "verifier").exists():
-            issues.append("prepared public workspace contains verifier/")
+        for hidden in ("verifier", "oracle", "evidence"):
+            if (prepared / hidden).exists():
+                issues.append(
+                    f"prepared public workspace contains {hidden}/"
+                )
         if not (prepared / "_runtime" / "genesisbench").is_dir():
             issues.append("prepared public workspace is missing _runtime/")
         if (
@@ -205,13 +236,13 @@ def discover_tasks(tasks_root: Path) -> list[Path]:
         for path in tasks_root.iterdir()
         if path.is_dir()
         and not path.name.startswith("_")
-        and (path / "task.toml").is_file()
+        and (path / "task.md").is_file()
     )
 
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Validate GenesisBench task structure and public boundary."
+        description="Validate GenesisBench and BenchFlow task contracts."
     )
     parser.add_argument("--task")
     parser.add_argument(

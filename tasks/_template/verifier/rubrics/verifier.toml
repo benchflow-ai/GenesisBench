@@ -1,0 +1,10 @@
+version = "0.1"
+
+[[criteria]]
+id = "task_success"
+description = "TODO define the exact observable success condition."
+weight = 1.0
+
+[scoring]
+method = "weighted_mean"
+

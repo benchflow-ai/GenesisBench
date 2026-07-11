@@ -1,6 +1,7 @@
 {
-  "benchmark": "ant_v1",
+  "benchmark": "simulation_heuristics_ant_v1",
   "budget_minutes": 30,
+  "finished_at": 1783726384.0583239,
   "harness": "OpenHands SDK ACPAgent",
   "model": "Claude Opus 4.8",
   "model_id": "claude-opus-4.8",

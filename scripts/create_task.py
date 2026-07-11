@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import re
 import shutil
 from pathlib import Path
@@ -22,7 +23,8 @@ def _replace_placeholders(
     replacements = {
         "{{task_name}}": task_name,
         "{{task_title}}": title,
-        "{{author}}": author,
+        "{{task_title_yaml}}": json.dumps(title, ensure_ascii=False),
+        "{{author_yaml}}": json.dumps(author, ensure_ascii=False),
     }
     for path in root.rglob("*"):
         if not path.is_file():
@@ -94,9 +96,8 @@ def main() -> None:
         tasks_root=args.tasks_root.resolve(),
     )
     print(destination)
-    print("Next: edit the TODOs, then run scripts/validate_tasks.py.")
+    print("Next: edit task.md and the sidecar directories, then validate.")
 
 
 if __name__ == "__main__":
     main()
-
