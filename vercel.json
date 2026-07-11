@@ -1,0 +1,7 @@
+{
+  "buildCommand": "",
+  "outputDirectory": "website",
+  "framework": null,
+  "cleanUrls": true,
+  "ignoreCommand": "git diff --quiet HEAD^ HEAD -- website/ vercel.json"
+}
