@@ -169,6 +169,20 @@ section.block + section.block{border-top:1px solid var(--line)}
 .ref-head b{font-size:.9875rem;font-weight:500;color:var(--forest-ink);letter-spacing:-.008em}
 .ref-tag{flex-shrink:0;font-size:.6875rem;font-weight:500;letter-spacing:.09em;text-transform:uppercase;color:var(--ink-soft)}
 .ref-desc{display:block;margin-top:.35rem;font-size:.875rem;line-height:1.5;color:var(--ink-soft)}
+.ref-featured{padding:1.25rem 1.4rem;max-width:48rem}
+.ref-featured .ref-head b{font-size:1.0625rem;line-height:1.35}
+.refs-more{margin-top:1.1rem;max-width:48rem}
+.refs-more summary{list-style:none;cursor:pointer;display:inline-flex;align-items:center;gap:.55rem;
+  padding:.55rem .2rem;font-size:.9375rem;font-weight:500;color:var(--ink-soft);transition:color .15s}
+.refs-more summary::-webkit-details-marker{display:none}
+.refs-more summary:hover{color:var(--forest-ink)}
+.refs-more .chev{transition:transform .25s ease}
+.refs-more[open] .chev{transform:rotate(180deg)}
+.refs-count{font-size:.75rem;font-weight:600;padding:.1rem .5rem;border:1px solid var(--line-strong);border-radius:999px;color:var(--ink-soft)}
+.refs-more .refs{margin-top:.9rem;max-width:none}
+.refs-more[open] .refs{animation:refsIn .3s ease}
+@keyframes refsIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.refs-more[open] .refs{animation:none}}
 
 /* footer */
 footer{background:var(--paper-2);border-top:1px solid var(--line);padding-block:clamp(2.4rem,5vw,3.6rem)}
@@ -290,7 +304,13 @@ footer{background:var(--paper-2);border-top:1px solid var(--line);padding-block:
       <h2 class="sec-label">Research background</h2>
       <div class="sec-body" style="max-width:none">
         <p class="lead" style="max-width:48rem">GenesisBench builds on research at the intersection of agentic coding, post-training, and embodied AI.</p>
-        <ul class="refs">
+        <a class="refcard ref-featured" href="https://arxiv.org/abs/2606.19980" target="_blank" rel="noopener">
+          <span class="ref-head"><b>ENPIRE: Agentic Robot Policy Self-Improvement in the Real World</b><span class="ref-tag">NVIDIA GEAR · arXiv:2606.19980</span></span>
+          <span class="ref-desc">Xiao, Xie, Zhang, Lin, et&nbsp;al. — LLM agents improving robot policies through closed-loop real-world iteration.</span>
+        </a>
+        <details class="refs-more">
+          <summary><svg class="chev" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5l3 3 3-3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>All references<span class="refs-count">11</span></summary>
+          <ul class="refs">
           <li><a class="refcard" href="https://research.nvidia.com/labs/gear/aspire/" target="_blank" rel="noopener">
             <span class="ref-head"><b>ASPIRE</b><span class="ref-tag">NVIDIA GEAR</span></span>
             <span class="ref-desc">Agentic skills discovery for robotics.</span></a></li>
@@ -325,6 +345,7 @@ footer{background:var(--paper-2);border-top:1px solid var(--line);padding-block:
             <span class="ref-head"><b>InSight</b><span class="ref-tag">Project</span></span>
             <span class="ref-desc">Self-guided skill acquisition via steerable VLAs.</span></a></li>
         </ul>
+        </details>
       </div>
     </div>
   </section>
