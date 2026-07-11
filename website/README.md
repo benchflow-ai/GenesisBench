@@ -20,3 +20,18 @@ VLA training, simulation → real world → more hardware → 2.0), an environme
 (simulation frameworks: Genesis, Isaac Sim, RoboCasa, MuJoCo · real-world operation), and the
 research background. GenesisBench 1.0 — language intelligence → physical intelligence;
 2.0 — world intelligence.
+
+## Deploy — genesisbench.benchflow.ai (Vercel, same as clawsbench)
+
+The repo ships `vercel.json` (serve `website/` as-is, no build; deploys are skipped unless
+`website/` changed). One-time setup:
+
+1. **Vercel** (benchflow team) → *Add New Project* → import `benchflow-ai/GenesisBench` →
+   settings are read from `vercel.json` → Deploy. From then on every push to `main` that touches
+   `website/` auto-deploys to production, and every PR gets a preview URL.
+2. **Vercel → Project → Settings → Domains** → add `genesisbench.benchflow.ai`. Vercel shows a
+   CNAME target (e.g. `xxxx.vercel-dns-0xx.com`).
+3. **GoDaddy DNS for benchflow.ai** → add record: `CNAME · genesisbench · <target from step 2>`
+   (same pattern as the existing `clawsbench` record).
+
+No changes to the `www.benchflow.ai` repo are needed — subdomains are independent Vercel projects.
