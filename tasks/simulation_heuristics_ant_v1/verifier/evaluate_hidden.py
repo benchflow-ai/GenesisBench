@@ -120,8 +120,10 @@ def main() -> None:
     )
     if reference_score == starter_score:
         raise ValueError("starter and reference anchors must have different scores")
-    normalized_score = 100.0 * (score - starter_score) / (
-        reference_score - starter_score
+    # Round away float noise so the anchor policies normalize to exactly 0/100
+    # (score and anchor scores travel different code paths).
+    normalized_score = round(
+        100.0 * (score - starter_score) / (reference_score - starter_score), 9
     )
     payload = {
         "score": score,
