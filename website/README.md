@@ -16,7 +16,8 @@ a full humanoid. Composed from the project's own six pencil illustrations with A
 (depth-recession layout), full-bleed behind the hero like posttrain's terrain.
 
 Page content follows the repo README: an interactive six-stage pipeline (heuristic policies →
-VLA training, simulation → real world → more hardware → 2.0), an environments diagram
+VLA training, simulation → real world → more hardware → 2.0) whose first stage embeds an
+interactive improvement-loop diagram on the MuJoCo Ant (assets/ant.png), an environments diagram
 (simulation frameworks: Genesis, Isaac Sim, RoboCasa, MuJoCo · real-world operation), and the
 research background. GenesisBench 1.0 — language intelligence → physical intelligence;
 2.0 — world intelligence.
