@@ -1,0 +1,29 @@
+version = "1.0"
+
+[evaluation]
+max_steps = 1000
+failure_return = -1000.0
+
+[[evaluation.suites]]
+name = "hidden_nominal"
+weight = 0.7
+seeds = [101, 211, 307, 401]
+
+[[evaluation.suites]]
+name = "hidden_robustness"
+weight = 0.3
+seeds = [503, 601]
+
+[[evaluation.variants]]
+name = "light_low_friction"
+density_scale = 0.9
+friction_scale = 0.85
+damping_scale = 0.95
+actuator_scale = 1.0
+
+[[evaluation.variants]]
+name = "heavy_weak_actuators"
+density_scale = 1.1
+friction_scale = 1.1
+damping_scale = 1.05
+actuator_scale = 0.9

@@ -1,0 +1,12 @@
+{
+  "environment": "Gymnasium Ant-v5 with 27 observations and no contact cost",
+  "max_steps": 1000,
+  "reference_policy": {
+    "description": "Frozen higher-harmonic rhythmic policy",
+    "score": 3071.5626964052326
+  },
+  "starter_policy": {
+    "description": "Public weak CPG/PD starter",
+    "score": 2382.2277700037166
+  }
+}

@@ -1,0 +1,48 @@
+name: Task proposal
+description: Propose a new robotics policy-improvement benchmark task.
+title: "[Task]: "
+labels:
+  - task-proposal
+body:
+  - type: textarea
+    id: objective
+    attributes:
+      label: Research objective
+      description: What physical capability should a coding agent improve?
+    validations:
+      required: true
+  - type: textarea
+    id: starter
+    attributes:
+      label: Starter artifact
+      description: What runnable policy, controller, planner, or training system is provided?
+    validations:
+      required: true
+  - type: textarea
+    id: feedback
+    attributes:
+      label: Development feedback
+      description: What can the agent query while iterating?
+    validations:
+      required: true
+  - type: textarea
+    id: final
+    attributes:
+      label: Hidden final evaluation
+      description: Which unseen seeds, scenarios, dynamics, or hardware conditions prevent overfitting?
+    validations:
+      required: true
+  - type: textarea
+    id: budget
+    attributes:
+      label: Resource budget
+      description: Specify wall-clock, simulator interactions, compute, or physical trials.
+    validations:
+      required: true
+  - type: textarea
+    id: licenses
+    attributes:
+      label: Assets and licenses
+      description: List external code, models, datasets, simulators, and licenses.
+    validations:
+      required: true

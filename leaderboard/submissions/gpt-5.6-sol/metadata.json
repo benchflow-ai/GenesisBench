@@ -1,0 +1,10 @@
+{
+  "benchmark": "ant_v1",
+  "budget_minutes": 30,
+  "harness": "OpenHands SDK",
+  "model": "GPT-5.6 Sol",
+  "model_id": "gpt-5.6-sol",
+  "reasoning": "xhigh",
+  "runtime": "docker",
+  "source_run_id": "20260710T230500Z/gpt-5.6-sol"
+}

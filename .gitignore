@@ -1,0 +1,15 @@
+.DS_Store
+.env
+.env.*
+!.env.example
+.pytest_cache/
+.ruff_cache/
+.venv/
+__pycache__/
+*.pyc
+*.egg-info/
+build/
+dist/
+
+artifacts/
+leaderboard/runs/

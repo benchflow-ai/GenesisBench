@@ -1,0 +1,11 @@
+.git
+.github
+.pytest_cache
+.ruff_cache
+.venv
+artifacts
+build
+dist
+leaderboard/runs
+**/__pycache__
+**/*.pyc
