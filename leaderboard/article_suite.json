@@ -2,6 +2,471 @@
   "aggregation": "arithmetic_mean_of_normalized_task_scores",
   "benchmark": "learning_beyond_gradients_article_suite",
   "generated_at": "2026-07-13T15:34:22.260689+00:00",
+  "leaderboard_count": 10,
+  "leaderboards": [
+    {
+      "id": "simulation_heuristics_ant_v1",
+      "label": "Ant",
+      "metric": "normalized_score",
+      "rows": [
+        {
+          "harness": "opencode",
+          "model": "GPT-5.6 Sol",
+          "model_id": "gpt-5.6-sol",
+          "normalized_score": 39.203600385,
+          "provider_reasoning_effort": "max",
+          "rank": 1,
+          "source_run": "leaderboard/runs/article_suite/20260713T093815Z/gpt-5.6-sol",
+          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_ant_v1/score.json"
+        },
+        {
+          "harness": "opencode",
+          "model": "Claude Opus 4.8",
+          "model_id": "claude-opus-4.8",
+          "normalized_score": 14.050353128,
+          "provider_reasoning_effort": "max",
+          "rank": 2,
+          "source_run": "leaderboard/runs/article_suite/20260713T142919Z/claude-opus-4.8",
+          "submission_detail": "leaderboard/article_suite_submissions/claude-opus-4.8/simulation_heuristics_ant_v1/score.json"
+        },
+        {
+          "harness": "opencode",
+          "model": "GPT-5.5",
+          "model_id": "gpt-5.5",
+          "normalized_score": -16.891796576,
+          "provider_reasoning_effort": "xhigh",
+          "rank": 3,
+          "source_run": "leaderboard/runs/article_suite/20260713T095807Z/gpt-5.5",
+          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_ant_v1/score.json"
+        },
+        {
+          "harness": "opencode",
+          "model": "GPT-5.4 Mini",
+          "model_id": "gpt-5.4-mini",
+          "normalized_score": -31.35954984,
+          "provider_reasoning_effort": "xhigh",
+          "rank": 4,
+          "source_run": "leaderboard/runs/article_suite/20260713T104315Z/gpt-5.4-mini",
+          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.4-mini/simulation_heuristics_ant_v1/score.json"
+        }
+      ]
+    },
+    {
+      "id": "simulation_heuristics_pong_ram_v1",
+      "label": "Pong",
+      "metric": "normalized_score",
+      "rows": [
+        {
+          "harness": "opencode",
+          "model": "Claude Opus 4.8",
+          "model_id": "claude-opus-4.8",
+          "normalized_score": 100.0,
+          "provider_reasoning_effort": "max",
+          "rank": 1,
+          "source_run": "leaderboard/runs/article_suite/20260713T090958Z/claude-opus-4.8",
+          "submission_detail": "leaderboard/article_suite_submissions/claude-opus-4.8/simulation_heuristics_pong_ram_v1/score.json"
+        },
+        {
+          "harness": "opencode",
+          "model": "GPT-5.6 Sol",
+          "model_id": "gpt-5.6-sol",
+          "normalized_score": 52.916666667,
+          "provider_reasoning_effort": "max",
+          "rank": 2,
+          "source_run": "leaderboard/runs/article_suite/20260713T080935Z/gpt-5.6-sol",
+          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_pong_ram_v1/score.json"
+        },
+        {
+          "harness": "opencode",
+          "model": "GPT-5.5",
+          "model_id": "gpt-5.5",
+          "normalized_score": 45.833333333,
+          "provider_reasoning_effort": "xhigh",
+          "rank": 3,
+          "source_run": "leaderboard/runs/article_suite/20260713T084111Z/gpt-5.5",
+          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_pong_ram_v1/score.json"
+        },
+        {
+          "harness": "opencode",
+          "model": "GPT-5.4 Mini",
+          "model_id": "gpt-5.4-mini",
+          "normalized_score": -75.0,
+          "provider_reasoning_effort": "xhigh",
+          "rank": 4,
+          "source_run": "leaderboard/runs/article_suite/20260713T091939Z/gpt-5.4-mini",
+          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.4-mini/simulation_heuristics_pong_ram_v1/score.json"
+        }
+      ]
+    },
+    {
+      "id": "simulation_heuristics_breakout_ram_v1",
+      "label": "Breakout RAM",
+      "metric": "normalized_score",
+      "rows": [
+        {
+          "harness": "opencode",
+          "model": "GPT-5.6 Sol",
+          "model_id": "gpt-5.6-sol",
+          "normalized_score": 100.0,
+          "provider_reasoning_effort": "max",
+          "rank": 1,
+          "source_run": "leaderboard/runs/article_suite/20260713T080935Z/gpt-5.6-sol",
+          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_breakout_ram_v1/score.json"
+        },
+        {
+          "harness": "opencode",
+          "model": "GPT-5.5",
+          "model_id": "gpt-5.5",
+          "normalized_score": 95.597484277,
+          "provider_reasoning_effort": "xhigh",
+          "rank": 2,
+          "source_run": "leaderboard/runs/article_suite/20260713T084111Z/gpt-5.5",
+          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_breakout_ram_v1/score.json"
+        },
+        {
+          "harness": "opencode",
+          "model": "GPT-5.4 Mini",
+          "model_id": "gpt-5.4-mini",
+          "normalized_score": 2.51572327,
+          "provider_reasoning_effort": "xhigh",
+          "rank": 3,
+          "source_run": "leaderboard/runs/article_suite/20260713T091939Z/gpt-5.4-mini",
+          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.4-mini/simulation_heuristics_breakout_ram_v1/score.json"
+        },
+        {
+          "harness": "opencode",
+          "model": "Claude Opus 4.8",
+          "model_id": "claude-opus-4.8",
+          "normalized_score": 0.0,
+          "provider_reasoning_effort": "max",
+          "rank": 4,
+          "source_run": "leaderboard/runs/article_suite/20260713T090958Z/claude-opus-4.8",
+          "submission_detail": "leaderboard/article_suite_submissions/claude-opus-4.8/simulation_heuristics_breakout_ram_v1/score.json"
+        }
+      ]
+    },
+    {
+      "id": "simulation_heuristics_breakout_rgb_v1",
+      "label": "Breakout RGB",
+      "metric": "normalized_score",
+      "rows": [
+        {
+          "harness": "opencode",
+          "model": "GPT-5.5",
+          "model_id": "gpt-5.5",
+          "normalized_score": 70.758122744,
+          "provider_reasoning_effort": "xhigh",
+          "rank": 1,
+          "source_run": "leaderboard/runs/article_suite/20260713T084111Z/gpt-5.5",
+          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_breakout_rgb_v1/score.json"
+        },
+        {
+          "harness": "opencode",
+          "model": "GPT-5.6 Sol",
+          "model_id": "gpt-5.6-sol",
+          "normalized_score": 70.758122744,
+          "provider_reasoning_effort": "max",
+          "rank": 1,
+          "source_run": "leaderboard/runs/article_suite/20260713T080935Z/gpt-5.6-sol",
+          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_breakout_rgb_v1/score.json"
+        },
+        {
+          "harness": "opencode",
+          "model": "GPT-5.4 Mini",
+          "model_id": "gpt-5.4-mini",
+          "normalized_score": 15.523465704,
+          "provider_reasoning_effort": "xhigh",
+          "rank": 3,
+          "source_run": "leaderboard/runs/article_suite/20260713T091939Z/gpt-5.4-mini",
+          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.4-mini/simulation_heuristics_breakout_rgb_v1/score.json"
+        },
+        {
+          "harness": "opencode",
+          "model": "Claude Opus 4.8",
+          "model_id": "claude-opus-4.8",
+          "normalized_score": 0.0,
+          "provider_reasoning_effort": "max",
+          "rank": 4,
+          "source_run": "leaderboard/runs/article_suite/20260713T090958Z/claude-opus-4.8",
+          "submission_detail": "leaderboard/article_suite_submissions/claude-opus-4.8/simulation_heuristics_breakout_rgb_v1/score.json"
+        }
+      ]
+    },
+    {
+      "id": "simulation_heuristics_halfcheetah_v1",
+      "label": "HalfCheetah",
+      "metric": "normalized_score",
+      "rows": [
+        {
+          "harness": "opencode",
+          "model": "Claude Opus 4.8",
+          "model_id": "claude-opus-4.8",
+          "normalized_score": 26.986707946,
+          "provider_reasoning_effort": "max",
+          "rank": 1,
+          "source_run": "leaderboard/runs/article_suite/20260713T111714Z/claude-opus-4.8",
+          "submission_detail": "leaderboard/article_suite_submissions/claude-opus-4.8/simulation_heuristics_halfcheetah_v1/score.json"
+        },
+        {
+          "harness": "opencode",
+          "model": "GPT-5.6 Sol",
+          "model_id": "gpt-5.6-sol",
+          "normalized_score": 15.873072595,
+          "provider_reasoning_effort": "max",
+          "rank": 2,
+          "source_run": "leaderboard/runs/article_suite/20260713T084340Z/gpt-5.6-sol",
+          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_halfcheetah_v1/score.json"
+        },
+        {
+          "harness": "opencode",
+          "model": "GPT-5.5",
+          "model_id": "gpt-5.5",
+          "normalized_score": 2.73755349,
+          "provider_reasoning_effort": "xhigh",
+          "rank": 3,
+          "source_run": "leaderboard/runs/article_suite/20260713T103810Z/gpt-5.5",
+          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_halfcheetah_v1/score.json"
+        },
+        {
+          "harness": "opencode",
+          "model": "GPT-5.4 Mini",
+          "model_id": "gpt-5.4-mini",
+          "normalized_score": -8.167582379,
+          "provider_reasoning_effort": "xhigh",
+          "rank": 4,
+          "source_run": "leaderboard/runs/article_suite/20260713T093314Z/gpt-5.4-mini",
+          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.4-mini/simulation_heuristics_halfcheetah_v1/score.json"
+        }
+      ]
+    },
+    {
+      "id": "simulation_heuristics_vizdoom_d1_v1",
+      "label": "VizDoom D1",
+      "metric": "normalized_score",
+      "rows": [
+        {
+          "harness": "opencode",
+          "model": "Claude Opus 4.8",
+          "model_id": "claude-opus-4.8",
+          "normalized_score": 95.055812742,
+          "provider_reasoning_effort": "max",
+          "rank": 1,
+          "source_run": "leaderboard/runs/article_suite/20260713T110612Z/claude-opus-4.8",
+          "submission_detail": "leaderboard/article_suite_submissions/claude-opus-4.8/simulation_heuristics_vizdoom_d1_v1/score.json"
+        },
+        {
+          "harness": "opencode",
+          "model": "GPT-5.5",
+          "model_id": "gpt-5.5",
+          "normalized_score": 85.199359782,
+          "provider_reasoning_effort": "xhigh",
+          "rank": 2,
+          "source_run": "leaderboard/runs/article_suite/20260713T102218Z/gpt-5.5",
+          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_vizdoom_d1_v1/score.json"
+        },
+        {
+          "harness": "opencode",
+          "model": "GPT-5.6 Sol",
+          "model_id": "gpt-5.6-sol",
+          "normalized_score": 49.409889366,
+          "provider_reasoning_effort": "max",
+          "rank": 3,
+          "source_run": "leaderboard/runs/article_suite/20260713T101636Z/gpt-5.6-sol",
+          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_vizdoom_d1_v1/score.json"
+        },
+        {
+          "harness": "opencode",
+          "model": "GPT-5.4 Mini",
+          "model_id": "gpt-5.4-mini",
+          "normalized_score": -161.116433137,
+          "provider_reasoning_effort": "xhigh",
+          "rank": 4,
+          "source_run": "leaderboard/runs/article_suite/20260713T102707Z/gpt-5.4-mini",
+          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.4-mini/simulation_heuristics_vizdoom_d1_v1/score.json"
+        }
+      ]
+    },
+    {
+      "id": "simulation_heuristics_vizdoom_d3_v1",
+      "label": "VizDoom D3",
+      "metric": "normalized_score",
+      "rows": [
+        {
+          "harness": "opencode",
+          "model": "Claude Opus 4.8",
+          "model_id": "claude-opus-4.8",
+          "normalized_score": 122.259358289,
+          "provider_reasoning_effort": "max",
+          "rank": 1,
+          "source_run": "leaderboard/runs/article_suite/20260713T110612Z/claude-opus-4.8",
+          "submission_detail": "leaderboard/article_suite_submissions/claude-opus-4.8/simulation_heuristics_vizdoom_d3_v1/score.json"
+        },
+        {
+          "harness": "opencode",
+          "model": "GPT-5.6 Sol",
+          "model_id": "gpt-5.6-sol",
+          "normalized_score": 26.236631016,
+          "provider_reasoning_effort": "max",
+          "rank": 2,
+          "source_run": "leaderboard/runs/article_suite/20260713T083940Z/gpt-5.6-sol",
+          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_vizdoom_d3_v1/score.json"
+        },
+        {
+          "harness": "opencode",
+          "model": "GPT-5.5",
+          "model_id": "gpt-5.5",
+          "normalized_score": 5.481283422,
+          "provider_reasoning_effort": "xhigh",
+          "rank": 3,
+          "source_run": "leaderboard/runs/article_suite/20260713T084111Z/gpt-5.5",
+          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_vizdoom_d3_v1/score.json"
+        },
+        {
+          "harness": "opencode",
+          "model": "GPT-5.4 Mini",
+          "model_id": "gpt-5.4-mini",
+          "normalized_score": -9.859625668,
+          "provider_reasoning_effort": "xhigh",
+          "rank": 4,
+          "source_run": "leaderboard/runs/article_suite/20260713T104034Z/gpt-5.4-mini",
+          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.4-mini/simulation_heuristics_vizdoom_d3_v1/score.json"
+        }
+      ]
+    },
+    {
+      "id": "simulation_heuristics_atari57_v1",
+      "label": "Atari57",
+      "metric": "normalized_score",
+      "rows": [
+        {
+          "harness": "opencode",
+          "model": "Claude Opus 4.8",
+          "model_id": "claude-opus-4.8",
+          "normalized_score": 0.0,
+          "provider_reasoning_effort": "max",
+          "rank": 1,
+          "source_run": "leaderboard/runs/article_suite/20260713T123222Z/claude-opus-4.8",
+          "submission_detail": "leaderboard/article_suite_submissions/claude-opus-4.8/simulation_heuristics_atari57_v1/score.json"
+        },
+        {
+          "harness": "opencode",
+          "model": "GPT-5.4 Mini",
+          "model_id": "gpt-5.4-mini",
+          "normalized_score": 0.0,
+          "provider_reasoning_effort": "xhigh",
+          "rank": 1,
+          "source_run": "leaderboard/runs/article_suite/20260713T111944Z/gpt-5.4-mini",
+          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.4-mini/simulation_heuristics_atari57_v1/score.json"
+        },
+        {
+          "harness": "opencode",
+          "model": "GPT-5.5",
+          "model_id": "gpt-5.5",
+          "normalized_score": 0.0,
+          "provider_reasoning_effort": "xhigh",
+          "rank": 1,
+          "source_run": "leaderboard/runs/article_suite/20260713T111604Z/gpt-5.5",
+          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_atari57_v1/score.json"
+        },
+        {
+          "harness": "opencode",
+          "model": "GPT-5.6 Sol",
+          "model_id": "gpt-5.6-sol",
+          "normalized_score": 0.0,
+          "provider_reasoning_effort": "max",
+          "rank": 1,
+          "source_run": "leaderboard/runs/article_suite/20260713T111156Z/gpt-5.6-sol",
+          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_atari57_v1/score.json"
+        }
+      ]
+    },
+    {
+      "id": "simulation_heuristics_montezuma_v1",
+      "label": "Montezuma's Revenge",
+      "metric": "normalized_score",
+      "rows": [
+        {
+          "harness": "opencode",
+          "model": "GPT-5.5",
+          "model_id": "gpt-5.5",
+          "normalized_score": 100.0,
+          "provider_reasoning_effort": "xhigh",
+          "rank": 1,
+          "source_run": "leaderboard/runs/article_suite/20260713T084111Z/gpt-5.5",
+          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_montezuma_v1/score.json"
+        },
+        {
+          "harness": "opencode",
+          "model": "Claude Opus 4.8",
+          "model_id": "claude-opus-4.8",
+          "normalized_score": 0.0,
+          "provider_reasoning_effort": "max",
+          "rank": 2,
+          "source_run": "leaderboard/runs/article_suite/20260713T110612Z/claude-opus-4.8",
+          "submission_detail": "leaderboard/article_suite_submissions/claude-opus-4.8/simulation_heuristics_montezuma_v1/score.json"
+        },
+        {
+          "harness": "opencode",
+          "model": "GPT-5.4 Mini",
+          "model_id": "gpt-5.4-mini",
+          "normalized_score": 0.0,
+          "provider_reasoning_effort": "xhigh",
+          "rank": 2,
+          "source_run": "leaderboard/runs/article_suite/20260713T091939Z/gpt-5.4-mini",
+          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.4-mini/simulation_heuristics_montezuma_v1/score.json"
+        },
+        {
+          "harness": "opencode",
+          "model": "GPT-5.6 Sol",
+          "model_id": "gpt-5.6-sol",
+          "normalized_score": 0.0,
+          "provider_reasoning_effort": "max",
+          "rank": 2,
+          "source_run": "leaderboard/runs/article_suite/20260713T080935Z/gpt-5.6-sol",
+          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_montezuma_v1/score.json"
+        }
+      ]
+    },
+    {
+      "id": "average",
+      "label": "Nine-task average",
+      "metric": "average_normalized_score",
+      "rows": [
+        {
+          "average_normalized_score": 43.19059338577778,
+          "harness": "opencode",
+          "model": "GPT-5.5",
+          "model_id": "gpt-5.5",
+          "provider_reasoning_effort": "xhigh",
+          "rank": 1
+        },
+        {
+          "average_normalized_score": 39.81691467833333,
+          "harness": "opencode",
+          "model": "Claude Opus 4.8",
+          "model_id": "claude-opus-4.8",
+          "provider_reasoning_effort": "max",
+          "rank": 2
+        },
+        {
+          "average_normalized_score": 39.37755364144445,
+          "harness": "opencode",
+          "model": "GPT-5.6 Sol",
+          "model_id": "gpt-5.6-sol",
+          "provider_reasoning_effort": "max",
+          "rank": 3
+        },
+        {
+          "average_normalized_score": -29.71822245,
+          "harness": "opencode",
+          "model": "GPT-5.4 Mini",
+          "model_id": "gpt-5.4-mini",
+          "provider_reasoning_effort": "xhigh",
+          "rank": 4
+        }
+      ]
+    }
+  ],
   "rows": [
     {
       "average_normalized_score": 43.19059338577778,
@@ -217,7 +682,17 @@
   "task_count": 9,
   "task_digest_compatibility": {
     "simulation_heuristics_ant_v1": {
-      "sha256:bbb533da0cb86459f4d49dee667e6c73ac54c0188bc40e54e911d50ef3c3bc38": "Score-equivalent to the current task. The only later change adds a fail-closed internal timeout for candidates whose verifier would otherwise exceed BenchFlow's deadline."
+      "sha256:9da0e00147cf66804e6c2fc17869606bea8f260850c5447989a8880eef940d45": "Score-equivalent to the current task. The later change adds only a CI smoke config and documentation; the publication scoring config is unchanged.",
+      "sha256:bbb533da0cb86459f4d49dee667e6c73ac54c0188bc40e54e911d50ef3c3bc38": "Score-equivalent to the current task. Later changes add a fail-closed verifier timeout plus a CI-only smoke config and documentation; the publication scoring config is unchanged."
+    },
+    "simulation_heuristics_halfcheetah_v1": {
+      "sha256:80c439f53e4ab964f9d7443cd7fb8f25cf6645a0bc288b0496b871c1800ebe78": "Score-equivalent to the current task. The later loader fix registers submitted modules before execution so postponed dataclass annotations import correctly; scoring is unchanged."
+    },
+    "simulation_heuristics_vizdoom_d1_v1": {
+      "sha256:b3431b238bec4e66af6189d30bcd15d5cd227144dfe8bf0dd1011aa5416c1436": "Score-equivalent to the current task. The later loader fix registers submitted modules before execution so postponed dataclass annotations import correctly; scoring is unchanged."
+    },
+    "simulation_heuristics_vizdoom_d3_v1": {
+      "sha256:fcc6ed05673b7981aa17d60ca4e0d355fbcb57a6cbca293c0fa201ab97cdd081": "Score-equivalent to the current task. The later loader fix registers submitted modules before execution so postponed dataclass annotations import correctly; scoring is unchanged."
     }
   },
   "tasks": [

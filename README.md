@@ -101,7 +101,7 @@ uv run python scripts/run_article_suite.py \
   --model gpt-5.6-sol
 ```
 
-Run all four canonical models and rebuild the aggregate leaderboard:
+Run all four canonical models and rebuild the 10 leaderboard artifacts:
 
 ```bash
 uv run python scripts/run_article_suite.py \
@@ -124,31 +124,14 @@ The first OpenCode sweep across all nine article-derived tasks:
 | 3 | GPT-5.6 Sol | 39.38 |
 | 4 | GPT-5.4 Mini | -29.72 |
 
-See [`leaderboard/ARTICLE_SUITE.md`](leaderboard/ARTICLE_SUITE.md) for every
-per-task score and `leaderboard/article_suite.json` for the machine-readable
-leaderboard.
+See [`leaderboard/ARTICLE_SUITE.md`](leaderboard/ARTICLE_SUITE.md) for the nine
+task-specific leaderboards followed by the final average leaderboard.
+`leaderboard/article_suite.json` contains the same 10-board structure in
+machine-readable form.
 
 Scores are unbounded normalized values: `0` matches the public starter and
 `100` matches the trusted article-level reference. Negative scores are genuine
 regressions; scores above `100` exceed the reference.
-
-## Legacy Ant-Only Leaderboard
-
-![GenesisBench Simulation Heuristics Ant v1 leaderboard](leaderboard/simulation_heuristics_ant_v1_leaderboard.png)
-
-The table below is the historical Ant-only OpenHands sweep. It remains for
-provenance; new GenesisBench leaderboard runs use OpenCode and the nine-task
-article suite.
-
-| Rank | Model | Hidden-suite score |
-| ---: | --- | ---: |
-| 1 | GPT-5.6 Sol | 3417.86 |
-| 2 | GPT-5.5 | 2382.23 |
-| 3 | GPT-5.4 Mini | 2369.61 |
-| 4 | Claude Opus 4.8 | 2235.71 |
-
-These are single-run research results, not multi-trial estimates of model
-quality. See `leaderboard/REPORT.md` for setup details and limitations.
 
 ## Contribute a Task
 

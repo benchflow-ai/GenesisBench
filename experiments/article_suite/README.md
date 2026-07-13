@@ -77,12 +77,19 @@ is disabled for this suite because BenchFlow 0.6.5's chat-completions gateway
 cannot faithfully transform GPT-5.6 Sol tool calls; the run metadata records
 this limitation explicitly.
 
-## Build the aggregate leaderboard
+## Build all 10 leaderboards
 
 ```bash
 uv run python scripts/build_article_suite_leaderboard.py
 ```
 
-The aggregate score is the arithmetic mean of the nine normalized task scores.
+The builder writes:
+
+- `leaderboard/ARTICLE_SUITE.md`: nine task-specific leaderboards followed by
+  the final average leaderboard;
+- `leaderboard/article_suite.json`: the same 10 leaderboards plus the
+  model-centric score records used for reproducibility.
+
+The final aggregate is the arithmetic mean of the nine normalized task scores.
 Each task maps its starter policy to `0` and its trusted article-level reference
-to `100`.
+to `100`. The top-level repository README shows only this final aggregate.

@@ -1,7 +1,7 @@
 {
   "benchmark": "learning_beyond_gradients_article_suite",
-  "current_task_digest": "sha256:80c439f53e4ab964f9d7443cd7fb8f25cf6645a0bc288b0496b871c1800ebe78",
-  "digest_compatibility_note": null,
+  "current_task_digest": "sha256:c7e3b5e466431f4908c1e96cc7de80191f7a7c5ab5a63b3eea4d708f7f447fbf",
+  "digest_compatibility_note": "Score-equivalent to the current task. The later loader fix registers submitted modules before execution so postponed dataclass annotations import correctly; scoring is unchanged.",
   "finished_at": 1783941357.9386308,
   "harness": "opencode",
   "model": {

@@ -291,23 +291,22 @@ def test_article_score_packaging_sanitizes_absolute_artifact_paths() -> None:
     assert sanitized["episodes"][0]["policy_path"] == "submitted_artifact"
 
 
-def test_ant_timeout_only_digest_change_is_score_compatible() -> None:
-    old_digest = next(
-        iter(
-            leaderboard.TASK_DIGEST_COMPATIBILITY[
-                "simulation_heuristics_ant_v1"
-            ]
-        )
-    )
-
-    note = leaderboard._digest_compatibility_note(
+def test_non_scoring_digest_changes_are_explicitly_compatible() -> None:
+    for task in (
         "simulation_heuristics_ant_v1",
-        old_digest,
-        "sha256:new",
-    )
+        "simulation_heuristics_halfcheetah_v1",
+        "simulation_heuristics_vizdoom_d1_v1",
+        "simulation_heuristics_vizdoom_d3_v1",
+    ):
+        for old_digest in leaderboard.TASK_DIGEST_COMPATIBILITY[task]:
+            note = leaderboard._digest_compatibility_note(
+                task,
+                old_digest,
+                "sha256:new",
+            )
 
-    assert note is not None
-    assert "fail-closed internal timeout" in note
+            assert note is not None
+            assert "Score-equivalent" in note
 
 
 def test_scored_agent_timeout_is_a_valid_leaderboard_result(
@@ -419,3 +418,58 @@ def test_latest_task_results_merges_partial_runs(tmp_path: Path) -> None:
     assert selected[model_id][leaderboard.TASKS[0]][1]["reward"] == 0.1
     assert selected[model_id][leaderboard.TASKS[1]][1]["reward"] == 0.2
     assert selected[model_id][leaderboard.TASKS[1]][3] == "sha256:digest-2"
+
+
+def test_offline_report_builds_nine_task_boards_then_average() -> None:
+    rows = []
+    for model_id, model, average in (
+        ("model-a", "Model A", 5.0),
+        ("model-b", "Model B", 10.0),
+    ):
+        task_scores = {task: 0.0 for task in leaderboard.TASKS}
+        rows.append(
+            {
+                "model_id": model_id,
+                "model": model,
+                "harness": "opencode",
+                "provider_reasoning_effort": "max",
+                "average_normalized_score": average,
+                "task_scores": task_scores,
+                "submission_details": {
+                    task: f"leaderboard/submissions/{model_id}/{task}.json"
+                    for task in leaderboard.TASKS
+                },
+                "source_runs": {
+                    task: f"leaderboard/runs/{model_id}/{task}"
+                    for task in leaderboard.TASKS
+                },
+            }
+        )
+    rows[0]["task_scores"][leaderboard.TASKS[0]] = 10.0
+    rows[1]["task_scores"][leaderboard.TASKS[0]] = 20.0
+    rows[0]["task_scores"][leaderboard.TASKS[1]] = 30.0
+    rows[1]["task_scores"][leaderboard.TASKS[1]] = 5.0
+
+    boards = leaderboard._build_leaderboards(rows)
+    markdown = leaderboard._render_article_suite_markdown(boards)
+
+    assert len(boards) == 10
+    assert [board["id"] for board in boards[:-1]] == list(leaderboard.TASKS)
+    assert boards[-1]["id"] == leaderboard.AVERAGE_LEADERBOARD_ID
+    assert [row["model_id"] for row in boards[0]["rows"]] == [
+        "model-b",
+        "model-a",
+    ]
+    assert [row["model_id"] for row in boards[1]["rows"]] == [
+        "model-a",
+        "model-b",
+    ]
+    assert [row["rank"] for row in boards[2]["rows"]] == [1, 1]
+    assert [row["model_id"] for row in boards[-1]["rows"]] == [
+        "model-b",
+        "model-a",
+    ]
+    assert markdown.count("| Rank | Model | Harness | Effort |") == 10
+    assert markdown.rstrip().split("## ")[-1].startswith(
+        "10. Nine-task average"
+    )
