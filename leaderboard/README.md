@@ -2,15 +2,10 @@
 
 ## Learning Beyond Gradients article suite
 
-| Rank | Model | Nine-task average |
-| ---: | --- | ---: |
-| 1 | GPT-5.5 | 43.19 |
-| 2 | Claude Opus 4.8 | 39.82 |
-| 3 | GPT-5.6 Sol | 39.38 |
-| 4 | GPT-5.4 Mini | -29.72 |
+![GenesisBench final normalized leaderboard](article_suite_final_leaderboard.png)
 
 See [`ARTICLE_SUITE.md`](ARTICLE_SUITE.md) for 10 independent leaderboards:
-nine task-specific rankings followed by the final average ranking.
+nine task-specific rankings followed by the final IQM ranking.
 
 ## Legacy Simulation Heuristics Ant v1
 

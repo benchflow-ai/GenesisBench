@@ -49,12 +49,16 @@ zero and are not presented as article reproductions.
 All new leaderboard runs use the BenchFlow `opencode` ACP harness. The canonical
 matrix is:
 
-| Model | Provider | Effort |
-| --- | --- | --- |
-| GPT-5.6 Sol | Azure | `max` |
-| GPT-5.5 | Azure | `xhigh` |
-| Claude Opus 4.8 | Claude OAuth through pinned OpenCode plugin | `max` |
-| GPT-5.4 Mini | Azure | `xhigh` |
+| Model | Exact route | Harness | Provider reasoning setting |
+| --- | --- | --- | --- |
+| GPT-5.6 Sol | Azure `azure/gpt-5.6-sol` | OpenCode | `max` |
+| GPT-5.5 | Azure `azure/gpt-5.5` | OpenCode | `xhigh` |
+| Claude Opus 4.8 | Claude OAuth `anthropic/claude-opus-4-8` through the pinned OpenCode plugin | OpenCode | `max` |
+| GPT-5.4 Mini | Azure `azure/gpt-5.4-mini` | OpenCode | `xhigh` |
+
+`max` and `xhigh` are provider-specific categorical labels. They indicate the
+configured reasoning setting for that route; they are not interchangeable
+units and should not be read as a shared numeric inference-compute scale.
 
 OpenCode talks directly to the provider because BenchFlow 0.6.5's
 chat-completions gateway cannot faithfully transform Azure GPT-5.6 Sol tool
@@ -67,18 +71,26 @@ The offline article-suite report contains 10 independent leaderboards in a
 fixed order:
 
 1. one leaderboard for each of the nine article-derived tasks;
-2. the final averaged leaderboard.
+2. the final cross-task leaderboard.
 
-The final score is the unweighted arithmetic mean:
+Each task first receives an unbounded anchor-normalized score:
 
 ```text
-average = sum(nine normalized task scores) / 9
+task score = 100 * (candidate - starter) / (reference - starter)
 ```
 
-The repository README intentionally shows only the final averaged leaderboard.
-Detailed task rankings and score-artifact links live in
-`leaderboard/ARTICLE_SUITE.md`; the matching machine-readable structure lives
-in `leaderboard/article_suite.json`.
+The primary final score is the 25% trimmed interquartile mean (IQM). With nine
+tasks, the two lowest and two highest normalized scores are removed and the
+middle five are averaged. Arithmetic mean and median remain secondary
+diagnostics.
+
+The repository README intentionally shows only the final leaderboard image.
+The nine task panels use each environment's native raw score. The final chart
+uses a positive plot index equal to `IQM + 100`, while raw IQM remains the
+official ranking metric. Both images live in `leaderboard/ARTICLE_SUITE.md`;
+the matching machine-readable structure lives in
+`leaderboard/article_suite.json`. See `docs/article-suite-scoring.md` for the
+research rationale and statistical limitations.
 
 The runner and resumable leaderboard builder live in:
 

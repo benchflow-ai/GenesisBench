@@ -225,7 +225,72 @@ section.block + section.block{border-top:1px solid var(--line)}
   .env-root{margin-bottom:1rem}
   .env-grid{grid-template-columns:1fr;margin-top:0;gap:2.4rem}
   .env-mid{position:static;transform:none;justify-self:center;order:2;margin:-1.6rem 0}
-  .env-card:first-child{order:1}.env-card:last-child{order:3}
+.env-card:first-child{order:1}.env-card:last-child{order:3}
+}
+
+/* leaderboard results */
+.results-stack{display:grid;gap:clamp(1.5rem,3vw,2.4rem);margin-top:clamp(1.8rem,3vw,2.5rem)}
+.result-panel{background:var(--card);border:1px solid var(--line);border-radius:8px;
+  padding:clamp(1rem,2.2vw,1.5rem);overflow:hidden}
+.result-panel>h3{font-size:clamp(1.15rem,2vw,1.45rem);margin-bottom:.35rem}
+.result-note{font-size:.875rem;line-height:1.5;color:var(--ink-soft);margin-bottom:1.2rem}
+.inference-panel{margin-top:1.4rem;padding:1rem 1.1rem;border:1px solid var(--line);
+  border-radius:8px;background:var(--card)}
+.inference-head{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:.4rem 1rem}
+.inference-head h3{font-size:1rem;font-weight:600}
+.inference-head p{font-size:.75rem;color:var(--ink-soft)}
+.inference-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(11rem,1fr));gap:.7rem;margin-top:.8rem}
+.inference-card{padding:.72rem .8rem;border:1px solid var(--line);border-radius:5px;background:var(--paper)}
+.inference-model{display:block;font-size:.82rem;font-weight:600;color:var(--forest-ink)}
+.inference-route{display:block;margin-top:.12rem;font-size:.64rem;line-height:1.35;color:var(--ink-soft);
+  overflow-wrap:anywhere}
+.inference-effort{display:inline-flex;margin-top:.45rem;padding:.12rem .42rem;border:1px solid var(--line-strong);
+  border-radius:999px;font-size:.65rem;font-weight:600;color:var(--forest-ink)}
+.leaderboard-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(17.5rem,1fr));gap:1rem}
+.chart-card{min-width:0;border:1px solid var(--line);border-radius:6px;padding:.9rem;
+  background:var(--paper);overflow:hidden}
+.chart-card h4{font-size:.9875rem;font-weight:600;letter-spacing:-.01em}
+.chart-metric{display:block;margin-top:.12rem;font-size:.7rem;color:var(--ink-soft);line-height:1.35}
+.chart-body{display:grid;grid-template-columns:5.2rem minmax(0,1fr) 3.7rem;
+  gap:.35rem;align-items:stretch;min-width:0;margin-top:.8rem}
+.chart-labels,.chart-values,.chart-bars{display:grid;grid-template-rows:repeat(4,16px);gap:.48rem}
+.chart-model{font-size:.69rem;line-height:16px;color:var(--ink);overflow-wrap:anywhere}
+.chart-value{font-size:.72rem;line-height:16px;font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right}
+.chart-plot{position:relative;min-width:0;background:
+  repeating-linear-gradient(90deg,transparent 0,transparent calc(25% - 1px),var(--line) 25%)}
+.chart-zero,.chart-anchor{position:absolute;top:0;bottom:0;width:1px;pointer-events:none}
+.chart-zero{background:var(--forest-ink);opacity:.55}
+.chart-anchor{border-left:1px dashed var(--gold)}
+.chart-anchor.is-starter{border-left-style:dotted}
+.chart-bars{position:relative;z-index:1}
+.chart-bar-row{position:relative;height:16px}
+.chart-bar{position:absolute;top:2px;height:12px;min-width:2px;border-radius:1px;background:#555}
+.model-gpt-5-5{background:#111}.model-gpt-5-6-sol{background:#4b4b4b}
+.model-claude-opus-4-8{background:#858585}.model-gpt-5-4-mini{background:#b7b7b7}
+.chart-anchors{display:flex;justify-content:space-between;gap:.6rem;margin-top:.7rem;
+  font-size:.64rem;line-height:1.25;color:var(--ink-soft);font-variant-numeric:tabular-nums}
+.final-board{display:grid;gap:.75rem;margin-top:1rem}
+.final-row{display:grid;grid-template-columns:minmax(8.8rem,1fr) minmax(12rem,3fr) minmax(8rem,auto);
+  gap:.8rem;align-items:center}
+.final-model{font-size:.9rem;font-weight:500}
+.final-plot{position:relative;height:30px;background:
+  repeating-linear-gradient(90deg,transparent 0,transparent calc(20% - 1px),var(--line) 20%)}
+.final-plot .chart-anchor{top:-4px;bottom:-4px}
+.final-bar{position:absolute;left:0;top:4px;height:22px;border-radius:1px;background:#555}
+.final-value{font-size:.88rem;font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right}
+.final-value small{display:block;font-size:.68rem;font-weight:400;color:var(--ink-soft)}
+.chart-error{padding:1rem;border:1px dashed var(--line-strong);border-radius:6px;color:var(--ink-soft)}
+.result-actions{display:flex;flex-wrap:wrap;gap:.7rem 1.2rem;margin-top:1.2rem;font-size:.9rem}
+.result-actions a{color:var(--forest);text-decoration:underline;text-underline-offset:3px;
+  text-decoration-color:color-mix(in srgb,var(--forest) 35%,transparent)}
+.result-actions a:hover{text-decoration-color:var(--forest)}
+@media(max-width:680px){
+  .leaderboard-grid{grid-template-columns:1fr}
+  .chart-body{grid-template-columns:5.2rem minmax(0,1fr) 3.7rem}
+  .final-row{grid-template-columns:1fr}
+  .final-plot{height:26px}.final-bar{height:18px}
+  .final-value{text-align:left;display:flex;align-items:baseline;gap:.6rem}
+  .final-value small{display:inline}
 }
 
 /* research list */
@@ -275,6 +340,7 @@ footer{background:var(--paper-2);border-top:1px solid var(--line);padding-block:
     <nav class="primary" aria-label="Primary">
       <a href="#idea">How it works</a>
       <a href="#frameworks">Environments</a>
+      <a href="#results">Results</a>
       <a href="#research">Research</a>
     </nav>
     <div class="hicons">
@@ -405,6 +471,46 @@ footer{background:var(--paper-2);border-top:1px solid var(--line);padding-block:
               <div class="env-chips"><span class="env-ghost">real robot hardware</span></div>
             </div>
           </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ RESULTS ============ -->
+  <section class="block" id="results">
+    <div class="wrap sec">
+      <h2 class="sec-label">Results</h2>
+      <div class="sec-body" style="max-width:none">
+        <p class="lead" style="max-width:52rem">Four coding models, nine article-derived tasks, one robust cross-task score.</p>
+        <p class="prose" style="max-width:52rem">The task panels show each environment's native raw score. Cross-task ranking first normalizes each task so the public starter scores 0 and the trusted article-level reference scores 100, then uses the interquartile mean: remove the lowest two and highest two task scores and average the middle five.</p>
+        <aside class="inference-panel" aria-labelledby="inferenceTitle">
+          <div class="inference-head">
+            <h3 id="inferenceTitle">Inference settings</h3>
+            <p>Provider-specific labels; <code>max</code> and <code>xhigh</code> are not a shared numeric compute scale.</p>
+          </div>
+          <div class="inference-grid" id="inferenceSettings">
+            <p class="chart-error">Loading inference settings…</p>
+          </div>
+        </aside>
+        <div class="results-stack">
+          <section class="result-panel" aria-labelledby="leaderboardsTitle">
+            <h3 id="leaderboardsTitle">Leaderboards</h3>
+            <p class="result-note">Native raw score for each environment. Dotted markers show the starter; dashed markers show the article reference.</p>
+            <div class="leaderboard-grid" id="taskLeaderboards">
+              <p class="chart-error">Loading task leaderboards…</p>
+            </div>
+          </section>
+          <section class="result-panel" aria-labelledby="finalLeaderboardTitle">
+            <h3 id="finalLeaderboardTitle">Final normalized score</h3>
+            <p class="result-note">Positive display index = IQM + 100. Ranking and score gaps are unchanged; the dotted marker is the starter-level aggregate.</p>
+            <div class="final-board" id="finalLeaderboard">
+              <p class="chart-error">Loading final leaderboard…</p>
+            </div>
+          </section>
+        </div>
+        <div class="result-actions">
+          <a href="https://github.com/benchflow-ai/GenesisBench/blob/main/leaderboard/ARTICLE_SUITE.md" target="_blank" rel="noopener">Detailed leaderboard artifacts ↗</a>
+          <a href="https://github.com/benchflow-ai/GenesisBench/blob/main/docs/article-suite-scoring.md" target="_blank" rel="noopener">Scoring methodology ↗</a>
         </div>
       </div>
     </div>
@@ -640,6 +746,127 @@ footer{background:var(--paper-2);border-top:1px solid var(--line);padding-block:
     renderTask(0);
     setTimeout(function(){TASKS.forEach(function(t){var im=new Image();im.src=t.img;});},1500);
   }
+})();
+</script>
+
+<script>
+(function(){
+  var taskRoot=document.getElementById("taskLeaderboards");
+  var finalRoot=document.getElementById("finalLeaderboard");
+  var inferenceRoot=document.getElementById("inferenceSettings");
+  if(!taskRoot||!finalRoot||!inferenceRoot)return;
+
+  function esc(value){
+    return String(value).replace(/[&<>"']/g,function(ch){
+      return({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"})[ch];
+    });
+  }
+  function modelClass(modelId){
+    return"model-"+String(modelId).toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+  }
+  function number(value){
+    var absolute=Math.abs(value);
+    if(absolute>=1000)return value.toLocaleString(undefined,{maximumFractionDigits:1});
+    if(absolute>=10)return value.toFixed(1);
+    return value.toFixed(2);
+  }
+  function percent(value,min,max){
+    return 100*(value-min)/(max-min);
+  }
+  function taskDomain(board){
+    var values=[0];
+    board.rows.forEach(function(row){
+      values.push(row.raw_score,row.starter_score,row.reference_score);
+    });
+    var min=Math.min.apply(null,values),max=Math.max.apply(null,values);
+    var span=max-min;
+    if(span===0)span=1;
+    var pad=Math.max(span*.12,Math.abs(max)*.04,.05);
+    if(min<0)min-=pad;else min=0;
+    max+=pad;
+    return{min:min,max:max};
+  }
+  function taskCard(board){
+    var domain=taskDomain(board);
+    var zero=percent(0,domain.min,domain.max);
+    var starter=percent(board.rows[0].starter_score,domain.min,domain.max);
+    var reference=percent(board.rows[0].reference_score,domain.min,domain.max);
+    var labels=board.rows.map(function(row){
+      return'<span class="chart-model">'+esc(row.model)+'</span>';
+    }).join("");
+    var values=board.rows.map(function(row){
+      return'<strong class="chart-value">'+number(row.raw_score)+'</strong>';
+    }).join("");
+    var bars=board.rows.map(function(row){
+      var score=percent(row.raw_score,domain.min,domain.max);
+      var left=Math.min(zero,score);
+      var width=Math.max(.5,Math.abs(score-zero));
+      return'<span class="chart-bar-row">'+
+        '<i class="chart-bar '+modelClass(row.model_id)+'" style="left:'+left+'%;width:'+width+'%"></i>'+
+      '</span>';
+    }).join("");
+    return'<article class="chart-card">'+
+      '<h4>'+esc(board.label)+'</h4>'+
+      '<span class="chart-metric">'+esc(board.raw_metric.label)+'</span>'+
+      '<div class="chart-body" aria-label="'+esc(board.label)+' raw-score leaderboard">'+
+        '<div class="chart-labels">'+labels+'</div>'+
+        '<div class="chart-plot" aria-hidden="true">'+
+          '<i class="chart-zero" style="left:'+zero+'%"></i>'+
+          '<i class="chart-anchor is-starter" style="left:'+starter+'%"></i>'+
+          '<i class="chart-anchor" style="left:'+reference+'%"></i>'+
+          '<div class="chart-bars">'+bars+'</div>'+
+        '</div>'+
+        '<div class="chart-values">'+values+'</div>'+
+      '</div>'+
+      '<div class="chart-anchors"><span>starter '+number(board.rows[0].starter_score)+'</span>'+
+      '<span>reference '+number(board.rows[0].reference_score)+'</span></div>'+
+    '</article>';
+  }
+  function finalBoard(board){
+    var max=Math.max.apply(null,board.rows.map(function(row){return row.positive_display_score;}));
+    var ceiling=Math.max(160,Math.ceil((max+10)/10)*10);
+    var anchor=100/ceiling*100;
+    return board.rows.map(function(row){
+      var width=row.positive_display_score/ceiling*100;
+      return'<div class="final-row">'+
+        '<span class="final-model">'+row.rank+'&nbsp;&nbsp;'+esc(row.model)+'</span>'+
+        '<span class="final-plot" aria-hidden="true">'+
+          '<i class="chart-anchor is-starter" style="left:'+anchor+'%"></i>'+
+          '<i class="final-bar '+modelClass(row.model_id)+'" style="width:'+width+'%"></i>'+
+        '</span>'+
+        '<strong class="final-value">'+row.positive_display_score.toFixed(2)+
+          '<small>raw IQM '+row.final_normalized_score.toFixed(2)+'</small></strong>'+
+      '</div>';
+    }).join("");
+  }
+  function inferenceSettings(settings){
+    return settings.models.map(function(row){
+      return'<article class="inference-card">'+
+        '<strong class="inference-model">'+esc(row.model)+'</strong>'+
+        '<span class="inference-route">'+esc(row.provider_label)+' · '+esc(row.model_route)+
+          ' · '+esc(row.harness)+'</span>'+
+        '<span class="inference-effort">reasoning effort: '+esc(row.provider_reasoning_effort)+'</span>'+
+      '</article>';
+    }).join("");
+  }
+
+  fetch("assets/article_suite.json")
+    .then(function(response){
+      if(!response.ok)throw new Error("Leaderboard data unavailable");
+      return response.json();
+    })
+    .then(function(payload){
+      var taskBoards=payload.leaderboards.slice(0,-1);
+      var final=payload.leaderboards[payload.leaderboards.length-1];
+      inferenceRoot.innerHTML=inferenceSettings(payload.inference_settings);
+      taskRoot.innerHTML=taskBoards.map(taskCard).join("");
+      finalRoot.innerHTML=finalBoard(final);
+    })
+    .catch(function(){
+      inferenceRoot.innerHTML='<p class="chart-error">Inference settings could not be loaded.</p>';
+      taskRoot.innerHTML='<p class="chart-error">Leaderboard data could not be loaded.</p>';
+      finalRoot.innerHTML='<p class="chart-error">Final leaderboard data could not be loaded.</p>';
+    });
 })();
 </script>
 

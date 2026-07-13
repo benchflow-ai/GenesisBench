@@ -4,6 +4,8 @@ from __future__ import annotations
 import argparse
 import json
 import math
+import shutil
+import statistics
 import tomllib
 from datetime import UTC, datetime
 from pathlib import Path
@@ -36,7 +38,51 @@ TASK_LABELS = {
     "simulation_heuristics_atari57_v1": "Atari57",
     "simulation_heuristics_montezuma_v1": "Montezuma's Revenge",
 }
-AVERAGE_LEADERBOARD_ID = "average"
+TASK_RAW_METRICS = {
+    "simulation_heuristics_ant_v1": {
+        "label": "Weighted hidden return",
+        "unit": "return",
+    },
+    "simulation_heuristics_pong_ram_v1": {
+        "label": "Native Pong score",
+        "unit": "points",
+    },
+    "simulation_heuristics_breakout_ram_v1": {
+        "label": "Native Breakout return",
+        "unit": "points",
+    },
+    "simulation_heuristics_breakout_rgb_v1": {
+        "label": "Native Breakout return",
+        "unit": "points",
+    },
+    "simulation_heuristics_halfcheetah_v1": {
+        "label": "Weighted hidden return",
+        "unit": "return",
+    },
+    "simulation_heuristics_vizdoom_d1_v1": {
+        "label": "Native D1 mean reward",
+        "unit": "reward",
+    },
+    "simulation_heuristics_vizdoom_d3_v1": {
+        "label": "Native D3 mean reward",
+        "unit": "reward",
+    },
+    "simulation_heuristics_atari57_v1": {
+        "label": "Median best-mode HNS",
+        "unit": "HNS",
+    },
+    "simulation_heuristics_montezuma_v1": {
+        "label": "Capped native return",
+        "unit": "points",
+    },
+}
+PROVIDER_LABELS = {
+    "azure": "Azure direct",
+    "claude_oauth": "Claude OAuth via pinned OpenCode plugin",
+}
+FINAL_LEADERBOARD_ID = "final"
+IQM_TRIM_FRACTION = 0.25
+FINAL_DISPLAY_OFFSET = 100.0
 TASK_DIGEST_COMPATIBILITY = {
     "simulation_heuristics_ant_v1": {
         "sha256:bbb533da0cb86459f4d49dee667e6c73ac54c0188bc40e54e911d50ef3c3bc38": (
@@ -76,7 +122,7 @@ TASK_DIGEST_COMPATIBILITY = {
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Build nine task leaderboards and their final average."
+        description="Build nine task leaderboards and their final IQM score."
     )
     parser.add_argument(
         "--runs-root",
@@ -228,6 +274,26 @@ def _rank_rows(
     return ranked
 
 
+def _interquartile_mean(scores: list[float]) -> float:
+    if not scores:
+        raise ValueError("IQM requires at least one score")
+    ordered = sorted(float(score) for score in scores)
+    trim_count = int(len(ordered) * IQM_TRIM_FRACTION)
+    retained = ordered[trim_count : len(ordered) - trim_count]
+    if not retained:
+        raise ValueError("IQM trimming removed every score")
+    return math.fsum(retained) / len(retained)
+
+
+def _aggregate_task_scores(task_scores: dict[str, float]) -> dict[str, float]:
+    scores = [float(task_scores[task]) for task in TASKS]
+    return {
+        "final_normalized_score": _interquartile_mean(scores),
+        "arithmetic_mean_normalized_score": math.fsum(scores) / len(scores),
+        "median_normalized_score": float(statistics.median(scores)),
+    }
+
+
 def _build_leaderboards(
     rows: list[dict[str, Any]],
 ) -> list[dict[str, Any]]:
@@ -237,11 +303,21 @@ def _build_leaderboards(
             {
                 "model_id": row["model_id"],
                 "model": row["model"],
+                "model_route": row["model_route"],
+                "provider": row["provider"],
+                "provider_label": row["provider_label"],
                 "harness": row["harness"],
                 "provider_reasoning_effort": row[
                     "provider_reasoning_effort"
                 ],
                 "normalized_score": row["task_scores"][task],
+                "raw_score": row["raw_task_scores"][task],
+                "starter_score": row["task_anchors"][task][
+                    "starter_score"
+                ],
+                "reference_score": row["task_anchors"][task][
+                    "reference_score"
+                ],
                 "submission_detail": row["submission_details"][task],
                 "source_run": row["source_runs"][task],
             }
@@ -251,34 +327,52 @@ def _build_leaderboards(
             {
                 "id": task,
                 "label": TASK_LABELS[task],
-                "metric": "normalized_score",
+                "metric": "raw_score",
+                "raw_metric": TASK_RAW_METRICS[task],
                 "rows": _rank_rows(
                     task_rows,
-                    score_key="normalized_score",
+                    score_key="raw_score",
                 ),
             }
         )
 
-    average_rows = [
+    final_rows = [
         {
             "model_id": row["model_id"],
             "model": row["model"],
+            "model_route": row["model_route"],
+            "provider": row["provider"],
+            "provider_label": row["provider_label"],
             "harness": row["harness"],
             "provider_reasoning_effort": row[
                 "provider_reasoning_effort"
             ],
+            "final_normalized_score": row["final_normalized_score"],
+            "arithmetic_mean_normalized_score": row[
+                "arithmetic_mean_normalized_score"
+            ],
+            "median_normalized_score": row["median_normalized_score"],
+            "positive_display_score": row["final_normalized_score"]
+            + FINAL_DISPLAY_OFFSET,
             "average_normalized_score": row["average_normalized_score"],
         }
         for row in rows
     ]
     leaderboards.append(
         {
-            "id": AVERAGE_LEADERBOARD_ID,
-            "label": "Nine-task average",
-            "metric": "average_normalized_score",
+            "id": FINAL_LEADERBOARD_ID,
+            "label": "Final normalized score",
+            "metric": "final_normalized_score",
+            "display_metric": "positive_display_score",
+            "display_transform": {
+                "type": "additive_offset",
+                "offset": FINAL_DISPLAY_OFFSET,
+                "formula": "positive_display_score = final_normalized_score + 100",
+                "purpose": "plot_only",
+            },
             "rows": _rank_rows(
-                average_rows,
-                score_key="average_normalized_score",
+                final_rows,
+                score_key="final_normalized_score",
             ),
         }
     )
@@ -297,71 +391,41 @@ def _leaderboard_relative_path(path: str) -> str:
 def _render_article_suite_markdown(
     leaderboards: list[dict[str, Any]],
 ) -> str:
-    markdown = [
+    final_board = leaderboards[-1]
+    if final_board["id"] != FINAL_LEADERBOARD_ID:
+        raise ValueError("Final leaderboard must be last")
+    return "\n".join(
+        [
         "# GenesisBench Learning Beyond Gradients Article Suite",
         "",
-        "This offline report contains 10 independent leaderboards: one for "
-        "each of the nine article-derived tasks, followed by the final "
-        "nine-task average.",
+        "The first image contains the nine independently ranked task "
+        "leaderboards. The second image contains the final cross-task ranking.",
         "",
-        "Task scores are unbounded normalized values. The public starter maps "
-        "to 0 and the trusted article-level reference maps to 100.",
-    ]
-    for index, board in enumerate(leaderboards, start=1):
-        markdown.extend(["", f"## {index}. {board['label']}", ""])
-        if board["id"] == AVERAGE_LEADERBOARD_ID:
-            markdown.extend(
-                [
-                    "Arithmetic mean of the nine normalized task scores.",
-                    "",
-                    "| Rank | Model | Harness | Effort | Nine-task average |",
-                    "| ---: | --- | --- | --- | ---: |",
-                ]
-            )
-            for row in board["rows"]:
-                markdown.append(
-                    "| "
-                    + " | ".join(
-                        [
-                            str(row["rank"]),
-                            row["model"],
-                            row["harness"],
-                            row["provider_reasoning_effort"],
-                            f"{row['average_normalized_score']:.2f}",
-                        ]
-                    )
-                    + " |"
-                )
-            continue
-
-        markdown.extend(
-            [
-                f"Task: `{board['id']}`",
-                "",
-                "| Rank | Model | Harness | Effort | Normalized score | "
-                "Score details |",
-                "| ---: | --- | --- | --- | ---: | --- |",
-            ]
-        )
-        for row in board["rows"]:
-            detail_path = _leaderboard_relative_path(
-                row["submission_detail"]
-            )
-            markdown.append(
-                "| "
-                + " | ".join(
-                    [
-                        str(row["rank"]),
-                        row["model"],
-                        row["harness"],
-                        row["provider_reasoning_effort"],
-                        f"{row['normalized_score']:.2f}",
-                        f"[JSON]({detail_path})",
-                    ]
-                )
-                + " |"
-            )
-    return "\n".join(markdown) + "\n"
+        "The nine task panels use each environment's native raw score. "
+        "The final scientific metric remains unbounded IQM.",
+        "",
+        "## Nine task leaderboards",
+        "",
+        "![Nine task-specific GenesisBench leaderboards]"
+        "(article_suite_task_leaderboards.png)",
+        "",
+        "## Final normalized score",
+        "",
+        "The primary score is the interquartile mean (IQM): sort the nine task "
+        "scores, remove the lowest two and highest two, then average the middle "
+        "five. The image uses a plot-only positive display index equal to "
+        "`IQM + 100`; raw IQM, arithmetic mean, and median remain in the JSON.",
+        "",
+        "![Final GenesisBench article-suite leaderboard]"
+        "(article_suite_final_leaderboard.png)",
+        "",
+        "Machine-readable rankings and score-detail paths are available in "
+        "[`article_suite.json`](article_suite.json). The scoring rationale is "
+        "documented in "
+        "[`docs/article-suite-scoring.md`](../docs/article-suite-scoring.md).",
+        "",
+        ]
+    )
 
 
 def _latest_model_runs(runs_root: Path) -> dict[str, Path]:
@@ -493,6 +557,8 @@ def main() -> None:
             task: _normalized_task_score(model_results[task][1])
             for task in TASKS
         }
+        raw_task_scores: dict[str, float] = {}
+        task_anchors: dict[str, dict[str, float]] = {}
         submission_details: dict[str, str] = {}
         for task in TASKS:
             _, result_row, model_root, digest = model_results[task]
@@ -516,6 +582,27 @@ def main() -> None:
             sanitized_score = _sanitize_score_paths(
                 json.loads(source_score.read_text())
             )
+            raw_score = sanitized_score.get("score")
+            starter_score = sanitized_score.get("starter_score")
+            reference_score = sanitized_score.get("reference_score")
+            for name, value in (
+                ("score", raw_score),
+                ("starter_score", starter_score),
+                ("reference_score", reference_score),
+            ):
+                if (
+                    not isinstance(value, int | float)
+                    or isinstance(value, bool)
+                    or not math.isfinite(float(value))
+                ):
+                    raise RuntimeError(
+                        f"{model_id}/{task} has invalid {name} {value!r}"
+                    )
+            raw_task_scores[task] = float(raw_score)
+            task_anchors[task] = {
+                "starter_score": float(starter_score),
+                "reference_score": float(reference_score),
+            }
             (destination / "score.json").write_text(
                 json.dumps(sanitized_score, indent=2, sort_keys=True) + "\n"
             )
@@ -546,17 +633,30 @@ def main() -> None:
             submission_details[task] = str(
                 (destination / "score.json").relative_to(REPO_ROOT)
             )
-        average = sum(task_scores.values()) / len(TASKS)
+        aggregate_scores = _aggregate_task_scores(task_scores)
         ranked.append(
             {
                 "model_id": metadata["model"]["id"],
                 "model": metadata["model"]["display_name"],
+                "model_route": metadata["model"]["model"],
+                "provider": metadata["model"]["provider"],
+                "provider_label": PROVIDER_LABELS.get(
+                    metadata["model"]["provider"],
+                    metadata["model"]["provider"],
+                ),
                 "harness": metadata["harness"],
                 "provider_reasoning_effort": metadata[
                     "provider_reasoning_effort"
                 ],
-                "average_normalized_score": average,
+                **aggregate_scores,
+                # Backward-compatible alias for consumers of the first
+                # published schema. This is not the primary ranking metric.
+                "average_normalized_score": aggregate_scores[
+                    "arithmetic_mean_normalized_score"
+                ],
                 "task_scores": task_scores,
+                "raw_task_scores": raw_task_scores,
+                "task_anchors": task_anchors,
                 "submission_details": submission_details,
                 "source_runs": {
                     task: str(
@@ -568,7 +668,7 @@ def main() -> None:
         )
     ranked = _rank_rows(
         ranked,
-        score_key="average_normalized_score",
+        score_key="final_normalized_score",
     )
     leaderboards = _build_leaderboards(ranked)
 
@@ -577,8 +677,51 @@ def main() -> None:
         "task_count": len(TASKS),
         "leaderboard_count": len(leaderboards),
         "tasks": list(TASKS),
-        "aggregation": "arithmetic_mean_of_normalized_task_scores",
+        "aggregation": {
+            "primary_metric": "interquartile_mean",
+            "primary_field": "final_normalized_score",
+            "trim_fraction_per_tail": IQM_TRIM_FRACTION,
+            "trimmed_score_count_per_tail": int(
+                len(TASKS) * IQM_TRIM_FRACTION
+            ),
+            "retained_score_count": len(TASKS)
+            - 2 * int(len(TASKS) * IQM_TRIM_FRACTION),
+            "score_bounds": "unbounded",
+            "secondary_fields": [
+                "arithmetic_mean_normalized_score",
+                "median_normalized_score",
+            ],
+            "uncertainty": "not_estimated_single_run_per_model_task",
+            "display_transform": {
+                "type": "additive_offset",
+                "offset": FINAL_DISPLAY_OFFSET,
+                "formula": "positive_display_score = final_normalized_score + 100",
+                "purpose": "plot_only",
+                "ranking_field": "final_normalized_score",
+            },
+        },
         "leaderboards": leaderboards,
+        "inference_settings": {
+            "field": "provider_reasoning_effort",
+            "interpretation": "provider_specific_categorical_setting",
+            "cross_provider_comparability": (
+                "labels_are_not_a_shared_numeric_compute_scale"
+            ),
+            "models": [
+                {
+                    "model_id": row["model_id"],
+                    "model": row["model"],
+                    "model_route": row["model_route"],
+                    "provider": row["provider"],
+                    "provider_label": row["provider_label"],
+                    "harness": row["harness"],
+                    "provider_reasoning_effort": row[
+                        "provider_reasoning_effort"
+                    ],
+                }
+                for row in ranked
+            ],
+        },
         "task_digest_compatibility": TASK_DIGEST_COMPATIBILITY,
         "source_runs": {
             model_id: {
@@ -599,9 +742,25 @@ def main() -> None:
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n")
+    website_data = REPO_ROOT / "website" / "assets" / "article_suite.json"
+    website_data.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy2(args.output, website_data)
 
     (args.output.parent / "ARTICLE_SUITE.md").write_text(
         _render_article_suite_markdown(leaderboards)
+    )
+    try:
+        from scripts.plot_article_suite_leaderboards import (
+            render_article_suite_leaderboards,
+        )
+    except ModuleNotFoundError:
+        from plot_article_suite_leaderboards import (
+            render_article_suite_leaderboards,
+        )
+
+    render_article_suite_leaderboards(
+        payload,
+        leaderboard_dir=args.output.parent,
     )
     print(args.output)
 
