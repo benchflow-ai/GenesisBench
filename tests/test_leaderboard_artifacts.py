@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import math
 from pathlib import Path
+import re
 import struct
 
 
@@ -191,6 +192,20 @@ def test_article_suite_leaderboard_is_complete_and_self_contained() -> None:
     assert 'id="finalLeaderboard"' in website
     assert 'id="inferenceSettings"' in website
     assert "not a shared numeric compute scale" in website
+    assert 'id="loopScore"' in website
+    assert 'id="loopNote"' in website
+    assert "loopScore.textContent=t.score" in website
+    assert "updateTaskContent(t)" in website
+    task_block = re.search(
+        r"var TASKS=\[(.*?)\];\n  var ti=",
+        website,
+        re.DOTALL,
+    )
+    assert task_block is not None
+    assert task_block.group(1).count('score:"') == 9
+    assert task_block.group(1).count('note:"') == 9
+    assert task_block.group(1).count('files:"') == 9
+    assert task_block.group(1).count('metric:"') == 9
     assert 'fetch("assets/article_suite.json")' in website
     assert json.loads(WEBSITE_DATA.read_text()) == payload
 

@@ -17,10 +17,12 @@ a full humanoid. Composed from the project's own six pencil illustrations with A
 
 Page content follows the repo README: an interactive six-stage pipeline (heuristic policies →
 VLA training, simulation → real world → more hardware → 2.0) whose first stage embeds an
-interactive improvement-loop diagram on the MuJoCo Ant (assets/ant.png), an environments diagram
-(simulation frameworks: Genesis, Isaac Sim, RoboCasa, MuJoCo · real-world operation), article-suite
-results with task and final leaderboard images, and the research background. GenesisBench 1.0 —
-language intelligence → physical intelligence; 2.0 — world intelligence.
+interactive improvement loop and navigator across all nine article-derived tasks. The selected
+task updates its environment artwork, starter description, experiment snippets, scoring-suite
+summary, and task links. The page also includes an environments diagram (simulation frameworks:
+Genesis, Isaac Sim, RoboCasa, MuJoCo · real-world operation), native HTML article-suite
+leaderboards, and the research background. GenesisBench 1.0 — language intelligence → physical
+intelligence; 2.0 — world intelligence.
 
 The website copies `leaderboard/article_suite.json` to
 `website/assets/article_suite.json` and renders both plots as responsive native

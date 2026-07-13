@@ -423,7 +423,7 @@ footer{background:var(--paper-2);border-top:1px solid var(--line);padding-block:
                 <button class="loop-node" style="left:95%;top:50%" data-k="run" aria-expanded="false" type="button">
                   <span class="stepno">02</span><span class="dot"></span><span class="lbl">Run experiments</span></button>
                 <button class="loop-node" style="left:50%;top:95%" data-k="compare" aria-expanded="false" type="button">
-                  <span class="stepno">03</span><span class="dot"></span><span class="lbl">Compare returns</span></button>
+                  <span class="stepno">03</span><span class="dot"></span><span class="lbl">Compare scores</span></button>
                 <button class="loop-node" style="left:5%;top:50%" data-k="edit" aria-expanded="false" type="button">
                   <span class="stepno">04</span><span class="dot"></span><span class="lbl">Edit the policy</span></button>
                 <button class="loop-center" data-k="env" aria-expanded="false" type="button">
@@ -432,9 +432,9 @@ footer{background:var(--paper-2);border-top:1px solid var(--line);padding-block:
                 <div class="loop-pop" id="loopPop" role="status"></div>
               </div>
               <svg class="loop-arrowlink" width="26" height="14" viewBox="0 0 26 14" aria-hidden="true"><path d="M1 7h21m0 0-5-5m5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              <div class="loop-chip loop-out">Submit the best policy<span>scored on a hidden evaluation suite · starter&nbsp;=&nbsp;0, reference&nbsp;=&nbsp;100</span></div>
+              <div class="loop-chip loop-out">Submit the best policy<span id="loopScore">hidden nominal + dynamics suites · locomotion return · starter = 0, article MPC reference = 100</span></div>
             </div>
-            <p class="loop-note">Code snippets in the nodes mirror the <a class="prose-link" href="https://github.com/benchflow-ai/GenesisBench/tree/main/tasks/simulation_heuristics_ant_v1" target="_blank" rel="noopener">Ant v1</a> reference task; all nine task packages live <a class="prose-link" href="https://github.com/benchflow-ai/GenesisBench/tree/main/tasks" target="_blank" rel="noopener">on GitHub</a>.</p>
+            <p class="loop-note" id="loopNote">The loop nodes illustrate gait and planning edits for the <a class="prose-link" href="https://github.com/benchflow-ai/GenesisBench/tree/main/tasks/simulation_heuristics_ant_v1" target="_blank" rel="noopener">Ant v1 task</a>; all nine task packages live <a class="prose-link" href="https://github.com/benchflow-ai/GenesisBench/tree/main/tasks" target="_blank" rel="noopener">on GitHub</a>.</p>
           </div>
 
           </div>
@@ -682,46 +682,123 @@ footer{background:var(--paper-2);border-top:1px solid var(--line);padding-block:
     {id:"simulation_heuristics_ant_v1",env:"MuJoCo Ant",lbl:"MuJoCo Ant",img:"assets/ant.png",
      d:"Improve a programmatic Ant locomotion policy under a fixed autonomous research budget.",
      start:"a runnable CPG/PD gait — weaker than the reference",
+     score:"hidden nominal + dynamics suites · locomotion return · starter = 0, article MPC reference = 100",
+     note:"The loop nodes illustrate gait and planning edits for the",noteLabel:"Ant v1 task",
+     files:"task.md\nstarter_policy/policy.py\nevaluate.py",
+     run:"$ python evaluate.py --policy final_policy/policy.py",
+     metric:"locomotion return",edit:"Tune gait timing, torso feedback, and residual planning.",
+     before:"fixed phase + PD targets",after:"adaptive gait + residual MPC",
      pop:"<p>A dome torso on four two-segment legs — 8 actuated joints in the MuJoCo physics engine. Episodes return a score the agent can measure.</p><img src='assets/ant.png' alt='MuJoCo Ant, pencil illustration'><span class='cap'><a href='https://gymnasium.farama.org/environments/mujoco/ant/' target='_blank' rel='noopener'>gymnasium.farama.org — Ant ↗</a></span>"},
     {id:"simulation_heuristics_halfcheetah_v1",env:"MuJoCo HalfCheetah",lbl:"HalfCheetah",img:"assets/env-halfcheetah.png",
      d:"Improve an interpretable HalfCheetah controller under a fixed autonomous research budget.",
      start:"an asymmetric CPG/PD baseline — weaker than the reference",
+     score:"hidden nominal + dynamics suites · locomotion return · starter = 0, article CPG/MPC reference = 100",
+     note:"The loop nodes illustrate gait and online-planning edits for the",noteLabel:"HalfCheetah v1 task",
+     files:"task.md\nstarter_policy/policy.py\nevaluate.py",
+     run:"$ python evaluate.py --policy final_policy/policy.py",
+     metric:"locomotion return",edit:"Tune asymmetric stride timing, posture control, and online planning.",
+     before:"symmetric fixed stride",after:"asymmetric gait + staged MPC",
      pop:"<p>A planar cheetah with six actuated joints in the MuJoCo physics engine — the goal is fast, stable forward running.</p><img src='assets/env-halfcheetah.png' alt='MuJoCo HalfCheetah, pencil illustration'><span class='cap'><a href='https://gymnasium.farama.org/environments/mujoco/half_cheetah/' target='_blank' rel='noopener'>gymnasium.farama.org — HalfCheetah ↗</a></span>"},
     {id:"simulation_heuristics_pong_ram_v1",env:"Atari Pong (RAM)",lbl:"Pong · RAM",img:"assets/env-pong.png",
      d:"Improve a programmatic Atari Pong controller that acts from the current 128-byte RAM state.",
      start:"a weak, late-reacting RAM controller",
+     score:"hidden nominal + randomized-reset episodes · native Pong score · starter = 0, perfect +21 reference = 100",
+     note:"The loop nodes illustrate RAM parsing and paddle-control edits for the",noteLabel:"Pong RAM v1 task",
+     files:"task.md\nstarter_policy/policy.py\ntask_context/policy_api.md",
+     run:"$ python evaluate.py --policy final_policy/policy.py",
+     metric:"native Pong score",edit:"Decode ball and paddle state, then predict the interception point.",
+     before:"chase the current ball row",after:"predict intercept + recover center",
      pop:"<p>Classic Atari Pong via EnvPool — the controller never sees pixels; it acts from the live 128-byte RAM state.</p><img src='assets/env-pong.png' alt='Pong court, pencil illustration'><span class='cap'><a href='https://envpool.readthedocs.io/' target='_blank' rel='noopener'>envpool.readthedocs.io ↗</a></span>"},
     {id:"simulation_heuristics_breakout_ram_v1",env:"Atari Breakout (RAM)",lbl:"Breakout · RAM",img:"assets/env-breakout-ram.png",
      d:"Improve a RAM-only programmatic Atari Breakout policy toward the 864-point article result.",
      start:"a RAM-state starter policy — normalized to 0",
+     score:"hidden nominal + shifted-start episodes · native Breakout return · starter = 0, 864-point reference = 100",
+     note:"The loop nodes illustrate RAM decoding and ball-trajectory edits for the",noteLabel:"Breakout RAM v1 task",
+     files:"task.md\nstarter_policy/policy.py\ntask_context/article_progression.md",
+     run:"$ python evaluate.py --policy final_policy/policy.py",
+     metric:"native Breakout return",edit:"Improve bounce prediction, paddle targeting, and stuck-loop recovery.",
+     before:"follow the current ball x",after:"predict bounce + perturb loops",
      pop:"<p>Atari Breakout via EnvPool, observed as the 128-byte RAM state — no pixels.</p><img src='assets/env-breakout-ram.png' alt='Breakout bricks over a memory chip, pencil illustration'><span class='cap'><a href='https://envpool.readthedocs.io/' target='_blank' rel='noopener'>envpool.readthedocs.io ↗</a></span>"},
     {id:"simulation_heuristics_breakout_rgb_v1",env:"Atari Breakout (RGB)",lbl:"Breakout · RGB",img:"assets/env-breakout-rgb.png",
      d:"Improve a pixel-only Atari Breakout policy toward the article's 864-point RAM-to-RGB transfer result.",
      start:"a pixel-only starter policy — normalized to 0",
+     score:"hidden nominal + shifted-start episodes · native Breakout return · starter = 0, pixel-only 864-point reference = 100",
+     note:"The loop nodes illustrate pixel segmentation and trajectory edits for the",noteLabel:"Breakout RGB v1 task",
+     files:"task.md\nstarter_policy/policy.py\ntask_context/provenance.md",
+     run:"$ python evaluate.py --policy final_policy/policy.py",
+     metric:"native Breakout return",edit:"Refine color segmentation, ball tracking, and predicted paddle contact.",
+     before:"coarse frame thresholding",after:"stable objects + bounce prediction",
      pop:"<p>Atari Breakout via EnvPool, observed as rendered RGB frames only — the RAM-to-RGB transfer setting.</p><img src='assets/env-breakout-rgb.png' alt='Breakout on a CRT monitor, pencil illustration'><span class='cap'><a href='https://envpool.readthedocs.io/' target='_blank' rel='noopener'>envpool.readthedocs.io ↗</a></span>"},
     {id:"simulation_heuristics_montezuma_v1",env:"Montezuma's Revenge",lbl:"Montezuma",img:"assets/env-montezuma.png",
      d:"Improve a native-image Montezuma policy beyond a brittle open-loop replay.",
      start:"a working but weak native-RGB controller",
+     score:"reproduction + hidden-seed + no-op + recovery suites · capped native return · starter = 0, 400-point reference = 100",
+     note:"The loop nodes illustrate state-graph and recovery-macro edits for the",noteLabel:"Montezuma v1 task",
+     files:"task.md\nstarter_policy/policy.py\noracle/reference_trajectory.npz",
+     run:"$ python evaluate.py --policy final_policy/policy.py",
+     metric:"capped native return",edit:"Replace brittle timing with visual state checks and recoverable macros.",
+     before:"fixed open-loop action timing",after:"state graph + guarded macros",
      pop:"<p>EnvPool MontezumaRevenge-v5 from native RGB observations — the classic hard-exploration Atari game.</p><img src='assets/env-montezuma.png' alt='Platform room with ladder and key, pencil illustration'><span class='cap'><a href='https://envpool.readthedocs.io/' target='_blank' rel='noopener'>envpool.readthedocs.io ↗</a></span>"},
     {id:"simulation_heuristics_vizdoom_d1_v1",env:"ViZDoom D1 medikit",lbl:"D1 · medikit",img:"assets/env-vizdoom-d1.png",
      d:"Improve a rendered-pixel ViZDoom D1 medikit policy under a fixed autonomous research budget.",
      start:"a working but weak programmatic controller",
+     score:"two hidden seed batches · native D1 reward · starter = 0, screen-CV reference = 100",
+     note:"The loop nodes illustrate medikit detection and timing edits for the",noteLabel:"ViZDoom D1 v1 task",
+     files:"task.md\nstarter_policy/policy.py\ntask_context/policy_api.md",
+     run:"$ python evaluate.py --policy final_policy/policy.py",
+     metric:"native D1 reward",edit:"Tune brightness segmentation, component filtering, and medikit timing.",
+     before:"single bright-pixel trigger",after:"components + timed collection",
      pop:"<p>EnvPool D1Basic-v1 — a ViZDoom medikit scenario played from rendered screen pixels.</p><img src='assets/env-vizdoom-d1.png' alt='First-person corridor with medikits, pencil illustration'><span class='cap'><a href='https://vizdoom.farama.org/' target='_blank' rel='noopener'>vizdoom.farama.org ↗</a></span>"},
     {id:"simulation_heuristics_vizdoom_d3_v1",env:"ViZDoom D3 battle",lbl:"D3 · battle",img:"assets/env-vizdoom-d3.png",
      d:"Improve a screen-CV ViZDoom D3 battle policy under a fixed autonomous research budget.",
      start:"a working but weak programmatic controller",
+     score:"two hidden battle seed batches · native D3 reward · starter = 0, screen-CV reference = 100",
+     note:"The loop nodes illustrate combat, resupply, and exploration edits for the",noteLabel:"ViZDoom D3 v1 task",
+     files:"task.md\nstarter_policy/policy.py\ntask_context/policy_api.md",
+     run:"$ python evaluate.py --policy final_policy/policy.py",
+     metric:"native D3 reward",edit:"Refine enemy detection and switch cleanly between combat, resupply, and exploration.",
+     before:"one reactive combat mode",after:"CV detectors + state machine",
      pop:"<p>EnvPool D3Battle-v1 — a ViZDoom battle scenario driven by screen-CV features.</p><img src='assets/env-vizdoom-d3.png' alt='First-person arena view, pencil illustration'><span class='cap'><a href='https://vizdoom.farama.org/' target='_blank' rel='noopener'>vizdoom.farama.org ↗</a></span>"},
     {id:"simulation_heuristics_atari57_v1",env:"Atari-57 suite",lbl:"Atari-57",img:"assets/env-atari57.png",
      d:"Improve one aggregate 342-policy Atari-57 submission produced by 342 independently accounted heuristic-search trajectories.",
      start:"an aggregate starter artifact spanning all 57 games",
+     score:"complete 342-slot hidden evaluation · median best-mode HNS · starter = 0, article aggregate reference = 100",
+     note:"The loop nodes illustrate per-game policy search and ledger-completion edits for the",noteLabel:"Atari-57 v1 task",
+     files:"task.md\nstarter_artifact/manifest.json\nstarter_artifact/policy.py",
+     run:"$ python evaluate.py --artifact final_artifact",
+     metric:"median best-mode HNS",edit:"Improve game-specific policies while preserving all 342 accounted search records.",
+     before:"incomplete policy slots",after:"342 policies + complete ledger",
      pop:"<p>The full Atari-57 suite via EnvPool — one programmatic policy slot for every game, observation mode, and independent repeat.</p><img src='assets/env-atari57.png' alt='Grid of small arcade screens, pencil illustration'><span class='cap'><a href='https://envpool.readthedocs.io/' target='_blank' rel='noopener'>envpool.readthedocs.io ↗</a></span>"}
   ];
   var ti=0,
       tpCount=document.getElementById('tpCount'),tpEnv=document.getElementById('tpEnv'),
       tpDesc=document.getElementById('tpDesc'),tpId=document.getElementById('tpId'),
       loopStart=document.getElementById('loopStart'),envImg=document.getElementById('loopEnvImg'),
-      envLbl=document.getElementById('loopEnvLbl'),
+      envLbl=document.getElementById('loopEnvLbl'),loopScore=document.getElementById('loopScore'),
+      loopNote=document.getElementById('loopNote'),
       pager=document.querySelector('.task-pager');
+  function updateTaskContent(t){
+    CONTENT.read={
+      t:"01 — Read the task",
+      h:"<p>Read the task contract, starter artifact, and public evaluator for "+t.env+".</p>"+
+        "<span class='mono'>"+t.files+"</span>"
+    };
+    CONTENT.run={
+      t:"02 — Run experiments",
+      h:"<p>Run the public development evaluator and collect "+t.metric+" as feedback.</p>"+
+        "<span class='mono'>"+t.run+"\nfeedback → agent</span>"
+    };
+    CONTENT.compare={
+      t:"03 — Compare scores",
+      h:"<p>Compare candidates by "+t.metric+". The hidden suite maps the selected starter to 0 and article reference to 100.</p>"+
+        "<span class='mono'>starter ──── 0\ncandidate ── ▲\nreference ── 100</span>"
+    };
+    CONTENT.edit={
+      t:"04 — Edit the policy",
+      h:"<p>"+t.edit+"</p><span class='mono'><span class='del'>- "+t.before+"</span>\n"+
+        "<span class='add'>+ "+t.after+"</span></span><span class='cap'>illustrative task-specific edit</span>"
+    };
+  }
   function renderTask(n){
     ti=(n+TASKS.length)%TASKS.length;
     var t=TASKS[ti];
@@ -731,10 +808,15 @@ footer{background:var(--paper-2);border-top:1px solid var(--line);padding-block:
     tpId.textContent=t.id+" ↗";
     tpId.href="https://github.com/benchflow-ai/GenesisBench/tree/main/tasks/"+t.id;
     loopStart.textContent=t.start;
+    loopScore.textContent=t.score;
+    loopNote.innerHTML=t.note+" <a class='prose-link' href='https://github.com/benchflow-ai/GenesisBench/tree/main/tasks/"+
+      t.id+"' target='_blank' rel='noopener'>"+t.noteLabel+"</a>; all nine task packages live "+
+      "<a class='prose-link' href='https://github.com/benchflow-ai/GenesisBench/tree/main/tasks' target='_blank' rel='noopener'>on GitHub</a>.";
+    updateTaskContent(t);
     CONTENT.env={t:"Environment — "+t.env,h:t.pop};
     if(envImg.getAttribute("src")!==t.img){envImg.src=t.img;envImg.alt=t.env+", pencil illustration";}
     envLbl.textContent=t.lbl;
-    if(current&&current.dataset.k==="env"&&pop.classList.contains("show"))show(current);
+    if(current&&pop.classList.contains("show"))show(current);
   }
   if(pager){
     document.getElementById('tpPrev').addEventListener('click',function(){renderTask(ti-1);});
