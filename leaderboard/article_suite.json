@@ -1,7 +1,7 @@
 {
   "aggregation": "arithmetic_mean_of_normalized_task_scores",
   "benchmark": "learning_beyond_gradients_article_suite",
-  "generated_at": "2026-07-13T15:34:44.166069+00:00",
+  "generated_at": "2026-07-13T15:34:22.260689+00:00",
   "rows": [
     {
       "average_normalized_score": 43.19059338577778,

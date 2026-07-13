@@ -389,7 +389,14 @@ def main() -> None:
             }
             for model_id in expected_models
         },
-        "generated_at": datetime.now(UTC).isoformat(),
+        "generated_at": datetime.fromtimestamp(
+            max(
+                item[0]
+                for model_results in task_results.values()
+                for item in model_results.values()
+            ),
+            UTC,
+        ).isoformat(),
         "rows": ranked,
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)
