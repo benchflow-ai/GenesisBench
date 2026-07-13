@@ -117,21 +117,30 @@ mapping is documented in `docs/learning-beyond-gradients-suite.md`.
 
 The first OpenCode sweep across all nine article-derived tasks:
 
-| Rank | Model | Nine-task average |
-| ---: | --- | ---: |
-| 1 | GPT-5.5 | 43.19 |
-| 2 | Claude Opus 4.8 | 39.82 |
-| 3 | GPT-5.6 Sol | 39.38 |
-| 4 | GPT-5.4 Mini | -29.72 |
+![GenesisBench final normalized leaderboard](leaderboard/article_suite_final_leaderboard.png)
 
 See [`leaderboard/ARTICLE_SUITE.md`](leaderboard/ARTICLE_SUITE.md) for the nine
-task-specific leaderboards followed by the final average leaderboard.
+task-specific leaderboards followed by the final cross-task leaderboard.
 `leaderboard/article_suite.json` contains the same 10-board structure in
 machine-readable form.
 
 Scores are unbounded normalized values: `0` matches the public starter and
 `100` matches the trusted article-level reference. Negative scores are genuine
 regressions; scores above `100` exceed the reference.
+
+The final ranking uses the interquartile mean (IQM) of the nine task scores:
+sort them, remove the lowest two and highest two, then average the middle five.
+The chart uses a plot-only positive index equal to `IQM + 100`; the raw IQM
+remains the ranking metric and is retained in the JSON.
+
+Inference settings are provider-specific: GPT-5.6 Sol and Claude Opus 4.8 use
+`max`; GPT-5.5 and GPT-5.4 Mini use `xhigh`. These labels come from different
+provider interfaces and are categorical settings, not a shared numeric compute
+scale. Exact routes are documented in
+[`docs/learning-beyond-gradients-suite.md`](docs/learning-beyond-gradients-suite.md).
+
+See [`docs/article-suite-scoring.md`](docs/article-suite-scoring.md) for the
+formula, research precedent, and current single-run limitation.
 
 ## Contribute a Task
 

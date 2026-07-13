@@ -16,6 +16,20 @@ the nine task packages derived from the article:
 Every run uses BenchFlow's registered `opencode` ACP harness. OpenHands is not
 part of this suite.
 
+## Inference settings
+
+| Model | Exact route | Provider-specific reasoning setting |
+| --- | --- | --- |
+| GPT-5.6 Sol | `azure/gpt-5.6-sol` | `max` |
+| GPT-5.5 | `azure/gpt-5.5` | `xhigh` |
+| Claude Opus 4.8 | `anthropic/claude-opus-4-8` via Claude OAuth and the pinned OpenCode plugin | `max` |
+| GPT-5.4 Mini | `azure/gpt-5.4-mini` | `xhigh` |
+
+The setting names are categorical labels exposed by each provider integration,
+not a common numeric measure of inference compute. All four routes use the
+OpenCode harness; the route and reasoning setting are stored with every
+published result.
+
 ## Credentials
 
 Credential values are read from the process environment or an env file. They
@@ -85,11 +99,18 @@ uv run python scripts/build_article_suite_leaderboard.py
 
 The builder writes:
 
-- `leaderboard/ARTICLE_SUITE.md`: nine task-specific leaderboards followed by
-  the final average leaderboard;
+- `leaderboard/ARTICLE_SUITE.md`: one nine-panel task image followed by the
+  final IQM leaderboard image;
 - `leaderboard/article_suite.json`: the same 10 leaderboards plus the
   model-centric score records used for reproducibility.
+- `leaderboard/article_suite_task_leaderboards.png`: nine task-specific
+  leaderboard panels using native raw environment scores;
+- `leaderboard/article_suite_final_leaderboard.png`: the final cross-task
+  ranking displayed as `IQM + 100` so every current plotted value is positive.
 
-The final aggregate is the arithmetic mean of the nine normalized task scores.
 Each task maps its starter policy to `0` and its trusted article-level reference
-to `100`. The top-level repository README shows only this final aggregate.
+to `100`. The final primary aggregate is the interquartile mean: remove the two
+lowest and two highest of the nine normalized scores, then average the middle
+five. Arithmetic mean and median remain secondary diagnostics. The top-level
+repository README shows only the final image. The additive display offset does
+not affect ranking or score gaps; raw IQM remains available in the JSON.

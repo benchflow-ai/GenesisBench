@@ -18,9 +18,23 @@ a full humanoid. Composed from the project's own six pencil illustrations with A
 Page content follows the repo README: an interactive six-stage pipeline (heuristic policies →
 VLA training, simulation → real world → more hardware → 2.0) whose first stage embeds an
 interactive improvement-loop diagram on the MuJoCo Ant (assets/ant.png), an environments diagram
-(simulation frameworks: Genesis, Isaac Sim, RoboCasa, MuJoCo · real-world operation), and the
-research background. GenesisBench 1.0 — language intelligence → physical intelligence;
-2.0 — world intelligence.
+(simulation frameworks: Genesis, Isaac Sim, RoboCasa, MuJoCo · real-world operation), article-suite
+results with task and final leaderboard images, and the research background. GenesisBench 1.0 —
+language intelligence → physical intelligence; 2.0 — world intelligence.
+
+The website copies `leaderboard/article_suite.json` to
+`website/assets/article_suite.json` and renders both plots as responsive native
+HTML/CSS. No raster leaderboard image is embedded on the page.
+
+Offline README/report images are generated separately by:
+
+```bash
+uv run python scripts/plot_article_suite_leaderboards.py
+```
+
+The HTML task panels use native raw environment scores. The final HTML plot
+uses a fixed positive display index (`IQM + 100`) while retaining raw IQM as
+the official ranking metric.
 
 ## Deploy — genesisbench.benchflow.ai (Vercel, same as clawsbench)
 

@@ -420,21 +420,49 @@ def test_latest_task_results_merges_partial_runs(tmp_path: Path) -> None:
     assert selected[model_id][leaderboard.TASKS[1]][3] == "sha256:digest-2"
 
 
-def test_offline_report_builds_nine_task_boards_then_average() -> None:
+def test_iqm_matches_rliable_25_percent_trimmed_mean() -> None:
+    assert leaderboard._interquartile_mean(list(range(9))) == 4.0
+    assert leaderboard._interquartile_mean(
+        [-100.0, -50.0, 1.0, 2.0, 3.0, 4.0, 5.0, 100.0, 500.0]
+    ) == 3.0
+
+
+def test_offline_report_builds_nine_task_boards_then_final() -> None:
     rows = []
-    for model_id, model, average in (
+    for model_id, model, baseline in (
         ("model-a", "Model A", 5.0),
         ("model-b", "Model B", 10.0),
     ):
-        task_scores = {task: 0.0 for task in leaderboard.TASKS}
+        task_scores = {task: baseline for task in leaderboard.TASKS}
+        if model_id == "model-a":
+            task_scores[leaderboard.TASKS[0]] = 10.0
+            task_scores[leaderboard.TASKS[1]] = 30.0
+        else:
+            task_scores[leaderboard.TASKS[0]] = 20.0
+            task_scores[leaderboard.TASKS[1]] = 5.0
+        aggregates = leaderboard._aggregate_task_scores(task_scores)
         rows.append(
-            {
-                "model_id": model_id,
-                "model": model,
-                "harness": "opencode",
+                {
+                    "model_id": model_id,
+                    "model": model,
+                    "model_route": f"test/{model_id}",
+                    "provider": "test",
+                    "provider_label": "Test provider",
+                    "harness": "opencode",
                 "provider_reasoning_effort": "max",
-                "average_normalized_score": average,
+                **aggregates,
+                "average_normalized_score": aggregates[
+                    "arithmetic_mean_normalized_score"
+                ],
                 "task_scores": task_scores,
+                "raw_task_scores": task_scores,
+                "task_anchors": {
+                    task: {
+                        "starter_score": 0.0,
+                        "reference_score": 100.0,
+                    }
+                    for task in leaderboard.TASKS
+                },
                 "submission_details": {
                     task: f"leaderboard/submissions/{model_id}/{task}.json"
                     for task in leaderboard.TASKS
@@ -445,17 +473,18 @@ def test_offline_report_builds_nine_task_boards_then_average() -> None:
                 },
             }
         )
-    rows[0]["task_scores"][leaderboard.TASKS[0]] = 10.0
-    rows[1]["task_scores"][leaderboard.TASKS[0]] = 20.0
-    rows[0]["task_scores"][leaderboard.TASKS[1]] = 30.0
-    rows[1]["task_scores"][leaderboard.TASKS[1]] = 5.0
 
     boards = leaderboard._build_leaderboards(rows)
     markdown = leaderboard._render_article_suite_markdown(boards)
 
     assert len(boards) == 10
     assert [board["id"] for board in boards[:-1]] == list(leaderboard.TASKS)
-    assert boards[-1]["id"] == leaderboard.AVERAGE_LEADERBOARD_ID
+    assert boards[-1]["id"] == leaderboard.FINAL_LEADERBOARD_ID
+    assert boards[0]["metric"] == "raw_score"
+    assert boards[-1]["display_transform"]["offset"] == 100.0
+    assert all(
+        row["positive_display_score"] > 0 for row in boards[-1]["rows"]
+    )
     assert [row["model_id"] for row in boards[0]["rows"]] == [
         "model-b",
         "model-a",
@@ -464,12 +493,11 @@ def test_offline_report_builds_nine_task_boards_then_average() -> None:
         "model-a",
         "model-b",
     ]
-    assert [row["rank"] for row in boards[2]["rows"]] == [1, 1]
+    assert [row["rank"] for row in boards[2]["rows"]] == [1, 2]
     assert [row["model_id"] for row in boards[-1]["rows"]] == [
         "model-b",
         "model-a",
     ]
-    assert markdown.count("| Rank | Model | Harness | Effort |") == 10
-    assert markdown.rstrip().split("## ")[-1].startswith(
-        "10. Nine-task average"
-    )
+    assert "article_suite_task_leaderboards.png" in markdown
+    assert "article_suite_final_leaderboard.png" in markdown
+    assert "| Rank |" not in markdown
