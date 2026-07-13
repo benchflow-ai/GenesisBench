@@ -98,16 +98,14 @@ Run one model across all nine tasks:
 
 ```bash
 uv run python scripts/run_article_suite.py \
-  --model gpt-5.6-sol \
-  --sandbox daytona
+  --model gpt-5.6-sol
 ```
 
 Run all four canonical models and rebuild the aggregate leaderboard:
 
 ```bash
 uv run python scripts/run_article_suite.py \
-  --all-models \
-  --sandbox daytona
+  --all-models
 uv run python scripts/build_article_suite_leaderboard.py
 ```
 

@@ -62,7 +62,11 @@ def parse_args() -> argparse.Namespace:
         default=REPO_ROOT / "leaderboard" / "runs" / "article_suite",
     )
     parser.add_argument("--concurrency", type=int, default=1)
-    parser.add_argument("--sandbox", choices=("docker", "daytona"), default="docker")
+    parser.add_argument(
+        "--sandbox",
+        choices=("docker", "daytona"),
+        default="docker",
+    )
     parser.add_argument("--dry-run", action="store_true")
     return parser.parse_args()
 
@@ -192,7 +196,7 @@ def build_command(
         "--build-concurrency",
         "1",
         "--agent-idle-timeout",
-        "600",
+        str(model.get("agent_idle_timeout_sec", 600)),
         "--expected-tasks",
         str(len(tasks)),
         "--jobs-dir",
@@ -361,6 +365,10 @@ def main() -> None:
         run_env["BENCHFLOW_REASONING_EFFORT"] = model[
             "provider_reasoning_effort"
         ]
+        if "daytona_pty_readline_timeout_sec" in model:
+            run_env["BENCHFLOW_DAYTONA_PTY_READLINE_TIMEOUT"] = str(
+                model["daytona_pty_readline_timeout_sec"]
+            )
         started_at = time.time()
         metadata = {
             "model": model,

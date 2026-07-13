@@ -115,6 +115,36 @@ def test_opencode_config_pins_claude_oauth_plugin() -> None:
     assert definition["variants"]["max"]["thinking"]["budgetTokens"] == 31_999
 
 
+def test_claude_command_can_disable_idle_watchdog(tmp_path: Path) -> None:
+    model = {
+        "id": "claude-opus-4.8",
+        "display_name": "Claude Opus 4.8",
+        "model": "anthropic/claude-opus-4-8",
+        "provider": "claude_oauth",
+        "provider_reasoning_effort": "max",
+        "agent_idle_timeout_sec": 0,
+        "daytona_pty_readline_timeout_sec": 3600,
+    }
+
+    command = runner.build_command(
+        model=model,
+        jobs_dir=tmp_path / "jobs",
+        sandbox="daytona",
+        concurrency=1,
+        artifact_dir=tmp_path,
+        tasks=(runner.TASKS[0],),
+    )
+
+    assert command[command.index("--agent-idle-timeout") + 1] == "0"
+
+
+def test_claude_model_declares_long_daytona_pty_timeout() -> None:
+    models = runner._models()
+    claude = next(model for model in models if model["id"] == "claude-opus-4.8")
+
+    assert claude["daytona_pty_readline_timeout_sec"] == 3600
+
+
 def test_azure_resource_name_is_derived_without_exposing_endpoint() -> None:
     assert (
         runner._azure_resource_name(
@@ -243,6 +273,43 @@ def test_normalized_score_prefers_unbounded_verifier_details(
     assert leaderboard._normalized_task_score(row) == 103.811802037
 
 
+def test_article_score_packaging_sanitizes_absolute_artifact_paths() -> None:
+    payload = {
+        "policy_path": "/app/final_policy/policy.py",
+        "nested": {
+            "artifact_path": "/app/final_artifact",
+            "score": 12.0,
+        },
+        "episodes": [{"policy_path": "/private/path/policy.py"}],
+    }
+
+    sanitized = leaderboard._sanitize_score_paths(payload)
+
+    assert sanitized["policy_path"] == "submitted_artifact"
+    assert sanitized["nested"]["artifact_path"] == "submitted_artifact"
+    assert sanitized["nested"]["score"] == 12.0
+    assert sanitized["episodes"][0]["policy_path"] == "submitted_artifact"
+
+
+def test_ant_timeout_only_digest_change_is_score_compatible() -> None:
+    old_digest = next(
+        iter(
+            leaderboard.TASK_DIGEST_COMPATIBILITY[
+                "simulation_heuristics_ant_v1"
+            ]
+        )
+    )
+
+    note = leaderboard._digest_compatibility_note(
+        "simulation_heuristics_ant_v1",
+        old_digest,
+        "sha256:new",
+    )
+
+    assert note is not None
+    assert "fail-closed internal timeout" in note
+
+
 def test_scored_agent_timeout_is_a_valid_leaderboard_result(
     tmp_path: Path,
 ) -> None:
@@ -316,7 +383,7 @@ def test_latest_task_results_merges_partial_runs(tmp_path: Path) -> None:
             json.dumps(
                 {
                     "model": {"id": model_id},
-                    "return_code": 0,
+                    "return_code": 1 if index == 1 else 0,
                     "dry_run": False,
                     "finished_at": float(index),
                     "tasks": [task],

@@ -20,6 +20,8 @@ display_name = "Claude Opus 4.8"
 model = "anthropic/claude-opus-4-8"
 provider = "claude_oauth"
 provider_reasoning_effort = "max"
+agent_idle_timeout_sec = 0
+daytona_pty_readline_timeout_sec = 3600
 
 [[models]]
 id = "gpt-5.4-mini"

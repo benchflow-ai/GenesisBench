@@ -25,6 +25,15 @@ TASKS = (
     "simulation_heuristics_atari57_v1",
     "simulation_heuristics_montezuma_v1",
 )
+TASK_DIGEST_COMPATIBILITY = {
+    "simulation_heuristics_ant_v1": {
+        "sha256:bbb533da0cb86459f4d49dee667e6c73ac54c0188bc40e54e911d50ef3c3bc38": (
+            "Score-equivalent to the current task. The only later change adds "
+            "a fail-closed internal timeout for candidates whose verifier "
+            "would otherwise exceed BenchFlow's deadline."
+        )
+    }
+}
 
 
 def parse_args() -> argparse.Namespace:
@@ -128,6 +137,31 @@ def _normalized_task_score(row: dict[str, Any]) -> float:
     return 100.0 * float(row["reward"])
 
 
+def _sanitize_score_paths(value: Any) -> Any:
+    if isinstance(value, dict):
+        return {
+            key: (
+                "submitted_artifact"
+                if key in {"policy_path", "artifact_path"}
+                else _sanitize_score_paths(item)
+            )
+            for key, item in value.items()
+        }
+    if isinstance(value, list):
+        return [_sanitize_score_paths(item) for item in value]
+    return value
+
+
+def _digest_compatibility_note(
+    task: str,
+    recorded_digest: str,
+    current_digest: str,
+) -> str | None:
+    if recorded_digest == current_digest:
+        return None
+    return TASK_DIGEST_COMPATIBILITY.get(task, {}).get(recorded_digest)
+
+
 def _expected_models() -> dict[str, dict[str, Any]]:
     payload = tomllib.loads(MODELS_PATH.read_text())
     return {model["id"]: model for model in payload["models"]}
@@ -164,7 +198,7 @@ def _latest_task_results(
     ] = {}
     for metadata_path in runs_root.glob("*/*/run_metadata.json"):
         metadata = json.loads(metadata_path.read_text())
-        if metadata.get("return_code") != 0 or metadata.get("dry_run"):
+        if metadata.get("dry_run"):
             continue
         model_id = metadata.get("model", {}).get("id")
         finished_at = metadata.get("finished_at")
@@ -225,6 +259,7 @@ def main() -> None:
             + ", ".join(missing_models)
         )
     ranked: list[dict[str, Any]] = []
+    submissions_root = args.output.parent / "article_suite_submissions"
     for model_id in expected_models:
         model_results = task_results[model_id]
         missing_tasks = sorted(set(TASKS) - set(model_results))
@@ -236,7 +271,13 @@ def main() -> None:
         stale_tasks = [
             task
             for task in TASKS
-            if model_results[task][3]
+            if _digest_compatibility_note(
+                task,
+                model_results[task][3],
+                task_digest(REPO_ROOT / "tasks" / task),
+            )
+            is None
+            and model_results[task][3]
             != task_digest(REPO_ROOT / "tasks" / task)
         ]
         if stale_tasks:
@@ -255,6 +296,59 @@ def main() -> None:
             task: _normalized_task_score(model_results[task][1])
             for task in TASKS
         }
+        submission_details: dict[str, str] = {}
+        for task in TASKS:
+            _, result_row, model_root, digest = model_results[task]
+            current_digest = task_digest(REPO_ROOT / "tasks" / task)
+            compatibility_note = _digest_compatibility_note(
+                task,
+                digest,
+                current_digest,
+            )
+            task_metadata = json.loads(
+                (model_root / "run_metadata.json").read_text()
+            )
+            rollout_dir = Path(result_row["info"]["rollout_dir"])
+            source_score = rollout_dir / "verifier" / "genesis-score.json"
+            if not source_score.is_file():
+                raise RuntimeError(
+                    f"{model_id}/{task} has no verifier genesis-score.json"
+                )
+            destination = submissions_root / model_id / task
+            destination.mkdir(parents=True, exist_ok=True)
+            sanitized_score = _sanitize_score_paths(
+                json.loads(source_score.read_text())
+            )
+            (destination / "score.json").write_text(
+                json.dumps(sanitized_score, indent=2, sort_keys=True) + "\n"
+            )
+            source_run = str(model_root.relative_to(REPO_ROOT))
+            metadata_payload = {
+                "benchmark": "learning_beyond_gradients_article_suite",
+                "task": task,
+                "task_digest": digest,
+                "current_task_digest": current_digest,
+                "digest_compatibility_note": compatibility_note,
+                "model": task_metadata["model"],
+                "harness": task_metadata["harness"],
+                "provider_reasoning_effort": task_metadata[
+                    "provider_reasoning_effort"
+                ],
+                "normalized_score": task_scores[task],
+                "source_run_id": source_run,
+                "finished_at": task_metadata["finished_at"],
+                "tool_calls": result_row.get("metrics", {}).get(
+                    "n_tool_calls",
+                    result_row.get("total_tool_calls"),
+                ),
+                "token_usage": result_row.get("token_usage"),
+            }
+            (destination / "metadata.json").write_text(
+                json.dumps(metadata_payload, indent=2, sort_keys=True) + "\n"
+            )
+            submission_details[task] = str(
+                (destination / "score.json").relative_to(REPO_ROOT)
+            )
         average = sum(task_scores.values()) / len(TASKS)
         ranked.append(
             {
@@ -266,6 +360,7 @@ def main() -> None:
                 ],
                 "average_normalized_score": average,
                 "task_scores": task_scores,
+                "submission_details": submission_details,
                 "source_runs": {
                     task: str(
                         model_results[task][2].relative_to(REPO_ROOT)
@@ -286,6 +381,7 @@ def main() -> None:
         "task_count": len(TASKS),
         "tasks": list(TASKS),
         "aggregation": "arithmetic_mean_of_normalized_task_scores",
+        "task_digest_compatibility": TASK_DIGEST_COMPATIBILITY,
         "source_runs": {
             model_id: {
                 task: str(task_results[model_id][task][2].relative_to(REPO_ROOT))

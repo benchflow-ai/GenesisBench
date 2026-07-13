@@ -55,8 +55,8 @@ verifier:
   network_mode: no-network
 environment:
   build_timeout_sec: 1800
-  cpus: 16
-  memory_mb: 32768
+  cpus: 14
+  memory_mb: 8192
   storage_mb: 102400
   network_mode: public
   allow_internet: true

@@ -18,6 +18,7 @@ STARTER = TASK_DIR / "starter_policy" / "policy.py"
 ORACLE = TASK_DIR / "oracle" / "policy.py"
 REFERENCE = TASK_DIR / "verifier" / "anchor_policies" / "reference_policy.py"
 HIDDEN_EVALUATOR = TASK_DIR / "verifier" / "evaluate_hidden.py"
+VERIFIER_SCRIPT = TASK_DIR / "verifier" / "test.sh"
 PROVENANCE = TASK_DIR / "evidence" / "source_provenance.json"
 
 
@@ -154,6 +155,14 @@ def test_article_provenance_is_machine_readable() -> None:
     assert provenance["local_genesisbench_oracle_on_gymnasium"][
         "matches_local_source_policy"
     ]
+
+
+def test_verifier_timeout_fails_closed_before_benchflow_deadline() -> None:
+    script = VERIFIER_SCRIPT.read_text()
+
+    assert "timeout --signal=TERM --kill-after=30s 3900s" in script
+    assert '"verifier_timeout": True' in script
+    assert '"normalized_score": 0.0' in script
 
 
 @pytest.mark.skipif(

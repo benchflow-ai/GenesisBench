@@ -45,6 +45,10 @@ uv run python scripts/run_article_suite.py \
   --model gpt-5.6-sol
 ```
 
+Atari57 requests more CPU, memory, and storage than the current Daytona account
+allows. The all-nine commands therefore use the default local Docker sandbox.
+Use Daytona only for selected non-Atari tasks.
+
 Run all four models sequentially:
 
 ```bash
