@@ -1,0 +1,65 @@
+version = "1.0"
+
+[evaluation]
+max_steps = 2600
+target_score = 400.0
+failure_score = 0.0
+
+[[evaluation.variants]]
+name = "canonical"
+
+[[evaluation.variants]]
+name = "startup_noop_3"
+pre_policy_noops = 3
+
+[[evaluation.variants]]
+name = "startup_noop_13"
+pre_policy_noops = 13
+
+[[evaluation.variants]]
+name = "recover_512_noop_4"
+bootstrap_steps = 512
+pre_policy_noops = 4
+
+[[evaluation.variants]]
+name = "recover_512_noop_8"
+bootstrap_steps = 512
+pre_policy_noops = 8
+
+[[evaluation.variants]]
+name = "recover_768_noop_2"
+bootstrap_steps = 768
+pre_policy_noops = 2
+
+[[evaluation.variants]]
+name = "recover_900"
+bootstrap_steps = 900
+
+[[evaluation.suites]]
+name = "reproduction"
+weight = 0.25
+seeds = [10001]
+variants = ["canonical"]
+
+[[evaluation.suites]]
+name = "hidden_seeds"
+weight = 0.10
+seeds = [10007, 10103]
+variants = ["canonical"]
+
+[[evaluation.suites]]
+name = "noop_variants"
+weight = 0.10
+seeds = [10001]
+variants = ["startup_noop_3", "startup_noop_13"]
+
+[[evaluation.suites]]
+name = "recovery"
+weight = 0.55
+seeds = [10001]
+variants = [
+  "recover_512_noop_4",
+  "recover_512_noop_8",
+  "recover_768_noop_2",
+  "recover_900",
+]

@@ -1,4 +1,9 @@
-# Simulation Heuristics Ant v1 OpenHands sweep
+# Legacy Simulation Heuristics Ant v1 OpenHands sweep
+
+This directory documents the historical Ant-only sweep. It is retained so the
+published Ant leaderboard can be reproduced and audited. New experiments must
+use the OpenCode article-suite runner documented in
+`experiments/article_suite/README.md`.
 
 This experiment runs the same GenesisBench
 `simulation_heuristics_ant_v1` policy-improvement task with four model

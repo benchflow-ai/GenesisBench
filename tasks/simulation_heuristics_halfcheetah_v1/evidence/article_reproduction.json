@@ -1,0 +1,33 @@
+{
+  "article": {
+    "expected_max_return": 12041.2,
+    "expected_mean_return": 11836.693,
+    "expected_min_return": 11735.0,
+    "seeds": [
+      100,
+      101,
+      102,
+      103,
+      104
+    ]
+  },
+  "command": "uv run python tasks/simulation_heuristics_halfcheetah_v1/evaluate.py --policy tasks/simulation_heuristics_halfcheetah_v1/oracle/policy.py --episodes 5 --max-steps 1000 --seed 100",
+  "observed": {
+    "episode_returns": [
+      12041.189857475818,
+      11735.02927325886,
+      11854.710591778263,
+      11767.164473961016,
+      11785.373052623192
+    ],
+    "invalid_episode_rate": 0.0,
+    "max_return": 12041.189857475818,
+    "mean_return": 11836.693449819431,
+    "min_return": 11735.02927325886
+  },
+  "source": {
+    "artifact": "mujoco/halfcheetah/heuristic_halfcheetah_v5.py",
+    "repository": "Trinkle23897/learning-beyond-gradients",
+    "revision": "3555c2956c257d49a5015b782cbe485b14fd659e"
+  }
+}

@@ -11,13 +11,15 @@ task:
     - ant
     - mujoco
     - continuous-control
+    - model-predictive-control
 metadata:
   category: locomotion
-  difficulty: medium
+  difficulty: hard
   tags:
     - mujoco
     - continuous-control
     - policy-search
+    - model-predictive-control
     - robotics
   reference_task: true
   genesisbench:
@@ -39,7 +41,7 @@ agent:
   user: agent
   network_mode: public
 verifier:
-  timeout_sec: 300
+  timeout_sec: 4200
   user: root
   network_mode: no-network
 environment:
@@ -80,6 +82,15 @@ The environment has:
 may modify it, replace it, add training or search code, bundle learned weights,
 or implement model-predictive control.
 
+The trusted reference adapts the final Ant controller from *Learning Beyond
+Gradients*: a speed-adaptive, asymmetric rhythmic gait plus warm-started
+residual MPC with 96 candidate plans and a 10-step horizon. The article's
+EnvPool rerun over seeds `0..4` reported:
+
+```text
+mean 6005.521, min 5776.805, max 6146.208
+```
+
 ## Development evaluation
 
 Run:
@@ -96,6 +107,20 @@ python evaluate.py \
   --episodes 1 \
   --max-steps 150
 ```
+
+For a full five-seed reproduction:
+
+```bash
+python evaluate.py \
+  --policy path/to/policy.py \
+  --episodes 5 \
+  --max-steps 1000 \
+  --seed 0
+```
+
+The article MPC controller is CPU-intensive. Its copied-model rollouts do not
+increase the external episode-step count, but they consume wall-clock time and
+are included in action-latency metrics.
 
 The public evaluator uses visible development seeds. The final evaluator uses
 unseen seeds and conservative unseen dynamics variants. A policy that memorizes
@@ -129,6 +154,21 @@ The returned object must implement `reset` and `act`.
 Each action must be a finite NumPy-compatible array with shape `(8,)`. Values
 outside `[-1, 1]` are clipped.
 
+For model-based planning, a policy may optionally implement:
+
+```python
+def configure_simulator(
+    self,
+    *,
+    model_xml_path: str,
+    frame_skip: int,
+) -> None: ...
+```
+
+The evaluator calls this once per episode with a path to a copied MuJoCo model.
+It does not expose the live environment, reward, `info`, or hidden suite
+configuration.
+
 ## Rules
 
 1. Work autonomously. Do not ask for user feedback.
@@ -137,8 +177,9 @@ outside `[-1, 1]` are clipped.
 4. Do not access `/oracle`, `/verifier`, or reconstruct hidden evaluation
    seeds or dynamics files.
 5. Do not copy a completed Ant solution from the internet.
-6. The final policy receives observations only. It does not receive reward,
-   environment `info`, simulator objects, or hidden variant parameters.
+6. The final policy receives observations, its reset seed, and the optional
+   copied-model configuration hook only. It does not receive reward,
+   environment `info`, or a live simulator object.
 7. The final policy must run offline with the packages already installed.
 8. Before finishing, evaluate `final_policy/policy.py` and leave the best
    working version in place.

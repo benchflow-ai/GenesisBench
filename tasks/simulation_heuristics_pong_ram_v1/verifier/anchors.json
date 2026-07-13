@@ -1,0 +1,14 @@
+{
+  "environment": "EnvPool 1.1.1 Pong-v5 RAM, frame_skip=1, unclipped reward, no sticky actions",
+  "max_steps": 27000,
+  "source_commit": "3555c2956c257d49a5015b782cbe485b14fd659e",
+  "target_score": 21,
+  "reference_policy": {
+    "description": "Frozen geometric intercept controller reproducing Pong 21",
+    "path": "anchor_policies/reference_policy.py"
+  },
+  "starter_policy": {
+    "description": "Public weak late reactive RAM tracker",
+    "path": "anchor_policies/starter_policy.py"
+  }
+}

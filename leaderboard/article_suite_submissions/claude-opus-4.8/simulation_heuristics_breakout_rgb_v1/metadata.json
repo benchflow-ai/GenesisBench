@@ -1,0 +1,27 @@
+{
+  "benchmark": "learning_beyond_gradients_article_suite",
+  "current_task_digest": "sha256:7e126380af5345a4bfa0c9d29e45e68b8f1aa20d5d655d12187744100b24441a",
+  "digest_compatibility_note": null,
+  "finished_at": 1783940397.5345018,
+  "harness": "opencode",
+  "model": {
+    "display_name": "Claude Opus 4.8",
+    "id": "claude-opus-4.8",
+    "model": "anthropic/claude-opus-4-8",
+    "provider": "claude_oauth",
+    "provider_reasoning_effort": "max"
+  },
+  "normalized_score": 0.0,
+  "provider_reasoning_effort": "max",
+  "source_run_id": "leaderboard/runs/article_suite/20260713T090958Z/claude-opus-4.8",
+  "task": "simulation_heuristics_breakout_rgb_v1",
+  "task_digest": "sha256:7e126380af5345a4bfa0c9d29e45e68b8f1aa20d5d655d12187744100b24441a",
+  "token_usage": {
+    "final_input_tokens": 0.0,
+    "final_output_tokens": 0.0,
+    "input_tokens": 0.0,
+    "output_tokens": 0.0,
+    "total_tokens": 0.0
+  },
+  "tool_calls": 46
+}

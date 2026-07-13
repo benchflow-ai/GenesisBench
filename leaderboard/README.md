@@ -1,4 +1,17 @@
-# GenesisBench Simulation Heuristics Ant v1 Leaderboard
+# GenesisBench Leaderboards
+
+## Learning Beyond Gradients article suite
+
+| Rank | Model | Nine-task average |
+| ---: | --- | ---: |
+| 1 | GPT-5.5 | 43.19 |
+| 2 | Claude Opus 4.8 | 39.82 |
+| 3 | GPT-5.6 Sol | 39.38 |
+| 4 | GPT-5.4 Mini | -29.72 |
+
+See [`ARTICLE_SUITE.md`](ARTICLE_SUITE.md) for all nine task columns.
+
+## Legacy Simulation Heuristics Ant v1
 
 ![GenesisBench Simulation Heuristics Ant v1 leaderboard](simulation_heuristics_ant_v1_leaderboard.png)
 

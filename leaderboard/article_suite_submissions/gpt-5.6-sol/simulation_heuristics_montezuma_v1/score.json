@@ -1,0 +1,216 @@
+{
+  "normalized_score": 0.0,
+  "reference_score": 400.0,
+  "score": 0.0,
+  "starter_score": 0.0,
+  "suites": {
+    "hidden_seeds": {
+      "evaluation": {
+        "capped_mean_score": 0.0,
+        "episodes": [
+          {
+            "bootstrap_steps": 0,
+            "invalid_action": false,
+            "length": 2600,
+            "mean_action_latency_ms": 0.10412707590148784,
+            "policy_error": null,
+            "policy_steps": 2600,
+            "pre_policy_noops": 0,
+            "return": 0.0,
+            "seed": 10007,
+            "target_reached": false,
+            "terminated": false,
+            "truncated": true,
+            "variant": "canonical"
+          },
+          {
+            "bootstrap_steps": 0,
+            "invalid_action": false,
+            "length": 2600,
+            "mean_action_latency_ms": 0.10631888453365089,
+            "policy_error": null,
+            "policy_steps": 2600,
+            "pre_policy_noops": 0,
+            "return": 0.0,
+            "seed": 10103,
+            "target_reached": false,
+            "terminated": false,
+            "truncated": true,
+            "variant": "canonical"
+          }
+        ],
+        "invalid_episode_rate": 0.0,
+        "max_steps": 2600,
+        "mean_action_latency_ms": 0.10522298021756937,
+        "mean_return": 0.0,
+        "policy_path": "submitted_artifact",
+        "recovery_success_rate": 0.0,
+        "score": 0.0,
+        "target_score": 400.0,
+        "target_success_rate": 0.0
+      },
+      "score": 0.0,
+      "weight": 0.1
+    },
+    "noop_variants": {
+      "evaluation": {
+        "capped_mean_score": 0.0,
+        "episodes": [
+          {
+            "bootstrap_steps": 0,
+            "invalid_action": false,
+            "length": 2600,
+            "mean_action_latency_ms": 0.10265886916421801,
+            "policy_error": null,
+            "policy_steps": 2597,
+            "pre_policy_noops": 3,
+            "return": 0.0,
+            "seed": 10001,
+            "target_reached": false,
+            "terminated": false,
+            "truncated": true,
+            "variant": "startup_noop_3"
+          },
+          {
+            "bootstrap_steps": 0,
+            "invalid_action": false,
+            "length": 2600,
+            "mean_action_latency_ms": 0.10074814882796873,
+            "policy_error": null,
+            "policy_steps": 2587,
+            "pre_policy_noops": 13,
+            "return": 0.0,
+            "seed": 10001,
+            "target_reached": false,
+            "terminated": false,
+            "truncated": true,
+            "variant": "startup_noop_13"
+          }
+        ],
+        "invalid_episode_rate": 0.0,
+        "max_steps": 2600,
+        "mean_action_latency_ms": 0.10170350899609337,
+        "mean_return": 0.0,
+        "policy_path": "submitted_artifact",
+        "recovery_success_rate": 0.0,
+        "score": 0.0,
+        "target_score": 400.0,
+        "target_success_rate": 0.0
+      },
+      "score": 0.0,
+      "weight": 0.1
+    },
+    "recovery": {
+      "evaluation": {
+        "capped_mean_score": 0.0,
+        "episodes": [
+          {
+            "bootstrap_steps": 512,
+            "invalid_action": false,
+            "length": 2600,
+            "mean_action_latency_ms": 0.0991505951992229,
+            "policy_error": null,
+            "policy_steps": 2084,
+            "pre_policy_noops": 4,
+            "return": 0.0,
+            "seed": 10001,
+            "target_reached": false,
+            "terminated": false,
+            "truncated": true,
+            "variant": "recover_512_noop_4"
+          },
+          {
+            "bootstrap_steps": 512,
+            "invalid_action": false,
+            "length": 2600,
+            "mean_action_latency_ms": 0.09907003707037522,
+            "policy_error": null,
+            "policy_steps": 2080,
+            "pre_policy_noops": 8,
+            "return": 0.0,
+            "seed": 10001,
+            "target_reached": false,
+            "terminated": false,
+            "truncated": true,
+            "variant": "recover_512_noop_8"
+          },
+          {
+            "bootstrap_steps": 768,
+            "invalid_action": false,
+            "length": 2600,
+            "mean_action_latency_ms": 0.11110870922086098,
+            "policy_error": null,
+            "policy_steps": 1830,
+            "pre_policy_noops": 2,
+            "return": 0.0,
+            "seed": 10001,
+            "target_reached": false,
+            "terminated": false,
+            "truncated": true,
+            "variant": "recover_768_noop_2"
+          },
+          {
+            "bootstrap_steps": 900,
+            "invalid_action": false,
+            "length": 2600,
+            "mean_action_latency_ms": 0.10168849173864788,
+            "policy_error": null,
+            "policy_steps": 1700,
+            "pre_policy_noops": 0,
+            "return": 0.0,
+            "seed": 10001,
+            "target_reached": false,
+            "terminated": false,
+            "truncated": true,
+            "variant": "recover_900"
+          }
+        ],
+        "invalid_episode_rate": 0.0,
+        "max_steps": 2600,
+        "mean_action_latency_ms": 0.10275445830727675,
+        "mean_return": 0.0,
+        "policy_path": "submitted_artifact",
+        "recovery_success_rate": 0.0,
+        "score": 0.0,
+        "target_score": 400.0,
+        "target_success_rate": 0.0
+      },
+      "score": 0.0,
+      "weight": 0.55
+    },
+    "reproduction": {
+      "evaluation": {
+        "capped_mean_score": 0.0,
+        "episodes": [
+          {
+            "bootstrap_steps": 0,
+            "invalid_action": false,
+            "length": 2600,
+            "mean_action_latency_ms": 0.10425583515405798,
+            "policy_error": null,
+            "policy_steps": 2600,
+            "pre_policy_noops": 0,
+            "return": 0.0,
+            "seed": 10001,
+            "target_reached": false,
+            "terminated": false,
+            "truncated": true,
+            "variant": "canonical"
+          }
+        ],
+        "invalid_episode_rate": 0.0,
+        "max_steps": 2600,
+        "mean_action_latency_ms": 0.10425583515405798,
+        "mean_return": 0.0,
+        "policy_path": "submitted_artifact",
+        "recovery_success_rate": 0.0,
+        "score": 0.0,
+        "target_score": 400.0,
+        "target_success_rate": 0.0
+      },
+      "score": 0.0,
+      "weight": 0.25
+    }
+  },
+  "target_score": 400.0
+}

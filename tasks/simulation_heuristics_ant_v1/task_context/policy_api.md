@@ -30,3 +30,35 @@ to the eight Ant hinge actuators and must have shape `(8,)`.
 The policy may keep recurrent state and may load files stored below
 `final_policy/`.
 
+## Optional simulator configuration
+
+Model-based policies may define:
+
+```python
+def configure_simulator(
+    self,
+    *,
+    model_xml_path: str,
+    frame_skip: int,
+) -> None:
+    ...
+```
+
+Call order is:
+
+```text
+reset the environment
+instantiate policy
+configure_simulator(...)  # when implemented
+reset(seed=...)
+act(observation) repeated for the episode
+```
+
+`model_xml_path` is a private per-episode XML copy matching the current
+episode, including a conservative hidden dynamics variant when applicable.
+Policies may load that model into their own `MjModel`/`MjData` for planning.
+
+The policy never receives the live `gymnasium.Env`, its mutable `MjData`,
+reward, `info`, or hidden suite configuration. The copied model therefore
+enables MPC without allowing the policy to step or mutate the scored
+environment.

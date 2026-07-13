@@ -41,15 +41,20 @@ jobs:
           tasks/simulation_heuristics_ant_v1
           --level publication-grade
 
-      - name: Run native BenchFlow oracle
-        run: >-
-          uv run bench eval run
-          --tasks-dir tasks/simulation_heuristics_ant_v1
-          --agent oracle
-          --sandbox docker
-          --context-root .
-          --jobs-dir /tmp/genesisbench-oracle
-          --concurrency 1
+      - name: Run native BenchFlow oracle smoke
+        shell: bash
+        run: |
+          full_config="$(mktemp)"
+          cp tasks/simulation_heuristics_ant_v1/verifier/config.toml "$full_config"
+          trap 'cp "$full_config" tasks/simulation_heuristics_ant_v1/verifier/config.toml; rm -f "$full_config"' EXIT
+          cp tasks/simulation_heuristics_ant_v1/verifier/config_smoke.toml tasks/simulation_heuristics_ant_v1/verifier/config.toml
+          uv run bench eval run \
+            --tasks-dir tasks/simulation_heuristics_ant_v1 \
+            --agent oracle \
+            --sandbox docker \
+            --context-root . \
+            --jobs-dir /tmp/genesisbench-oracle \
+            --concurrency 1
 
       - name: Audit packaged leaderboard
         run: uv run python scripts/audit_simulation_heuristics_ant_v1_leaderboard.py

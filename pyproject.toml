@@ -45,6 +45,9 @@ dev = [
   "pytest>=8.4,<9",
   "ruff>=0.12,<1",
 ]
+sandbox-daytona = [
+  "benchflow[sandbox-daytona]>=0.6.5,<0.7",
+]
 
 [project.scripts]
 genesisbench-eval-simulation-heuristics-ant-v1 = "genesisbench.cli:main"

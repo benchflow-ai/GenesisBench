@@ -30,9 +30,34 @@ That experiment evolved an interpretable controller through:
 - warm-started planning and adaptive gait timing.
 
 The public artifacts report a five-episode mean near `6005` in EnvPool's
-`Ant-v5`. GenesisBench does not ask agents to reproduce that exact public
-solution on the exact public setup because copying a completed controller would
-not measure autonomous research.
+`Ant-v5`: mean `6005.521`, minimum `5776.805`, and maximum `6146.208`.
+
+GenesisBench keeps the public weak CPG/PD starter so agents still face an
+authentic policy-improvement problem. The trusted oracle and normalization
+anchor now reproduce the article's final controller instead of using an
+unrelated stronger rhythmic policy.
+
+That reference combines:
+
+- speed-adaptive phase increment and stance duty;
+- higher-harmonic CPG joint targets;
+- posture and heading feedback;
+- a 10-step copied-MuJoCo planning horizon;
+- 96 residual-action candidates per external step;
+- temporal residual smoothing and warm-start plan decay;
+- forward, control, posture, yaw, height, health, and terminal-velocity
+  objective terms.
+
+The source used EnvPool `1.1.1`; GenesisBench uses Gymnasium. The supplied
+`ant_envpool.xml` and Gymnasium's Ant XML parse to the same MuJoCo model, but
+the two runtimes use different reset random-number streams. Machine-readable
+source hashes and both result families live in
+`tasks/simulation_heuristics_ant_v1/evidence/source_provenance.json`.
+
+On the development host, both the imported source policy and the GenesisBench
+adaptation produced the same Gymnasium seed-`0..4` returns: mean
+`5895.932216`, minimum `5791.444245`, and maximum `6131.400491`. A separate
+50-step action-parity probe had maximum absolute difference `0.0`.
 
 ## Benchmark translation
 
@@ -81,6 +106,17 @@ It must expose `Policy` or `make_policy` and produce finite eight-dimensional
 actions from observations. The final evaluator imports this artifact in a clean
 process after the agent exits.
 
+Policies may optionally expose:
+
+```python
+configure_simulator(model_xml_path=..., frame_skip=...)
+```
+
+The evaluator supplies a copied model matching the current episode. It never
+passes the live `Env`, mutable scored `MjData`, reward, `info`, or hidden suite
+configuration. This preserves the article's model-based planning capability
+without letting a policy step or mutate the scored simulator.
+
 ## Hidden evaluation
 
 The reproducibility suite evaluates:
@@ -116,6 +152,11 @@ policies on the same platform as the submission. This keeps `0` and `100`
 stable across small MuJoCo platform differences. A hosted private suite may
 instead inject fixed scores through its private anchors file.
 
+The reference and oracle policy files are byte-identical. The verifier caches
+evaluations by `policy.py` SHA-256 fingerprint so an oracle run evaluates the
+expensive MPC controller once rather than once as the submission and again as
+the reference anchor.
+
 Interpretation:
 
 - `0`: matches the starter;
@@ -141,11 +182,23 @@ authoritative interaction meter before making sample-efficiency claims across
 agents.
 
 Internal MPC transitions must also remain separate from external environment
-steps in any future accounting.
+steps in any future accounting. The final reference performs roughly
+`96 x 10` copied-model environment steps for every scored external action, so
+full hidden evaluation is intentionally a long-running publication check.
+
+Ordinary unit tests use an injected one-step hidden config. The full
+five-seed, 1,000-step reproduction is opt-in through:
+
+```bash
+GENESISBENCH_RUN_SLOW_ANT_MPC=1 \
+  uv run pytest -q tests/test_simulation_heuristics_ant_v1.py
+```
 
 ## Benchmark integrity
 
 - The agent container receives the public task but not `verifier/`.
+- The agent receives only a copied model path for optional MPC, never the live
+  scored environment.
 - Credentials are supplied through a temporary mode-`0600` file and removed
   after agent startup.
 - Final scores come from the independently imported final policy.

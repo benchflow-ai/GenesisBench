@@ -1,0 +1,98 @@
+{
+  "environment": "EnvPool 1.1.1 D1Basic-v1, rendered RGB pixels plus HEALTH only",
+  "calibrations": {
+    "darwin-arm64": {
+      "envpool_version": "1.1.1",
+      "evaluation": {
+        "scenario": "d1",
+        "max_steps": 2100,
+        "frame_skip": 1,
+        "render_width": 240,
+        "render_height": 180,
+        "failure_return": -1.0,
+        "suites": [
+          {
+            "name": "hidden_nominal",
+            "weight": 0.7,
+            "seed": 101,
+            "episodes": 5
+          },
+          {
+            "name": "hidden_secondary",
+            "weight": 0.3,
+            "seed": 607,
+            "episodes": 5
+          }
+        ]
+      },
+      "reference_policy": {
+        "score": 0.6982399759441613,
+        "suite_mean_returns": {
+          "hidden_nominal": 0.8401999741792678,
+          "hidden_secondary": 0.3669999800622463
+        }
+      },
+      "starter_policy": {
+        "score": 0.44161998964846133,
+        "suite_mean_returns": {
+          "hidden_nominal": 0.5395999886095524,
+          "hidden_secondary": 0.21299999207258224
+        }
+      }
+    },
+    "linux-x86_64": {
+      "envpool_version": "1.1.1",
+      "evaluation": {
+        "scenario": "d1",
+        "max_steps": 2100,
+        "frame_skip": 1,
+        "render_width": 240,
+        "render_height": 180,
+        "failure_return": -1.0,
+        "suites": [
+          {
+            "name": "hidden_nominal",
+            "weight": 0.7,
+            "seed": 101,
+            "episodes": 5
+          },
+          {
+            "name": "hidden_secondary",
+            "weight": 0.3,
+            "seed": 607,
+            "episodes": 5
+          }
+        ]
+      },
+      "reference_policy": {
+        "score": 0.8178199748694897,
+        "suite_mean_returns": {
+          "hidden_nominal": 0.9847999721765518,
+          "hidden_secondary": 0.42819998115301133
+        }
+      },
+      "starter_policy": {
+        "score": 0.44161998964846133,
+        "suite_mean_returns": {
+          "hidden_nominal": 0.5395999886095524,
+          "hidden_secondary": 0.21299999207258224
+        }
+      }
+    }
+  },
+  "public_article_target": {
+    "envpool_version": "1.1.1",
+    "batch_seed": 0,
+    "episodes": 10,
+    "mean_return": 0.9440999741666019,
+    "min_return": 0.28999998047947884
+  },
+  "reference_policy": {
+    "description": "Frozen morphology and connected-components medikit policy",
+    "path": "anchor_policies/reference_policy.py"
+  },
+  "starter_policy": {
+    "description": "Public weak brightness-centroid starter",
+    "path": "anchor_policies/starter_policy.py"
+  }
+}

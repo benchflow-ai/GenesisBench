@@ -22,10 +22,10 @@ instruction-tuned language model.
 
 ## Reference Task: Simulation Heuristics Ant v1
 
-`tasks/simulation_heuristics_ant_v1/` is the first executable task and the canonical example for
-future contributors. An agent receives a weak rhythmic CPG/PD controller for
-Gymnasium `Ant-v5`, repeatedly edits and evaluates it, and submits
-`final_policy/policy.py`.
+`tasks/simulation_heuristics_ant_v1/` is the first executable task and the
+canonical package example. The complete article-derived suite contains nine
+tasks spanning MuJoCo locomotion, Atari RAM and vision control, VizDoom,
+long-horizon recovery, and the aggregate Atari57 workflow.
 
 The package follows BenchFlow `0.6.5`'s native `task.md` format
 (`schema_version: "1.3"`, document version `"0.6"`).
@@ -76,15 +76,16 @@ uv run python scripts/prepare_task.py \
   --force
 ```
 
-The prepared OpenHands workspace deliberately excludes `verifier/`, `oracle/`,
+The prepared OpenCode workspace deliberately excludes `verifier/`, `oracle/`,
 and `evidence/`.
 
-## OpenHands Experiment
+## OpenCode Article-Suite Experiment
 
-Build the isolated runner:
+OpenCode is the default and only leaderboard harness for the nine-task suite.
+Install the Daytona dependency when using the hosted sandbox:
 
 ```bash
-sh scripts/build_simulation_heuristics_ant_v1_runner_image.sh
+uv sync --extra dev --extra sandbox-daytona
 ```
 
 Configure credentials:
@@ -93,24 +94,51 @@ Configure credentials:
 cp .env.example .env
 ```
 
-Run one agent:
+Run one model across all nine tasks:
 
 ```bash
-uv run python scripts/run_simulation_heuristics_ant_v1_experiment.py \
-  --model gpt-5.6-sol \
-  --minutes 30
+uv run python scripts/run_article_suite.py \
+  --model gpt-5.6-sol
 ```
 
-See `experiments/simulation_heuristics_ant_v1/README.md` for model routes, fairness controls, artifact
-layout, and leaderboard regeneration.
+Run all four canonical models and rebuild the aggregate leaderboard:
 
-## Current Leaderboard
+```bash
+uv run python scripts/run_article_suite.py \
+  --all-models
+uv run python scripts/build_article_suite_leaderboard.py
+```
+
+See `experiments/article_suite/README.md` for the exact model routes, task
+manifest, isolation controls, and scoring contract. The task-by-task research
+mapping is documented in `docs/learning-beyond-gradients-suite.md`.
+
+## Article-Suite Leaderboard
+
+The first OpenCode sweep across all nine article-derived tasks:
+
+| Rank | Model | Nine-task average |
+| ---: | --- | ---: |
+| 1 | GPT-5.5 | 43.19 |
+| 2 | Claude Opus 4.8 | 39.82 |
+| 3 | GPT-5.6 Sol | 39.38 |
+| 4 | GPT-5.4 Mini | -29.72 |
+
+See [`leaderboard/ARTICLE_SUITE.md`](leaderboard/ARTICLE_SUITE.md) for every
+per-task score and `leaderboard/article_suite.json` for the machine-readable
+leaderboard.
+
+Scores are unbounded normalized values: `0` matches the public starter and
+`100` matches the trusted article-level reference. Negative scores are genuine
+regressions; scores above `100` exceed the reference.
+
+## Legacy Ant-Only Leaderboard
 
 ![GenesisBench Simulation Heuristics Ant v1 leaderboard](leaderboard/simulation_heuristics_ant_v1_leaderboard.png)
 
-The first four-model OpenHands sweep used equal 30-minute budgets and each
-model's highest supported reasoning setting. Machine-readable results and
-packaged policies are in `leaderboard/`.
+The table below is the historical Ant-only OpenHands sweep. It remains for
+provenance; new GenesisBench leaderboard runs use OpenCode and the nine-task
+article suite.
 
 | Rank | Model | Hidden-suite score |
 | ---: | --- | ---: |

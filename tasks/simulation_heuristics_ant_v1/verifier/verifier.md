@@ -30,3 +30,12 @@ dynamics variants. BenchFlow's canonical reward is the normalized GenesisBench
 score clamped to `[0, 1]`; the full raw and normalized metrics remain available
 in `genesis-score.json`.
 
+The evaluator has an internal 3,900-second fail-closed deadline. A candidate
+whose planning cost prevents hidden evaluation from finishing receives
+normalized score `0` with `verifier_timeout=true`, rather than triggering an
+expensive whole-task retry.
+
+Normalization evaluates local copies of the weak starter and article
+residual-MPC reference. Policies with identical `policy.py` content share one
+cached evaluation per verifier invocation, preventing the oracle from paying
+the MPC reference cost twice.

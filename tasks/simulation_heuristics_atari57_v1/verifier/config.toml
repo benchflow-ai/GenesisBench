@@ -1,0 +1,10 @@
+version = "1.0"
+
+[evaluation]
+backend = "envpool"
+games = "atari57"
+obs_modes = "both"
+seeds = [10001, 20001, 30001]
+max_steps = 108000
+hns_table = "hns_normalization.csv"
+require_complete_search_ledger = true

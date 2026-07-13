@@ -1,0 +1,29 @@
+version = "1.0"
+
+[evaluation]
+observation_mode = "rgb"
+max_steps = 30000
+failure_return = -1.0
+target_score = 864.0
+
+[[evaluation.suites]]
+name = "hidden_nominal"
+weight = 0.5
+seeds = [101]
+variants = ["nominal"]
+
+[[evaluation.suites]]
+name = "hidden_shifted_start"
+weight = 0.5
+seeds = [211]
+variants = ["right_6"]
+
+[[evaluation.variants]]
+name = "nominal"
+repeat_action_probability = 0.0
+initial_actions = []
+
+[[evaluation.variants]]
+name = "right_6"
+repeat_action_probability = 0.0
+initial_actions = [2, 2, 2, 2, 2, 2]

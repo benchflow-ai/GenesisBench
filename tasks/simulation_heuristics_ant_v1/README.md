@@ -1,8 +1,8 @@
 # Simulation Heuristics Ant v1 — Reference Task
 
-`simulation_heuristics_ant_v1` is the canonical, end-to-end example for GenesisBench contributors.
-It demonstrates how to turn an open-ended robotics research loop into a
-repeatable coding-agent benchmark:
+`simulation_heuristics_ant_v1` is the canonical, end-to-end example for
+GenesisBench contributors. It demonstrates how to turn an open-ended robotics
+research loop into a repeatable coding-agent benchmark:
 
 ```text
 starter policy
@@ -44,11 +44,46 @@ raw score =
 The normalized score maps:
 
 - the checked-in starter controller to `0`;
-- the checked-in stronger reference controller to `100`.
+- the checked-in article residual-MPC reference controller to `100`.
 
 The verifier evaluates trusted copies of both anchors on the same platform as
 the submitted policy, avoiding small MuJoCo macOS/Linux drift. Scores above
-`100` are valid.
+`100` are valid. It caches evaluations by `policy.py` fingerprint, so an oracle
+submission byte-identical to the reference is not evaluated twice.
+
+## Article reference
+
+The trusted reference adapts the final Ant controller from *Learning Beyond
+Gradients* at revision
+`3555c2956c257d49a5015b782cbe485b14fd659e`.
+
+It combines a speed-adaptive CPG/PD gait with warm-started residual MPC:
+
+```text
+96 candidate plans per external step
+× 10-step horizon
+× copied MuJoCo model
+```
+
+The article's EnvPool rerun reported seeds `0..4` with mean `6005.521`,
+minimum `5776.805`, and maximum `6146.208`.
+
+Gymnasium and the supplied EnvPool XML parse to the same MuJoCo model. Their
+reset random-number streams differ, so platform-specific results are recorded
+separately in `evidence/source_provenance.json`.
+
+On the development host, the GenesisBench oracle reproduced the imported
+source controller exactly under Gymnasium:
+
+```text
+seeds 0..4
+mean 5895.932216
+min  5791.444245
+max  6131.400491
+```
+
+All five episodes reached 1,000 steps. The adapted and source controllers also
+selected byte-identical floating-point actions over a 50-step parity probe.
 
 ## Run locally
 
@@ -60,6 +95,38 @@ uv run python tasks/simulation_heuristics_ant_v1/evaluate.py \
 
 uv run python tasks/simulation_heuristics_ant_v1/verifier/evaluate_hidden.py \
   tasks/simulation_heuristics_ant_v1/starter_policy/policy.py
+```
+
+The hidden-evaluator command runs the full suite and calibrates the MPC
+reference locally, so it can take tens of minutes. Use the focused pytest suite
+for ordinary development.
+
+Run a one-step MPC smoke:
+
+```bash
+uv run python tasks/simulation_heuristics_ant_v1/evaluate.py \
+  --policy tasks/simulation_heuristics_ant_v1/oracle/policy.py \
+  --episodes 1 \
+  --max-steps 1 \
+  --seed 0
+```
+
+Run the full five-seed article-reference reproduction:
+
+```bash
+uv run python tasks/simulation_heuristics_ant_v1/evaluate.py \
+  --policy tasks/simulation_heuristics_ant_v1/oracle/policy.py \
+  --episodes 5 \
+  --max-steps 1000 \
+  --seed 0
+```
+
+The exact planner is intentionally CPU-heavy. Use the gated regression test
+when a full reproduction is required:
+
+```bash
+GENESISBENCH_RUN_SLOW_ANT_MPC=1 \
+  uv run pytest -q tests/test_simulation_heuristics_ant_v1.py
 ```
 
 Validate the native BenchFlow package:
@@ -79,6 +146,13 @@ uv run bench eval run \
   --sandbox docker \
   --context-root .
 ```
+
+The checked-in `verifier/config.toml` is the full publication-grade suite and
+can take tens of minutes with the residual-MPC reference. CI temporarily swaps
+in `verifier/config_smoke.toml` for the command above. The smoke suite still
+exercises the Docker environment, copied-model planning, a dynamics variant,
+anchor normalization, and reward emission, while keeping the GitHub Actions
+gate bounded.
 
 `--context-root .` lets BenchFlow stage the repo-root sources referenced by the
 task's `environment/Dockerfile` into its isolated build context.
@@ -105,8 +179,10 @@ The custom OpenHands experiment workspace must not contain `verifier/`,
 | `task_context/policy_api.md` | Stable policy interface |
 | `verifier/evaluate_hidden.py` | Clean final score calculation |
 | `verifier/config.toml` | Reproducibility evaluation suite |
+| `verifier/config_smoke.toml` | One-step CI integration suite |
 | `verifier/anchors.json` | Frozen normalization anchors |
 | `oracle/solve.sh` | BenchFlow oracle entrypoint |
+| `evidence/source_provenance.json` | Source hashes, license, and reproduction metrics |
 
 ## Public versus private final suites
 

@@ -1,0 +1,12 @@
+{
+  "environment": "Gymnasium HalfCheetah-v5 with 17 observations and optional copied-model planning",
+  "max_steps": 1000,
+  "reference_policy": {
+    "description": "Article staged swing-amplitude top-K8 tree MPC policy",
+    "path": "anchor_policies/reference_policy.py"
+  },
+  "starter_policy": {
+    "description": "Public asymmetric two-rate CPG/PD policy",
+    "path": "anchor_policies/starter_policy.py"
+  }
+}

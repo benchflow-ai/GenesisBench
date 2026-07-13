@@ -1,0 +1,22 @@
+version = "1.0"
+
+[evaluation]
+scenario = "d1"
+max_steps = 2100
+frame_skip = 1
+render_width = 240
+render_height = 180
+failure_return = -1.0
+
+[[evaluation.suites]]
+name = "hidden_nominal"
+weight = 0.7
+seed = 101
+episodes = 5
+
+[[evaluation.suites]]
+name = "hidden_secondary"
+weight = 0.3
+seed = 607
+episodes = 5
+

@@ -1,0 +1,54 @@
+{
+  "environment": "EnvPool 1.1.1 D3Battle-v1, screen CV plus five public variables",
+  "calibration": {
+    "envpool_version": "1.1.1",
+    "evaluation": {
+      "scenario": "d3",
+      "max_steps": 1050,
+      "frame_skip": 2,
+      "render_width": 640,
+      "render_height": 480,
+      "failure_return": 0.0,
+      "suites": [
+        {
+          "name": "hidden_nominal",
+          "weight": 0.7,
+          "seed": 101,
+          "episodes": 5
+        },
+        {
+          "name": "hidden_secondary",
+          "weight": 0.3,
+          "seed": 607,
+          "episodes": 5
+        }
+      ]
+    }
+  },
+  "public_article_target": {
+    "envpool_version": "1.1.1",
+    "batch_seed": 0,
+    "episodes": 10,
+    "mean_return": 557.0,
+    "min_return": 440.0,
+    "returns": [545, 475, 480, 440, 690, 500, 600, 595, 530, 715]
+  },
+  "reference_policy": {
+    "description": "Frozen screen-CV combat, supply, and exploration policy",
+    "path": "anchor_policies/reference_policy.py",
+    "score": 331.1,
+    "suite_mean_returns": {
+      "hidden_nominal": 311.0,
+      "hidden_secondary": 378.0
+    }
+  },
+  "starter_policy": {
+    "description": "Public weak sweep-and-fire starter",
+    "path": "anchor_policies/starter_policy.py",
+    "score": 31.9,
+    "suite_mean_returns": {
+      "hidden_nominal": 28.0,
+      "hidden_secondary": 41.0
+    }
+  }
+}

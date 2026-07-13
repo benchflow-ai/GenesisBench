@@ -1,0 +1,9 @@
+version = "0.1"
+
+[[criteria]]
+id = "task_success"
+description = "Normalized hidden-suite pixel-only Breakout return."
+weight = 1.0
+
+[scoring]
+method = "weighted_mean"

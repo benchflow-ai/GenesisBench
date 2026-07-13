@@ -1,0 +1,234 @@
+{
+  "aggregation": "arithmetic_mean_of_normalized_task_scores",
+  "benchmark": "learning_beyond_gradients_article_suite",
+  "generated_at": "2026-07-13T15:34:22.260689+00:00",
+  "rows": [
+    {
+      "average_normalized_score": 43.19059338577778,
+      "harness": "opencode",
+      "model": "GPT-5.5",
+      "model_id": "gpt-5.5",
+      "provider_reasoning_effort": "xhigh",
+      "rank": 1,
+      "source_runs": {
+        "simulation_heuristics_ant_v1": "leaderboard/runs/article_suite/20260713T095807Z/gpt-5.5",
+        "simulation_heuristics_atari57_v1": "leaderboard/runs/article_suite/20260713T111604Z/gpt-5.5",
+        "simulation_heuristics_breakout_ram_v1": "leaderboard/runs/article_suite/20260713T084111Z/gpt-5.5",
+        "simulation_heuristics_breakout_rgb_v1": "leaderboard/runs/article_suite/20260713T084111Z/gpt-5.5",
+        "simulation_heuristics_halfcheetah_v1": "leaderboard/runs/article_suite/20260713T103810Z/gpt-5.5",
+        "simulation_heuristics_montezuma_v1": "leaderboard/runs/article_suite/20260713T084111Z/gpt-5.5",
+        "simulation_heuristics_pong_ram_v1": "leaderboard/runs/article_suite/20260713T084111Z/gpt-5.5",
+        "simulation_heuristics_vizdoom_d1_v1": "leaderboard/runs/article_suite/20260713T102218Z/gpt-5.5",
+        "simulation_heuristics_vizdoom_d3_v1": "leaderboard/runs/article_suite/20260713T084111Z/gpt-5.5"
+      },
+      "submission_details": {
+        "simulation_heuristics_ant_v1": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_ant_v1/score.json",
+        "simulation_heuristics_atari57_v1": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_atari57_v1/score.json",
+        "simulation_heuristics_breakout_ram_v1": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_breakout_ram_v1/score.json",
+        "simulation_heuristics_breakout_rgb_v1": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_breakout_rgb_v1/score.json",
+        "simulation_heuristics_halfcheetah_v1": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_halfcheetah_v1/score.json",
+        "simulation_heuristics_montezuma_v1": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_montezuma_v1/score.json",
+        "simulation_heuristics_pong_ram_v1": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_pong_ram_v1/score.json",
+        "simulation_heuristics_vizdoom_d1_v1": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_vizdoom_d1_v1/score.json",
+        "simulation_heuristics_vizdoom_d3_v1": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_vizdoom_d3_v1/score.json"
+      },
+      "task_scores": {
+        "simulation_heuristics_ant_v1": -16.891796576,
+        "simulation_heuristics_atari57_v1": 0.0,
+        "simulation_heuristics_breakout_ram_v1": 95.597484277,
+        "simulation_heuristics_breakout_rgb_v1": 70.758122744,
+        "simulation_heuristics_halfcheetah_v1": 2.73755349,
+        "simulation_heuristics_montezuma_v1": 100.0,
+        "simulation_heuristics_pong_ram_v1": 45.833333333,
+        "simulation_heuristics_vizdoom_d1_v1": 85.199359782,
+        "simulation_heuristics_vizdoom_d3_v1": 5.481283422
+      }
+    },
+    {
+      "average_normalized_score": 39.81691467833333,
+      "harness": "opencode",
+      "model": "Claude Opus 4.8",
+      "model_id": "claude-opus-4.8",
+      "provider_reasoning_effort": "max",
+      "rank": 2,
+      "source_runs": {
+        "simulation_heuristics_ant_v1": "leaderboard/runs/article_suite/20260713T142919Z/claude-opus-4.8",
+        "simulation_heuristics_atari57_v1": "leaderboard/runs/article_suite/20260713T123222Z/claude-opus-4.8",
+        "simulation_heuristics_breakout_ram_v1": "leaderboard/runs/article_suite/20260713T090958Z/claude-opus-4.8",
+        "simulation_heuristics_breakout_rgb_v1": "leaderboard/runs/article_suite/20260713T090958Z/claude-opus-4.8",
+        "simulation_heuristics_halfcheetah_v1": "leaderboard/runs/article_suite/20260713T111714Z/claude-opus-4.8",
+        "simulation_heuristics_montezuma_v1": "leaderboard/runs/article_suite/20260713T110612Z/claude-opus-4.8",
+        "simulation_heuristics_pong_ram_v1": "leaderboard/runs/article_suite/20260713T090958Z/claude-opus-4.8",
+        "simulation_heuristics_vizdoom_d1_v1": "leaderboard/runs/article_suite/20260713T110612Z/claude-opus-4.8",
+        "simulation_heuristics_vizdoom_d3_v1": "leaderboard/runs/article_suite/20260713T110612Z/claude-opus-4.8"
+      },
+      "submission_details": {
+        "simulation_heuristics_ant_v1": "leaderboard/article_suite_submissions/claude-opus-4.8/simulation_heuristics_ant_v1/score.json",
+        "simulation_heuristics_atari57_v1": "leaderboard/article_suite_submissions/claude-opus-4.8/simulation_heuristics_atari57_v1/score.json",
+        "simulation_heuristics_breakout_ram_v1": "leaderboard/article_suite_submissions/claude-opus-4.8/simulation_heuristics_breakout_ram_v1/score.json",
+        "simulation_heuristics_breakout_rgb_v1": "leaderboard/article_suite_submissions/claude-opus-4.8/simulation_heuristics_breakout_rgb_v1/score.json",
+        "simulation_heuristics_halfcheetah_v1": "leaderboard/article_suite_submissions/claude-opus-4.8/simulation_heuristics_halfcheetah_v1/score.json",
+        "simulation_heuristics_montezuma_v1": "leaderboard/article_suite_submissions/claude-opus-4.8/simulation_heuristics_montezuma_v1/score.json",
+        "simulation_heuristics_pong_ram_v1": "leaderboard/article_suite_submissions/claude-opus-4.8/simulation_heuristics_pong_ram_v1/score.json",
+        "simulation_heuristics_vizdoom_d1_v1": "leaderboard/article_suite_submissions/claude-opus-4.8/simulation_heuristics_vizdoom_d1_v1/score.json",
+        "simulation_heuristics_vizdoom_d3_v1": "leaderboard/article_suite_submissions/claude-opus-4.8/simulation_heuristics_vizdoom_d3_v1/score.json"
+      },
+      "task_scores": {
+        "simulation_heuristics_ant_v1": 14.050353128,
+        "simulation_heuristics_atari57_v1": 0.0,
+        "simulation_heuristics_breakout_ram_v1": 0.0,
+        "simulation_heuristics_breakout_rgb_v1": 0.0,
+        "simulation_heuristics_halfcheetah_v1": 26.986707946,
+        "simulation_heuristics_montezuma_v1": 0.0,
+        "simulation_heuristics_pong_ram_v1": 100.0,
+        "simulation_heuristics_vizdoom_d1_v1": 95.055812742,
+        "simulation_heuristics_vizdoom_d3_v1": 122.259358289
+      }
+    },
+    {
+      "average_normalized_score": 39.37755364144445,
+      "harness": "opencode",
+      "model": "GPT-5.6 Sol",
+      "model_id": "gpt-5.6-sol",
+      "provider_reasoning_effort": "max",
+      "rank": 3,
+      "source_runs": {
+        "simulation_heuristics_ant_v1": "leaderboard/runs/article_suite/20260713T093815Z/gpt-5.6-sol",
+        "simulation_heuristics_atari57_v1": "leaderboard/runs/article_suite/20260713T111156Z/gpt-5.6-sol",
+        "simulation_heuristics_breakout_ram_v1": "leaderboard/runs/article_suite/20260713T080935Z/gpt-5.6-sol",
+        "simulation_heuristics_breakout_rgb_v1": "leaderboard/runs/article_suite/20260713T080935Z/gpt-5.6-sol",
+        "simulation_heuristics_halfcheetah_v1": "leaderboard/runs/article_suite/20260713T084340Z/gpt-5.6-sol",
+        "simulation_heuristics_montezuma_v1": "leaderboard/runs/article_suite/20260713T080935Z/gpt-5.6-sol",
+        "simulation_heuristics_pong_ram_v1": "leaderboard/runs/article_suite/20260713T080935Z/gpt-5.6-sol",
+        "simulation_heuristics_vizdoom_d1_v1": "leaderboard/runs/article_suite/20260713T101636Z/gpt-5.6-sol",
+        "simulation_heuristics_vizdoom_d3_v1": "leaderboard/runs/article_suite/20260713T083940Z/gpt-5.6-sol"
+      },
+      "submission_details": {
+        "simulation_heuristics_ant_v1": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_ant_v1/score.json",
+        "simulation_heuristics_atari57_v1": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_atari57_v1/score.json",
+        "simulation_heuristics_breakout_ram_v1": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_breakout_ram_v1/score.json",
+        "simulation_heuristics_breakout_rgb_v1": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_breakout_rgb_v1/score.json",
+        "simulation_heuristics_halfcheetah_v1": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_halfcheetah_v1/score.json",
+        "simulation_heuristics_montezuma_v1": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_montezuma_v1/score.json",
+        "simulation_heuristics_pong_ram_v1": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_pong_ram_v1/score.json",
+        "simulation_heuristics_vizdoom_d1_v1": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_vizdoom_d1_v1/score.json",
+        "simulation_heuristics_vizdoom_d3_v1": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_vizdoom_d3_v1/score.json"
+      },
+      "task_scores": {
+        "simulation_heuristics_ant_v1": 39.203600385,
+        "simulation_heuristics_atari57_v1": 0.0,
+        "simulation_heuristics_breakout_ram_v1": 100.0,
+        "simulation_heuristics_breakout_rgb_v1": 70.758122744,
+        "simulation_heuristics_halfcheetah_v1": 15.873072595,
+        "simulation_heuristics_montezuma_v1": 0.0,
+        "simulation_heuristics_pong_ram_v1": 52.916666667,
+        "simulation_heuristics_vizdoom_d1_v1": 49.409889366,
+        "simulation_heuristics_vizdoom_d3_v1": 26.236631016
+      }
+    },
+    {
+      "average_normalized_score": -29.71822245,
+      "harness": "opencode",
+      "model": "GPT-5.4 Mini",
+      "model_id": "gpt-5.4-mini",
+      "provider_reasoning_effort": "xhigh",
+      "rank": 4,
+      "source_runs": {
+        "simulation_heuristics_ant_v1": "leaderboard/runs/article_suite/20260713T104315Z/gpt-5.4-mini",
+        "simulation_heuristics_atari57_v1": "leaderboard/runs/article_suite/20260713T111944Z/gpt-5.4-mini",
+        "simulation_heuristics_breakout_ram_v1": "leaderboard/runs/article_suite/20260713T091939Z/gpt-5.4-mini",
+        "simulation_heuristics_breakout_rgb_v1": "leaderboard/runs/article_suite/20260713T091939Z/gpt-5.4-mini",
+        "simulation_heuristics_halfcheetah_v1": "leaderboard/runs/article_suite/20260713T093314Z/gpt-5.4-mini",
+        "simulation_heuristics_montezuma_v1": "leaderboard/runs/article_suite/20260713T091939Z/gpt-5.4-mini",
+        "simulation_heuristics_pong_ram_v1": "leaderboard/runs/article_suite/20260713T091939Z/gpt-5.4-mini",
+        "simulation_heuristics_vizdoom_d1_v1": "leaderboard/runs/article_suite/20260713T102707Z/gpt-5.4-mini",
+        "simulation_heuristics_vizdoom_d3_v1": "leaderboard/runs/article_suite/20260713T104034Z/gpt-5.4-mini"
+      },
+      "submission_details": {
+        "simulation_heuristics_ant_v1": "leaderboard/article_suite_submissions/gpt-5.4-mini/simulation_heuristics_ant_v1/score.json",
+        "simulation_heuristics_atari57_v1": "leaderboard/article_suite_submissions/gpt-5.4-mini/simulation_heuristics_atari57_v1/score.json",
+        "simulation_heuristics_breakout_ram_v1": "leaderboard/article_suite_submissions/gpt-5.4-mini/simulation_heuristics_breakout_ram_v1/score.json",
+        "simulation_heuristics_breakout_rgb_v1": "leaderboard/article_suite_submissions/gpt-5.4-mini/simulation_heuristics_breakout_rgb_v1/score.json",
+        "simulation_heuristics_halfcheetah_v1": "leaderboard/article_suite_submissions/gpt-5.4-mini/simulation_heuristics_halfcheetah_v1/score.json",
+        "simulation_heuristics_montezuma_v1": "leaderboard/article_suite_submissions/gpt-5.4-mini/simulation_heuristics_montezuma_v1/score.json",
+        "simulation_heuristics_pong_ram_v1": "leaderboard/article_suite_submissions/gpt-5.4-mini/simulation_heuristics_pong_ram_v1/score.json",
+        "simulation_heuristics_vizdoom_d1_v1": "leaderboard/article_suite_submissions/gpt-5.4-mini/simulation_heuristics_vizdoom_d1_v1/score.json",
+        "simulation_heuristics_vizdoom_d3_v1": "leaderboard/article_suite_submissions/gpt-5.4-mini/simulation_heuristics_vizdoom_d3_v1/score.json"
+      },
+      "task_scores": {
+        "simulation_heuristics_ant_v1": -31.35954984,
+        "simulation_heuristics_atari57_v1": 0.0,
+        "simulation_heuristics_breakout_ram_v1": 2.51572327,
+        "simulation_heuristics_breakout_rgb_v1": 15.523465704,
+        "simulation_heuristics_halfcheetah_v1": -8.167582379,
+        "simulation_heuristics_montezuma_v1": 0.0,
+        "simulation_heuristics_pong_ram_v1": -75.0,
+        "simulation_heuristics_vizdoom_d1_v1": -161.116433137,
+        "simulation_heuristics_vizdoom_d3_v1": -9.859625668
+      }
+    }
+  ],
+  "source_runs": {
+    "claude-opus-4.8": {
+      "simulation_heuristics_ant_v1": "leaderboard/runs/article_suite/20260713T142919Z/claude-opus-4.8",
+      "simulation_heuristics_atari57_v1": "leaderboard/runs/article_suite/20260713T123222Z/claude-opus-4.8",
+      "simulation_heuristics_breakout_ram_v1": "leaderboard/runs/article_suite/20260713T090958Z/claude-opus-4.8",
+      "simulation_heuristics_breakout_rgb_v1": "leaderboard/runs/article_suite/20260713T090958Z/claude-opus-4.8",
+      "simulation_heuristics_halfcheetah_v1": "leaderboard/runs/article_suite/20260713T111714Z/claude-opus-4.8",
+      "simulation_heuristics_montezuma_v1": "leaderboard/runs/article_suite/20260713T110612Z/claude-opus-4.8",
+      "simulation_heuristics_pong_ram_v1": "leaderboard/runs/article_suite/20260713T090958Z/claude-opus-4.8",
+      "simulation_heuristics_vizdoom_d1_v1": "leaderboard/runs/article_suite/20260713T110612Z/claude-opus-4.8",
+      "simulation_heuristics_vizdoom_d3_v1": "leaderboard/runs/article_suite/20260713T110612Z/claude-opus-4.8"
+    },
+    "gpt-5.4-mini": {
+      "simulation_heuristics_ant_v1": "leaderboard/runs/article_suite/20260713T104315Z/gpt-5.4-mini",
+      "simulation_heuristics_atari57_v1": "leaderboard/runs/article_suite/20260713T111944Z/gpt-5.4-mini",
+      "simulation_heuristics_breakout_ram_v1": "leaderboard/runs/article_suite/20260713T091939Z/gpt-5.4-mini",
+      "simulation_heuristics_breakout_rgb_v1": "leaderboard/runs/article_suite/20260713T091939Z/gpt-5.4-mini",
+      "simulation_heuristics_halfcheetah_v1": "leaderboard/runs/article_suite/20260713T093314Z/gpt-5.4-mini",
+      "simulation_heuristics_montezuma_v1": "leaderboard/runs/article_suite/20260713T091939Z/gpt-5.4-mini",
+      "simulation_heuristics_pong_ram_v1": "leaderboard/runs/article_suite/20260713T091939Z/gpt-5.4-mini",
+      "simulation_heuristics_vizdoom_d1_v1": "leaderboard/runs/article_suite/20260713T102707Z/gpt-5.4-mini",
+      "simulation_heuristics_vizdoom_d3_v1": "leaderboard/runs/article_suite/20260713T104034Z/gpt-5.4-mini"
+    },
+    "gpt-5.5": {
+      "simulation_heuristics_ant_v1": "leaderboard/runs/article_suite/20260713T095807Z/gpt-5.5",
+      "simulation_heuristics_atari57_v1": "leaderboard/runs/article_suite/20260713T111604Z/gpt-5.5",
+      "simulation_heuristics_breakout_ram_v1": "leaderboard/runs/article_suite/20260713T084111Z/gpt-5.5",
+      "simulation_heuristics_breakout_rgb_v1": "leaderboard/runs/article_suite/20260713T084111Z/gpt-5.5",
+      "simulation_heuristics_halfcheetah_v1": "leaderboard/runs/article_suite/20260713T103810Z/gpt-5.5",
+      "simulation_heuristics_montezuma_v1": "leaderboard/runs/article_suite/20260713T084111Z/gpt-5.5",
+      "simulation_heuristics_pong_ram_v1": "leaderboard/runs/article_suite/20260713T084111Z/gpt-5.5",
+      "simulation_heuristics_vizdoom_d1_v1": "leaderboard/runs/article_suite/20260713T102218Z/gpt-5.5",
+      "simulation_heuristics_vizdoom_d3_v1": "leaderboard/runs/article_suite/20260713T084111Z/gpt-5.5"
+    },
+    "gpt-5.6-sol": {
+      "simulation_heuristics_ant_v1": "leaderboard/runs/article_suite/20260713T093815Z/gpt-5.6-sol",
+      "simulation_heuristics_atari57_v1": "leaderboard/runs/article_suite/20260713T111156Z/gpt-5.6-sol",
+      "simulation_heuristics_breakout_ram_v1": "leaderboard/runs/article_suite/20260713T080935Z/gpt-5.6-sol",
+      "simulation_heuristics_breakout_rgb_v1": "leaderboard/runs/article_suite/20260713T080935Z/gpt-5.6-sol",
+      "simulation_heuristics_halfcheetah_v1": "leaderboard/runs/article_suite/20260713T084340Z/gpt-5.6-sol",
+      "simulation_heuristics_montezuma_v1": "leaderboard/runs/article_suite/20260713T080935Z/gpt-5.6-sol",
+      "simulation_heuristics_pong_ram_v1": "leaderboard/runs/article_suite/20260713T080935Z/gpt-5.6-sol",
+      "simulation_heuristics_vizdoom_d1_v1": "leaderboard/runs/article_suite/20260713T101636Z/gpt-5.6-sol",
+      "simulation_heuristics_vizdoom_d3_v1": "leaderboard/runs/article_suite/20260713T083940Z/gpt-5.6-sol"
+    }
+  },
+  "task_count": 9,
+  "task_digest_compatibility": {
+    "simulation_heuristics_ant_v1": {
+      "sha256:bbb533da0cb86459f4d49dee667e6c73ac54c0188bc40e54e911d50ef3c3bc38": "Score-equivalent to the current task. The only later change adds a fail-closed internal timeout for candidates whose verifier would otherwise exceed BenchFlow's deadline."
+    }
+  },
+  "tasks": [
+    "simulation_heuristics_ant_v1",
+    "simulation_heuristics_pong_ram_v1",
+    "simulation_heuristics_breakout_ram_v1",
+    "simulation_heuristics_breakout_rgb_v1",
+    "simulation_heuristics_halfcheetah_v1",
+    "simulation_heuristics_vizdoom_d1_v1",
+    "simulation_heuristics_vizdoom_d3_v1",
+    "simulation_heuristics_atari57_v1",
+    "simulation_heuristics_montezuma_v1"
+  ]
+}

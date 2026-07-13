@@ -1,0 +1,55 @@
+{
+  "aggregate_curve_checkpoints": [
+    {
+      "median_hns": 0.31874552826138824,
+      "obs_mode": "native_obs",
+      "steps": 988645
+    },
+    {
+      "median_hns": 0.25770816471064345,
+      "obs_mode": "ram",
+      "steps": 988645
+    },
+    {
+      "median_hns": 0.8079186493157826,
+      "obs_mode": "native_obs",
+      "steps": 9746987
+    },
+    {
+      "median_hns": 0.5914131823634771,
+      "obs_mode": "ram",
+      "steps": 9746987
+    }
+  ],
+  "batch": {
+    "frame_budget_per_search": 20000000,
+    "games": 57,
+    "observation_modes": 2,
+    "repeats": 3,
+    "search_trajectories": 342,
+    "total_frame_target": 6840000000
+  },
+  "final_hns": {
+    "CleanRL EnvPool PPO": {
+      "games_ge_1": 28,
+      "mean": 6.841228070175438,
+      "median": 0.98
+    },
+    "Codex best input mean": {
+      "games_ge_1": 26,
+      "mean": 2.3427762956086453,
+      "median": 0.8283015254994576
+    },
+    "Codex best single run": {
+      "games_ge_1": 36,
+      "mean": 3.8967649230310704,
+      "median": 1.1813031161473089
+    },
+    "OpenAI Baselines PPO2": {
+      "games_ge_1": 28,
+      "mean": 4.54578947368421,
+      "median": 0.8
+    }
+  },
+  "source": "learning-beyond-gradients Atari57 artifacts"
+}
