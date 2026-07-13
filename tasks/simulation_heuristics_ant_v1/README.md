@@ -147,6 +147,13 @@ uv run bench eval run \
   --context-root .
 ```
 
+The checked-in `verifier/config.toml` is the full publication-grade suite and
+can take tens of minutes with the residual-MPC reference. CI temporarily swaps
+in `verifier/config_smoke.toml` for the command above. The smoke suite still
+exercises the Docker environment, copied-model planning, a dynamics variant,
+anchor normalization, and reward emission, while keeping the GitHub Actions
+gate bounded.
+
 `--context-root .` lets BenchFlow stage the repo-root sources referenced by the
 task's `environment/Dockerfile` into its isolated build context.
 
@@ -172,6 +179,7 @@ The custom OpenHands experiment workspace must not contain `verifier/`,
 | `task_context/policy_api.md` | Stable policy interface |
 | `verifier/evaluate_hidden.py` | Clean final score calculation |
 | `verifier/config.toml` | Reproducibility evaluation suite |
+| `verifier/config_smoke.toml` | One-step CI integration suite |
 | `verifier/anchors.json` | Frozen normalization anchors |
 | `oracle/solve.sh` | BenchFlow oracle entrypoint |
 | `evidence/source_provenance.json` | Source hashes, license, and reproduction metrics |

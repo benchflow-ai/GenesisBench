@@ -5,6 +5,7 @@ import os
 from pathlib import Path
 import subprocess
 import sys
+import tomllib
 
 import pytest
 
@@ -19,6 +20,7 @@ ORACLE = TASK_DIR / "oracle" / "policy.py"
 REFERENCE = TASK_DIR / "verifier" / "anchor_policies" / "reference_policy.py"
 HIDDEN_EVALUATOR = TASK_DIR / "verifier" / "evaluate_hidden.py"
 VERIFIER_SCRIPT = TASK_DIR / "verifier" / "test.sh"
+SMOKE_CONFIG = TASK_DIR / "verifier" / "config_smoke.toml"
 PROVENANCE = TASK_DIR / "evidence" / "source_provenance.json"
 
 
@@ -163,6 +165,17 @@ def test_verifier_timeout_fails_closed_before_benchflow_deadline() -> None:
     assert "timeout --signal=TERM --kill-after=30s 3900s" in script
     assert '"verifier_timeout": True' in script
     assert '"normalized_score": 0.0' in script
+
+
+def test_ci_smoke_config_is_bounded_and_covers_dynamics() -> None:
+    config = tomllib.loads(SMOKE_CONFIG.read_text())["evaluation"]
+    suites = {suite["name"]: suite for suite in config["suites"]}
+
+    assert config["max_steps"] == 1
+    assert suites["hidden_nominal"]["seeds"] == [101]
+    assert suites["hidden_robustness"]["seeds"] == [503]
+    assert len(config["variants"]) == 1
+    assert config["variants"][0]["name"] == "light_low_friction"
 
 
 @pytest.mark.skipif(
