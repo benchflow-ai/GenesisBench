@@ -1,0 +1,27 @@
+{
+  "benchmark": "learning_beyond_gradients_article_suite",
+  "current_task_digest": "sha256:7e126380af5345a4bfa0c9d29e45e68b8f1aa20d5d655d12187744100b24441a",
+  "digest_compatibility_note": null,
+  "finished_at": 1783933771.613736,
+  "harness": "opencode",
+  "model": {
+    "display_name": "GPT-5.5",
+    "id": "gpt-5.5",
+    "model": "azure/gpt-5.5",
+    "provider": "azure",
+    "provider_reasoning_effort": "xhigh"
+  },
+  "normalized_score": 70.758122744,
+  "provider_reasoning_effort": "xhigh",
+  "source_run_id": "leaderboard/runs/article_suite/20260713T084111Z/gpt-5.5",
+  "task": "simulation_heuristics_breakout_rgb_v1",
+  "task_digest": "sha256:7e126380af5345a4bfa0c9d29e45e68b8f1aa20d5d655d12187744100b24441a",
+  "token_usage": {
+    "final_input_tokens": 580.0,
+    "final_output_tokens": 197.0,
+    "input_tokens": 580.0,
+    "output_tokens": 197.0,
+    "total_tokens": 19209.0
+  },
+  "tool_calls": 25
+}

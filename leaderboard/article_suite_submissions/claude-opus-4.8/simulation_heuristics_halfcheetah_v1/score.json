@@ -1,0 +1,98 @@
+{
+  "hidden_nominal": {
+    "episodes": [
+      {
+        "control_cost": 317.1566189676523,
+        "forward_reward": 6636.299989167559,
+        "invalid_action": false,
+        "length": 1000,
+        "mean_action_latency_ms": 122.95847277203575,
+        "policy_error": null,
+        "return": 6319.143370199905,
+        "seed": 211,
+        "terminated": false,
+        "truncated": true,
+        "variant": "nominal",
+        "x_position": 331.8043416293857,
+        "x_velocity": 8.216671429596408
+      },
+      {
+        "control_cost": 314.24980780109763,
+        "forward_reward": 6272.707764268625,
+        "invalid_action": false,
+        "length": 1000,
+        "mean_action_latency_ms": 123.8214553501457,
+        "policy_error": null,
+        "return": 5958.45795646753,
+        "seed": 307,
+        "terminated": false,
+        "truncated": true,
+        "variant": "nominal",
+        "x_position": 313.6619722793685,
+        "x_velocity": 2.1795015376377602
+      }
+    ],
+    "invalid_episode_rate": 0.0,
+    "max_return": 6319.143370199905,
+    "max_steps": 1000,
+    "mean_action_latency_ms": 123.38996406109072,
+    "mean_control_cost": 315.703213384375,
+    "mean_forward_reward": 6454.503876718092,
+    "mean_return": 6138.800663333717,
+    "mean_x_position": 322.73315695437714,
+    "min_return": 5958.45795646753,
+    "policy_path": "submitted_artifact",
+    "score": 6138.800663333717
+  },
+  "hidden_nominal_weight": 0.7,
+  "hidden_robustness": {
+    "episodes": [
+      {
+        "control_cost": 312.9004553593695,
+        "forward_reward": 7637.3131141575,
+        "invalid_action": false,
+        "length": 1000,
+        "mean_action_latency_ms": 119.81285913009197,
+        "policy_error": null,
+        "return": 7324.412658798133,
+        "seed": 503,
+        "terminated": false,
+        "truncated": true,
+        "variant": "light_low_friction",
+        "x_position": 381.8479773304825,
+        "x_velocity": 8.203061195650385
+      },
+      {
+        "control_cost": 321.7466217055917,
+        "forward_reward": 4492.963484628226,
+        "invalid_action": false,
+        "length": 1000,
+        "mean_action_latency_ms": 125.38341190014035,
+        "policy_error": null,
+        "return": 4171.216862922633,
+        "seed": 503,
+        "terminated": false,
+        "truncated": true,
+        "variant": "heavy_weak_actuators",
+        "x_position": 224.63049585401836,
+        "x_velocity": 2.2801165132939816
+      }
+    ],
+    "invalid_episode_rate": 0.0,
+    "max_return": 7324.412658798133,
+    "max_steps": 1000,
+    "mean_action_latency_ms": 122.59813551511616,
+    "mean_control_cost": 317.3235385324806,
+    "mean_forward_reward": 6065.138299392864,
+    "mean_return": 5747.814760860383,
+    "mean_x_position": 303.23923659225045,
+    "min_return": 4171.216862922633,
+    "policy_path": "submitted_artifact",
+    "score": 5747.814760860383
+  },
+  "hidden_robustness_weight": 0.3,
+  "normalized_score": 26.986707946,
+  "reference_score": 11487.256451471967,
+  "score": 6021.504892591717,
+  "starter_score": 4001.2886158917113
+}

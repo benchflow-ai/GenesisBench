@@ -113,7 +113,26 @@ See `experiments/article_suite/README.md` for the exact model routes, task
 manifest, isolation controls, and scoring contract. The task-by-task research
 mapping is documented in `docs/learning-beyond-gradients-suite.md`.
 
-## Current Leaderboard
+## Article-Suite Leaderboard
+
+The first OpenCode sweep across all nine article-derived tasks:
+
+| Rank | Model | Nine-task average |
+| ---: | --- | ---: |
+| 1 | GPT-5.5 | 43.19 |
+| 2 | Claude Opus 4.8 | 39.82 |
+| 3 | GPT-5.6 Sol | 39.38 |
+| 4 | GPT-5.4 Mini | -29.72 |
+
+See [`leaderboard/ARTICLE_SUITE.md`](leaderboard/ARTICLE_SUITE.md) for every
+per-task score and `leaderboard/article_suite.json` for the machine-readable
+leaderboard.
+
+Scores are unbounded normalized values: `0` matches the public starter and
+`100` matches the trusted article-level reference. Negative scores are genuine
+regressions; scores above `100` exceed the reference.
+
+## Legacy Ant-Only Leaderboard
 
 ![GenesisBench Simulation Heuristics Ant v1 leaderboard](leaderboard/simulation_heuristics_ant_v1_leaderboard.png)
 
