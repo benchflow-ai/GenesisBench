@@ -135,6 +135,20 @@ section.block + section.block{border-top:1px solid var(--line)}
 .loop-sub{max-width:52ch;font-size:.875rem;line-height:1.5;color:var(--ink-soft)}
 .loop-sub a{color:var(--forest);text-decoration:underline;text-underline-offset:3px;
   text-decoration-color:color-mix(in srgb,var(--forest) 35%,transparent)}
+.task-pager{margin-top:1.05rem;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:.9rem;
+  border:1px solid var(--line);border-radius:8px;background:var(--paper-2);padding:.8rem .9rem;max-width:44rem}
+.tp-arrow{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;
+  border:1px solid var(--line-strong);background:var(--card);color:var(--forest-ink);cursor:pointer;flex-shrink:0;
+  transition:background .15s,border-color .15s,color .15s}
+.tp-arrow:hover{background:var(--forest-ink);border-color:var(--forest-ink);color:var(--paper)}
+.tp-body{text-align:center;min-width:0}
+.tp-top{display:flex;justify-content:center;align-items:baseline;gap:.6rem;flex-wrap:wrap}
+.tp-count{font-size:.71875rem;font-weight:700;letter-spacing:.08em;color:var(--ink-soft)}
+.tp-env{font-size:.9375rem;font-weight:600;color:var(--forest-ink)}
+.tp-desc{margin-top:.25rem;font-size:.84375rem;line-height:1.5;color:var(--ink-soft);text-wrap:pretty}
+.tp-id{display:inline-block;margin-top:.3rem;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.71875rem;
+  color:var(--forest);text-decoration:underline;text-underline-offset:3px;
+  text-decoration-color:color-mix(in srgb,var(--forest) 35%,transparent);overflow-wrap:anywhere}
 .loop{margin-top:1.3rem;display:flex;flex-direction:column;align-items:center;gap:.65rem}
 .loop-chip{display:flex;flex-direction:column;gap:.1rem;padding:.6rem .95rem;border:1px solid var(--line-strong);
   border-radius:8px;background:var(--card);font-size:.9375rem;font-weight:500;color:var(--forest-ink);
@@ -315,11 +329,18 @@ footer{background:var(--paper-2);border-top:1px solid var(--line);padding-block:
             <h3 id="tlTitle">Heuristic policies in simulation</h3>
             <p id="tlBody">No training and no H100s yet — agents iterate on code logic alone, optimizing heuristic policies for performance in simulation.</p>
           <div class="loopwrap" id="loopwrap">
-            <p class="loop-sub">The reference task runs this improvement loop on the MuJoCo
-              <a href="https://gymnasium.farama.org/environments/mujoco/ant/" target="_blank" rel="noopener">Ant environment</a>
-              (Gymnasium).</p>
+            <p class="loop-sub">This stage ships <b>nine tasks</b> — each runs the same improvement loop in its own simulated environment.</p>
+            <div class="task-pager" role="group" aria-label="Browse the nine simulation-heuristics tasks">
+              <button class="tp-arrow" id="tpPrev" type="button" aria-label="Previous task"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M10.5 2.5 5 8l5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+              <div class="tp-body" aria-live="polite">
+                <div class="tp-top"><span class="tp-count" id="tpCount">01 / 09</span><span class="tp-env" id="tpEnv">MuJoCo Ant</span></div>
+                <p class="tp-desc" id="tpDesc">Improve a programmatic Ant locomotion policy under a fixed autonomous research budget.</p>
+                <a class="tp-id" id="tpId" href="https://github.com/benchflow-ai/GenesisBench/tree/main/tasks/simulation_heuristics_ant_v1" target="_blank" rel="noopener">simulation_heuristics_ant_v1 ↗</a>
+              </div>
+              <button class="tp-arrow" id="tpNext" type="button" aria-label="Next task"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M5.5 2.5 11 8l-5.5 5.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+            </div>
             <div class="loop">
-              <div class="loop-chip loop-in">Starter policy<span>a runnable CPG/PD gait — weaker than the reference</span></div>
+              <div class="loop-chip loop-in">Starter policy<span id="loopStart">a runnable CPG/PD gait — weaker than the reference</span></div>
               <svg class="loop-arrowlink" width="26" height="14" viewBox="0 0 26 14" aria-hidden="true"><path d="M1 7h21m0 0-5-5m5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
               <div class="loop-ring" id="loopRing">
                 <svg class="ring" viewBox="0 0 100 100" aria-hidden="true">
@@ -340,14 +361,14 @@ footer{background:var(--paper-2);border-top:1px solid var(--line);padding-block:
                 <button class="loop-node" style="left:5%;top:50%" data-k="edit" aria-expanded="false" type="button">
                   <span class="stepno">04</span><span class="dot"></span><span class="lbl">Edit the policy</span></button>
                 <button class="loop-center" data-k="env" aria-expanded="false" type="button">
-                  <img src="assets/ant.png" alt="Pencil illustration of the MuJoCo Ant robot">
-                  <span class="lbl">MuJoCo&nbsp;Ant</span></button>
+                  <img src="assets/ant.png" alt="MuJoCo Ant, pencil illustration" id="loopEnvImg">
+                  <span class="lbl" id="loopEnvLbl">MuJoCo&nbsp;Ant</span></button>
                 <div class="loop-pop" id="loopPop" role="status"></div>
               </div>
               <svg class="loop-arrowlink" width="26" height="14" viewBox="0 0 26 14" aria-hidden="true"><path d="M1 7h21m0 0-5-5m5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              <div class="loop-chip loop-out">Submit the best policy<span>scored on a hidden Ant suite · starter&nbsp;=&nbsp;0, reference&nbsp;=&nbsp;100</span></div>
+              <div class="loop-chip loop-out">Submit the best policy<span>scored on a hidden evaluation suite · starter&nbsp;=&nbsp;0, reference&nbsp;=&nbsp;100</span></div>
             </div>
-            <p class="loop-note">Mirrors the <a class="prose-link" href="https://github.com/benchflow-ai/GenesisBench/tree/main/tasks/simulation_heuristics_ant_v1" target="_blank" rel="noopener">simulation-heuristics Ant v1</a> reference task; snippets are illustrative.</p>
+            <p class="loop-note">Code snippets in the nodes mirror the <a class="prose-link" href="https://github.com/benchflow-ai/GenesisBench/tree/main/tasks/simulation_heuristics_ant_v1" target="_blank" rel="noopener">Ant v1</a> reference task; all nine task packages live <a class="prose-link" href="https://github.com/benchflow-ai/GenesisBench/tree/main/tasks" target="_blank" rel="noopener">on GitHub</a>.</p>
           </div>
 
           </div>
@@ -549,6 +570,76 @@ footer{background:var(--paper-2);border-top:1px solid var(--line);padding-block:
   pop.addEventListener('mouseenter',function(){clearTimeout(hideT);});
   pop.addEventListener('mouseleave',hide);
   document.addEventListener('keydown',function(e){if(e.key==='Escape'){clearTimeout(hideT);pop.classList.remove('show');}});
+
+  /* ---- task pager: the nine simulation-heuristics task packages ---- */
+  var TASKS=[
+    {id:"simulation_heuristics_ant_v1",env:"MuJoCo Ant",lbl:"MuJoCo Ant",img:"assets/ant.png",
+     d:"Improve a programmatic Ant locomotion policy under a fixed autonomous research budget.",
+     start:"a runnable CPG/PD gait — weaker than the reference",
+     pop:"<p>A dome torso on four two-segment legs — 8 actuated joints in the MuJoCo physics engine. Episodes return a score the agent can measure.</p><img src='assets/ant.png' alt='MuJoCo Ant, pencil illustration'><span class='cap'><a href='https://gymnasium.farama.org/environments/mujoco/ant/' target='_blank' rel='noopener'>gymnasium.farama.org — Ant ↗</a></span>"},
+    {id:"simulation_heuristics_halfcheetah_v1",env:"MuJoCo HalfCheetah",lbl:"HalfCheetah",img:"assets/env-halfcheetah.png",
+     d:"Improve an interpretable HalfCheetah controller under a fixed autonomous research budget.",
+     start:"an asymmetric CPG/PD baseline — weaker than the reference",
+     pop:"<p>A planar cheetah with six actuated joints in the MuJoCo physics engine — the goal is fast, stable forward running.</p><img src='assets/env-halfcheetah.png' alt='MuJoCo HalfCheetah, pencil illustration'><span class='cap'><a href='https://gymnasium.farama.org/environments/mujoco/half_cheetah/' target='_blank' rel='noopener'>gymnasium.farama.org — HalfCheetah ↗</a></span>"},
+    {id:"simulation_heuristics_pong_ram_v1",env:"Atari Pong (RAM)",lbl:"Pong · RAM",img:"assets/env-pong.png",
+     d:"Improve a programmatic Atari Pong controller that acts from the current 128-byte RAM state.",
+     start:"a weak, late-reacting RAM controller",
+     pop:"<p>Classic Atari Pong via EnvPool — the controller never sees pixels; it acts from the live 128-byte RAM state.</p><img src='assets/env-pong.png' alt='Pong court, pencil illustration'><span class='cap'><a href='https://envpool.readthedocs.io/' target='_blank' rel='noopener'>envpool.readthedocs.io ↗</a></span>"},
+    {id:"simulation_heuristics_breakout_ram_v1",env:"Atari Breakout (RAM)",lbl:"Breakout · RAM",img:"assets/env-breakout-ram.png",
+     d:"Improve a RAM-only programmatic Atari Breakout policy toward the 864-point article result.",
+     start:"a RAM-state starter policy — normalized to 0",
+     pop:"<p>Atari Breakout via EnvPool, observed as the 128-byte RAM state — no pixels.</p><img src='assets/env-breakout-ram.png' alt='Breakout bricks over a memory chip, pencil illustration'><span class='cap'><a href='https://envpool.readthedocs.io/' target='_blank' rel='noopener'>envpool.readthedocs.io ↗</a></span>"},
+    {id:"simulation_heuristics_breakout_rgb_v1",env:"Atari Breakout (RGB)",lbl:"Breakout · RGB",img:"assets/env-breakout-rgb.png",
+     d:"Improve a pixel-only Atari Breakout policy toward the article's 864-point RAM-to-RGB transfer result.",
+     start:"a pixel-only starter policy — normalized to 0",
+     pop:"<p>Atari Breakout via EnvPool, observed as rendered RGB frames only — the RAM-to-RGB transfer setting.</p><img src='assets/env-breakout-rgb.png' alt='Breakout on a CRT monitor, pencil illustration'><span class='cap'><a href='https://envpool.readthedocs.io/' target='_blank' rel='noopener'>envpool.readthedocs.io ↗</a></span>"},
+    {id:"simulation_heuristics_montezuma_v1",env:"Montezuma's Revenge",lbl:"Montezuma",img:"assets/env-montezuma.png",
+     d:"Improve a native-image Montezuma policy beyond a brittle open-loop replay.",
+     start:"a working but weak native-RGB controller",
+     pop:"<p>EnvPool MontezumaRevenge-v5 from native RGB observations — the classic hard-exploration Atari game.</p><img src='assets/env-montezuma.png' alt='Platform room with ladder and key, pencil illustration'><span class='cap'><a href='https://envpool.readthedocs.io/' target='_blank' rel='noopener'>envpool.readthedocs.io ↗</a></span>"},
+    {id:"simulation_heuristics_vizdoom_d1_v1",env:"ViZDoom D1 medikit",lbl:"D1 · medikit",img:"assets/env-vizdoom-d1.png",
+     d:"Improve a rendered-pixel ViZDoom D1 medikit policy under a fixed autonomous research budget.",
+     start:"a working but weak programmatic controller",
+     pop:"<p>EnvPool D1Basic-v1 — a ViZDoom medikit scenario played from rendered screen pixels.</p><img src='assets/env-vizdoom-d1.png' alt='First-person corridor with medikits, pencil illustration'><span class='cap'><a href='https://vizdoom.farama.org/' target='_blank' rel='noopener'>vizdoom.farama.org ↗</a></span>"},
+    {id:"simulation_heuristics_vizdoom_d3_v1",env:"ViZDoom D3 battle",lbl:"D3 · battle",img:"assets/env-vizdoom-d3.png",
+     d:"Improve a screen-CV ViZDoom D3 battle policy under a fixed autonomous research budget.",
+     start:"a working but weak programmatic controller",
+     pop:"<p>EnvPool D3Battle-v1 — a ViZDoom battle scenario driven by screen-CV features.</p><img src='assets/env-vizdoom-d3.png' alt='First-person arena view, pencil illustration'><span class='cap'><a href='https://vizdoom.farama.org/' target='_blank' rel='noopener'>vizdoom.farama.org ↗</a></span>"},
+    {id:"simulation_heuristics_atari57_v1",env:"Atari-57 suite",lbl:"Atari-57",img:"assets/env-atari57.png",
+     d:"Improve one aggregate 342-policy Atari-57 submission produced by 342 independently accounted heuristic-search trajectories.",
+     start:"an aggregate starter artifact spanning all 57 games",
+     pop:"<p>The full Atari-57 suite via EnvPool — one programmatic policy slot for every game, observation mode, and independent repeat.</p><img src='assets/env-atari57.png' alt='Grid of small arcade screens, pencil illustration'><span class='cap'><a href='https://envpool.readthedocs.io/' target='_blank' rel='noopener'>envpool.readthedocs.io ↗</a></span>"}
+  ];
+  var ti=0,
+      tpCount=document.getElementById('tpCount'),tpEnv=document.getElementById('tpEnv'),
+      tpDesc=document.getElementById('tpDesc'),tpId=document.getElementById('tpId'),
+      loopStart=document.getElementById('loopStart'),envImg=document.getElementById('loopEnvImg'),
+      envLbl=document.getElementById('loopEnvLbl'),
+      pager=document.querySelector('.task-pager');
+  function renderTask(n){
+    ti=(n+TASKS.length)%TASKS.length;
+    var t=TASKS[ti];
+    tpCount.textContent="0"+(ti+1)+" / 09";
+    tpEnv.textContent=t.env;
+    tpDesc.textContent=t.d;
+    tpId.textContent=t.id+" ↗";
+    tpId.href="https://github.com/benchflow-ai/GenesisBench/tree/main/tasks/"+t.id;
+    loopStart.textContent=t.start;
+    CONTENT.env={t:"Environment — "+t.env,h:t.pop};
+    if(envImg.getAttribute("src")!==t.img){envImg.src=t.img;envImg.alt=t.env+", pencil illustration";}
+    envLbl.textContent=t.lbl;
+    if(current&&current.dataset.k==="env"&&pop.classList.contains("show"))show(current);
+  }
+  if(pager){
+    document.getElementById('tpPrev').addEventListener('click',function(){renderTask(ti-1);});
+    document.getElementById('tpNext').addEventListener('click',function(){renderTask(ti+1);});
+    pager.addEventListener('keydown',function(e){
+      if(e.key==='ArrowLeft'){renderTask(ti-1);e.preventDefault();}
+      if(e.key==='ArrowRight'){renderTask(ti+1);e.preventDefault();}
+    });
+    renderTask(0);
+    setTimeout(function(){TASKS.forEach(function(t){var im=new Image();im.src=t.img;});},1500);
+  }
 })();
 </script>
 
