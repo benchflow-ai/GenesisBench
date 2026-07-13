@@ -359,17 +359,19 @@ def aggregate_atari57_episodes(
 
 
 def _load_policy_module(path: Path) -> ModuleType:
-    spec = importlib.util.spec_from_file_location(
-        f"genesisbench_atari57_submission_{abs(hash(path.resolve()))}",
-        path,
-    )
+    module_name = f"genesisbench_atari57_submission_{abs(hash(path.resolve()))}"
+    spec = importlib.util.spec_from_file_location(module_name, path)
     if spec is None or spec.loader is None:
         raise RuntimeError(f"Unable to import policy from {path}")
     module = importlib.util.module_from_spec(spec)
     previous = sys.dont_write_bytecode
     sys.dont_write_bytecode = True
+    sys.modules[module_name] = module
     try:
         spec.loader.exec_module(module)
+    except Exception:
+        sys.modules.pop(module_name, None)
+        raise
     finally:
         sys.dont_write_bytecode = previous
     return module

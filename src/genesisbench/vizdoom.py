@@ -3,6 +3,7 @@ from __future__ import annotations
 import ast
 import importlib.util
 import json
+import sys
 import tempfile
 import time
 from dataclasses import asdict, dataclass
@@ -205,14 +206,17 @@ def audit_vizdoom_policy(policy_path: str | Path) -> None:
 
 
 def _load_policy_module(policy_path: Path) -> ModuleType:
-    spec = importlib.util.spec_from_file_location(
-        f"genesisbench_vizdoom_submission_{abs(hash(policy_path))}",
-        policy_path,
-    )
+    module_name = f"genesisbench_vizdoom_submission_{abs(hash(policy_path))}"
+    spec = importlib.util.spec_from_file_location(module_name, policy_path)
     if spec is None or spec.loader is None:
         raise RuntimeError(f"Unable to import policy from {policy_path}")
     module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
+    sys.modules[module_name] = module
+    try:
+        spec.loader.exec_module(module)
+    except Exception:
+        sys.modules.pop(module_name, None)
+        raise
     return module
 
 

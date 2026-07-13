@@ -128,8 +128,12 @@ def _load_policy_module(policy_path: Path) -> ModuleType:
     added_to_path = parent not in sys.path
     if added_to_path:
         sys.path.insert(0, parent)
+    sys.modules[module_name] = module
     try:
         spec.loader.exec_module(module)
+    except Exception:
+        sys.modules.pop(module_name, None)
+        raise
     finally:
         if added_to_path:
             sys.path.remove(parent)
