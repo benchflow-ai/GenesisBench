@@ -30,3 +30,7 @@ dynamics variants. BenchFlow's canonical reward is the normalized GenesisBench
 score clamped to `[0, 1]`; the full raw and normalized metrics remain available
 in `genesis-score.json`.
 
+Normalization evaluates local copies of the weak starter and article
+residual-MPC reference. Policies with identical `policy.py` content share one
+cached evaluation per verifier invocation, preventing the oracle from paying
+the MPC reference cost twice.

@@ -1,0 +1,77 @@
+{
+  "schema_version": "1.0",
+  "source": {
+    "repository": "https://github.com/Trinkle23897/learning-beyond-gradients",
+    "revision": "3555c2956c257d49a5015b782cbe485b14fd659e",
+    "files": [
+      {
+        "path": "mujoco/ant/heuristic_ant.py",
+        "sha256": "8a6e200f91d9392e7f752469c3266673dabac1ea3ee7bb50636a2e2ce934514c",
+        "license": "Apache-2.0",
+        "copyright": "Copyright 2021 Garena Online Private Limited"
+      },
+      {
+        "path": "mujoco/ant/ant_envpool.xml",
+        "sha256": "e2de8745656b2e7046718d4bd3264d18deb802739033d287d7bdcf20f925a0b5",
+        "license": "Apache-2.0",
+        "copyright": "Copyright 2026 Garena Online Private Limited"
+      }
+    ]
+  },
+  "article_reproduction": {
+    "runtime": "EnvPool 1.1.1 Ant-v5",
+    "seeds": [0, 1, 2, 3, 4],
+    "max_steps": 1000,
+    "reported_mean_return": 6005.521,
+    "reported_min_return": 5776.805,
+    "reported_max_return": 6146.208
+  },
+  "genesisbench_adaptation": {
+    "runtime": "Gymnasium Ant-v5",
+    "observation_size": 27,
+    "action_size": 8,
+    "live_environment_exposed": false,
+    "copied_model_hook": "configure_simulator(model_xml_path, frame_skip)",
+    "gymnasium_xml_sha256": "cd5f83ef0ea35b0969e65d360c5bacd5b74ccaef6b27e4433b5168c605e3e2be",
+    "source_and_gymnasium_xml_parse_equal": true,
+    "source_action_parity": {
+      "seed": 0,
+      "checked_steps": 50,
+      "max_absolute_difference": 0.0
+    }
+  },
+  "local_source_policy_on_gymnasium": {
+    "date": "2026-07-13",
+    "seeds": [0, 1, 2, 3, 4],
+    "max_steps": 1000,
+    "returns": [
+      6131.400491081534,
+      5817.390376060449,
+      5791.444245416141,
+      5866.045000176889,
+      5873.380967941683
+    ],
+    "mean_return": 5895.932216135339,
+    "min_return": 5791.444245416141,
+    "max_return": 6131.400491081534
+  },
+  "local_genesisbench_oracle_on_gymnasium": {
+    "date": "2026-07-13",
+    "seeds": [0, 1, 2, 3, 4],
+    "max_steps": 1000,
+    "returns": [
+      6131.400491081534,
+      5817.390376060449,
+      5791.444245416141,
+      5866.045000176889,
+      5873.380967941683
+    ],
+    "mean_return": 5895.932216135338,
+    "min_return": 5791.444245416141,
+    "max_return": 6131.400491081534,
+    "invalid_episode_rate": 0.0,
+    "mean_action_latency_ms": 167.1076581293997,
+    "parallel_wall_seconds": 335.64,
+    "matches_local_source_policy": true
+  }
+}

@@ -1,0 +1,31 @@
+version = "1.0"
+
+[evaluation]
+max_steps = 27000
+failure_score = -21.0
+
+[[evaluation.suites]]
+name = "hidden_nominal"
+weight = 0.7
+variant = "article_nominal"
+seeds = [101, 211, 307]
+
+[[evaluation.suites]]
+name = "hidden_reset_robustness"
+weight = 0.3
+variant = "randomized_reset"
+seeds = [503, 601, 701]
+
+[[evaluation.variants]]
+name = "article_nominal"
+noop_max = 1
+frame_skip = 1
+repeat_action_probability = 0.0
+use_fire_reset = true
+
+[[evaluation.variants]]
+name = "randomized_reset"
+noop_max = 30
+frame_skip = 1
+repeat_action_probability = 0.0
+use_fire_reset = true

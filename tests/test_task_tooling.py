@@ -5,7 +5,8 @@ from pathlib import Path
 
 from scripts.create_task import create_task
 from scripts.prepare_task import prepare_task
-from scripts.validate_tasks import validate_task
+from scripts.run_article_suite import TASKS as ARTICLE_TASKS
+from scripts.validate_tasks import discover_tasks, validate_task
 
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
@@ -13,11 +14,16 @@ TASKS_ROOT = REPO_ROOT / "tasks"
 RUNTIME_SOURCE = REPO_ROOT / "src" / "genesisbench"
 
 
-def test_reference_task_validates() -> None:
-    assert validate_task(
-        TASKS_ROOT / "simulation_heuristics_ant_v1",
-        runtime_source=RUNTIME_SOURCE,
-    ) == []
+def test_article_suite_contains_exactly_nine_valid_tasks() -> None:
+    discovered = discover_tasks(TASKS_ROOT)
+
+    assert {task.name for task in discovered} == set(ARTICLE_TASKS)
+    assert len(discovered) == 9
+    for task in discovered:
+        assert validate_task(
+            task,
+            runtime_source=RUNTIME_SOURCE,
+        ) == []
 
 
 def test_create_and_prepare_task_scaffold(tmp_path: Path) -> None:

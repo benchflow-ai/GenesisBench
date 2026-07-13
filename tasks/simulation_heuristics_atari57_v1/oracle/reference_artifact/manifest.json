@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0",
+  "protocol": {
+    "suite": "Atari57",
+    "envpool_version": "1.1.1",
+    "observation_modes": [
+      "ram",
+      "native_obs"
+    ],
+    "search_repeats": 3,
+    "frame_budget_per_search": 20000000,
+    "expected_search_trajectories": 342,
+    "expected_policy_slots": 342,
+    "expected_total_frame_target": 6840000000,
+    "atari_settings": {
+      "img_height": 210,
+      "img_width": 160,
+      "stack_num": 1,
+      "gray_scale": false,
+      "frame_skip": 1,
+      "noop_max": 1,
+      "use_fire_reset": true,
+      "episodic_life": false,
+      "reward_clip": false,
+      "repeat_action_probability": 0.0,
+      "full_action_space": false
+    }
+  },
+  "policy_defaults": {
+    "module": "policy.py",
+    "config": {
+      "strategy": "seeded_random_actions"
+    }
+  },
+  "policies": [],
+  "interaction_ledger": "interaction_ledger.json"
+}

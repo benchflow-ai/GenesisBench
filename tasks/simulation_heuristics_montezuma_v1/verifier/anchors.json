@@ -1,0 +1,12 @@
+{
+  "environment": "EnvPool 1.1.1 MontezumaRevenge-v5 native RGB, frame_skip=1",
+  "target_score": 400.0,
+  "reference_policy": {
+    "description": "Image-synchronized 400-point replay with checkpoint re-entry",
+    "path": "anchor_policies/reference_policy.py"
+  },
+  "starter_policy": {
+    "description": "Public weak native-image explorer",
+    "path": "anchor_policies/starter_policy.py"
+  }
+}

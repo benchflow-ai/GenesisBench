@@ -24,3 +24,26 @@ The Apache License 2.0 text is included in `LICENSES/Apache-2.0.txt`.
 
 GenesisBench as a combined project is distributed under GPL-3.0. Apache-2.0 is
 compatible with GPLv3; upstream notices remain applicable to the derived files.
+
+## Learning Beyond Gradients Atari controllers
+
+The Pong RAM and Breakout RAM/RGB task anchors retain or adapt controller
+structure and parameterization from the corresponding public article
+artifacts:
+
+- `tasks/simulation_heuristics_pong_ram_v1/{starter_policy,oracle}/policy.py`
+- `tasks/simulation_heuristics_pong_ram_v1/verifier/anchor_policies/*.py`
+- `tasks/simulation_heuristics_breakout_ram_v1/{starter_policy,oracle}/policy.py`
+- `tasks/simulation_heuristics_breakout_ram_v1/verifier/anchor_policies/*.py`
+- `tasks/simulation_heuristics_breakout_rgb_v1/{starter_policy,oracle}/policy.py`
+- `tasks/simulation_heuristics_breakout_rgb_v1/verifier/anchor_policies/*.py`
+
+Upstream:
+
+- Project: `Trinkle23897/learning-beyond-gradients`
+- Sources: `atari/pong/heuristic_pong.py` and
+  `atari/breakout/heuristic_breakout.py`
+- Reviewed revision: `3555c2956c257d49a5015b782cbe485b14fd659e`
+- Copyright notice retained in derived files:
+  `Copyright 2021 Garena Online Private Limited`
+- License: Apache License 2.0

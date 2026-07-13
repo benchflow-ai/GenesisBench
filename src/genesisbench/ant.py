@@ -4,6 +4,8 @@ import importlib.util
 import inspect
 import json
 import math
+import shutil
+import sys
 import tempfile
 import time
 import xml.etree.ElementTree as ET
@@ -87,9 +89,7 @@ class AntEvaluation:
     @property
     def mean_action_latency_ms(self) -> float:
         return float(
-            np.mean(
-                [episode.mean_action_latency_ms for episode in self.episodes]
-            )
+            np.mean([episode.mean_action_latency_ms for episode in self.episodes])
         )
 
     def to_dict(self) -> dict[str, Any]:
@@ -117,14 +117,20 @@ class AntEvaluation:
 
 
 def _load_policy_module(policy_path: Path) -> ModuleType:
+    module_name = f"genesisbench_submission_{abs(hash(policy_path.resolve()))}"
     spec = importlib.util.spec_from_file_location(
-        f"genesisbench_submission_{abs(hash(policy_path.resolve()))}",
+        module_name,
         policy_path,
     )
     if spec is None or spec.loader is None:
         raise RuntimeError(f"Unable to import policy from {policy_path}")
     module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
+    sys.modules[module_name] = module
+    try:
+        spec.loader.exec_module(module)
+    except Exception:
+        sys.modules.pop(module_name, None)
+        raise
     return module
 
 
@@ -142,6 +148,42 @@ def _instantiate_policy(module: ModuleType, seed: int) -> Any:
         except TypeError:
             return policy_class()
     raise AttributeError("Submission must define Policy or make_policy")
+
+
+def _configure_policy(
+    policy: Any,
+    *,
+    model_xml_path: Path,
+    frame_skip: int,
+) -> None:
+    configure = getattr(policy, "configure_simulator", None)
+    if configure is None:
+        return
+
+    available = {
+        "model_xml_path": str(model_xml_path),
+        "frame_skip": int(frame_skip),
+    }
+    try:
+        signature = inspect.signature(configure)
+    except (TypeError, ValueError):
+        configure(**available)
+        return
+
+    accepts_kwargs = any(
+        parameter.kind is inspect.Parameter.VAR_KEYWORD
+        for parameter in signature.parameters.values()
+    )
+    kwargs = (
+        available
+        if accepts_kwargs
+        else {
+            name: value
+            for name, value in available.items()
+            if name in signature.parameters
+        }
+    )
+    configure(**kwargs)
 
 
 def _reset_policy(policy: Any, seed: int) -> None:
@@ -205,14 +247,21 @@ def _make_ant_env(
     *,
     variant: DynamicsVariant,
     max_steps: int,
-) -> tuple[gym.Env, tempfile.TemporaryDirectory[str] | None]:
-    temporary_directory: tempfile.TemporaryDirectory[str] | None = None
+) -> tuple[
+    gym.Env,
+    tempfile.TemporaryDirectory[str] | None,
+    Path,
+]:
+    temporary_directory = tempfile.TemporaryDirectory(
+        prefix="genesisbench-simulation-heuristics-ant-v1-"
+    )
+    model_xml_path = Path(temporary_directory.name) / f"{variant.name}.xml"
     kwargs: dict[str, Any] = {
         "include_cfrc_ext_in_observation": False,
         "contact_cost_weight": 0.0,
         "max_episode_steps": max_steps,
     }
-    if variant.name != "nominal" or any(
+    is_variant = variant.name != "nominal" or any(
         not math.isclose(value, 1.0)
         for value in (
             variant.density_scale,
@@ -220,15 +269,18 @@ def _make_ant_env(
             variant.damping_scale,
             variant.actuator_scale,
         )
-    ):
-        temporary_directory = tempfile.TemporaryDirectory(
-            prefix="genesisbench-simulation-heuristics-ant-v1-"
-        )
-        xml_path = Path(temporary_directory.name) / f"{variant.name}.xml"
-        _write_variant_xml(variant, xml_path)
-        kwargs["xml_file"] = str(xml_path)
+    )
+    if is_variant:
+        _write_variant_xml(variant, model_xml_path)
+    else:
+        shutil.copy2(_ant_xml_path(), model_xml_path)
+    kwargs["xml_file"] = str(model_xml_path)
 
-    return gym.make("Ant-v5", **kwargs), temporary_directory
+    return (
+        gym.make("Ant-v5", **kwargs),
+        temporary_directory,
+        model_xml_path,
+    )
 
 
 def _validate_action(action: Any) -> np.ndarray:
@@ -256,17 +308,23 @@ def evaluate_ant_policy(
 
     module = _load_policy_module(path)
     configured_variants = tuple(variants or (DynamicsVariant(),))
+    configured_seeds = tuple(int(seed) for seed in seeds)
     episodes: list[AntEpisode] = []
 
     for variant in configured_variants:
-        for seed in seeds:
-            env, temporary_directory = _make_ant_env(
+        for seed in configured_seeds:
+            env, temporary_directory, model_xml_path = _make_ant_env(
                 variant=variant,
                 max_steps=max_steps,
             )
-            policy = _instantiate_policy(module, seed)
-            _reset_policy(policy, seed)
             observation, _ = env.reset(seed=seed)
+            policy = _instantiate_policy(module, seed)
+            _configure_policy(
+                policy,
+                model_xml_path=model_xml_path,
+                frame_skip=int(env.unwrapped.frame_skip),
+            )
+            _reset_policy(policy, seed)
             episode_return = 0.0
             terminated = False
             truncated = False
@@ -287,9 +345,7 @@ def evaluate_ant_policy(
                         episode_return = failure_return
                         break
                     latencies.append((time.perf_counter() - started_at) * 1000)
-                    observation, reward, terminated, truncated, info = env.step(
-                        action
-                    )
+                    observation, reward, terminated, truncated, info = env.step(action)
                     episode_return += float(reward)
                     if terminated or truncated:
                         break

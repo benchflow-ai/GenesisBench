@@ -1,0 +1,13 @@
+{
+  "environment": "EnvPool 1.1.1 Breakout-v5, RAM-only policy input, frame_skip 1",
+  "max_steps": 108000,
+  "target_score": 864,
+  "reference_policy": {
+    "description": "Frozen observation-only geometric controller reaching 864",
+    "path": "anchor_policies/reference_policy.py"
+  },
+  "starter_policy": {
+    "description": "Article-faithful 387-point RAM controller",
+    "path": "anchor_policies/starter_policy.py"
+  }
+}

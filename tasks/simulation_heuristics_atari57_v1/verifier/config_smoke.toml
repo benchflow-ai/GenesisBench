@@ -1,0 +1,10 @@
+version = "1.0"
+
+[evaluation]
+backend = "deterministic"
+games = ["Breakout-v5", "Pong-v5", "Skiing-v5"]
+obs_modes = ["ram", "native_obs"]
+seeds = [101, 202, 303]
+max_steps = 4
+hns_table = "hns_normalization.csv"
+require_complete_search_ledger = false

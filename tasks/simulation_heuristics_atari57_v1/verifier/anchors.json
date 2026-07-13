@@ -1,0 +1,10 @@
+{
+  "reference_policy": {
+    "description": "Article-reported Codex best-input-mean median HNS",
+    "score": 0.8283015254994576
+  },
+  "starter_policy": {
+    "description": "Natural random-baseline HNS origin",
+    "score": 0.0
+  }
+}
