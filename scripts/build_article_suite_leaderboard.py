@@ -25,20 +25,58 @@ TASKS = (
     "simulation_heuristics_atari57_v1",
     "simulation_heuristics_montezuma_v1",
 )
+TASK_LABELS = {
+    "simulation_heuristics_ant_v1": "Ant",
+    "simulation_heuristics_pong_ram_v1": "Pong",
+    "simulation_heuristics_breakout_ram_v1": "Breakout RAM",
+    "simulation_heuristics_breakout_rgb_v1": "Breakout RGB",
+    "simulation_heuristics_halfcheetah_v1": "HalfCheetah",
+    "simulation_heuristics_vizdoom_d1_v1": "VizDoom D1",
+    "simulation_heuristics_vizdoom_d3_v1": "VizDoom D3",
+    "simulation_heuristics_atari57_v1": "Atari57",
+    "simulation_heuristics_montezuma_v1": "Montezuma's Revenge",
+}
+AVERAGE_LEADERBOARD_ID = "average"
 TASK_DIGEST_COMPATIBILITY = {
     "simulation_heuristics_ant_v1": {
         "sha256:bbb533da0cb86459f4d49dee667e6c73ac54c0188bc40e54e911d50ef3c3bc38": (
-            "Score-equivalent to the current task. The only later change adds "
-            "a fail-closed internal timeout for candidates whose verifier "
-            "would otherwise exceed BenchFlow's deadline."
+            "Score-equivalent to the current task. Later changes add a "
+            "fail-closed verifier timeout plus a CI-only smoke config and "
+            "documentation; the publication scoring config is unchanged."
+        ),
+        "sha256:9da0e00147cf66804e6c2fc17869606bea8f260850c5447989a8880eef940d45": (
+            "Score-equivalent to the current task. The later change adds only "
+            "a CI smoke config and documentation; the publication scoring "
+            "config is unchanged."
+        ),
+    },
+    "simulation_heuristics_halfcheetah_v1": {
+        "sha256:80c439f53e4ab964f9d7443cd7fb8f25cf6645a0bc288b0496b871c1800ebe78": (
+            "Score-equivalent to the current task. The later loader fix "
+            "registers submitted modules before execution so postponed "
+            "dataclass annotations import correctly; scoring is unchanged."
         )
-    }
+    },
+    "simulation_heuristics_vizdoom_d1_v1": {
+        "sha256:b3431b238bec4e66af6189d30bcd15d5cd227144dfe8bf0dd1011aa5416c1436": (
+            "Score-equivalent to the current task. The later loader fix "
+            "registers submitted modules before execution so postponed "
+            "dataclass annotations import correctly; scoring is unchanged."
+        )
+    },
+    "simulation_heuristics_vizdoom_d3_v1": {
+        "sha256:fcc6ed05673b7981aa17d60ca4e0d355fbcb57a6cbca293c0fa201ab97cdd081": (
+            "Score-equivalent to the current task. The later loader fix "
+            "registers submitted modules before execution so postponed "
+            "dataclass annotations import correctly; scoring is unchanged."
+        )
+    },
 }
 
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Build the aggregate nine-task article-suite leaderboard."
+        description="Build nine task leaderboards and their final average."
     )
     parser.add_argument(
         "--runs-root",
@@ -165,6 +203,165 @@ def _digest_compatibility_note(
 def _expected_models() -> dict[str, dict[str, Any]]:
     payload = tomllib.loads(MODELS_PATH.read_text())
     return {model["id"]: model for model in payload["models"]}
+
+
+def _rank_rows(
+    rows: list[dict[str, Any]],
+    *,
+    score_key: str,
+) -> list[dict[str, Any]]:
+    ranked = sorted(
+        (dict(row) for row in rows),
+        key=lambda row: (
+            -float(row[score_key]),
+            str(row["model_id"]),
+        ),
+    )
+    previous_score: float | None = None
+    current_rank = 0
+    for position, row in enumerate(ranked, start=1):
+        score = float(row[score_key])
+        if previous_score is None or score != previous_score:
+            current_rank = position
+        row["rank"] = current_rank
+        previous_score = score
+    return ranked
+
+
+def _build_leaderboards(
+    rows: list[dict[str, Any]],
+) -> list[dict[str, Any]]:
+    leaderboards: list[dict[str, Any]] = []
+    for task in TASKS:
+        task_rows = [
+            {
+                "model_id": row["model_id"],
+                "model": row["model"],
+                "harness": row["harness"],
+                "provider_reasoning_effort": row[
+                    "provider_reasoning_effort"
+                ],
+                "normalized_score": row["task_scores"][task],
+                "submission_detail": row["submission_details"][task],
+                "source_run": row["source_runs"][task],
+            }
+            for row in rows
+        ]
+        leaderboards.append(
+            {
+                "id": task,
+                "label": TASK_LABELS[task],
+                "metric": "normalized_score",
+                "rows": _rank_rows(
+                    task_rows,
+                    score_key="normalized_score",
+                ),
+            }
+        )
+
+    average_rows = [
+        {
+            "model_id": row["model_id"],
+            "model": row["model"],
+            "harness": row["harness"],
+            "provider_reasoning_effort": row[
+                "provider_reasoning_effort"
+            ],
+            "average_normalized_score": row["average_normalized_score"],
+        }
+        for row in rows
+    ]
+    leaderboards.append(
+        {
+            "id": AVERAGE_LEADERBOARD_ID,
+            "label": "Nine-task average",
+            "metric": "average_normalized_score",
+            "rows": _rank_rows(
+                average_rows,
+                score_key="average_normalized_score",
+            ),
+        }
+    )
+    return leaderboards
+
+
+def _leaderboard_relative_path(path: str) -> str:
+    detail_path = Path(path)
+    try:
+        detail_path = detail_path.relative_to("leaderboard")
+    except ValueError:
+        pass
+    return detail_path.as_posix()
+
+
+def _render_article_suite_markdown(
+    leaderboards: list[dict[str, Any]],
+) -> str:
+    markdown = [
+        "# GenesisBench Learning Beyond Gradients Article Suite",
+        "",
+        "This offline report contains 10 independent leaderboards: one for "
+        "each of the nine article-derived tasks, followed by the final "
+        "nine-task average.",
+        "",
+        "Task scores are unbounded normalized values. The public starter maps "
+        "to 0 and the trusted article-level reference maps to 100.",
+    ]
+    for index, board in enumerate(leaderboards, start=1):
+        markdown.extend(["", f"## {index}. {board['label']}", ""])
+        if board["id"] == AVERAGE_LEADERBOARD_ID:
+            markdown.extend(
+                [
+                    "Arithmetic mean of the nine normalized task scores.",
+                    "",
+                    "| Rank | Model | Harness | Effort | Nine-task average |",
+                    "| ---: | --- | --- | --- | ---: |",
+                ]
+            )
+            for row in board["rows"]:
+                markdown.append(
+                    "| "
+                    + " | ".join(
+                        [
+                            str(row["rank"]),
+                            row["model"],
+                            row["harness"],
+                            row["provider_reasoning_effort"],
+                            f"{row['average_normalized_score']:.2f}",
+                        ]
+                    )
+                    + " |"
+                )
+            continue
+
+        markdown.extend(
+            [
+                f"Task: `{board['id']}`",
+                "",
+                "| Rank | Model | Harness | Effort | Normalized score | "
+                "Score details |",
+                "| ---: | --- | --- | --- | ---: | --- |",
+            ]
+        )
+        for row in board["rows"]:
+            detail_path = _leaderboard_relative_path(
+                row["submission_detail"]
+            )
+            markdown.append(
+                "| "
+                + " | ".join(
+                    [
+                        str(row["rank"]),
+                        row["model"],
+                        row["harness"],
+                        row["provider_reasoning_effort"],
+                        f"{row['normalized_score']:.2f}",
+                        f"[JSON]({detail_path})",
+                    ]
+                )
+                + " |"
+            )
+    return "\n".join(markdown) + "\n"
 
 
 def _latest_model_runs(runs_root: Path) -> dict[str, Path]:
@@ -369,18 +566,19 @@ def main() -> None:
                 },
             }
         )
-    ranked.sort(
-        key=lambda row: row["average_normalized_score"],
-        reverse=True,
+    ranked = _rank_rows(
+        ranked,
+        score_key="average_normalized_score",
     )
-    for rank, row in enumerate(ranked, start=1):
-        row["rank"] = rank
+    leaderboards = _build_leaderboards(ranked)
 
     payload = {
         "benchmark": "learning_beyond_gradients_article_suite",
         "task_count": len(TASKS),
+        "leaderboard_count": len(leaderboards),
         "tasks": list(TASKS),
         "aggregation": "arithmetic_mean_of_normalized_task_scores",
+        "leaderboards": leaderboards,
         "task_digest_compatibility": TASK_DIGEST_COMPATIBILITY,
         "source_runs": {
             model_id: {
@@ -402,48 +600,8 @@ def main() -> None:
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n")
 
-    labels = {
-        "simulation_heuristics_ant_v1": "Ant",
-        "simulation_heuristics_pong_ram_v1": "Pong",
-        "simulation_heuristics_breakout_ram_v1": "Breakout RAM",
-        "simulation_heuristics_breakout_rgb_v1": "Breakout RGB",
-        "simulation_heuristics_halfcheetah_v1": "HalfCheetah",
-        "simulation_heuristics_vizdoom_d1_v1": "Doom D1",
-        "simulation_heuristics_vizdoom_d3_v1": "Doom D3",
-        "simulation_heuristics_atari57_v1": "Atari57",
-        "simulation_heuristics_montezuma_v1": "Montezuma",
-    }
-    header = [
-        "Rank",
-        "Model",
-        "Harness",
-        "Effort",
-        "Average",
-        *(labels[task] for task in TASKS),
-    ]
-    alignment = ["---:", "---", "---", "---", "---:", *(["---:"] * len(TASKS))]
-    markdown = [
-        "# GenesisBench Learning Beyond Gradients Article Suite",
-        "",
-        "The aggregate score is the arithmetic mean of nine normalized task "
-        "scores. Starter policies map to 0 and trusted article-level references "
-        "map to 100.",
-        "",
-        "| " + " | ".join(header) + " |",
-        "| " + " | ".join(alignment) + " |",
-    ]
-    for row in ranked:
-        values = [
-            str(row["rank"]),
-            row["model"],
-            row["harness"],
-            row["provider_reasoning_effort"],
-            f"{row['average_normalized_score']:.2f}",
-            *(f"{row['task_scores'][task]:.2f}" for task in TASKS),
-        ]
-        markdown.append("| " + " | ".join(values) + " |")
     (args.output.parent / "ARTICLE_SUITE.md").write_text(
-        "\n".join(markdown) + "\n"
+        _render_article_suite_markdown(leaderboards)
     )
     print(args.output)
 

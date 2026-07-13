@@ -8,6 +8,8 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parents[1]
 LEADERBOARD = REPO_ROOT / "leaderboard" / "simulation_heuristics_ant_v1.json"
 ARTICLE_SUITE = REPO_ROOT / "leaderboard" / "article_suite.json"
+ARTICLE_SUITE_MARKDOWN = REPO_ROOT / "leaderboard" / "ARTICLE_SUITE.md"
+ROOT_README = REPO_ROOT / "README.md"
 
 
 def test_packaged_leaderboard_is_self_contained() -> None:
@@ -38,9 +40,14 @@ def test_article_suite_leaderboard_is_complete_and_self_contained() -> None:
 
     assert payload["benchmark"] == "learning_beyond_gradients_article_suite"
     assert payload["task_count"] == 9
+    assert payload["leaderboard_count"] == 10
     assert len(payload["tasks"]) == 9
     assert len(payload["rows"]) == 4
     assert [row["rank"] for row in payload["rows"]] == [1, 2, 3, 4]
+    assert [board["id"] for board in payload["leaderboards"][:-1]] == payload[
+        "tasks"
+    ]
+    assert payload["leaderboards"][-1]["id"] == "average"
 
     averages = [
         row["average_normalized_score"] for row in payload["rows"]
@@ -80,3 +87,30 @@ def test_article_suite_leaderboard_is_complete_and_self_contained() -> None:
                         assert_no_absolute_artifact_paths(item)
 
             assert_no_absolute_artifact_paths(score)
+
+    model_rows = {row["model_id"]: row for row in payload["rows"]}
+    for board in payload["leaderboards"][:-1]:
+        scores = [row["normalized_score"] for row in board["rows"]]
+        assert scores == sorted(scores, reverse=True)
+        assert len(board["rows"]) == len(payload["rows"])
+        for row in board["rows"]:
+            assert row["normalized_score"] == model_rows[row["model_id"]][
+                "task_scores"
+            ][board["id"]]
+
+    average_board = payload["leaderboards"][-1]
+    assert [
+        row["average_normalized_score"] for row in average_board["rows"]
+    ] == averages
+
+    markdown = ARTICLE_SUITE_MARKDOWN.read_text()
+    assert markdown.count("| Rank | Model | Harness | Effort |") == 10
+    headings = [
+        line for line in markdown.splitlines() if line.startswith("## ")
+    ]
+    assert len(headings) == 10
+    assert headings[-1] == "## 10. Nine-task average"
+
+    root_readme = ROOT_README.read_text()
+    assert "| Rank | Model | Nine-task average |" in root_readme
+    assert "## Legacy Ant-Only Leaderboard" not in root_readme

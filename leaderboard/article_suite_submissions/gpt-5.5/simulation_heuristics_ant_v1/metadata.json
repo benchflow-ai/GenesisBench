@@ -1,7 +1,7 @@
 {
   "benchmark": "learning_beyond_gradients_article_suite",
-  "current_task_digest": "sha256:9da0e00147cf66804e6c2fc17869606bea8f260850c5447989a8880eef940d45",
-  "digest_compatibility_note": "Score-equivalent to the current task. The only later change adds a fail-closed internal timeout for candidates whose verifier would otherwise exceed BenchFlow's deadline.",
+  "current_task_digest": "sha256:5cf3805d59b03cb9d0bebb6f154eab38beb655918b8321500d692f5010a00cb2",
+  "digest_compatibility_note": "Score-equivalent to the current task. Later changes add a fail-closed verifier timeout plus a CI-only smoke config and documentation; the publication scoring config is unchanged.",
   "finished_at": 1783939074.870018,
   "harness": "opencode",
   "model": {

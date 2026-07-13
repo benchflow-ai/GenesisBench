@@ -61,14 +61,24 @@ chat-completions gateway cannot faithfully transform Azure GPT-5.6 Sol tool
 calls. BenchFlow continues to own task staging, Daytona/Docker isolation, ACP
 trajectory capture, timing, and verifier execution.
 
-## Aggregate score
+## Leaderboard outputs
 
-The article-suite leaderboard reports every normalized task score and their
-unweighted arithmetic mean:
+The offline article-suite report contains 10 independent leaderboards in a
+fixed order:
+
+1. one leaderboard for each of the nine article-derived tasks;
+2. the final averaged leaderboard.
+
+The final score is the unweighted arithmetic mean:
 
 ```text
 average = sum(nine normalized task scores) / 9
 ```
+
+The repository README intentionally shows only the final averaged leaderboard.
+Detailed task rankings and score-artifact links live in
+`leaderboard/ARTICLE_SUITE.md`; the matching machine-readable structure lives
+in `leaderboard/article_suite.json`.
 
 The runner and resumable leaderboard builder live in:
 

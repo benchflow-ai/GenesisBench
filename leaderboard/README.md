@@ -9,7 +9,8 @@
 | 3 | GPT-5.6 Sol | 39.38 |
 | 4 | GPT-5.4 Mini | -29.72 |
 
-See [`ARTICLE_SUITE.md`](ARTICLE_SUITE.md) for all nine task columns.
+See [`ARTICLE_SUITE.md`](ARTICLE_SUITE.md) for 10 independent leaderboards:
+nine task-specific rankings followed by the final average ranking.
 
 ## Legacy Simulation Heuristics Ant v1
 
