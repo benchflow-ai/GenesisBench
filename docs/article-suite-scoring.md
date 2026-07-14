@@ -34,8 +34,8 @@ deviation.
 
 The primary cross-task metric is the interquartile mean (IQM), implemented as
 the 25% trimmed mean used by
-[RLiable](https://github.com/google-research/rliable). RLiable computes IQM
-across the complete `num_runs × num_tasks` score matrix:
+[RLiable's `aggregate_iqm`](https://github.com/google-research/rliable/blob/master/rliable/metrics.py#L61-L70).
+RLiable computes IQM across the complete `num_runs × num_tasks` score matrix:
 
 ```text
 scores = sort(flatten(the 5 × 9 normalized score matrix))

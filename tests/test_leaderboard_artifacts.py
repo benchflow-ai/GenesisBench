@@ -258,6 +258,9 @@ def test_article_suite_leaderboard_is_complete_and_self_contained() -> None:
     assert "assets/article_suite_final_leaderboard.png" not in website
     assert '<h3 id="leaderboardsTitle">Leaderboards</h3>' in website
     assert "Task-level view" not in website
+    assert "Four coding models, nine article-derived tasks" not in website
+    assert "The task panels show each environment's native raw score" not in website
+    assert "Pooled IQM across all 45 trial-task scores" in website
     assert 'id="taskLeaderboards"' in website
     assert 'id="finalLeaderboard"' in website
     assert 'id="inferenceSettings"' in website
