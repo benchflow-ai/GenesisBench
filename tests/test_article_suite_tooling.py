@@ -397,6 +397,45 @@ def test_scored_agent_timeout_is_a_valid_leaderboard_result(
     assert len(loaded) == 9
 
 
+def test_verifier_timeout_is_not_a_valid_leaderboard_result(
+    tmp_path: Path,
+) -> None:
+    model_root = tmp_path / "gpt-5.6-sol"
+    job = model_root / "jobs" / "run"
+    rollout = job / "task"
+    verifier = rollout / "verifier"
+    verifier.mkdir(parents=True)
+    task = leaderboard.TASKS[0]
+    (verifier / "genesis-score.json").write_text(
+        json.dumps(
+            {
+                "score": None,
+                "normalized_score": 0.0,
+                "verifier_timeout": True,
+            }
+        )
+    )
+    (job / "results.jsonl").write_text(
+        json.dumps(
+            {
+                "info": {
+                    "task_name": task,
+                    "rollout_dir": str(rollout),
+                },
+                "reward": 0.0,
+                "error": None,
+            }
+        )
+        + "\n"
+    )
+
+    with pytest.raises(RuntimeError, match="verifier timed out"):
+        leaderboard._load_results(
+            model_root,
+            expected_tasks=(task,),
+        )
+
+
 def test_latest_model_runs_can_resume_across_batches(tmp_path: Path) -> None:
     for batch, model_id, finished_at in (
         ("batch-a", "gpt-5.6-sol", 1.0),
