@@ -45,7 +45,8 @@ trial_iqm = mean(scores[2:7])
 The final model score is:
 
 ```text
-final_normalized_score = mean(trial_iqm[1:5])
+final_normalized_score =
+    mean(trial_iqm_1, trial_iqm_2, trial_iqm_3, trial_iqm_4, trial_iqm_5)
 ```
 
 The leaderboard also publishes the sample standard deviation of the five

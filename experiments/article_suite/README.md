@@ -106,7 +106,12 @@ uv run python scripts/run_article_suite.py \
 ```
 
 Runs are resumable at model-trial granularity. Reusing `--batch-id` skips
-completed trials. Use `--trial` to schedule or repair selected trials:
+completed trials. Models may also be scheduled into separate batch directories
+for parallel execution. The leaderboard builder chooses one complete
+five-trial batch per model and never mixes trials from different batches within
+the same model.
+
+Use `--trial` to schedule or repair selected trials:
 
 ```bash
 uv run python scripts/run_article_suite.py \
@@ -118,9 +123,9 @@ uv run python scripts/run_article_suite.py \
   --sandbox daytona
 ```
 
-The leaderboard builder selects the latest complete batch matching
-`protocol.toml`; it never mixes older single-run results into the five-trial
-leaderboard.
+The leaderboard builder selects the latest complete per-model batch matching
+`protocol.toml`; it never mixes older single-run results or partial batches into
+the five-trial leaderboard.
 
 GPT-5.6 Sol is routed directly through OpenCode's Azure Responses-API provider
 with reasoning effort `max`. BenchFlow still owns sandboxing, task staging,

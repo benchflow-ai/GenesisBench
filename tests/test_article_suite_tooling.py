@@ -506,13 +506,13 @@ def test_latest_complete_trial_batch_requires_every_trial(
             "\n".join(json.dumps(row) for row in rows) + "\n"
         )
 
-    selected_batch, results = leaderboard._latest_complete_trial_batch(
+    selected_batches, results = leaderboard._latest_complete_model_batches(
         tmp_path,
         expected_models={"model-a"},
         protocol=protocol,
     )
 
-    assert selected_batch == batch
+    assert selected_batches == {"model-a": batch}
     assert set(results["model-a"]["task-a"]) == {1, 2}
     assert (
         leaderboard._normalized_task_score(
@@ -523,11 +523,91 @@ def test_latest_complete_trial_batch_requires_every_trial(
 
     (batch / "model-a" / "trial-02" / "run_metadata.json").unlink()
     with pytest.raises(RuntimeError, match="2 missing"):
-        leaderboard._latest_complete_trial_batch(
+        leaderboard._latest_complete_model_batches(
             tmp_path,
             expected_models={"model-a"},
             protocol=protocol,
         )
+
+
+def test_latest_complete_model_batches_support_parallel_model_shards(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    tasks = ("task-a",)
+    monkeypatch.setattr(leaderboard, "TASKS", tasks)
+    protocol = {"version": "test", "trials": 2}
+
+    for model_index, model_id in enumerate(("model-a", "model-b"), start=1):
+        batch = tmp_path / f"batch-{model_id}"
+        batch.mkdir()
+        (batch / "batch_manifest.json").write_text(
+            json.dumps({"protocol": protocol})
+        )
+        for trial in (1, 2):
+            trial_root = batch / model_id / f"trial-{trial:02d}"
+            job = trial_root / "jobs" / "run"
+            rollout = trial_root / f"rollout-{trial}"
+            verifier = rollout / "verifier"
+            job.mkdir(parents=True)
+            verifier.mkdir(parents=True)
+            (trial_root / "run_metadata.json").write_text(
+                json.dumps(
+                    {
+                        "model": {"id": model_id},
+                        "trial": trial,
+                        "tasks": list(tasks),
+                        "status": "completed",
+                        "return_code": 0,
+                        "dry_run": False,
+                        "finished_at": float(model_index * 10 + trial),
+                    }
+                )
+            )
+            (trial_root / "task_manifest.json").write_text(
+                json.dumps(
+                    {
+                        "tasks": [
+                            {
+                                "task_id": "task-a",
+                                "digest": f"sha256:{model_id}",
+                            }
+                        ]
+                    }
+                )
+            )
+            (verifier / "genesis-score.json").write_text(
+                json.dumps({"normalized_score": model_index * 10 + trial})
+            )
+            (job / "results.jsonl").write_text(
+                json.dumps(
+                    {
+                        "info": {
+                            "task_name": "task-a",
+                            "rollout_dir": str(rollout),
+                        },
+                        "reward": 0.5,
+                        "error": None,
+                    }
+                )
+                + "\n"
+            )
+
+    selected_batches, results = (
+        leaderboard._latest_complete_model_batches(
+            tmp_path,
+            expected_models={"model-a", "model-b"},
+            protocol=protocol,
+        )
+    )
+
+    assert selected_batches == {
+        "model-a": tmp_path / "batch-model-a",
+        "model-b": tmp_path / "batch-model-b",
+    }
+    assert set(results) == {"model-a", "model-b"}
+    assert set(results["model-a"]["task-a"]) == {1, 2}
+    assert set(results["model-b"]["task-a"]) == {1, 2}
 
 
 def test_iqm_matches_rliable_25_percent_trimmed_mean() -> None:

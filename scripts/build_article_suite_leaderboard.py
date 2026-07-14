@@ -655,13 +655,13 @@ def _trial_batch_missing(
     return missing
 
 
-def _latest_complete_trial_batch(
+def _latest_complete_model_batches(
     runs_root: Path,
     *,
     expected_models: set[str],
     protocol: dict[str, Any],
 ) -> tuple[
-    Path,
+    dict[str, Path],
     dict[
         str,
         dict[
@@ -671,48 +671,64 @@ def _latest_complete_trial_batch(
     ],
 ]:
     expected_trials = int(protocol["trials"])
-    candidates = []
-    incomplete: list[tuple[Path, int]] = []
+    manifests = []
     for manifest_path in runs_root.glob("*/batch_manifest.json"):
         manifest = json.loads(manifest_path.read_text())
-        if manifest.get("protocol") != protocol:
-            continue
-        batch_root = manifest_path.parent
-        results = _trial_batch_results(
-            batch_root,
-            expected_models=expected_models,
-            expected_trials=expected_trials,
-        )
-        missing = _trial_batch_missing(
-            results,
-            expected_models=expected_models,
-            expected_trials=expected_trials,
-        )
-        if missing:
-            incomplete.append((batch_root, len(missing)))
-            continue
-        finished_at = max(
-            entry[0]["finished_at"]
-            for model_results in results.values()
-            for task_results in model_results.values()
-            for entry in task_results.values()
-        )
-        candidates.append((float(finished_at), batch_root, results))
-    if not candidates:
-        detail = (
-            ", ".join(
-                f"{path.name}: {missing_count} missing"
-                for path, missing_count in sorted(incomplete)[-3:]
+        if manifest.get("protocol") == protocol:
+            manifests.append(manifest_path.parent)
+
+    selected_batches: dict[str, Path] = {}
+    selected_results: dict[
+        str,
+        dict[
+            str,
+            dict[int, tuple[dict[str, Any], dict[str, Any], Path, str]],
+        ],
+    ] = {}
+    for model_id in sorted(expected_models):
+        candidates = []
+        incomplete: list[tuple[Path, int]] = []
+        for batch_root in manifests:
+            results = _trial_batch_results(
+                batch_root,
+                expected_models={model_id},
+                expected_trials=expected_trials,
             )
-            or "no matching protocol batches"
+            missing = _trial_batch_missing(
+                results,
+                expected_models={model_id},
+                expected_trials=expected_trials,
+            )
+            if missing:
+                incomplete.append((batch_root, len(missing)))
+                continue
+            finished_at = max(
+                entry[0]["finished_at"]
+                for task_results in results[model_id].values()
+                for entry in task_results.values()
+            )
+            candidates.append(
+                (float(finished_at), batch_root, results[model_id])
+            )
+        if not candidates:
+            detail = (
+                ", ".join(
+                    f"{path.name}: {missing_count} missing"
+                    for path, missing_count in sorted(incomplete)[-3:]
+                )
+                or "no matching protocol batches"
+            )
+            raise RuntimeError(
+                f"No complete {expected_trials}-trial article-suite batch is "
+                f"available for {model_id}: {detail}"
+            )
+        _, batch_root, model_results = max(
+            candidates,
+            key=lambda item: item[0],
         )
-        raise RuntimeError(
-            f"No complete {expected_trials}-trial article-suite batch is "
-            "available: "
-            + detail
-        )
-    _, batch_root, results = max(candidates, key=lambda item: item[0])
-    return batch_root, results
+        selected_batches[model_id] = batch_root
+        selected_results[model_id] = model_results
+    return selected_batches, selected_results
 
 
 def main() -> None:
@@ -721,7 +737,7 @@ def main() -> None:
     expected_models = _expected_models()
     protocol = _protocol()
     trial_count = int(protocol["trials"])
-    batch_root, task_results = _latest_complete_trial_batch(
+    model_batch_roots, task_results = _latest_complete_model_batches(
         runs_root,
         expected_models=set(expected_models),
         protocol=protocol,
@@ -953,7 +969,15 @@ def main() -> None:
 
     payload = {
         "benchmark": "learning_beyond_gradients_article_suite",
-        "batch_id": batch_root.name,
+        "batch_id": (
+            next(iter(model_batch_roots.values())).name
+            if len(set(model_batch_roots.values())) == 1
+            else "per-model-batches"
+        ),
+        "batch_ids": {
+            model_id: batch_root.name
+            for model_id, batch_root in model_batch_roots.items()
+        },
         "protocol": protocol,
         "task_count": len(TASKS),
         "leaderboard_count": len(leaderboards),
