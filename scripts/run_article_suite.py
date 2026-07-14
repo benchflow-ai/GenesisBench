@@ -174,8 +174,12 @@ def _task_agent_timeout(task: str) -> int:
 
 def _validate_protocol(tasks: tuple[str, ...], trials: int) -> dict[str, Any]:
     protocol = _protocol()
-    if trials < 1:
-        raise ValueError("--trials must be >= 1")
+    expected_trials = int(protocol["trials"])
+    if trials != expected_trials:
+        raise ValueError(
+            f"--trials must match protocol.toml: expected "
+            f"{expected_trials}, got {trials}"
+        )
     multiplier = protocol["agent_timeout_multiplier"]
     baselines = protocol["baseline_agent_timeout_sec"]
     for task in tasks:

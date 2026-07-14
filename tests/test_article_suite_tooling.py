@@ -23,6 +23,8 @@ def test_article_suite_protocol_uses_five_trials_and_triple_timeouts() -> None:
     assert protocol["trials"] == 5
     assert protocol["agent_timeout_multiplier"] == 3
     runner._validate_protocol(runner.TASKS, protocol["trials"])
+    with pytest.raises(ValueError, match="must match protocol.toml"):
+        runner._validate_protocol(runner.TASKS, 4)
 
 
 def test_trial_storage_scope_supports_full_and_partial_resumes() -> None:
