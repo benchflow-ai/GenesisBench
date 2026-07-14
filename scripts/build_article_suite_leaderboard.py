@@ -180,14 +180,6 @@ def _load_results(
         has_score_details = bool(
             score_details is not None and score_details.is_file()
         )
-        if has_score_details:
-            details = json.loads(score_details.read_text())
-            if details.get("verifier_timeout") is True:
-                if allow_partial_errors:
-                    continue
-                raise RuntimeError(
-                    f"{model_root.name}/{task_name} verifier timed out"
-                )
         if error is not None and not (
             isinstance(error, dict)
             and error.get("error") == "missing_llm_trajectory"
