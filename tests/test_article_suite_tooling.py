@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 import statistics
+import sys
 
 import pytest
 
@@ -27,6 +28,18 @@ def test_article_suite_protocol_uses_five_trials_and_triple_timeouts() -> None:
     runner._validate_protocol(runner.TASKS, protocol["trials"])
     with pytest.raises(ValueError, match="must match protocol.toml"):
         runner._validate_protocol(runner.TASKS, 4)
+
+
+def test_article_suite_defaults_to_daytona(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        ["run_article_suite.py", "--model", "gpt-5.6-sol"],
+    )
+
+    assert runner.parse_args().sandbox == "daytona"
 
 
 def test_execution_protocol_ignores_posthoc_aggregation_changes() -> None:
@@ -226,7 +239,7 @@ def test_provider_environment_is_least_privilege() -> None:
     assert "AZURE_API_ENDPOINT" not in claude
 
 
-def test_authoritative_docker_runs_pin_calibrated_amd64_platform() -> None:
+def test_optional_local_docker_runs_pin_calibrated_amd64_platform() -> None:
     env: dict[str, str] = {}
 
     runner._configure_docker_platform(env, platform="linux/amd64")
@@ -757,6 +770,7 @@ def test_offline_report_builds_nine_task_boards_then_final() -> None:
                 "provider": "test",
                 "provider_label": "Test provider",
                 "harness": "opencode",
+                "sandbox": "daytona",
                 "provider_reasoning_effort": "max",
                 "trial_count": 5,
                 **aggregates,

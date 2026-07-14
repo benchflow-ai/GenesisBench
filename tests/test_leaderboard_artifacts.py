@@ -67,6 +67,10 @@ def test_article_suite_leaderboard_is_complete_and_self_contained() -> None:
         assert payload["protocol"]["version"] == "2.1"
         assert payload["protocol"]["trials"] == 5
         assert payload["protocol"]["agent_timeout_multiplier"] == 3
+        assert payload["execution"] == {
+            "sandbox": "daytona",
+            "sandboxes": ["daytona"],
+        }
         assert payload["aggregation"]["pooled_score_count"] == 45
         assert payload["aggregation"]["trimmed_score_count_per_tail"] == 11
         assert payload["aggregation"]["retained_score_count"] == 23
@@ -104,6 +108,8 @@ def test_article_suite_leaderboard_is_complete_and_self_contained() -> None:
 
     for row in payload["rows"]:
         assert row["harness"] == "opencode"
+        if row.get("sandbox") is not None:
+            assert row["sandbox"] == "daytona"
         assert set(row["task_scores"]) == set(payload["tasks"])
         assert set(row["raw_task_scores"]) == set(payload["tasks"])
         assert set(row["task_anchors"]) == set(payload["tasks"])
@@ -265,6 +271,7 @@ def test_article_suite_leaderboard_is_complete_and_self_contained() -> None:
     assert 'id="finalLeaderboard"' in website
     assert 'id="inferenceSettings"' in website
     assert "not a shared numeric compute scale" in website
+    assert "' · '+esc(row.harness)+' · '+esc(row.sandbox)" in website
     assert 'id="loopScore"' in website
     assert 'id="loopNote"' in website
     assert "loopScore.textContent=t.score" in website

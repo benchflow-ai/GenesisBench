@@ -47,7 +47,8 @@ Requirements:
 
 - Python 3.12+
 - [`uv`](https://docs.astral.sh/uv/)
-- Docker for isolated agent experiments
+- Daytona credentials for authoritative leaderboard experiments
+- Docker only for optional local task development
 
 Install and validate:
 
@@ -98,6 +99,7 @@ Run one model across all nine tasks:
 
 ```bash
 uv run python scripts/run_article_suite.py \
+  --env-file /path/to/credentials.env \
   --model gpt-5.6-sol
 ```
 
@@ -105,6 +107,7 @@ Run all four canonical models and rebuild the 10 leaderboard artifacts:
 
 ```bash
 uv run python scripts/run_article_suite.py \
+  --env-file /path/to/credentials.env \
   --all-models
 uv run python scripts/build_article_suite_leaderboard.py
 ```
@@ -140,6 +143,7 @@ Inference settings are provider-specific: GPT-5.6 Sol and Claude Opus 4.8 use
 provider interfaces and are categorical settings, not a shared numeric compute
 scale. Exact routes are documented in
 [`docs/learning-beyond-gradients-suite.md`](docs/learning-beyond-gradients-suite.md).
+All published article-suite rows run in Daytona sandboxes.
 
 See [`docs/article-suite-scoring.md`](docs/article-suite-scoring.md) for the
 formula, research precedent, and statistical limitations.

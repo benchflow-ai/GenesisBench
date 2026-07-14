@@ -381,6 +381,7 @@ def _build_leaderboards(
                 "provider": row["provider"],
                 "provider_label": row["provider_label"],
                 "harness": row["harness"],
+                "sandbox": row["sandbox"],
                 "provider_reasoning_effort": row[
                     "provider_reasoning_effort"
                 ],
@@ -423,6 +424,7 @@ def _build_leaderboards(
             "provider": row["provider"],
             "provider_label": row["provider_label"],
             "harness": row["harness"],
+            "sandbox": row["sandbox"],
             "provider_reasoning_effort": row[
                 "provider_reasoning_effort"
             ],
@@ -988,6 +990,7 @@ def main() -> None:
                     representative_metadata["model"]["provider"],
                 ),
                 "harness": representative_metadata["harness"],
+                "sandbox": representative_metadata["sandbox"],
                 "provider_reasoning_effort": representative_metadata[
                     "provider_reasoning_effort"
                 ],
@@ -1011,6 +1014,7 @@ def main() -> None:
         ranked,
         score_key="final_normalized_score",
     )
+    sandboxes = sorted({row["sandbox"] for row in ranked})
     leaderboards = _build_leaderboards(ranked)
     pooled_score_count = trial_count * len(TASKS)
     pooled_trim_count = int(pooled_score_count * IQM_TRIM_FRACTION)
@@ -1027,6 +1031,10 @@ def main() -> None:
             for model_id, batch_root in model_batch_roots.items()
         },
         "protocol": protocol,
+        "execution": {
+            "sandbox": sandboxes[0] if len(sandboxes) == 1 else "mixed",
+            "sandboxes": sandboxes,
+        },
         "task_count": len(TASKS),
         "leaderboard_count": len(leaderboards),
         "tasks": list(TASKS),
@@ -1076,6 +1084,7 @@ def main() -> None:
                     "provider": row["provider"],
                     "provider_label": row["provider_label"],
                     "harness": row["harness"],
+                    "sandbox": row["sandbox"],
                     "provider_reasoning_effort": row[
                         "provider_reasoning_effort"
                     ],

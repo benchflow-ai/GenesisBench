@@ -926,7 +926,7 @@ footer{background:var(--paper-2);border-top:1px solid var(--line);padding-block:
       return'<article class="inference-card">'+
         '<strong class="inference-model">'+esc(row.model)+'</strong>'+
         '<span class="inference-route">'+esc(row.provider_label)+' · '+esc(row.model_route)+
-          ' · '+esc(row.harness)+'</span>'+
+          ' · '+esc(row.harness)+' · '+esc(row.sandbox)+'</span>'+
         '<span class="inference-effort">reasoning effort: '+esc(row.provider_reasoning_effort)+'</span>'+
       '</article>';
     }).join("");

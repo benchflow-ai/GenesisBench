@@ -49,12 +49,12 @@ zero and are not presented as article reproductions.
 All new leaderboard runs use the BenchFlow `opencode` ACP harness. The canonical
 matrix is:
 
-| Model | Exact route | Harness | Provider reasoning setting |
-| --- | --- | --- | --- |
-| GPT-5.6 Sol | Azure `azure/gpt-5.6-sol` | OpenCode | `max` |
-| GPT-5.5 | Azure `azure/gpt-5.5` | OpenCode | `xhigh` |
-| Claude Opus 4.8 | Claude OAuth `anthropic/claude-opus-4-8` through the pinned OpenCode plugin | OpenCode | `max` |
-| GPT-5.4 Mini | Azure `azure/gpt-5.4-mini` | OpenCode | `xhigh` |
+| Model | Exact route | Harness | Provider reasoning setting | Sandbox |
+| --- | --- | --- | --- | --- |
+| GPT-5.6 Sol | Azure `azure/gpt-5.6-sol` | OpenCode | `max` | Daytona |
+| GPT-5.5 | Azure `azure/gpt-5.5` | OpenCode | `xhigh` | Daytona |
+| Claude Opus 4.8 | Claude OAuth `anthropic/claude-opus-4-8` through the pinned OpenCode plugin | OpenCode | `max` | Daytona |
+| GPT-5.4 Mini | Azure `azure/gpt-5.4-mini` | OpenCode | `xhigh` | Daytona |
 
 `max` and `xhigh` are provider-specific categorical labels. They indicate the
 configured reasoning setting for that route; they are not interchangeable
@@ -62,8 +62,11 @@ units and should not be read as a shared numeric inference-compute scale.
 
 OpenCode talks directly to the provider because BenchFlow 0.6.5's
 chat-completions gateway cannot faithfully transform Azure GPT-5.6 Sol tool
-calls. BenchFlow continues to own task staging, Daytona/Docker isolation, ACP
+calls. BenchFlow continues to own task staging, Daytona isolation, ACP
 trajectory capture, timing, and verifier execution.
+
+The published matrix uses Daytona for every task. Docker is retained only as an
+optional local development backend.
 
 ## Leaderboard outputs
 

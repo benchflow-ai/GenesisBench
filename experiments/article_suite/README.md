@@ -46,12 +46,12 @@ cap is a maximum, not an expected runtime.
 
 ## Inference settings
 
-| Model | Exact route | Provider-specific reasoning setting |
-| --- | --- | --- |
-| GPT-5.6 Sol | `azure/gpt-5.6-sol` | `max` |
-| GPT-5.5 | `azure/gpt-5.5` | `xhigh` |
-| Claude Opus 4.8 | `anthropic/claude-opus-4-8` via Claude OAuth and the pinned OpenCode plugin | `max` |
-| GPT-5.4 Mini | `azure/gpt-5.4-mini` | `xhigh` |
+| Model | Exact route | Provider-specific reasoning setting | Sandbox |
+| --- | --- | --- | --- |
+| GPT-5.6 Sol | `azure/gpt-5.6-sol` | `max` | Daytona |
+| GPT-5.5 | `azure/gpt-5.5` | `xhigh` | Daytona |
+| Claude Opus 4.8 | `anthropic/claude-opus-4-8` via Claude OAuth and the pinned OpenCode plugin | `max` | Daytona |
+| GPT-5.4 Mini | `azure/gpt-5.4-mini` | `xhigh` | Daytona |
 
 The setting names are categorical labels exposed by each provider integration,
 not a common numeric measure of inference compute. All four routes use the
@@ -78,9 +78,7 @@ CLAUDE_CODE_OAUTH_TOKEN
 
 ## Run
 
-Docker must be running because the authoritative suite uses isolated BenchFlow
-task environments. Local Docker runs default to calibrated `linux/amd64`
-images, including on Apple Silicon:
+The authoritative suite uses isolated Daytona sandboxes in the `us` target:
 
 ```bash
 uv run python scripts/run_article_suite.py \
@@ -88,13 +86,14 @@ uv run python scripts/run_article_suite.py \
   --model gpt-5.6-sol
 ```
 
-Use `--docker-platform` only when a task's verifier has a matching trusted
-platform calibration. The current VizDoom reproducibility anchors support
-`linux-x86_64`, so uncalibrated `linux-arm64` runs fail closed.
+The July 14, 2026 Atari57 capacity canary confirmed that Daytona runs all nine
+tasks. BenchFlow currently clamps Atari57 from 14 requested CPUs to 4 and from
+102,400 MB requested storage to 10,240 MB; these are execution limits, not score
+transformations, and the remote verifier still completes normally.
 
-Atari57 requests more CPU, memory, and storage than the current Daytona account
-allows. The all-nine commands therefore use the default local Docker sandbox.
-Use Daytona only for selected non-Atari tasks.
+Local Docker remains available for development with `--sandbox docker`. Such
+runs default to calibrated `linux/amd64` images; they are not selected for the
+published article-suite leaderboard.
 
 Run all four models sequentially:
 
@@ -103,7 +102,7 @@ uv run python scripts/run_article_suite.py \
   --env-file /path/to/credentials.env \
   --all-models \
   --trials 5 \
-  --batch-id article-suite-v2
+  --batch-id article-suite-v2-daytona
 ```
 
 Runs are resumable at model-trial granularity. Reusing `--batch-id` skips
@@ -120,8 +119,7 @@ uv run python scripts/run_article_suite.py \
   --model gpt-5.6-sol \
   --task simulation_heuristics_halfcheetah_v1 \
   --trial 3 \
-  --batch-id article-suite-v2 \
-  --sandbox daytona
+  --batch-id article-suite-v2-daytona
 ```
 
 The leaderboard builder selects the latest complete per-model batch matching

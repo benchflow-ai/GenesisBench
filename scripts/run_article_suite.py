@@ -95,12 +95,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--sandbox",
         choices=("docker", "daytona"),
-        default="docker",
+        default="daytona",
     )
     parser.add_argument(
         "--docker-platform",
         default="linux/amd64",
-        help="Calibrated Docker target used by authoritative local runs.",
+        help="Calibrated target for optional local-Docker runs.",
     )
     parser.add_argument("--dry-run", action="store_true")
     return parser.parse_args()
