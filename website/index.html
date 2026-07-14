@@ -481,8 +481,6 @@ footer{background:var(--paper-2);border-top:1px solid var(--line);padding-block:
     <div class="wrap sec">
       <h2 class="sec-label">Results</h2>
       <div class="sec-body" style="max-width:none">
-        <p class="lead" style="max-width:52rem">Four coding models, nine article-derived tasks, one robust cross-task score.</p>
-        <p class="prose" style="max-width:52rem">The task panels show each environment's native raw score. Cross-task ranking first normalizes each task so the public starter scores 0 and the trusted article-level reference scores 100, then uses the interquartile mean: remove the lowest two and highest two task scores and average the middle five.</p>
         <aside class="inference-panel" aria-labelledby="inferenceTitle">
           <div class="inference-head">
             <h3 id="inferenceTitle">Inference settings</h3>
@@ -502,7 +500,7 @@ footer{background:var(--paper-2);border-top:1px solid var(--line);padding-block:
           </section>
           <section class="result-panel" aria-labelledby="finalLeaderboardTitle">
             <h3 id="finalLeaderboardTitle">Final normalized score</h3>
-            <p class="result-note">Mean ± sample standard deviation across five trial-level IQMs. Positive display index = IQM + 100; the dotted marker is the starter-level aggregate.</p>
+            <p class="result-note">Pooled IQM across all 45 trial-task scores; ± is the sample standard deviation of five per-trial IQMs. Positive display index = IQM + 100; the dotted marker is the starter-level aggregate.</p>
             <div class="final-board" id="finalLeaderboard">
               <p class="chart-error">Loading final leaderboard…</p>
             </div>

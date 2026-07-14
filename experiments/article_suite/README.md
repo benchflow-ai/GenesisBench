@@ -23,9 +23,10 @@ The current leaderboard protocol is defined in `protocol.toml`:
 - five independent full-suite trials per model;
 - three times the original agent wall-clock timeout for every task;
 - task scores reported as mean ± sample standard deviation across trials;
-- one nine-task IQM computed per trial;
-- final score reported as mean ± sample standard deviation across the five
-  trial-level IQMs.
+- final score computed as RLiable-style IQM over all `5 × 9 = 45`
+  normalized trial-task scores;
+- variability shown as the sample standard deviation of the five per-trial
+  nine-task IQMs.
 
 The resulting matrix is:
 
@@ -152,8 +153,9 @@ The builder writes:
   ranking displayed as `IQM + 100` so every current plotted value is positive.
 
 Each task maps its starter policy to `0` and its trusted article-level reference
-to `100`. For each trial, remove the two lowest and two highest of the nine
-normalized scores and average the middle five. The final leaderboard averages
-the five trial-level IQMs. Per-task and final sample standard deviations remain
-visible diagnostics. The additive display offset does not affect ranking or
-score gaps; raw IQM remains available in the JSON.
+to `100`. The final leaderboard flattens the five-by-nine normalized score
+matrix, removes the lowest 11 and highest 11 values, and averages the middle
+23. Per-task sample standard deviations and the sample standard deviation of
+the five trial-level IQMs remain visible diagnostics. The additive display
+offset does not affect ranking or score gaps; raw IQM remains available in the
+JSON.

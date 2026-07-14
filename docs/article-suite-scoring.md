@@ -32,30 +32,30 @@ deviation.
 
 ## Final normalized score
 
-Within each trial, the primary cross-task metric is the interquartile mean
-(IQM), implemented as the 25% trimmed mean used by
-[RLiable](https://github.com/google-research/rliable):
+The primary cross-task metric is the interquartile mean (IQM), implemented as
+the 25% trimmed mean used by
+[RLiable](https://github.com/google-research/rliable). RLiable computes IQM
+across the complete `num_runs × num_tasks` score matrix:
 
 ```text
-scores = sort(the nine normalized task scores for one trial)
-trim_count = floor(0.25 * 9) = 2
-trial_iqm = mean(scores[2:7])
+scores = sort(flatten(the 5 × 9 normalized score matrix))
+trim_count = floor(0.25 * 45) = 11
+final_normalized_score = mean(scores[11:34])
 ```
 
-The final model score is:
+This retains the middle `23` of the `45` trial-task scores. It matches
+RLiable's `aggregate_iqm`, which applies a 25% trimmed mean with `axis=None`.
 
-```text
-final_normalized_score =
-    mean(trial_iqm_1, trial_iqm_2, trial_iqm_3, trial_iqm_4, trial_iqm_5)
-```
-
-The leaderboard also publishes the sample standard deviation of the five
-trial-level IQMs.
+For a readable run-to-run variability diagnostic, the leaderboard separately
+computes one nine-task IQM per trial and publishes the sample standard
+deviation of those five trial-level IQMs. That displayed `±` value is not a
+bootstrap confidence interval around the pooled IQM.
 
 The JSON also publishes:
 
 - `arithmetic_mean_normalized_score`;
 - `median_normalized_score`;
+- `mean_trial_iqm_normalized_score`;
 - the original `average_normalized_score` as a backward-compatible alias for
   the arithmetic mean.
 

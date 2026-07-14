@@ -110,6 +110,17 @@ def _protocol() -> dict[str, Any]:
     return tomllib.loads(PROTOCOL_PATH.read_text())
 
 
+def _execution_protocol(protocol: dict[str, Any]) -> dict[str, Any]:
+    return {
+        key: protocol.get(key)
+        for key in (
+            "trials",
+            "agent_timeout_multiplier",
+            "baseline_agent_timeout_sec",
+        )
+    }
+
+
 def _read_env(path: Path) -> dict[str, str]:
     result: dict[str, str] = {}
     if not path.is_file():
@@ -476,9 +487,11 @@ def main() -> None:
     }
     if manifest_path.is_file():
         existing = json.loads(manifest_path.read_text())
-        if existing.get("protocol") != protocol:
+        if _execution_protocol(
+            existing.get("protocol", {})
+        ) != _execution_protocol(protocol):
             raise RuntimeError(
-                f"{batch_root} uses a different experiment protocol"
+                f"{batch_root} uses incompatible trial or timeout settings"
             )
         batch_manifest["created_at"] = existing.get(
             "created_at",

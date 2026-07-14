@@ -63,17 +63,22 @@ def test_article_suite_leaderboard_is_complete_and_self_contained() -> None:
     assert payload["leaderboards"][-1]["id"] == "final"
     assert payload["aggregation"]["primary_metric"] == "interquartile_mean"
     assert payload["aggregation"]["trim_fraction_per_tail"] == 0.25
-    assert payload["aggregation"]["trimmed_score_count_per_tail"] == 2
-    assert payload["aggregation"]["retained_score_count"] == 5
     if "protocol" in payload:
+        assert payload["protocol"]["version"] == "2.1"
         assert payload["protocol"]["trials"] == 5
         assert payload["protocol"]["agent_timeout_multiplier"] == 3
+        assert payload["aggregation"]["pooled_score_count"] == 45
+        assert payload["aggregation"]["trimmed_score_count_per_tail"] == 11
+        assert payload["aggregation"]["retained_score_count"] == 23
         assert set(payload["batch_ids"]) == {
             "gpt-5.6-sol",
             "gpt-5.5",
             "claude-opus-4.8",
             "gpt-5.4-mini",
         }
+    else:
+        assert payload["aggregation"]["trimmed_score_count_per_tail"] == 2
+        assert payload["aggregation"]["retained_score_count"] == 5
     assert (
         payload["inference_settings"]["cross_provider_comparability"]
         == "labels_are_not_a_shared_numeric_compute_scale"
@@ -111,10 +116,30 @@ def test_article_suite_leaderboard_is_complete_and_self_contained() -> None:
             assert row["trial_count"] == 5
             assert len(trial_final_scores) == 5
             trial_values = list(trial_final_scores.values())
-            expected_iqm = statistics.fmean(trial_values)
+            trial_task_scores = row["trial_task_normalized_scores"]
+            assert len(trial_task_scores) == 5
+            pooled_scores = [
+                trial_scores[task]
+                for _, trial_scores in sorted(
+                    trial_task_scores.items(),
+                    key=lambda item: int(item[0]),
+                )
+                for task in payload["tasks"]
+            ]
+            ordered_scores = sorted(pooled_scores)
+            trim_count = int(len(ordered_scores) * 0.25)
+            expected_iqm = statistics.fmean(
+                ordered_scores[
+                    trim_count : len(ordered_scores) - trim_count
+                ]
+            )
             assert math.isclose(
                 row["final_normalized_score_stddev"],
                 statistics.stdev(trial_values),
+            )
+            assert math.isclose(
+                row["mean_trial_iqm_normalized_score"],
+                statistics.fmean(trial_values),
             )
         assert math.isclose(
             row["final_normalized_score"],

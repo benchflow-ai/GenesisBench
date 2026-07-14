@@ -80,11 +80,11 @@ task score = 100 * (candidate - starter) / (reference - starter)
 ```
 
 Each model runs five independent trials. Task leaderboards report mean ± sample
-standard deviation across those trials. Within each trial, the primary
-cross-task score is the 25% trimmed interquartile mean (IQM): remove the two
-lowest and two highest normalized task scores and average the middle five. The
-final model score is the mean ± sample standard deviation of the five
-trial-level IQMs.
+standard deviation across those trials. The primary cross-task score is the
+RLiable-style 25% trimmed interquartile mean (IQM) over the complete `5 × 9`
+score matrix: flatten all 45 normalized scores, remove the lowest 11 and
+highest 11, and average the middle 23. The displayed `±` value is the sample
+standard deviation of the five per-trial nine-task IQMs.
 
 The repository README intentionally shows only the final leaderboard image.
 The nine task panels use each environment's native raw score. The final chart

@@ -1,4 +1,4 @@
-version = "2.0"
+version = "2.1"
 trials = 5
 agent_timeout_multiplier = 3
 
@@ -17,5 +17,5 @@ simulation_heuristics_montezuma_v1 = 1800
 task_score = "arithmetic_mean_across_trials"
 task_variability = "sample_standard_deviation"
 trial_score = "interquartile_mean_across_nine_tasks"
-final_score = "arithmetic_mean_across_trial_scores"
-final_variability = "sample_standard_deviation"
+final_score = "interquartile_mean_across_all_trial_task_scores"
+final_variability = "sample_standard_deviation_of_trial_level_iqms"

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+import statistics
 
 import pytest
 
@@ -20,11 +21,34 @@ def test_article_suite_declares_exactly_nine_unique_tasks() -> None:
 def test_article_suite_protocol_uses_five_trials_and_triple_timeouts() -> None:
     protocol = runner._protocol()
 
+    assert protocol["version"] == "2.1"
     assert protocol["trials"] == 5
     assert protocol["agent_timeout_multiplier"] == 3
     runner._validate_protocol(runner.TASKS, protocol["trials"])
     with pytest.raises(ValueError, match="must match protocol.toml"):
         runner._validate_protocol(runner.TASKS, 4)
+
+
+def test_execution_protocol_ignores_posthoc_aggregation_changes() -> None:
+    current = runner._protocol()
+    prior_scoring = {
+        **current,
+        "version": "2.0",
+        "aggregation": {
+            "final_score": "arithmetic_mean_across_trial_scores"
+        },
+    }
+    incompatible_timeout = {
+        **current,
+        "agent_timeout_multiplier": 2,
+    }
+
+    assert runner._execution_protocol(prior_scoring) == (
+        runner._execution_protocol(current)
+    )
+    assert runner._execution_protocol(incompatible_timeout) != (
+        runner._execution_protocol(current)
+    )
 
 
 def test_trial_storage_scope_supports_full_and_partial_resumes() -> None:
@@ -617,6 +641,55 @@ def test_iqm_matches_rliable_25_percent_trimmed_mean() -> None:
     assert leaderboard._interquartile_mean(
         [-100.0, -50.0, 1.0, 2.0, 3.0, 4.0, 5.0, 100.0, 500.0]
     ) == 3.0
+    assert leaderboard._interquartile_mean(list(range(45))) == 22.0
+
+
+def test_five_trial_final_score_pools_runs_and_tasks(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    tasks = tuple(f"task-{index}" for index in range(9))
+    monkeypatch.setattr(leaderboard, "TASKS", tasks)
+    trial_scores = {
+        trial: {
+            task: (1000.0 if trial == 4 else 0.0)
+            for task in tasks
+        }
+        for trial in range(5)
+    }
+    task_means = {
+        task: statistics.fmean(
+            trial_scores[trial][task] for trial in trial_scores
+        )
+        for task in tasks
+    }
+
+    aggregate = leaderboard._aggregate_task_scores(
+        task_means,
+        trial_task_scores=trial_scores,
+    )
+    pooled = [
+        trial_scores[trial][task]
+        for trial in sorted(trial_scores)
+        for task in tasks
+    ]
+    trial_iqms = [
+        leaderboard._interquartile_mean(
+            [trial_scores[trial][task] for task in tasks]
+        )
+        for trial in sorted(trial_scores)
+    ]
+
+    assert aggregate["final_normalized_score"] == (
+        leaderboard._interquartile_mean(pooled)
+    )
+    assert aggregate["mean_trial_iqm_normalized_score"] == (
+        statistics.fmean(trial_iqms)
+    )
+    assert aggregate["final_normalized_score"] == 0.0
+    assert aggregate["mean_trial_iqm_normalized_score"] == 200.0
+    assert aggregate["final_normalized_score_stddev"] == statistics.stdev(
+        trial_iqms
+    )
 
 
 def test_offline_report_builds_nine_task_boards_then_final() -> None:

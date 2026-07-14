@@ -256,6 +256,17 @@ def _protocol() -> dict[str, Any]:
     return tomllib.loads(PROTOCOL_PATH.read_text())
 
 
+def _execution_protocol(protocol: dict[str, Any]) -> dict[str, Any]:
+    return {
+        key: protocol.get(key)
+        for key in (
+            "trials",
+            "agent_timeout_multiplier",
+            "baseline_agent_timeout_sec",
+        )
+    }
+
+
 def _rank_rows(
     rows: list[dict[str, Any]],
     *,
@@ -302,6 +313,11 @@ def _aggregate_task_scores(
         "median_normalized_score": float(statistics.median(scores)),
     }
     if trial_task_scores:
+        pooled_scores = [
+            float(scores_for_trial[task])
+            for _, scores_for_trial in sorted(trial_task_scores.items())
+            for task in TASKS
+        ]
         trial_final_scores = {
             trial: _interquartile_mean(
                 [float(task_scores_for_trial[task]) for task in TASKS]
@@ -313,18 +329,30 @@ def _aggregate_task_scores(
         values = list(trial_final_scores.values())
         aggregate.update(
             {
-                "final_normalized_score": statistics.fmean(values),
+                "final_normalized_score": _interquartile_mean(pooled_scores),
+                "arithmetic_mean_normalized_score": statistics.fmean(
+                    pooled_scores
+                ),
+                "median_normalized_score": float(
+                    statistics.median(pooled_scores)
+                ),
                 "final_normalized_score_stddev": statistics.stdev(values),
+                "mean_trial_iqm_normalized_score": statistics.fmean(values),
                 "trial_final_normalized_scores": trial_final_scores,
+                "trial_task_normalized_scores": trial_task_scores,
             }
         )
     else:
         aggregate.update(
             {
                 "final_normalized_score_stddev": 0.0,
+                "mean_trial_iqm_normalized_score": aggregate[
+                    "final_normalized_score"
+                ],
                 "trial_final_normalized_scores": {
                     1: aggregate["final_normalized_score"]
                 },
+                "trial_task_normalized_scores": {1: task_scores},
             }
         )
     return aggregate
@@ -393,6 +421,9 @@ def _build_leaderboards(
                 "arithmetic_mean_normalized_score"
             ],
             "median_normalized_score": row["median_normalized_score"],
+            "mean_trial_iqm_normalized_score": row[
+                "mean_trial_iqm_normalized_score"
+            ],
             "final_normalized_score_stddev": row[
                 "final_normalized_score_stddev"
             ],
@@ -465,11 +496,12 @@ def _render_article_suite_markdown(
         "",
         "## Final normalized score",
         "",
-        "Each trial computes an interquartile mean (IQM): sort the nine task "
-        "scores, remove the lowest two and highest two, then average the middle "
-        "five. The final score is mean ± sample standard deviation across five "
-        "trial IQMs. The image uses a plot-only positive display index equal "
-        "to `IQM + 100`; raw metrics remain in the JSON.",
+        "The final score is RLiable-style IQM over the complete 5 × 9 "
+        "trial-task score matrix: flatten all 45 normalized scores, trim the "
+        "lowest 11 and highest 11, and average the middle 23. The displayed "
+        "± value is the sample standard deviation of the five per-trial IQMs. "
+        "The image uses a plot-only positive display index equal to `IQM + "
+        "100`; raw metrics remain in the JSON.",
         "",
         "![Final GenesisBench article-suite leaderboard]"
         "(article_suite_final_leaderboard.png)",
@@ -676,7 +708,9 @@ def _latest_complete_model_batches(
     manifests = []
     for manifest_path in runs_root.glob("*/batch_manifest.json"):
         manifest = json.loads(manifest_path.read_text())
-        if manifest.get("protocol") == protocol:
+        if _execution_protocol(
+            manifest.get("protocol", {})
+        ) == _execution_protocol(protocol):
             manifests.append(manifest_path.parent)
 
     selected_batches: dict[str, Path] = {}
@@ -968,6 +1002,8 @@ def main() -> None:
         score_key="final_normalized_score",
     )
     leaderboards = _build_leaderboards(ranked)
+    pooled_score_count = trial_count * len(TASKS)
+    pooled_trim_count = int(pooled_score_count * IQM_TRIM_FRACTION)
 
     payload = {
         "benchmark": "learning_beyond_gradients_article_suite",
@@ -988,21 +1024,25 @@ def main() -> None:
             "primary_metric": "interquartile_mean",
             "primary_field": "final_normalized_score",
             "trim_fraction_per_tail": IQM_TRIM_FRACTION,
-            "trimmed_score_count_per_tail": int(
-                len(TASKS) * IQM_TRIM_FRACTION
-            ),
-            "retained_score_count": len(TASKS)
-            - 2 * int(len(TASKS) * IQM_TRIM_FRACTION),
+            "pooled_score_count": pooled_score_count,
+            "trimmed_score_count_per_tail": pooled_trim_count,
+            "retained_score_count": pooled_score_count
+            - 2 * pooled_trim_count,
             "score_bounds": "unbounded",
             "secondary_fields": [
                 "arithmetic_mean_normalized_score",
                 "median_normalized_score",
+                "mean_trial_iqm_normalized_score",
             ],
             "task_estimator": "mean_across_five_trials",
             "task_variability": "sample_standard_deviation",
             "trial_estimator": "iqm_across_nine_tasks",
-            "final_estimator": "mean_across_five_trial_iqms",
-            "final_variability": "sample_standard_deviation",
+            "final_estimator": (
+                "iqm_across_all_45_trial_task_normalized_scores"
+            ),
+            "final_variability": (
+                "sample_standard_deviation_of_five_trial_iqms"
+            ),
             "display_transform": {
                 "type": "additive_offset",
                 "offset": FINAL_DISPLAY_OFFSET,
