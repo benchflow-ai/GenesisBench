@@ -61,6 +61,20 @@ tasks/<task_name>/
 
 Task-specific files and assets may be added as needed.
 
+## Container layout
+
+Each current task owns its agent environment at:
+
+```text
+tasks/<task_name>/environment/Dockerfile
+```
+
+BenchFlow builds that task-local Dockerfile with the repository root as its
+context. There is intentionally no parallel top-level `containers/<task>/`
+tree. The former `containers/simulation_heuristics_ant_v1` image was an
+OpenHands-specific runner for the retired Ant-only sweep, not a task
+environment.
+
 ## Public workspace boundary
 
 `scripts/prepare_task.py` copies the agent-visible task and deliberately

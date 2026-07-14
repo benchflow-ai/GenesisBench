@@ -199,8 +199,8 @@ GENESISBENCH_RUN_SLOW_ANT_MPC=1 \
 - The agent container receives the public task but not `verifier/`.
 - The agent receives only a copied model path for optional MPC, never the live
   scored environment.
-- Credentials are supplied through a temporary mode-`0600` file and removed
-  after agent startup.
+- Provider credentials are scoped to the selected model route and are not
+  copied into the public task workspace or committed artifacts.
 - Final scores come from the independently imported final policy.
 - Invalid actions receive a fixed failure result instead of crashing scoring.
 - Public packaged score files contain only relative paths.
@@ -213,7 +213,7 @@ Simulation Heuristics Ant v1 demonstrates the full GenesisBench task lifecycle:
 ```text
 task scaffold
 → public workspace preparation
-→ autonomous OpenHands run
+→ autonomous BenchFlow/OpenCode run
 → clean final evaluation
 → packaged submission
 → audited leaderboard
