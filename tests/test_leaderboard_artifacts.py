@@ -4,6 +4,7 @@ import json
 import math
 from pathlib import Path
 import re
+import statistics
 import struct
 
 
@@ -64,6 +65,15 @@ def test_article_suite_leaderboard_is_complete_and_self_contained() -> None:
     assert payload["aggregation"]["trim_fraction_per_tail"] == 0.25
     assert payload["aggregation"]["trimmed_score_count_per_tail"] == 2
     assert payload["aggregation"]["retained_score_count"] == 5
+    if "protocol" in payload:
+        assert payload["protocol"]["trials"] == 5
+        assert payload["protocol"]["agent_timeout_multiplier"] == 3
+        assert set(payload["batch_ids"]) == {
+            "gpt-5.6-sol",
+            "gpt-5.5",
+            "claude-opus-4.8",
+            "gpt-5.4-mini",
+        }
     assert (
         payload["inference_settings"]["cross_provider_comparability"]
         == "labels_are_not_a_shared_numeric_compute_scale"
@@ -93,8 +103,19 @@ def test_article_suite_leaderboard_is_complete_and_self_contained() -> None:
         assert set(row["raw_task_scores"]) == set(payload["tasks"])
         assert set(row["task_anchors"]) == set(payload["tasks"])
         assert set(row["submission_details"]) == set(payload["tasks"])
-        sorted_scores = sorted(row["task_scores"].values())
-        expected_iqm = sum(sorted_scores[2:7]) / 5
+        trial_final_scores = row.get("trial_final_normalized_scores")
+        if trial_final_scores is None:
+            sorted_scores = sorted(row["task_scores"].values())
+            expected_iqm = sum(sorted_scores[2:7]) / 5
+        else:
+            assert row["trial_count"] == 5
+            assert len(trial_final_scores) == 5
+            trial_values = list(trial_final_scores.values())
+            expected_iqm = statistics.fmean(trial_values)
+            assert math.isclose(
+                row["final_normalized_score_stddev"],
+                statistics.stdev(trial_values),
+            )
         assert math.isclose(
             row["final_normalized_score"],
             expected_iqm,
@@ -120,6 +141,22 @@ def test_article_suite_leaderboard_is_complete_and_self_contained() -> None:
             assert metadata["harness"] == "opencode"
             assert metadata["normalized_score"] == row["task_scores"][task]
             assert score["normalized_score"] == row["task_scores"][task]
+            if row.get("trial_count") is not None:
+                assert metadata["trial_count"] == 5
+                assert score["trial_count"] == 5
+                assert len(score["trials"]) == 5
+                assert metadata["normalized_score_stddev"] == row[
+                    "task_score_stddevs"
+                ][task]
+                assert score["normalized_score_stddev"] == row[
+                    "task_score_stddevs"
+                ][task]
+                assert metadata["raw_score_stddev"] == row[
+                    "raw_task_score_stddevs"
+                ][task]
+                assert score["score_stddev"] == row[
+                    "raw_task_score_stddevs"
+                ][task]
 
             def assert_no_absolute_artifact_paths(value: object) -> None:
                 if isinstance(value, dict):
@@ -152,6 +189,14 @@ def test_article_suite_leaderboard_is_complete_and_self_contained() -> None:
             assert row["reference_score"] == model_row["task_anchors"][
                 board["id"]
             ]["reference_score"]
+            if model_row.get("trial_count") is not None:
+                assert row["trial_count"] == 5
+                assert row["normalized_score_stddev"] == model_row[
+                    "task_score_stddevs"
+                ][board["id"]]
+                assert row["raw_score_stddev"] == model_row[
+                    "raw_task_score_stddevs"
+                ][board["id"]]
 
     final_board = payload["leaderboards"][-1]
     assert [
@@ -165,12 +210,12 @@ def test_article_suite_leaderboard_is_complete_and_self_contained() -> None:
         )
         for row in final_board["rows"]
     )
-    assert [row["model"] for row in payload["rows"]] == [
+    assert {row["model"] for row in payload["rows"]} == {
         "GPT-5.5",
         "GPT-5.6 Sol",
         "Claude Opus 4.8",
         "GPT-5.4 Mini",
-    ]
+    }
 
     markdown = ARTICLE_SUITE_MARKDOWN.read_text()
     assert "article_suite_task_leaderboards.png" in markdown

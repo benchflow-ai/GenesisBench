@@ -434,6 +434,8 @@ def _leaderboard_relative_path(path: str) -> str:
 
 
 def _published_artifact_path(path: Path, *, output_parent: Path) -> str:
+    path = path.resolve()
+    output_parent = output_parent.resolve()
     try:
         return str(path.relative_to(REPO_ROOT))
     except ValueError:
