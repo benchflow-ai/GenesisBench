@@ -163,6 +163,7 @@ def _load_results(
             f"found {len(files)}"
         )
     rows: dict[str, dict[str, Any]] = {}
+    invalid_messages: dict[str, str] = {}
     for line in files[0].read_text().splitlines():
         if not line.strip():
             continue
@@ -184,21 +185,30 @@ def _load_results(
             isinstance(error, dict)
             and error.get("error") == "missing_llm_trajectory"
         ) and not has_score_details:
-            if allow_partial_errors:
-                continue
-            raise RuntimeError(f"{model_root.name}/{task_name} contains an error")
+            invalid_messages[task_name] = (
+                f"{model_root.name}/{task_name} contains an error"
+            )
+            continue
         reward = row.get("reward")
         if (
             not isinstance(reward, int | float)
             or isinstance(reward, bool)
             or not math.isfinite(float(reward))
         ):
-            raise RuntimeError(
+            invalid_messages[task_name] = (
                 f"{model_root.name}/{task_name} has invalid reward {reward!r}"
             )
+            continue
         rows[task_name] = row
+        invalid_messages.pop(task_name, None)
     missing = sorted(set(expected_tasks) - set(rows))
     if missing and not allow_partial_errors:
+        invalid_task = next(
+            (task for task in missing if task in invalid_messages),
+            None,
+        )
+        if invalid_task is not None:
+            raise RuntimeError(invalid_messages[invalid_task])
         raise RuntimeError(
             f"{model_root.name} is missing article-suite tasks: "
             + ", ".join(missing)

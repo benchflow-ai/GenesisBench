@@ -281,6 +281,49 @@ def test_aggregate_loader_rejects_task_errors(tmp_path: Path) -> None:
     assert len(partial) == 8
 
 
+def test_aggregate_loader_selects_successful_retry_after_failed_attempt(
+    tmp_path: Path,
+) -> None:
+    model_root = tmp_path / "gpt-5.4-mini"
+    job = model_root / "jobs" / "run"
+    failed_rollout = job / "failed"
+    successful_rollout = job / "successful"
+    verifier = successful_rollout / "verifier"
+    verifier.mkdir(parents=True)
+    task = leaderboard.TASKS[0]
+    (verifier / "genesis-score.json").write_text(
+        json.dumps({"normalized_score": 12.5})
+    )
+    rows = [
+        {
+            "info": {
+                "task_name": task,
+                "rollout_dir": str(failed_rollout),
+            },
+            "reward": None,
+            "error": {"error": "verifier_timeout"},
+        },
+        {
+            "info": {
+                "task_name": task,
+                "rollout_dir": str(successful_rollout),
+            },
+            "reward": 0.125,
+            "error": None,
+        },
+    ]
+    (job / "results.jsonl").write_text(
+        "\n".join(json.dumps(row) for row in rows) + "\n"
+    )
+
+    loaded = leaderboard._load_results(
+        model_root,
+        expected_tasks=(task,),
+    )
+
+    assert leaderboard._normalized_task_score(loaded[task]) == 12.5
+
+
 def test_aggregate_loader_accepts_direct_provider_training_export_warning(
     tmp_path: Path,
 ) -> None:
