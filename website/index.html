@@ -495,14 +495,14 @@ footer{background:var(--paper-2);border-top:1px solid var(--line);padding-block:
         <div class="results-stack">
           <section class="result-panel" aria-labelledby="leaderboardsTitle">
             <h3 id="leaderboardsTitle">Leaderboards</h3>
-            <p class="result-note">Native raw score for each environment. Dotted markers show the starter; dashed markers show the article reference.</p>
+            <p class="result-note">Five-trial mean ± sample standard deviation for each environment's native raw score. Dotted markers show the starter; dashed markers show the article reference.</p>
             <div class="leaderboard-grid" id="taskLeaderboards">
               <p class="chart-error">Loading task leaderboards…</p>
             </div>
           </section>
           <section class="result-panel" aria-labelledby="finalLeaderboardTitle">
             <h3 id="finalLeaderboardTitle">Final normalized score</h3>
-            <p class="result-note">Positive display index = IQM + 100. Ranking and score gaps are unchanged; the dotted marker is the starter-level aggregate.</p>
+            <p class="result-note">Mean ± sample standard deviation across five trial-level IQMs. Positive display index = IQM + 100; the dotted marker is the starter-level aggregate.</p>
             <div class="final-board" id="finalLeaderboard">
               <p class="chart-error">Loading final leaderboard…</p>
             </div>
@@ -877,7 +877,8 @@ footer{background:var(--paper-2);border-top:1px solid var(--line);padding-block:
       return'<span class="chart-model">'+esc(row.model)+'</span>';
     }).join("");
     var values=board.rows.map(function(row){
-      return'<strong class="chart-value">'+number(row.raw_score)+'</strong>';
+      return'<strong class="chart-value">'+number(row.raw_score)+' ± '+
+        number(row.raw_score_stddev||0)+'</strong>';
     }).join("");
     var bars=board.rows.map(function(row){
       var score=percent(row.raw_score,domain.min,domain.max);
@@ -916,7 +917,8 @@ footer{background:var(--paper-2);border-top:1px solid var(--line);padding-block:
           '<i class="chart-anchor is-starter" style="left:'+anchor+'%"></i>'+
           '<i class="final-bar '+modelClass(row.model_id)+'" style="width:'+width+'%"></i>'+
         '</span>'+
-        '<strong class="final-value">'+row.positive_display_score.toFixed(2)+
+        '<strong class="final-value">'+row.positive_display_score.toFixed(2)+' ± '+
+          (row.final_normalized_score_stddev||0).toFixed(2)+
           '<small>raw IQM '+row.final_normalized_score.toFixed(2)+'</small></strong>'+
       '</div>';
     }).join("");

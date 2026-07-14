@@ -16,6 +16,7 @@ from benchflow._utils.task_authoring import task_digest
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 MODELS_PATH = REPO_ROOT / "experiments" / "article_suite" / "models.toml"
+PROTOCOL_PATH = REPO_ROOT / "experiments" / "article_suite" / "protocol.toml"
 TASKS = (
     "simulation_heuristics_ant_v1",
     "simulation_heuristics_pong_ram_v1",
@@ -251,6 +252,10 @@ def _expected_models() -> dict[str, dict[str, Any]]:
     return {model["id"]: model for model in payload["models"]}
 
 
+def _protocol() -> dict[str, Any]:
+    return tomllib.loads(PROTOCOL_PATH.read_text())
+
+
 def _rank_rows(
     rows: list[dict[str, Any]],
     *,
@@ -285,13 +290,44 @@ def _interquartile_mean(scores: list[float]) -> float:
     return math.fsum(retained) / len(retained)
 
 
-def _aggregate_task_scores(task_scores: dict[str, float]) -> dict[str, float]:
+def _aggregate_task_scores(
+    task_scores: dict[str, float],
+    *,
+    trial_task_scores: dict[int, dict[str, float]] | None = None,
+) -> dict[str, Any]:
     scores = [float(task_scores[task]) for task in TASKS]
-    return {
+    aggregate: dict[str, Any] = {
         "final_normalized_score": _interquartile_mean(scores),
         "arithmetic_mean_normalized_score": math.fsum(scores) / len(scores),
         "median_normalized_score": float(statistics.median(scores)),
     }
+    if trial_task_scores:
+        trial_final_scores = {
+            trial: _interquartile_mean(
+                [float(task_scores_for_trial[task]) for task in TASKS]
+            )
+            for trial, task_scores_for_trial in sorted(
+                trial_task_scores.items()
+            )
+        }
+        values = list(trial_final_scores.values())
+        aggregate.update(
+            {
+                "final_normalized_score": statistics.fmean(values),
+                "final_normalized_score_stddev": statistics.stdev(values),
+                "trial_final_normalized_scores": trial_final_scores,
+            }
+        )
+    else:
+        aggregate.update(
+            {
+                "final_normalized_score_stddev": 0.0,
+                "trial_final_normalized_scores": {
+                    1: aggregate["final_normalized_score"]
+                },
+            }
+        )
+    return aggregate
 
 
 def _build_leaderboards(
@@ -311,7 +347,12 @@ def _build_leaderboards(
                     "provider_reasoning_effort"
                 ],
                 "normalized_score": row["task_scores"][task],
+                "normalized_score_stddev": row[
+                    "task_score_stddevs"
+                ][task],
                 "raw_score": row["raw_task_scores"][task],
+                "raw_score_stddev": row["raw_task_score_stddevs"][task],
+                "trial_count": row["trial_count"],
                 "starter_score": row["task_anchors"][task][
                     "starter_score"
                 ],
@@ -352,6 +393,10 @@ def _build_leaderboards(
                 "arithmetic_mean_normalized_score"
             ],
             "median_normalized_score": row["median_normalized_score"],
+            "final_normalized_score_stddev": row[
+                "final_normalized_score_stddev"
+            ],
+            "trial_count": row["trial_count"],
             "positive_display_score": row["final_normalized_score"]
             + FINAL_DISPLAY_OFFSET,
             "average_normalized_score": row["average_normalized_score"],
@@ -388,6 +433,13 @@ def _leaderboard_relative_path(path: str) -> str:
     return detail_path.as_posix()
 
 
+def _published_artifact_path(path: Path, *, output_parent: Path) -> str:
+    try:
+        return str(path.relative_to(REPO_ROOT))
+    except ValueError:
+        return str(path.relative_to(output_parent))
+
+
 def _render_article_suite_markdown(
     leaderboards: list[dict[str, Any]],
 ) -> str:
@@ -401,8 +453,8 @@ def _render_article_suite_markdown(
         "The first image contains the nine independently ranked task "
         "leaderboards. The second image contains the final cross-task ranking.",
         "",
-        "The nine task panels use each environment's native raw score. "
-        "The final scientific metric remains unbounded IQM.",
+        "The nine task panels report five-trial mean ± sample standard "
+        "deviation for each environment's native raw score.",
         "",
         "## Nine task leaderboards",
         "",
@@ -411,10 +463,11 @@ def _render_article_suite_markdown(
         "",
         "## Final normalized score",
         "",
-        "The primary score is the interquartile mean (IQM): sort the nine task "
+        "Each trial computes an interquartile mean (IQM): sort the nine task "
         "scores, remove the lowest two and highest two, then average the middle "
-        "five. The image uses a plot-only positive display index equal to "
-        "`IQM + 100`; raw IQM, arithmetic mean, and median remain in the JSON.",
+        "five. The final score is mean ± sample standard deviation across five "
+        "trial IQMs. The image uses a plot-only positive display index equal "
+        "to `IQM + 100`; raw metrics remain in the JSON.",
         "",
         "![Final GenesisBench article-suite leaderboard]"
         "(article_suite_final_leaderboard.png)",
@@ -508,146 +561,375 @@ def _latest_task_results(
     return selected
 
 
+def _trial_batch_results(
+    batch_root: Path,
+    *,
+    expected_models: set[str],
+    expected_trials: int,
+) -> dict[
+    str,
+    dict[str, dict[int, tuple[dict[str, Any], dict[str, Any], Path, str]]],
+]:
+    selected: dict[
+        str,
+        dict[str, dict[int, tuple[dict[str, Any], dict[str, Any], Path, str]]],
+    ] = {}
+    metadata_paths = [
+        *batch_root.glob("*/trial-*/run_metadata.json"),
+        *batch_root.glob("*/trial-*/*/run_metadata.json"),
+    ]
+    for metadata_path in metadata_paths:
+        metadata = json.loads(metadata_path.read_text())
+        model_id = metadata.get("model", {}).get("id")
+        trial = metadata.get("trial")
+        configured_tasks = metadata.get("tasks")
+        if (
+            model_id not in expected_models
+            or not isinstance(trial, int)
+            or not 1 <= trial <= expected_trials
+            or not isinstance(configured_tasks, list)
+            or not configured_tasks
+            or not all(task in TASKS for task in configured_tasks)
+            or metadata.get("status") != "completed"
+            or metadata.get("return_code") != 0
+            or metadata.get("dry_run")
+        ):
+            continue
+        model_root = metadata_path.parent
+        manifest_path = model_root / "task_manifest.json"
+        if not manifest_path.is_file():
+            continue
+        manifest = json.loads(manifest_path.read_text())
+        manifest_digests = {
+            item.get("task_id"): item.get("digest")
+            for item in manifest.get("tasks", [])
+            if isinstance(item, dict)
+        }
+        try:
+            rows = _load_results(
+                model_root,
+                expected_tasks=tuple(configured_tasks),
+            )
+        except RuntimeError:
+            continue
+        for task, row in rows.items():
+            digest = manifest_digests.get(task)
+            if not isinstance(digest, str):
+                continue
+            task_trials = selected.setdefault(model_id, {}).setdefault(
+                task,
+                {},
+            )
+            current = task_trials.get(trial)
+            candidate = (
+                metadata,
+                row,
+                model_root,
+                digest,
+            )
+            if (
+                current is None
+                or float(metadata["finished_at"])
+                > float(current[0]["finished_at"])
+            ):
+                task_trials[trial] = candidate
+    return selected
+
+
+def _trial_batch_missing(
+    results: dict[
+        str,
+        dict[str, dict[int, tuple[dict[str, Any], dict[str, Any], Path, str]]],
+    ],
+    *,
+    expected_models: set[str],
+    expected_trials: int,
+) -> list[str]:
+    missing = []
+    for model_id in sorted(expected_models):
+        for task in TASKS:
+            trials = results.get(model_id, {}).get(task, {})
+            for trial in range(1, expected_trials + 1):
+                if trial not in trials:
+                    missing.append(f"{model_id}/{task}/trial-{trial:02d}")
+    return missing
+
+
+def _latest_complete_trial_batch(
+    runs_root: Path,
+    *,
+    expected_models: set[str],
+    protocol: dict[str, Any],
+) -> tuple[
+    Path,
+    dict[
+        str,
+        dict[
+            str,
+            dict[int, tuple[dict[str, Any], dict[str, Any], Path, str]],
+        ],
+    ],
+]:
+    expected_trials = int(protocol["trials"])
+    candidates = []
+    incomplete: list[tuple[Path, int]] = []
+    for manifest_path in runs_root.glob("*/batch_manifest.json"):
+        manifest = json.loads(manifest_path.read_text())
+        if manifest.get("protocol") != protocol:
+            continue
+        batch_root = manifest_path.parent
+        results = _trial_batch_results(
+            batch_root,
+            expected_models=expected_models,
+            expected_trials=expected_trials,
+        )
+        missing = _trial_batch_missing(
+            results,
+            expected_models=expected_models,
+            expected_trials=expected_trials,
+        )
+        if missing:
+            incomplete.append((batch_root, len(missing)))
+            continue
+        finished_at = max(
+            entry[0]["finished_at"]
+            for model_results in results.values()
+            for task_results in model_results.values()
+            for entry in task_results.values()
+        )
+        candidates.append((float(finished_at), batch_root, results))
+    if not candidates:
+        detail = (
+            ", ".join(
+                f"{path.name}: {missing_count} missing"
+                for path, missing_count in sorted(incomplete)[-3:]
+            )
+            or "no matching protocol batches"
+        )
+        raise RuntimeError(
+            f"No complete {expected_trials}-trial article-suite batch is "
+            "available: "
+            + detail
+        )
+    _, batch_root, results = max(candidates, key=lambda item: item[0])
+    return batch_root, results
+
+
 def main() -> None:
     args = parse_args()
     runs_root = args.runs_root.resolve()
     expected_models = _expected_models()
-    task_results = _latest_task_results(runs_root)
-    missing_models = sorted(set(expected_models) - set(task_results))
-    if missing_models:
-        raise RuntimeError(
-            "Missing completed article-suite model runs: "
-            + ", ".join(missing_models)
-        )
+    protocol = _protocol()
+    trial_count = int(protocol["trials"])
+    batch_root, task_results = _latest_complete_trial_batch(
+        runs_root,
+        expected_models=set(expected_models),
+        protocol=protocol,
+    )
     ranked: list[dict[str, Any]] = []
     submissions_root = args.output.parent / "article_suite_submissions"
     for model_id in expected_models:
         model_results = task_results[model_id]
-        missing_tasks = sorted(set(TASKS) - set(model_results))
-        if missing_tasks:
-            raise RuntimeError(
-                f"{model_id} is missing completed task results: "
-                + ", ".join(missing_tasks)
-            )
-        stale_tasks = [
-            task
-            for task in TASKS
-            if _digest_compatibility_note(
-                task,
-                model_results[task][3],
-                task_digest(REPO_ROOT / "tasks" / task),
-            )
-            is None
-            and model_results[task][3]
-            != task_digest(REPO_ROOT / "tasks" / task)
-        ]
-        if stale_tasks:
-            raise RuntimeError(
-                f"{model_id} has stale task digests: "
-                + ", ".join(stale_tasks)
-            )
-        latest_task = max(
-            model_results.values(),
-            key=lambda item: item[0],
-        )
-        metadata = json.loads(
-            (latest_task[2] / "run_metadata.json").read_text()
-        )
-        task_scores = {
-            task: _normalized_task_score(model_results[task][1])
-            for task in TASKS
-        }
+        representative_metadata = model_results[TASKS[0]][1][0]
+        task_scores: dict[str, float] = {}
+        task_score_stddevs: dict[str, float] = {}
         raw_task_scores: dict[str, float] = {}
+        raw_task_score_stddevs: dict[str, float] = {}
         task_anchors: dict[str, dict[str, float]] = {}
         submission_details: dict[str, str] = {}
+        source_runs: dict[str, list[str]] = {}
+        trial_task_scores = {
+            trial: {} for trial in range(1, trial_count + 1)
+        }
         for task in TASKS:
-            _, result_row, model_root, digest = model_results[task]
+            trial_results = model_results[task]
             current_digest = task_digest(REPO_ROOT / "tasks" / task)
-            compatibility_note = _digest_compatibility_note(
-                task,
-                digest,
-                current_digest,
-            )
-            task_metadata = json.loads(
-                (model_root / "run_metadata.json").read_text()
-            )
-            rollout_dir = Path(result_row["info"]["rollout_dir"])
-            source_score = rollout_dir / "verifier" / "genesis-score.json"
-            if not source_score.is_file():
-                raise RuntimeError(
-                    f"{model_id}/{task} has no verifier genesis-score.json"
-                )
             destination = submissions_root / model_id / task
+            if destination.exists():
+                shutil.rmtree(destination)
             destination.mkdir(parents=True, exist_ok=True)
-            sanitized_score = _sanitize_score_paths(
-                json.loads(source_score.read_text())
-            )
-            raw_score = sanitized_score.get("score")
-            starter_score = sanitized_score.get("starter_score")
-            reference_score = sanitized_score.get("reference_score")
-            for name, value in (
-                ("score", raw_score),
-                ("starter_score", starter_score),
-                ("reference_score", reference_score),
-            ):
-                if (
-                    not isinstance(value, int | float)
-                    or isinstance(value, bool)
-                    or not math.isfinite(float(value))
-                ):
+            normalized_values = []
+            raw_values = []
+            starter_values = []
+            reference_values = []
+            trial_records = []
+            for trial in range(1, trial_count + 1):
+                task_metadata, result_row, model_root, digest = trial_results[
+                    trial
+                ]
+                compatibility_note = _digest_compatibility_note(
+                    task,
+                    digest,
+                    current_digest,
+                )
+                if digest != current_digest and compatibility_note is None:
                     raise RuntimeError(
-                        f"{model_id}/{task} has invalid {name} {value!r}"
+                        f"{model_id}/{task}/trial-{trial:02d} has stale "
+                        f"task digest {digest}"
                     )
-            raw_task_scores[task] = float(raw_score)
+                rollout_dir = Path(result_row["info"]["rollout_dir"])
+                source_score = (
+                    rollout_dir / "verifier" / "genesis-score.json"
+                )
+                if not source_score.is_file():
+                    raise RuntimeError(
+                        f"{model_id}/{task}/trial-{trial:02d} has no "
+                        "verifier genesis-score.json"
+                    )
+                sanitized_score = _sanitize_score_paths(
+                    json.loads(source_score.read_text())
+                )
+                normalized = _normalized_task_score(result_row)
+                raw_score = sanitized_score.get("score")
+                starter_score = sanitized_score.get("starter_score")
+                reference_score = sanitized_score.get("reference_score")
+                for name, value in (
+                    ("score", raw_score),
+                    ("starter_score", starter_score),
+                    ("reference_score", reference_score),
+                ):
+                    if (
+                        not isinstance(value, int | float)
+                        or isinstance(value, bool)
+                        or not math.isfinite(float(value))
+                    ):
+                        raise RuntimeError(
+                            f"{model_id}/{task}/trial-{trial:02d} has "
+                            f"invalid {name} {value!r}"
+                        )
+                trial_destination = destination / f"trial-{trial:02d}"
+                trial_destination.mkdir(parents=True, exist_ok=True)
+                trial_score_path = trial_destination / "score.json"
+                trial_score_path.write_text(
+                    json.dumps(
+                        sanitized_score,
+                        indent=2,
+                        sort_keys=True,
+                    )
+                    + "\n"
+                )
+                source_run = str(model_root.relative_to(REPO_ROOT))
+                trial_metadata = {
+                    "benchmark": "learning_beyond_gradients_article_suite",
+                    "task": task,
+                    "trial": trial,
+                    "task_digest": digest,
+                    "current_task_digest": current_digest,
+                    "digest_compatibility_note": compatibility_note,
+                    "model": task_metadata["model"],
+                    "harness": task_metadata["harness"],
+                    "provider_reasoning_effort": task_metadata[
+                        "provider_reasoning_effort"
+                    ],
+                    "normalized_score": normalized,
+                    "raw_score": float(raw_score),
+                    "source_run_id": source_run,
+                    "finished_at": task_metadata["finished_at"],
+                    "tool_calls": result_row.get("metrics", {}).get(
+                        "n_tool_calls",
+                        result_row.get("total_tool_calls"),
+                    ),
+                    "token_usage": result_row.get("token_usage"),
+                }
+                (trial_destination / "metadata.json").write_text(
+                    json.dumps(
+                        trial_metadata,
+                        indent=2,
+                        sort_keys=True,
+                    )
+                    + "\n"
+                )
+                normalized_values.append(normalized)
+                raw_values.append(float(raw_score))
+                starter_values.append(float(starter_score))
+                reference_values.append(float(reference_score))
+                trial_task_scores[trial][task] = normalized
+                trial_records.append(
+                    {
+                        "trial": trial,
+                        "normalized_score": normalized,
+                        "raw_score": float(raw_score),
+                        "score_path": _published_artifact_path(
+                            trial_score_path,
+                            output_parent=args.output.parent,
+                        ),
+                        "source_run_id": source_run,
+                    }
+                )
+
+            task_scores[task] = statistics.fmean(normalized_values)
+            task_score_stddevs[task] = statistics.stdev(normalized_values)
+            raw_task_scores[task] = statistics.fmean(raw_values)
+            raw_task_score_stddevs[task] = statistics.stdev(raw_values)
             task_anchors[task] = {
-                "starter_score": float(starter_score),
-                "reference_score": float(reference_score),
+                "starter_score": statistics.fmean(starter_values),
+                "reference_score": statistics.fmean(reference_values),
             }
-            (destination / "score.json").write_text(
-                json.dumps(sanitized_score, indent=2, sort_keys=True) + "\n"
+            aggregate_score = {
+                "benchmark": "learning_beyond_gradients_article_suite",
+                "task": task,
+                "trial_count": trial_count,
+                "normalized_score": task_scores[task],
+                "normalized_score_stddev": task_score_stddevs[task],
+                "score": raw_task_scores[task],
+                "score_stddev": raw_task_score_stddevs[task],
+                "starter_score": task_anchors[task]["starter_score"],
+                "reference_score": task_anchors[task]["reference_score"],
+                "trials": trial_records,
+            }
+            aggregate_score_path = destination / "score.json"
+            aggregate_score_path.write_text(
+                json.dumps(aggregate_score, indent=2, sort_keys=True) + "\n"
             )
-            source_run = str(model_root.relative_to(REPO_ROOT))
             metadata_payload = {
                 "benchmark": "learning_beyond_gradients_article_suite",
                 "task": task,
-                "task_digest": digest,
+                "trial_count": trial_count,
                 "current_task_digest": current_digest,
-                "digest_compatibility_note": compatibility_note,
-                "model": task_metadata["model"],
-                "harness": task_metadata["harness"],
-                "provider_reasoning_effort": task_metadata[
+                "model": representative_metadata["model"],
+                "harness": representative_metadata["harness"],
+                "provider_reasoning_effort": representative_metadata[
                     "provider_reasoning_effort"
                 ],
                 "normalized_score": task_scores[task],
-                "source_run_id": source_run,
-                "finished_at": task_metadata["finished_at"],
-                "tool_calls": result_row.get("metrics", {}).get(
-                    "n_tool_calls",
-                    result_row.get("total_tool_calls"),
-                ),
-                "token_usage": result_row.get("token_usage"),
+                "normalized_score_stddev": task_score_stddevs[task],
+                "raw_score": raw_task_scores[task],
+                "raw_score_stddev": raw_task_score_stddevs[task],
+                "source_run_ids": [
+                    record["source_run_id"] for record in trial_records
+                ],
             }
             (destination / "metadata.json").write_text(
                 json.dumps(metadata_payload, indent=2, sort_keys=True) + "\n"
             )
             submission_details[task] = str(
-                (destination / "score.json").relative_to(REPO_ROOT)
+                _published_artifact_path(
+                    aggregate_score_path,
+                    output_parent=args.output.parent,
+                )
             )
-        aggregate_scores = _aggregate_task_scores(task_scores)
+            source_runs[task] = [
+                record["source_run_id"] for record in trial_records
+            ]
+        aggregate_scores = _aggregate_task_scores(
+            task_scores,
+            trial_task_scores=trial_task_scores,
+        )
         ranked.append(
             {
-                "model_id": metadata["model"]["id"],
-                "model": metadata["model"]["display_name"],
-                "model_route": metadata["model"]["model"],
-                "provider": metadata["model"]["provider"],
+                "model_id": representative_metadata["model"]["id"],
+                "model": representative_metadata["model"]["display_name"],
+                "model_route": representative_metadata["model"]["model"],
+                "provider": representative_metadata["model"]["provider"],
                 "provider_label": PROVIDER_LABELS.get(
-                    metadata["model"]["provider"],
-                    metadata["model"]["provider"],
+                    representative_metadata["model"]["provider"],
+                    representative_metadata["model"]["provider"],
                 ),
-                "harness": metadata["harness"],
-                "provider_reasoning_effort": metadata[
+                "harness": representative_metadata["harness"],
+                "provider_reasoning_effort": representative_metadata[
                     "provider_reasoning_effort"
                 ],
+                "trial_count": trial_count,
                 **aggregate_scores,
                 # Backward-compatible alias for consumers of the first
                 # published schema. This is not the primary ranking metric.
@@ -655,15 +937,12 @@ def main() -> None:
                     "arithmetic_mean_normalized_score"
                 ],
                 "task_scores": task_scores,
+                "task_score_stddevs": task_score_stddevs,
                 "raw_task_scores": raw_task_scores,
+                "raw_task_score_stddevs": raw_task_score_stddevs,
                 "task_anchors": task_anchors,
                 "submission_details": submission_details,
-                "source_runs": {
-                    task: str(
-                        model_results[task][2].relative_to(REPO_ROOT)
-                    )
-                    for task in TASKS
-                },
+                "source_runs": source_runs,
             }
         )
     ranked = _rank_rows(
@@ -674,6 +953,8 @@ def main() -> None:
 
     payload = {
         "benchmark": "learning_beyond_gradients_article_suite",
+        "batch_id": batch_root.name,
+        "protocol": protocol,
         "task_count": len(TASKS),
         "leaderboard_count": len(leaderboards),
         "tasks": list(TASKS),
@@ -691,7 +972,11 @@ def main() -> None:
                 "arithmetic_mean_normalized_score",
                 "median_normalized_score",
             ],
-            "uncertainty": "not_estimated_single_run_per_model_task",
+            "task_estimator": "mean_across_five_trials",
+            "task_variability": "sample_standard_deviation",
+            "trial_estimator": "iqm_across_nine_tasks",
+            "final_estimator": "mean_across_five_trial_iqms",
+            "final_variability": "sample_standard_deviation",
             "display_transform": {
                 "type": "additive_offset",
                 "offset": FINAL_DISPLAY_OFFSET,
@@ -724,17 +1009,14 @@ def main() -> None:
         },
         "task_digest_compatibility": TASK_DIGEST_COMPATIBILITY,
         "source_runs": {
-            model_id: {
-                task: str(task_results[model_id][task][2].relative_to(REPO_ROOT))
-                for task in TASKS
-            }
-            for model_id in expected_models
+            row["model_id"]: row["source_runs"] for row in ranked
         },
         "generated_at": datetime.fromtimestamp(
             max(
-                item[0]
+                entry[0]["finished_at"]
                 for model_results in task_results.values()
-                for item in model_results.values()
+                for task_trials in model_results.values()
+                for entry in task_trials.values()
             ),
             UTC,
         ).isoformat(),

@@ -23,20 +23,33 @@ This follows the same family of baseline normalization used by benchmarks such
 as [D4RL](https://arxiv.org/abs/2004.07219), which normalizes returns between
 task-specific lower and upper reference scores.
 
+## Five-trial estimator
+
+Each model runs the complete nine-task suite five independent times. For task
+`t`, the published task score is the arithmetic mean of its five normalized
+trial scores. The task leaderboard also publishes their sample standard
+deviation.
+
 ## Final normalized score
 
-The primary final metric is the interquartile mean (IQM), implemented as the
-25% trimmed mean used by
+Within each trial, the primary cross-task metric is the interquartile mean
+(IQM), implemented as the 25% trimmed mean used by
 [RLiable](https://github.com/google-research/rliable):
 
 ```text
-scores = sort(the nine normalized task scores)
+scores = sort(the nine normalized task scores for one trial)
 trim_count = floor(0.25 * 9) = 2
-final_normalized_score = mean(scores[2:7])
+trial_iqm = mean(scores[2:7])
 ```
 
-In words: remove the lowest two and highest two task scores and average the
-middle five.
+The final model score is:
+
+```text
+final_normalized_score = mean(trial_iqm[1:5])
+```
+
+The leaderboard also publishes the sample standard deviation of the five
+trial-level IQMs.
 
 The JSON also publishes:
 
@@ -88,13 +101,10 @@ endpoints and would rewrite every displayed score whenever the comparison set
 changes. Clipping negative IQM values to zero would erase meaningful
 differences.
 
-## Current statistical limitation
+## Statistical limitation
 
-The published sweep currently has one independent agent run per model/task
-pair. That is sufficient to recompute deterministic aggregate metrics, but not
-to estimate statistically meaningful bootstrap confidence intervals or
-probability of improvement between models.
-
-A future multi-run release should retain IQM and additionally report
-stratified-bootstrap confidence intervals, performance profiles, and pairwise
-probability of improvement following the RLiable protocol.
+Five trials expose run-to-run variability and are materially stronger than a
+single run, but they remain a small sample. The leaderboard reports sample
+standard deviation rather than claiming narrow confidence intervals. A larger
+future release can add stratified-bootstrap confidence intervals, performance
+profiles, and pairwise probability of improvement following RLiable.

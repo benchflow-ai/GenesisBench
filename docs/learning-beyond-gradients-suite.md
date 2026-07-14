@@ -79,10 +79,12 @@ Each task first receives an unbounded anchor-normalized score:
 task score = 100 * (candidate - starter) / (reference - starter)
 ```
 
-The primary final score is the 25% trimmed interquartile mean (IQM). With nine
-tasks, the two lowest and two highest normalized scores are removed and the
-middle five are averaged. Arithmetic mean and median remain secondary
-diagnostics.
+Each model runs five independent trials. Task leaderboards report mean ± sample
+standard deviation across those trials. Within each trial, the primary
+cross-task score is the 25% trimmed interquartile mean (IQM): remove the two
+lowest and two highest normalized task scores and average the middle five. The
+final model score is the mean ± sample standard deviation of the five
+trial-level IQMs.
 
 The repository README intentionally shows only the final leaderboard image.
 The nine task panels use each environment's native raw score. The final chart

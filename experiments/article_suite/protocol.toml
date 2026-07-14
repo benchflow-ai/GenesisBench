@@ -1,0 +1,21 @@
+version = "2.0"
+trials = 5
+agent_timeout_multiplier = 3
+
+[baseline_agent_timeout_sec]
+simulation_heuristics_ant_v1 = 1800
+simulation_heuristics_pong_ram_v1 = 1800
+simulation_heuristics_breakout_ram_v1 = 1800
+simulation_heuristics_breakout_rgb_v1 = 1800
+simulation_heuristics_halfcheetah_v1 = 3600
+simulation_heuristics_vizdoom_d1_v1 = 1800
+simulation_heuristics_vizdoom_d3_v1 = 1800
+simulation_heuristics_atari57_v1 = 604800
+simulation_heuristics_montezuma_v1 = 1800
+
+[aggregation]
+task_score = "arithmetic_mean_across_trials"
+task_variability = "sample_standard_deviation"
+trial_score = "interquartile_mean_across_nine_tasks"
+final_score = "arithmetic_mean_across_trial_scores"
+final_variability = "sample_standard_deviation"

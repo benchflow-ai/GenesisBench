@@ -128,10 +128,12 @@ Scores are unbounded normalized values: `0` matches the public starter and
 `100` matches the trusted article-level reference. Negative scores are genuine
 regressions; scores above `100` exceed the reference.
 
-The final ranking uses the interquartile mean (IQM) of the nine task scores:
-sort them, remove the lowest two and highest two, then average the middle five.
-The chart uses a plot-only positive index equal to `IQM + 100`; the raw IQM
-remains the ranking metric and is retained in the JSON.
+Each model runs five independent trials. Within each trial, the final ranking
+uses the interquartile mean (IQM) of the nine task scores: sort them, remove the
+lowest two and highest two, then average the middle five. The published score
+is the mean of the five trial IQMs and includes sample standard deviation. The
+chart uses a plot-only positive index equal to `IQM + 100`; raw IQM remains in
+the JSON.
 
 Inference settings are provider-specific: GPT-5.6 Sol and Claude Opus 4.8 use
 `max`; GPT-5.5 and GPT-5.4 Mini use `xhigh`. These labels come from different
@@ -140,7 +142,7 @@ scale. Exact routes are documented in
 [`docs/learning-beyond-gradients-suite.md`](docs/learning-beyond-gradients-suite.md).
 
 See [`docs/article-suite-scoring.md`](docs/article-suite-scoring.md) for the
-formula, research precedent, and current single-run limitation.
+formula, research precedent, and statistical limitations.
 
 ## Contribute a Task
 

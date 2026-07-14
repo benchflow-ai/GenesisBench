@@ -17,6 +17,23 @@ def test_article_suite_declares_exactly_nine_unique_tasks() -> None:
     assert "simulation_heuristics_ant_v1" in runner.TASKS
 
 
+def test_article_suite_protocol_uses_five_trials_and_triple_timeouts() -> None:
+    protocol = runner._protocol()
+
+    assert protocol["trials"] == 5
+    assert protocol["agent_timeout_multiplier"] == 3
+    runner._validate_protocol(runner.TASKS, protocol["trials"])
+
+
+def test_trial_storage_scope_supports_full_and_partial_resumes() -> None:
+    assert runner._task_scope(runner.TASKS) == "full-suite"
+    assert (
+        runner._task_scope(("simulation_heuristics_vizdoom_d1_v1",))
+        == "simulation_heuristics_vizdoom_d1_v1"
+    )
+    assert runner._task_scope(runner.TASKS[:2]).startswith("tasks-")
+
+
 def test_command_uses_opencode_and_fail_closed_artifacts(tmp_path: Path) -> None:
     model = {
         "id": "gpt-5.6-sol",
@@ -181,6 +198,14 @@ def test_provider_environment_is_least_privilege() -> None:
     assert claude["ANTHROPIC_API_KEY"] == "oauth-plugin"
     assert "AZURE_API_KEY" not in claude
     assert "AZURE_API_ENDPOINT" not in claude
+
+
+def test_authoritative_docker_runs_pin_calibrated_amd64_platform() -> None:
+    env: dict[str, str] = {}
+
+    runner._configure_docker_platform(env, platform="linux/amd64")
+
+    assert env["DOCKER_DEFAULT_PLATFORM"] == "linux/amd64"
 
 
 def test_aggregate_loader_requires_every_task(tmp_path: Path) -> None:
@@ -420,6 +445,91 @@ def test_latest_task_results_merges_partial_runs(tmp_path: Path) -> None:
     assert selected[model_id][leaderboard.TASKS[1]][3] == "sha256:digest-2"
 
 
+def test_latest_complete_trial_batch_requires_every_trial(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    tasks = ("task-a", "task-b")
+    monkeypatch.setattr(leaderboard, "TASKS", tasks)
+    protocol = {"version": "test", "trials": 2}
+    batch = tmp_path / "batch-1"
+    batch.mkdir()
+    (batch / "batch_manifest.json").write_text(
+        json.dumps({"protocol": protocol})
+    )
+
+    for trial in (1, 2):
+        trial_root = batch / "model-a" / f"trial-{trial:02d}"
+        job = trial_root / "jobs" / "run"
+        job.mkdir(parents=True)
+        metadata = {
+            "model": {"id": "model-a"},
+            "trial": trial,
+            "tasks": list(tasks),
+            "status": "completed",
+            "return_code": 0,
+            "dry_run": False,
+            "finished_at": float(trial),
+        }
+        (trial_root / "run_metadata.json").write_text(
+            json.dumps(metadata)
+        )
+        (trial_root / "task_manifest.json").write_text(
+            json.dumps(
+                {
+                    "tasks": [
+                        {"task_id": task, "digest": f"sha256:{task}"}
+                        for task in tasks
+                    ]
+                }
+            )
+        )
+        rows = []
+        for index, task in enumerate(tasks):
+            rollout = trial_root / f"rollout-{index}"
+            verifier = rollout / "verifier"
+            verifier.mkdir(parents=True)
+            (verifier / "genesis-score.json").write_text(
+                json.dumps({"normalized_score": trial * 10 + index})
+            )
+            rows.append(
+                {
+                    "info": {
+                        "task_name": task,
+                        "rollout_dir": str(rollout),
+                    },
+                    "reward": 0.5,
+                    "error": None,
+                }
+            )
+        (job / "results.jsonl").write_text(
+            "\n".join(json.dumps(row) for row in rows) + "\n"
+        )
+
+    selected_batch, results = leaderboard._latest_complete_trial_batch(
+        tmp_path,
+        expected_models={"model-a"},
+        protocol=protocol,
+    )
+
+    assert selected_batch == batch
+    assert set(results["model-a"]["task-a"]) == {1, 2}
+    assert (
+        leaderboard._normalized_task_score(
+            results["model-a"]["task-b"][2][1]
+        )
+        == 21
+    )
+
+    (batch / "model-a" / "trial-02" / "run_metadata.json").unlink()
+    with pytest.raises(RuntimeError, match="2 missing"):
+        leaderboard._latest_complete_trial_batch(
+            tmp_path,
+            expected_models={"model-a"},
+            protocol=protocol,
+        )
+
+
 def test_iqm_matches_rliable_25_percent_trimmed_mean() -> None:
     assert leaderboard._interquartile_mean(list(range(9))) == 4.0
     assert leaderboard._interquartile_mean(
@@ -442,20 +552,27 @@ def test_offline_report_builds_nine_task_boards_then_final() -> None:
             task_scores[leaderboard.TASKS[1]] = 5.0
         aggregates = leaderboard._aggregate_task_scores(task_scores)
         rows.append(
-                {
-                    "model_id": model_id,
-                    "model": model,
-                    "model_route": f"test/{model_id}",
-                    "provider": "test",
-                    "provider_label": "Test provider",
-                    "harness": "opencode",
+            {
+                "model_id": model_id,
+                "model": model,
+                "model_route": f"test/{model_id}",
+                "provider": "test",
+                "provider_label": "Test provider",
+                "harness": "opencode",
                 "provider_reasoning_effort": "max",
+                "trial_count": 5,
                 **aggregates,
                 "average_normalized_score": aggregates[
                     "arithmetic_mean_normalized_score"
                 ],
                 "task_scores": task_scores,
+                "task_score_stddevs": {
+                    task: 1.0 for task in leaderboard.TASKS
+                },
                 "raw_task_scores": task_scores,
+                "raw_task_score_stddevs": {
+                    task: 2.0 for task in leaderboard.TASKS
+                },
                 "task_anchors": {
                     task: {
                         "starter_score": 0.0,

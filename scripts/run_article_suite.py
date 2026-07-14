@@ -2,8 +2,10 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
+import shutil
 import subprocess
 import time
 import tomllib
@@ -15,6 +17,7 @@ from urllib.parse import urlparse
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 MODELS_PATH = REPO_ROOT / "experiments" / "article_suite" / "models.toml"
+PROTOCOL_PATH = REPO_ROOT / "experiments" / "article_suite" / "protocol.toml"
 TASKS = (
     "simulation_heuristics_ant_v1",
     "simulation_heuristics_pong_ram_v1",
@@ -43,6 +46,7 @@ def _default_env_path() -> Path:
 
 
 def parse_args() -> argparse.Namespace:
+    protocol = _protocol()
     parser = argparse.ArgumentParser(
         description="Run the nine-task article suite through OpenCode."
     )
@@ -63,12 +67,47 @@ def parse_args() -> argparse.Namespace:
     )
     parser.add_argument("--concurrency", type=int, default=1)
     parser.add_argument(
+        "--trials",
+        type=int,
+        default=int(protocol["trials"]),
+        help="Independent full-suite trials per model.",
+    )
+    parser.add_argument(
+        "--trial",
+        action="append",
+        type=int,
+        help="Run only this 1-indexed trial; repeat for multiple trials.",
+    )
+    parser.add_argument(
+        "--batch-id",
+        help="Stable batch directory name for resumable multi-invocation runs.",
+    )
+    parser.add_argument(
+        "--force",
+        action="store_true",
+        help="Delete and rerun selected trial directories even if completed.",
+    )
+    parser.add_argument(
+        "--fail-fast",
+        action="store_true",
+        help="Stop after the first failed model trial instead of continuing.",
+    )
+    parser.add_argument(
         "--sandbox",
         choices=("docker", "daytona"),
         default="docker",
     )
+    parser.add_argument(
+        "--docker-platform",
+        default="linux/amd64",
+        help="Calibrated Docker target used by authoritative local runs.",
+    )
     parser.add_argument("--dry-run", action="store_true")
     return parser.parse_args()
+
+
+def _protocol() -> dict[str, Any]:
+    return tomllib.loads(PROTOCOL_PATH.read_text())
 
 
 def _read_env(path: Path) -> dict[str, str]:
@@ -117,6 +156,73 @@ def _validate_tasks(tasks: tuple[str, ...]) -> None:
         raise RuntimeError(
             "Article suite task packages are missing: " + ", ".join(missing)
         )
+
+
+def _task_agent_timeout(task: str) -> int:
+    import yaml
+
+    task_path = REPO_ROOT / "tasks" / task / "task.md"
+    parts = task_path.read_text().split("---", 2)
+    if len(parts) != 3:
+        raise RuntimeError(f"{task} has no YAML front matter")
+    document = yaml.safe_load(parts[1])
+    timeout = document.get("agent", {}).get("timeout_sec")
+    if not isinstance(timeout, int) or timeout <= 0:
+        raise RuntimeError(f"{task} has invalid agent.timeout_sec {timeout!r}")
+    return timeout
+
+
+def _validate_protocol(tasks: tuple[str, ...], trials: int) -> dict[str, Any]:
+    protocol = _protocol()
+    if trials < 1:
+        raise ValueError("--trials must be >= 1")
+    multiplier = protocol["agent_timeout_multiplier"]
+    baselines = protocol["baseline_agent_timeout_sec"]
+    for task in tasks:
+        expected = int(baselines[task]) * int(multiplier)
+        actual = _task_agent_timeout(task)
+        if actual != expected:
+            raise RuntimeError(
+                f"{task} agent timeout {actual} does not match protocol "
+                f"{baselines[task]} x {multiplier} = {expected}"
+            )
+    return protocol
+
+
+def _selected_trials(
+    requested: list[int] | None,
+    *,
+    trial_count: int,
+) -> tuple[int, ...]:
+    if requested is None:
+        return tuple(range(1, trial_count + 1))
+    selected = tuple(dict.fromkeys(requested))
+    invalid = [trial for trial in selected if not 1 <= trial <= trial_count]
+    if invalid:
+        raise ValueError(
+            f"--trial must be between 1 and {trial_count}: {invalid}"
+        )
+    return selected
+
+
+def _completed_trial(metadata_path: Path) -> bool:
+    if not metadata_path.is_file():
+        return False
+    metadata = json.loads(metadata_path.read_text())
+    return (
+        metadata.get("status") == "completed"
+        and metadata.get("return_code") == 0
+        and not metadata.get("dry_run")
+    )
+
+
+def _task_scope(tasks: tuple[str, ...]) -> str:
+    if tasks == TASKS:
+        return "full-suite"
+    if len(tasks) == 1:
+        return tasks[0]
+    digest = hashlib.sha256("\n".join(tasks).encode()).hexdigest()[:10]
+    return f"tasks-{digest}"
 
 
 def _require_credentials(model: dict[str, Any], env: dict[str, str]) -> None:
@@ -315,10 +421,22 @@ def _docker_ready() -> bool:
     return result.returncode == 0
 
 
+def _configure_docker_platform(
+    run_env: dict[str, str],
+    *,
+    platform: str,
+) -> None:
+    if not platform.strip():
+        raise ValueError("--docker-platform must not be empty")
+    run_env["DOCKER_DEFAULT_PLATFORM"] = platform
+
+
 def main() -> None:
     args = parse_args()
     tasks = tuple(args.task or TASKS)
     _validate_tasks(tasks)
+    protocol = _validate_protocol(tasks, args.trials)
+    selected_trials = _selected_trials(args.trial, trial_count=args.trials)
     models = _select_models(args.model, args.all_models)
     provider_env = os.environ.copy()
     provider_env.update(_read_env(args.env_file.expanduser()))
@@ -326,8 +444,8 @@ def main() -> None:
         if not provider_env.get("DAYTONA_API_KEY"):
             raise RuntimeError("DAYTONA_API_KEY is required for --sandbox daytona")
         provider_env.setdefault("DAYTONA_TARGET", "us")
-    timestamp = datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ")
-    batch_root = args.output_root.resolve() / timestamp
+    batch_id = args.batch_id or datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ")
+    batch_root = args.output_root.resolve() / batch_id
     batch_root.mkdir(parents=True, exist_ok=True)
 
     if args.sandbox == "docker" and not args.dry_run and not _docker_ready():
@@ -335,33 +453,54 @@ def main() -> None:
             "Docker is not ready. Start Docker Desktop before running the "
             "authoritative article-suite evaluation."
         )
+    if args.sandbox == "docker":
+        _configure_docker_platform(
+            provider_env,
+            platform=args.docker_platform,
+        )
 
+    manifest_path = batch_root / "batch_manifest.json"
     batch_manifest: dict[str, Any] = {
         "suite": "learning_beyond_gradients_article",
+        "batch_id": batch_id,
+        "protocol": protocol,
         "harness": "opencode",
         "tasks": list(tasks),
         "created_at": datetime.now(UTC).isoformat(),
-        "models": [],
+        "trial_count": args.trials,
+        "runs": [],
     }
+    if manifest_path.is_file():
+        existing = json.loads(manifest_path.read_text())
+        if existing.get("protocol") != protocol:
+            raise RuntimeError(
+                f"{batch_root} uses a different experiment protocol"
+            )
+        batch_manifest["created_at"] = existing.get(
+            "created_at",
+            batch_manifest["created_at"],
+        )
+        batch_manifest["runs"] = list(existing.get("runs", []))
+
+    run_entries = {
+        (
+            entry["model_id"],
+            entry["trial"],
+            entry.get("task_scope", "full-suite"),
+        ): {
+            **entry,
+            "task_scope": entry.get("task_scope", "full-suite"),
+        }
+        for entry in batch_manifest["runs"]
+    }
+    failures: list[tuple[str, int, int]] = []
     for model in models:
         _require_credentials(model, provider_env)
-        model_root = batch_root / model["id"]
-        jobs_dir = model_root / "jobs"
-        model_root.mkdir(parents=True, exist_ok=True)
         run_env = _scoped_provider_env(model, provider_env)
         azure_resource_name = None
         if model["provider"] == "azure":
             azure_resource_name = _azure_resource_name(run_env)
             run_env["AZURE_RESOURCE_NAME"] = azure_resource_name
-        command = build_command(
-            model=model,
-            jobs_dir=jobs_dir,
-            sandbox=args.sandbox,
-            concurrency=args.concurrency,
-            artifact_dir=model_root,
-            tasks=tasks,
-            azure_resource_name=azure_resource_name,
-        )
         run_env["BENCHFLOW_REASONING_EFFORT"] = model[
             "provider_reasoning_effort"
         ]
@@ -369,86 +508,152 @@ def main() -> None:
             run_env["BENCHFLOW_DAYTONA_PTY_READLINE_TIMEOUT"] = str(
                 model["daytona_pty_readline_timeout_sec"]
             )
-        started_at = time.time()
-        metadata = {
-            "model": model,
-            "harness": "opencode",
-            "sandbox": args.sandbox,
-            "tasks": list(tasks),
-            "command": command,
-            "provider_env_keys": sorted(
-                key
-                for key in (
-                    "AZURE_API_ENDPOINT",
-                    "AZURE_API_KEY",
-                    "CLAUDE_CODE_OAUTH_TOKEN",
-                )
-                if run_env.get(key)
-            ),
-            "provider_reasoning_effort": model["provider_reasoning_effort"],
-            "started_at": started_at,
-            "finished_at": None,
-            "elapsed_seconds": None,
-            "return_code": None,
-            "status": "running",
-            "dry_run": args.dry_run,
-        }
-        metadata_path = model_root / "run_metadata.json"
-        metadata_path.write_text(
-            json.dumps(metadata, indent=2, sort_keys=True) + "\n"
-        )
-        batch_entry = {
-            "id": model["id"],
-            "run_metadata": str(metadata_path.relative_to(batch_root)),
-            "return_code": None,
-            "status": "running",
-        }
-        batch_manifest["models"].append(batch_entry)
-        (batch_root / "batch_manifest.json").write_text(
-            json.dumps(batch_manifest, indent=2, sort_keys=True) + "\n"
-        )
-        return_code = 0
-        status = "completed"
-        try:
-            if args.dry_run:
-                print(" ".join(command))
-            else:
-                return_code = subprocess.run(
-                    command,
-                    cwd=REPO_ROOT,
-                    env=run_env,
-                    check=False,
-                ).returncode
-            if return_code != 0:
-                status = "failed"
-        except KeyboardInterrupt:
-            return_code = 130
-            status = "interrupted"
-            raise
-        finally:
-            metadata.update(
-                {
-                    "finished_at": time.time(),
-                    "elapsed_seconds": time.time() - started_at,
-                    "return_code": return_code,
-                    "status": status,
-                }
+        for trial in selected_trials:
+            trial_root = batch_root / model["id"] / f"trial-{trial:02d}"
+            task_scope = _task_scope(tasks)
+            run_root = (
+                trial_root
+                if task_scope == "full-suite"
+                else trial_root / task_scope
             )
+            metadata_path = run_root / "run_metadata.json"
+            if args.force and run_root.exists() and not args.dry_run:
+                shutil.rmtree(run_root)
+            if not args.force and _completed_trial(metadata_path):
+                print(
+                    f"skip completed {model['id']} trial {trial} "
+                    f"scope {task_scope}"
+                )
+                continue
+
+            jobs_dir = run_root / "jobs"
+            run_root.mkdir(parents=True, exist_ok=True)
+            command = build_command(
+                model=model,
+                jobs_dir=jobs_dir,
+                sandbox=args.sandbox,
+                concurrency=args.concurrency,
+                artifact_dir=run_root,
+                tasks=tasks,
+                azure_resource_name=azure_resource_name,
+            )
+            started_at = time.time()
+            metadata = {
+                "batch_id": batch_id,
+                "trial": trial,
+                "trial_count": args.trials,
+                "task_scope": task_scope,
+                "protocol": protocol,
+                "model": model,
+                "harness": "opencode",
+                "sandbox": args.sandbox,
+                "docker_platform": (
+                    args.docker_platform if args.sandbox == "docker" else None
+                ),
+                "tasks": list(tasks),
+                "task_agent_timeout_sec": {
+                    task: _task_agent_timeout(task) for task in tasks
+                },
+                "command": command,
+                "provider_env_keys": sorted(
+                    key
+                    for key in (
+                        "AZURE_API_ENDPOINT",
+                        "AZURE_API_KEY",
+                        "CLAUDE_CODE_OAUTH_TOKEN",
+                    )
+                    if run_env.get(key)
+                ),
+                "provider_reasoning_effort": model[
+                    "provider_reasoning_effort"
+                ],
+                "started_at": started_at,
+                "finished_at": None,
+                "elapsed_seconds": None,
+                "return_code": None,
+                "status": "running",
+                "dry_run": args.dry_run,
+            }
             metadata_path.write_text(
                 json.dumps(metadata, indent=2, sort_keys=True) + "\n"
             )
-            batch_entry["return_code"] = return_code
-            batch_entry["status"] = status
-            (batch_root / "batch_manifest.json").write_text(
+            batch_entry = run_entries.setdefault(
+                (model["id"], trial, task_scope),
+                {
+                    "model_id": model["id"],
+                    "trial": trial,
+                    "task_scope": task_scope,
+                    "run_metadata": str(
+                        metadata_path.relative_to(batch_root)
+                    ),
+                },
+            )
+            batch_entry.update({"return_code": None, "status": "running"})
+            batch_manifest["runs"] = sorted(
+                run_entries.values(),
+                key=lambda entry: (
+                    entry["model_id"],
+                    entry["trial"],
+                    entry["task_scope"],
+                ),
+            )
+            manifest_path.write_text(
                 json.dumps(batch_manifest, indent=2, sort_keys=True) + "\n"
             )
-        if return_code != 0:
-            raise SystemExit(return_code)
 
-    (batch_root / "batch_manifest.json").write_text(
+            return_code = 0
+            status = "completed"
+            try:
+                if args.dry_run:
+                    print(" ".join(command))
+                else:
+                    return_code = subprocess.run(
+                        command,
+                        cwd=REPO_ROOT,
+                        env=run_env,
+                        check=False,
+                    ).returncode
+                if return_code != 0:
+                    status = "failed"
+            except KeyboardInterrupt:
+                return_code = 130
+                status = "interrupted"
+                raise
+            finally:
+                metadata.update(
+                    {
+                        "finished_at": time.time(),
+                        "elapsed_seconds": time.time() - started_at,
+                        "return_code": return_code,
+                        "status": status,
+                    }
+                )
+                metadata_path.write_text(
+                    json.dumps(metadata, indent=2, sort_keys=True) + "\n"
+                )
+                batch_entry.update(
+                    {"return_code": return_code, "status": status}
+                )
+                manifest_path.write_text(
+                    json.dumps(batch_manifest, indent=2, sort_keys=True) + "\n"
+                )
+            if return_code != 0:
+                failures.append((model["id"], trial, return_code))
+                if args.fail_fast:
+                    raise SystemExit(return_code)
+
+    batch_manifest["status"] = "failed" if failures else "completed"
+    batch_manifest["finished_at"] = datetime.now(UTC).isoformat()
+    batch_manifest["failures"] = [
+        {"model_id": model_id, "trial": trial, "return_code": return_code}
+        for model_id, trial, return_code in failures
+    ]
+    manifest_path.write_text(
         json.dumps(batch_manifest, indent=2, sort_keys=True) + "\n"
     )
     print(batch_root)
+    if failures:
+        raise SystemExit(1)
 
 
 if __name__ == "__main__":

@@ -176,6 +176,9 @@ The first published sweep uses:
 - isolated Docker workspaces;
 - each model's highest supported reasoning level.
 
+The current article-suite protocol triples the Ant agent timeout to 90 minutes
+and reports mean ± sample standard deviation across five independent trials.
+
 Simulation Heuristics Ant v1 currently enforces wall-clock time but does not
 centrally meter every simulator step. Future hosted versions should add an
 authoritative interaction meter before making sample-efficiency claims across

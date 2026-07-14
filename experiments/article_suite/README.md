@@ -16,6 +16,33 @@ the nine task packages derived from the article:
 Every run uses BenchFlow's registered `opencode` ACP harness. OpenHands is not
 part of this suite.
 
+## Experiment protocol
+
+The current leaderboard protocol is defined in `protocol.toml`:
+
+- five independent full-suite trials per model;
+- three times the original agent wall-clock timeout for every task;
+- task scores reported as mean ± sample standard deviation across trials;
+- one nine-task IQM computed per trial;
+- final score reported as mean ± sample standard deviation across the five
+  trial-level IQMs.
+
+The resulting matrix is:
+
+```text
+4 models × 5 trials × 9 tasks = 180 model-task runs
+```
+
+| Tasks | Previous cap | Current cap |
+| --- | ---: | ---: |
+| Ant, Pong, both Breakouts, Montezuma, VizDoom D1/D3 | 30 min | 90 min |
+| HalfCheetah | 60 min | 180 min |
+| Atari57 aggregate search | 7 days | 21 days |
+
+Atari57's cap is exceptional because one task contains 342 accounted search
+slots. It can be scheduled separately when operating capacity is limited; the
+cap is a maximum, not an expected runtime.
+
 ## Inference settings
 
 | Model | Exact route | Provider-specific reasoning setting |
@@ -51,13 +78,18 @@ CLAUDE_CODE_OAUTH_TOKEN
 ## Run
 
 Docker must be running because the authoritative suite uses isolated BenchFlow
-task environments:
+task environments. Local Docker runs default to calibrated `linux/amd64`
+images, including on Apple Silicon:
 
 ```bash
 uv run python scripts/run_article_suite.py \
   --env-file /path/to/credentials.env \
   --model gpt-5.6-sol
 ```
+
+Use `--docker-platform` only when a task's verifier has a matching trusted
+platform calibration. The current VizDoom reproducibility anchors support
+`linux-x86_64`, so uncalibrated `linux-arm64` runs fail closed.
 
 Atari57 requests more CPU, memory, and storage than the current Daytona account
 allows. The all-nine commands therefore use the default local Docker sandbox.
@@ -68,21 +100,27 @@ Run all four models sequentially:
 ```bash
 uv run python scripts/run_article_suite.py \
   --env-file /path/to/credentials.env \
-  --all-models
+  --all-models \
+  --trials 5 \
+  --batch-id article-suite-v2
 ```
 
-Long runs are resumable at task granularity. For example:
+Runs are resumable at model-trial granularity. Reusing `--batch-id` skips
+completed trials. Use `--trial` to schedule or repair selected trials:
 
 ```bash
 uv run python scripts/run_article_suite.py \
   --env-file /path/to/credentials.env \
   --model gpt-5.6-sol \
   --task simulation_heuristics_halfcheetah_v1 \
+  --trial 3 \
+  --batch-id article-suite-v2 \
   --sandbox daytona
 ```
 
-The leaderboard builder selects the latest successful result for every
-model/task pair across all run batches.
+The leaderboard builder selects the latest complete batch matching
+`protocol.toml`; it never mixes older single-run results into the five-trial
+leaderboard.
 
 GPT-5.6 Sol is routed directly through OpenCode's Azure Responses-API provider
 with reasoning effort `max`. BenchFlow still owns sandboxing, task staging,
@@ -109,8 +147,8 @@ The builder writes:
   ranking displayed as `IQM + 100` so every current plotted value is positive.
 
 Each task maps its starter policy to `0` and its trusted article-level reference
-to `100`. The final primary aggregate is the interquartile mean: remove the two
-lowest and two highest of the nine normalized scores, then average the middle
-five. Arithmetic mean and median remain secondary diagnostics. The top-level
-repository README shows only the final image. The additive display offset does
-not affect ranking or score gaps; raw IQM remains available in the JSON.
+to `100`. For each trial, remove the two lowest and two highest of the nine
+normalized scores and average the middle five. The final leaderboard averages
+the five trial-level IQMs. Per-task and final sample standard deviations remain
+visible diagnostics. The additive display offset does not affect ranking or
+score gaps; raw IQM remains available in the JSON.
