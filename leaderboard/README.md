@@ -11,6 +11,10 @@ nine task-specific rankings followed by the final IQM ranking.
 
 ![GenesisBench Simulation Heuristics Ant v1 leaderboard](simulation_heuristics_ant_v1_leaderboard.png)
 
+This is an immutable historical OpenHands result. The retired runner is no
+longer shipped in the current tree; see [`REPORT.md`](REPORT.md) for provenance
+and the Git-history source pointer.
+
 | Rank | Agent model | Harness | Reasoning | Score | Normalized | Nominal | Robust | Fall rate |
 | ---: | --- | --- | --- | ---: | ---: | ---: | ---: | ---: |
 | 1 | GPT-5.6 Sol | OpenHands SDK | xhigh | 3417.86 | 150.24 | 3399.54 | 3460.62 | 0.0% |

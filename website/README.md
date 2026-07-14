@@ -43,6 +43,10 @@ the official ranking metric.
 The repo ships `vercel.json` (serve `website/` as-is, no build; deploys are skipped unless
 `website/` changed). One-time setup:
 
+The `ignoreCommand` compares `website/` and `vercel.json`. Repository-only
+maintenance outside those paths is intentionally skipped and does not change
+the production site.
+
 1. **Vercel** (benchflow team) → *Add New Project* → import `benchflow-ai/GenesisBench` →
    settings are read from `vercel.json` → Deploy. From then on every push to `main` that touches
    `website/` auto-deploys to production, and every PR gets a preview URL.

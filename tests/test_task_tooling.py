@@ -12,6 +12,14 @@ from scripts.validate_tasks import discover_tasks, validate_task
 REPO_ROOT = Path(__file__).resolve().parents[1]
 TASKS_ROOT = REPO_ROOT / "tasks"
 RUNTIME_SOURCE = REPO_ROOT / "src" / "genesisbench"
+RETIRED_OPENHANDS_RUNNER_PATHS = (
+    "containers/simulation_heuristics_ant_v1/Dockerfile",
+    "experiments/simulation_heuristics_ant_v1/README.md",
+    "experiments/simulation_heuristics_ant_v1/models.toml",
+    "scripts/build_simulation_heuristics_ant_v1_runner_image.sh",
+    "scripts/run_openhands_agent.py",
+    "scripts/run_simulation_heuristics_ant_v1_experiment.py",
+)
 
 
 def test_article_suite_contains_exactly_nine_valid_tasks() -> None:
@@ -24,6 +32,14 @@ def test_article_suite_contains_exactly_nine_valid_tasks() -> None:
             task,
             runtime_source=RUNTIME_SOURCE,
         ) == []
+
+
+def test_tasks_own_their_containers_and_legacy_runner_is_removed() -> None:
+    for task_name in ARTICLE_TASKS:
+        assert (TASKS_ROOT / task_name / "environment" / "Dockerfile").is_file()
+
+    for relative_path in RETIRED_OPENHANDS_RUNNER_PATHS:
+        assert not (REPO_ROOT / relative_path).exists()
 
 
 def test_create_and_prepare_task_scaffold(tmp_path: Path) -> None:

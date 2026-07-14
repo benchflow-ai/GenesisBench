@@ -166,8 +166,8 @@ uv run python scripts/prepare_task.py \
   --force
 ```
 
-The custom OpenHands experiment workspace must not contain `verifier/`,
-`oracle/`, or `evidence/`.
+The prepared coding-agent workspace must not contain `verifier/`, `oracle/`,
+or `evidence/`.
 
 ## Files contributors should study
 

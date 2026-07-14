@@ -56,7 +56,7 @@ surviving for more steps.
 - Machine-readable leaderboard: `leaderboard/simulation_heuristics_ant_v1.json`
 - Packaged policies and scores: `leaderboard/submissions/`
 - Deterministic verifier: `tasks/simulation_heuristics_ant_v1/verifier/evaluate_hidden.py`
-- Run and audit commands: `experiments/simulation_heuristics_ant_v1/README.md`
+- Artifact audit: `scripts/audit_simulation_heuristics_ant_v1_leaderboard.py`
 
 Every packaged policy was re-evaluated after packaging, and all four scores
 matched their recorded score exactly.
@@ -64,6 +64,11 @@ matched their recorded score exactly.
 Raw OpenHands trajectories are intentionally excluded from the source
 distribution because they are large and can contain provider-specific runtime
 metadata. Packaged metadata retains a non-secret source run identifier.
+
+The executable OpenHands runner was retired after the nine-task OpenCode suite
+became canonical. Its final source snapshot remains available in Git history at
+commit `8f05ed4`; the current tree retains only the immutable published
+artifacts, verifier, audit, and this methodology report.
 
 ## Limitations
 
