@@ -171,14 +171,14 @@ def test_opencode_config_pins_claude_oauth_plugin() -> None:
     assert definition["variants"]["max"]["thinking"]["budgetTokens"] == 31_999
 
 
-def test_claude_command_can_disable_idle_watchdog(tmp_path: Path) -> None:
+def test_claude_command_uses_bounded_long_idle_watchdog(tmp_path: Path) -> None:
     model = {
         "id": "claude-opus-4.8",
         "display_name": "Claude Opus 4.8",
         "model": "anthropic/claude-opus-4-8",
         "provider": "claude_oauth",
         "provider_reasoning_effort": "max",
-        "agent_idle_timeout_sec": 0,
+        "agent_idle_timeout_sec": 3600,
         "daytona_pty_readline_timeout_sec": 3600,
     }
 
@@ -191,13 +191,14 @@ def test_claude_command_can_disable_idle_watchdog(tmp_path: Path) -> None:
         tasks=(runner.TASKS[0],),
     )
 
-    assert command[command.index("--agent-idle-timeout") + 1] == "0"
+    assert command[command.index("--agent-idle-timeout") + 1] == "3600"
 
 
 def test_claude_model_declares_long_daytona_pty_timeout() -> None:
     models = runner._models()
     claude = next(model for model in models if model["id"] == "claude-opus-4.8")
 
+    assert claude["agent_idle_timeout_sec"] == 3600
     assert claude["daytona_pty_readline_timeout_sec"] == 3600
 
 
