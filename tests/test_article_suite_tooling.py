@@ -371,6 +371,56 @@ def test_aggregate_loader_recovers_individual_results_after_interruption(
     assert loaded[task]["metrics"]["n_tool_calls"] == 12
 
 
+def test_trial_batch_recovers_digest_from_individual_results(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    task = "task-a"
+    monkeypatch.setattr(leaderboard, "TASKS", (task,))
+    batch = tmp_path / "batch"
+    model_root = batch / "model-a" / "trial-01"
+    rollout = model_root / "jobs" / "run" / "attempt"
+    verifier = rollout / "verifier"
+    verifier.mkdir(parents=True)
+    (model_root / "run_metadata.json").write_text(
+        json.dumps(
+            {
+                "model": {"id": "model-a"},
+                "trial": 1,
+                "tasks": [task],
+                "status": "interrupted",
+                "return_code": 130,
+                "dry_run": False,
+                "finished_at": 1.0,
+            }
+        )
+    )
+    (verifier / "genesis-score.json").write_text(
+        json.dumps({"normalized_score": 44.0})
+    )
+    (rollout / "result.json").write_text(
+        json.dumps(
+            {
+                "task_name": task,
+                "task_digest": "sha256:task-a",
+                "rewards": {"reward": 0.44},
+                "error": None,
+                "verifier_error": None,
+            }
+        )
+    )
+
+    results = leaderboard._trial_batch_results(
+        batch,
+        expected_models={"model-a"},
+        expected_trials=1,
+    )
+
+    entry = results["model-a"][task][1]
+    assert entry[3] == "sha256:task-a"
+    assert leaderboard._normalized_task_score(entry[1]) == 44.0
+
+
 def test_aggregate_loader_accepts_direct_provider_training_export_warning(
     tmp_path: Path,
 ) -> None:

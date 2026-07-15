@@ -185,6 +185,28 @@ def _individual_result_rows(model_root: Path) -> list[dict[str, Any]]:
     return rows
 
 
+def _task_digests_for_run(model_root: Path) -> dict[str, str]:
+    manifest_path = model_root / "task_manifest.json"
+    if manifest_path.is_file():
+        manifest = json.loads(manifest_path.read_text())
+        return {
+            item.get("task_id"): item.get("digest")
+            for item in manifest.get("tasks", [])
+            if isinstance(item, dict)
+            and isinstance(item.get("task_id"), str)
+            and isinstance(item.get("digest"), str)
+        }
+
+    digests: dict[str, str] = {}
+    for path in (model_root / "jobs").glob("*/*/result.json"):
+        result = json.loads(path.read_text())
+        task_name = result.get("task_name")
+        digest = result.get("task_digest")
+        if isinstance(task_name, str) and isinstance(digest, str):
+            digests[task_name] = digest
+    return digests
+
+
 def _load_results(
     model_root: Path,
     *,
@@ -614,15 +636,7 @@ def _latest_task_results(
         ):
             continue
         model_root = metadata_path.parent
-        manifest_path = model_root / "task_manifest.json"
-        if not manifest_path.is_file():
-            continue
-        manifest = json.loads(manifest_path.read_text())
-        manifest_digests = {
-            item.get("task_id"): item.get("digest")
-            for item in manifest.get("tasks", [])
-            if isinstance(item, dict)
-        }
+        manifest_digests = _task_digests_for_run(model_root)
         if any(
             not isinstance(manifest_digests.get(task), str)
             for task in configured_tasks
@@ -684,15 +698,7 @@ def _trial_batch_results(
         ):
             continue
         model_root = metadata_path.parent
-        manifest_path = model_root / "task_manifest.json"
-        if not manifest_path.is_file():
-            continue
-        manifest = json.loads(manifest_path.read_text())
-        manifest_digests = {
-            item.get("task_id"): item.get("digest")
-            for item in manifest.get("tasks", [])
-            if isinstance(item, dict)
-        }
+        manifest_digests = _task_digests_for_run(model_root)
         try:
             rows = _load_results(
                 model_root,
