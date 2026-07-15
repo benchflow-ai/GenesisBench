@@ -674,6 +674,12 @@ def _render_article_suite_markdown(
         "documented in "
         "[`docs/article-suite-scoring.md`](../docs/article-suite-scoring.md).",
         "",
+        "The selected trajectory timeout audit is available in "
+        "[`article_suite_timeout_fairness_audit.json`]"
+        "(article_suite_timeout_fairness_audit.json) and "
+        "[`docs/article-suite-timeout-fairness.md`]"
+        "(../docs/article-suite-timeout-fairness.md).",
+        "",
         ]
     )
 
@@ -974,14 +980,28 @@ def main() -> None:
                 source_score = (
                     rollout_dir / "verifier" / "genesis-score.json"
                 )
+                source_result = rollout_dir / "result.json"
+                source_config = rollout_dir / "config.json"
                 if not source_score.is_file():
                     raise RuntimeError(
                         f"{model_id}/{task}/trial-{trial:02d} has no "
                         "verifier genesis-score.json"
                     )
+                if not source_result.is_file():
+                    raise RuntimeError(
+                        f"{model_id}/{task}/trial-{trial:02d} has no "
+                        "result.json"
+                    )
+                if not source_config.is_file():
+                    raise RuntimeError(
+                        f"{model_id}/{task}/trial-{trial:02d} has no "
+                        "config.json"
+                    )
                 sanitized_score = _sanitize_score_paths(
                     json.loads(source_score.read_text())
                 )
+                result_payload = json.loads(source_result.read_text())
+                config_payload = json.loads(source_config.read_text())
                 normalized = _normalized_task_score(result_row)
                 try:
                     (
@@ -1025,6 +1045,28 @@ def main() -> None:
                     "provider_reasoning_effort": task_metadata[
                         "provider_reasoning_effort"
                     ],
+                    "published_protocol_version": protocol["version"],
+                    "source_protocol_version": task_metadata.get(
+                        "protocol", {}
+                    ).get("version"),
+                    "agent_timeout_sec": task_metadata[
+                        "task_agent_timeout_sec"
+                    ][task],
+                    "source_agent_idle_timeout_sec": config_payload.get(
+                        "agent_idle_timeout_sec"
+                    ),
+                    "source_daytona_pty_readline_timeout_sec": (
+                        task_metadata["model"].get(
+                            "daytona_pty_readline_timeout_sec",
+                            900,
+                        )
+                    ),
+                    "protocol_agent_idle_timeout_sec": protocol[
+                        "fairness"
+                    ]["agent_idle_timeout_sec"],
+                    "protocol_daytona_pty_readline_timeout_sec": protocol[
+                        "fairness"
+                    ]["daytona_pty_readline_timeout_sec"],
                     "normalized_score": normalized,
                     "raw_score": float(raw_score),
                     "observed_raw_score": observed_raw_score,
@@ -1036,6 +1078,23 @@ def main() -> None:
                         result_row.get("total_tool_calls"),
                     ),
                     "token_usage": result_row.get("token_usage"),
+                    "terminal_error_category": result_payload.get(
+                        "error_category"
+                    ),
+                    "terminal_error": result_payload.get("error"),
+                    "agent_timeout_info": result_payload.get(
+                        "agent_timeout_info"
+                    ),
+                    "idle_timeout_info": result_payload.get(
+                        "idle_timeout_info"
+                    ),
+                    "transport_error_info": result_payload.get(
+                        "transport_error_info"
+                    ),
+                    "verifier_timeout_info": result_payload.get(
+                        "verifier_timeout_info"
+                    ),
+                    "timing": result_payload.get("timing"),
                 }
                 (trial_destination / "metadata.json").write_text(
                     json.dumps(

@@ -204,6 +204,24 @@ def _validate_protocol(tasks: tuple[str, ...], trials: int) -> dict[str, Any]:
     return protocol
 
 
+def _validate_model_timeouts(
+    models: list[dict[str, Any]],
+    protocol: dict[str, Any],
+) -> None:
+    fairness = protocol["fairness"]
+    expected_idle = int(fairness["agent_idle_timeout_sec"])
+    expected_pty = int(fairness["daytona_pty_readline_timeout_sec"])
+    for model in models:
+        idle = model.get("agent_idle_timeout_sec")
+        pty = model.get("daytona_pty_readline_timeout_sec")
+        if idle != expected_idle or pty != expected_pty:
+            raise RuntimeError(
+                f"{model['id']} timeout safeguards must match protocol.toml: "
+                f"idle={expected_idle}, Daytona PTY={expected_pty}; "
+                f"got idle={idle!r}, Daytona PTY={pty!r}"
+            )
+
+
 def _selected_trials(
     requested: list[int] | None,
     *,
@@ -453,6 +471,7 @@ def main() -> None:
     protocol = _validate_protocol(tasks, args.trials)
     selected_trials = _selected_trials(args.trial, trial_count=args.trials)
     models = _select_models(args.model, args.all_models)
+    _validate_model_timeouts(models, protocol)
     provider_env = os.environ.copy()
     provider_env.update(_read_env(args.env_file.expanduser()))
     if args.sandbox == "daytona":

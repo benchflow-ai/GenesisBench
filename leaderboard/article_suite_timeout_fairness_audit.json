@@ -1,0 +1,186 @@
+{
+  "expected_cells": 180,
+  "fairness": {
+    "agent_idle_timeout_sec": 3600,
+    "daytona_pty_readline_timeout_sec": 3600,
+    "interpretation": "historically affected cells rerun under standardized safeguards; unaffected source cells retained only when no idle or PTY timeout influenced the selected result"
+  },
+  "generated_at": "2026-07-15T19:13:43.174081+00:00",
+  "historically_affected_cells": [
+    {
+      "model_id": "gpt-5.5",
+      "reason": "pty_900s",
+      "task": "simulation_heuristics_breakout_rgb_v1",
+      "trial": 1
+    },
+    {
+      "model_id": "gpt-5.5",
+      "reason": "pty_900s",
+      "task": "simulation_heuristics_ant_v1",
+      "trial": 4
+    },
+    {
+      "model_id": "gpt-5.5",
+      "reason": "idle_600s",
+      "task": "simulation_heuristics_montezuma_v1",
+      "trial": 4
+    },
+    {
+      "model_id": "gpt-5.5",
+      "reason": "pty_900s",
+      "task": "simulation_heuristics_pong_ram_v1",
+      "trial": 4
+    },
+    {
+      "model_id": "gpt-5.6-sol",
+      "reason": "pty_900s",
+      "task": "simulation_heuristics_halfcheetah_v1",
+      "trial": 1
+    },
+    {
+      "model_id": "gpt-5.6-sol",
+      "reason": "pty_900s",
+      "task": "simulation_heuristics_vizdoom_d3_v1",
+      "trial": 1
+    },
+    {
+      "model_id": "gpt-5.6-sol",
+      "reason": "pty_900s",
+      "task": "simulation_heuristics_ant_v1",
+      "trial": 2
+    },
+    {
+      "model_id": "gpt-5.6-sol",
+      "reason": "idle_600s",
+      "task": "simulation_heuristics_vizdoom_d1_v1",
+      "trial": 3
+    },
+    {
+      "model_id": "gpt-5.6-sol",
+      "reason": "pty_900s",
+      "task": "simulation_heuristics_vizdoom_d3_v1",
+      "trial": 3
+    },
+    {
+      "model_id": "gpt-5.6-sol",
+      "reason": "pty_900s",
+      "task": "simulation_heuristics_breakout_ram_v1",
+      "trial": 4
+    }
+  ],
+  "model_iqm_changes": [
+    {
+      "after_iqm": 13.868245803826087,
+      "before_iqm": 10.662970787652174,
+      "delta": 3.2052750161739123,
+      "model_id": "gpt-5.5"
+    },
+    {
+      "after_iqm": 40.67930709160869,
+      "before_iqm": 36.651764607913044,
+      "delta": 4.0275424836956475,
+      "model_id": "gpt-5.6-sol"
+    }
+  ],
+  "protocol_version": "2.2",
+  "rerun_cell_count": 10,
+  "rerun_score_changes": [
+    {
+      "after_normalized_score": 99.277978339,
+      "before_normalized_score": 21.299638989,
+      "delta": 77.97833935,
+      "model_id": "gpt-5.5",
+      "task": "simulation_heuristics_breakout_rgb_v1",
+      "trial": 1
+    },
+    {
+      "after_normalized_score": 0.0,
+      "before_normalized_score": -1.398078834,
+      "delta": 1.398078834,
+      "model_id": "gpt-5.5",
+      "task": "simulation_heuristics_ant_v1",
+      "trial": 4
+    },
+    {
+      "after_normalized_score": 0.0,
+      "before_normalized_score": 0.0,
+      "delta": 0.0,
+      "model_id": "gpt-5.5",
+      "task": "simulation_heuristics_montezuma_v1",
+      "trial": 4
+    },
+    {
+      "after_normalized_score": 50.0,
+      "before_normalized_score": 25.0,
+      "delta": 25.0,
+      "model_id": "gpt-5.5",
+      "task": "simulation_heuristics_pong_ram_v1",
+      "trial": 4
+    },
+    {
+      "after_normalized_score": 7.417455939,
+      "before_normalized_score": 26.12140084,
+      "delta": -18.703944901,
+      "model_id": "gpt-5.6-sol",
+      "task": "simulation_heuristics_halfcheetah_v1",
+      "trial": 1
+    },
+    {
+      "after_normalized_score": 4.879679144,
+      "before_normalized_score": 40.106951872,
+      "delta": -35.227272728,
+      "model_id": "gpt-5.6-sol",
+      "task": "simulation_heuristics_vizdoom_d3_v1",
+      "trial": 1
+    },
+    {
+      "after_normalized_score": -13.495063777,
+      "before_normalized_score": -7.591479,
+      "delta": -5.903584777000001,
+      "model_id": "gpt-5.6-sol",
+      "task": "simulation_heuristics_ant_v1",
+      "trial": 2
+    },
+    {
+      "after_normalized_score": 113.009039251,
+      "before_normalized_score": 31.015418049,
+      "delta": 81.993621202,
+      "model_id": "gpt-5.6-sol",
+      "task": "simulation_heuristics_vizdoom_d1_v1",
+      "trial": 3
+    },
+    {
+      "after_normalized_score": 22.961229947,
+      "before_normalized_score": 0.0,
+      "delta": 22.961229947,
+      "model_id": "gpt-5.6-sol",
+      "task": "simulation_heuristics_vizdoom_d3_v1",
+      "trial": 3
+    },
+    {
+      "after_normalized_score": 100.0,
+      "before_normalized_score": 18.448637317,
+      "delta": 81.55136268300001,
+      "model_id": "gpt-5.6-sol",
+      "task": "simulation_heuristics_breakout_ram_v1",
+      "trial": 4
+    }
+  ],
+  "selected_cells": 180,
+  "selected_timeout_influenced_cells": [],
+  "shared_wall_clock_timeout_cells": [
+    {
+      "model_id": "claude-opus-4.8",
+      "task": "simulation_heuristics_ant_v1",
+      "timeout_sec": 5400.0,
+      "trial": 1
+    },
+    {
+      "model_id": "claude-opus-4.8",
+      "task": "simulation_heuristics_ant_v1",
+      "timeout_sec": 5400.0,
+      "trial": 2
+    }
+  ],
+  "status": "ok"
+}

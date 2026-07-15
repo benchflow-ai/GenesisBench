@@ -147,6 +147,8 @@ All published article-suite rows run in Daytona sandboxes.
 
 See [`docs/article-suite-scoring.md`](docs/article-suite-scoring.md) for the
 formula, research precedent, and statistical limitations.
+The selected-trajectory timeout audit and repaired cells are documented in
+[`docs/article-suite-timeout-fairness.md`](docs/article-suite-timeout-fairness.md).
 
 ## Contribute a Task
 

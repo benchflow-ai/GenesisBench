@@ -9,16 +9,16 @@
     "provider": "azure",
     "provider_reasoning_effort": "max"
   },
-  "normalized_score": 16.3034759358,
-  "normalized_score_stddev": 23.995771403261536,
+  "normalized_score": 13.850267379600002,
+  "normalized_score_stddev": 20.096747543003065,
   "provider_reasoning_effort": "max",
-  "raw_score": 80.67999999999999,
+  "raw_score": 73.34,
   "raw_score_imputation_count": 0,
-  "raw_score_stddev": 71.79534803871347,
+  "raw_score_stddev": 60.12946864890792,
   "source_run_ids": [
-    "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01",
+    "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01/tasks-786d2dde21",
     "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-02",
-    "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03",
+    "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03/tasks-8869084d04",
     "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-04",
     "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-05"
   ],

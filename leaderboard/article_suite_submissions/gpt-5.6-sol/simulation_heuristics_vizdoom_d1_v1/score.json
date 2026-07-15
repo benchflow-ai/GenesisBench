@@ -1,11 +1,11 @@
 {
   "benchmark": "learning_beyond_gradients_article_suite",
-  "normalized_score": 56.834663982799995,
-  "normalized_score_stddev": 33.111283305681766,
+  "normalized_score": 73.23338822320001,
+  "normalized_score_stddev": 37.18119323399795,
   "raw_score_imputation_count": 0,
   "reference_score": 0.8178199748694898,
-  "score": 0.6554319871515035,
-  "score_stddev": 0.12456464290218099,
+  "score": 0.7171239853203296,
+  "score_stddev": 0.13987564345039064,
   "starter_score": 0.44161998964846133,
   "task": "simulation_heuristics_vizdoom_d1_v1",
   "trial_count": 5,
@@ -29,12 +29,12 @@
       "trial": 2
     },
     {
-      "normalized_score": 31.015418049,
-      "observed_raw_score": 0.5582999877631664,
-      "raw_score": 0.5582999877631664,
+      "normalized_score": 113.009039251,
+      "observed_raw_score": 0.866759978607297,
+      "raw_score": 0.866759978607297,
       "raw_score_source": "observed",
       "score_path": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_vizdoom_d1_v1/trial-03/score.json",
-      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03/tasks-8869084d04",
       "trial": 3
     },
     {

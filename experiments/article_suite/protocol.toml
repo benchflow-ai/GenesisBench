@@ -1,6 +1,10 @@
-version = "2.1"
+version = "2.2"
 trials = 5
 agent_timeout_multiplier = 3
+
+[fairness]
+agent_idle_timeout_sec = 3600
+daytona_pty_readline_timeout_sec = 3600
 
 [baseline_agent_timeout_sec]
 simulation_heuristics_ant_v1 = 1800

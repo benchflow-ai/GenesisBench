@@ -39,7 +39,7 @@
       "daytona"
     ]
   },
-  "generated_at": "2026-07-15T12:56:18.690710+00:00",
+  "generated_at": "2026-07-15T19:02:46.670420+00:00",
   "inference_settings": {
     "cross_provider_comparability": "labels_are_not_a_shared_numeric_compute_scale",
     "field": "provider_reasoning_effort",
@@ -130,20 +130,20 @@
           "model": "GPT-5.6 Sol",
           "model_id": "gpt-5.6-sol",
           "model_route": "azure/gpt-5.6-sol",
-          "normalized_score": -4.9009087386,
-          "normalized_score_stddev": 11.991465810903719,
+          "normalized_score": -6.081625694,
+          "normalized_score_stddev": 12.597925216329989,
           "provider": "azure",
           "provider_label": "Azure direct",
           "provider_reasoning_effort": "max",
           "rank": 2,
-          "raw_score": 2272.356693724495,
+          "raw_score": 2231.0491055302227,
           "raw_score_imputation_count": 0,
-          "raw_score_stddev": 419.52351859557746,
+          "raw_score_stddev": 440.7406064520731,
           "reference_score": 5942.333244755838,
           "sandbox": "daytona",
           "source_run": [
             "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01",
-            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-02",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-02/simulation_heuristics_ant_v1",
             "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03",
             "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-04/tasks-81ec8d98a4",
             "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-05"
@@ -157,22 +157,22 @@
           "model": "GPT-5.5",
           "model_id": "gpt-5.5",
           "model_route": "azure/gpt-5.5",
-          "normalized_score": -12.5116242462,
-          "normalized_score_stddev": 8.756962566015595,
+          "normalized_score": -12.2320084794,
+          "normalized_score_stddev": 9.211087046248206,
           "provider": "azure",
           "provider_label": "Azure direct",
           "provider_reasoning_effort": "xhigh",
           "rank": 3,
-          "raw_score": 2006.0944869926293,
+          "raw_score": 2015.8768932664839,
           "raw_score_imputation_count": 0,
-          "raw_score_stddev": 306.36385957656836,
+          "raw_score_stddev": 322.25148356656894,
           "reference_score": 5942.333244755838,
           "sandbox": "daytona",
           "source_run": [
             "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-01",
             "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-02",
             "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-03",
-            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-04",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-04/tasks-e2ced31f9c",
             "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-05/tasks-81ec8d98a4"
           ],
           "starter_score": 2443.815838992282,
@@ -276,22 +276,22 @@
           "model": "GPT-5.5",
           "model_id": "gpt-5.5",
           "model_route": "azure/gpt-5.5",
-          "normalized_score": 49.1666666668,
-          "normalized_score_stddev": 40.44028519521613,
+          "normalized_score": 54.166666666800005,
+          "normalized_score_stddev": 38.188130791325946,
           "provider": "azure",
           "provider_label": "Azure direct",
           "provider_reasoning_effort": "xhigh",
           "rank": 3,
-          "raw_score": 8.8,
+          "raw_score": 10.0,
           "raw_score_imputation_count": 0,
-          "raw_score_stddev": 9.705668446840743,
+          "raw_score_stddev": 9.16515138991168,
           "reference_score": 21.0,
           "sandbox": "daytona",
           "source_run": [
             "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-01",
             "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-02",
             "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-03",
-            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-04/tasks-885696cfa4",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-04/tasks-e2ced31f9c",
             "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-05"
           ],
           "starter_score": -2.9999999999999996,
@@ -368,22 +368,22 @@
           "model": "GPT-5.6 Sol",
           "model_id": "gpt-5.6-sol",
           "model_route": "azure/gpt-5.6-sol",
-          "normalized_score": 43.899371069400004,
-          "normalized_score_stddev": 47.34804435501101,
+          "normalized_score": 60.209643606,
+          "normalized_score_stddev": 50.34075134460858,
           "provider": "azure",
           "provider_label": "Azure direct",
           "provider_reasoning_effort": "max",
           "rank": 2,
-          "raw_score": 596.4,
+          "raw_score": 674.2,
           "raw_score_imputation_count": 0,
-          "raw_score_stddev": 225.8501715739884,
+          "raw_score_stddev": 240.1253839143209,
           "reference_score": 864.0,
           "sandbox": "daytona",
           "source_run": [
             "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01",
             "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-02",
             "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03",
-            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-04",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-04/simulation_heuristics_breakout_ram_v1",
             "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-05"
           ],
           "starter_score": 387.0,
@@ -487,19 +487,19 @@
           "model": "GPT-5.5",
           "model_id": "gpt-5.5",
           "model_route": "azure/gpt-5.5",
-          "normalized_score": 60.86642599300001,
-          "normalized_score_stddev": 22.118506348049813,
+          "normalized_score": 76.462093863,
+          "normalized_score_stddev": 12.754467163779541,
           "provider": "azure",
           "provider_label": "Azure direct",
           "provider_reasoning_effort": "xhigh",
           "rank": 2,
-          "raw_score": 647.2,
+          "raw_score": 733.6,
           "raw_score_imputation_count": 0,
-          "raw_score_stddev": 122.53652516698847,
+          "raw_score_stddev": 70.65974808899335,
           "reference_score": 864.0,
           "sandbox": "daytona",
           "source_run": [
-            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-01",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-01/simulation_heuristics_breakout_rgb_v1",
             "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-02",
             "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-03",
             "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-04/tasks-885696cfa4",
@@ -519,7 +519,7 @@
           "provider": "azure",
           "provider_label": "Azure direct",
           "provider_reasoning_effort": "max",
-          "rank": 2,
+          "rank": 3,
           "raw_score": 647.2,
           "raw_score_imputation_count": 0,
           "raw_score_stddev": 122.53652516698847,
@@ -606,19 +606,19 @@
           "model": "GPT-5.6 Sol",
           "model_id": "gpt-5.6-sol",
           "model_route": "azure/gpt-5.6-sol",
-          "normalized_score": 31.8442100886,
-          "normalized_score_stddev": 3.8873875677992533,
+          "normalized_score": 28.1034211084,
+          "normalized_score_stddev": 11.772801175021295,
           "provider": "azure",
           "provider_label": "Azure direct",
           "provider_reasoning_effort": "max",
           "rank": 2,
-          "raw_score": 6385.135940620764,
+          "raw_score": 6105.10168077257,
           "raw_score_imputation_count": 0,
-          "raw_score_stddev": 291.0085829715705,
+          "raw_score_stddev": 881.3081092982512,
           "reference_score": 11487.256451471967,
           "sandbox": "daytona",
           "source_run": [
-            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01/tasks-786d2dde21",
             "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-02",
             "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03",
             "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-04/tasks-81ec8d98a4",
@@ -725,21 +725,21 @@
           "model": "GPT-5.6 Sol",
           "model_id": "gpt-5.6-sol",
           "model_route": "azure/gpt-5.6-sol",
-          "normalized_score": 56.834663982799995,
-          "normalized_score_stddev": 33.111283305681766,
+          "normalized_score": 73.23338822320001,
+          "normalized_score_stddev": 37.18119323399795,
           "provider": "azure",
           "provider_label": "Azure direct",
           "provider_reasoning_effort": "max",
           "rank": 2,
-          "raw_score": 0.6554319871515035,
+          "raw_score": 0.7171239853203296,
           "raw_score_imputation_count": 0,
-          "raw_score_stddev": 0.12456464290218099,
+          "raw_score_stddev": 0.13987564345039064,
           "reference_score": 0.8178199748694898,
           "sandbox": "daytona",
           "source_run": [
             "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01",
             "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-02",
-            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03/tasks-8869084d04",
             "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-04",
             "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-05"
           ],
@@ -898,21 +898,21 @@
           "model": "GPT-5.6 Sol",
           "model_id": "gpt-5.6-sol",
           "model_route": "azure/gpt-5.6-sol",
-          "normalized_score": 16.3034759358,
-          "normalized_score_stddev": 23.995771403261536,
+          "normalized_score": 13.850267379600002,
+          "normalized_score_stddev": 20.096747543003065,
           "provider": "azure",
           "provider_label": "Azure direct",
           "provider_reasoning_effort": "max",
           "rank": 4,
-          "raw_score": 80.67999999999999,
+          "raw_score": 73.34,
           "raw_score_imputation_count": 0,
-          "raw_score_stddev": 71.79534803871347,
+          "raw_score_stddev": 60.12946864890792,
           "reference_score": 331.1,
           "sandbox": "daytona",
           "source_run": [
-            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01/tasks-786d2dde21",
             "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-02",
-            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03/tasks-8869084d04",
             "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-04",
             "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-05"
           ],
@@ -1151,7 +1151,7 @@
             "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-01",
             "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-02",
             "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-03",
-            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-04",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-04/tasks-e2ced31f9c",
             "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-05"
           ],
           "starter_score": 0.0,
@@ -1192,17 +1192,17 @@
           "trial_count": 5
         },
         {
-          "arithmetic_mean_normalized_score": 41.223767221955555,
-          "average_normalized_score": 41.223767221955555,
-          "final_normalized_score": 36.651764607913044,
-          "final_normalized_score_stddev": 5.524217450335815,
+          "arithmetic_mean_normalized_score": 44.038687475866666,
+          "average_normalized_score": 44.038687475866666,
+          "final_normalized_score": 40.67930709160869,
+          "final_normalized_score_stddev": 11.031024092730283,
           "harness": "opencode",
-          "mean_trial_iqm_normalized_score": 37.73164397808,
-          "median_normalized_score": 32.792734613,
+          "mean_trial_iqm_normalized_score": 41.6809489228,
+          "median_normalized_score": 33.28729024,
           "model": "GPT-5.6 Sol",
           "model_id": "gpt-5.6-sol",
           "model_route": "azure/gpt-5.6-sol",
-          "positive_display_score": 136.65176460791304,
+          "positive_display_score": 140.67930709160868,
           "provider": "azure",
           "provider_label": "Azure direct",
           "provider_reasoning_effort": "max",
@@ -1211,17 +1211,17 @@
           "trial_count": 5
         },
         {
-          "arithmetic_mean_normalized_score": 22.06816884377778,
-          "average_normalized_score": 22.06816884377778,
-          "final_normalized_score": 10.662970787652174,
-          "final_normalized_score_stddev": 18.67984640949238,
+          "arithmetic_mean_normalized_score": 24.387644803422226,
+          "average_normalized_score": 24.387644803422226,
+          "final_normalized_score": 13.868245803826087,
+          "final_normalized_score_stddev": 18.296053164135497,
           "harness": "opencode",
-          "mean_trial_iqm_normalized_score": 16.7775760408,
+          "mean_trial_iqm_normalized_score": 17.8186386096,
           "median_normalized_score": 5.870020964,
           "model": "GPT-5.5",
           "model_id": "gpt-5.5",
           "model_route": "azure/gpt-5.5",
-          "positive_display_score": 110.66297078765217,
+          "positive_display_score": 113.86824580382608,
           "provider": "azure",
           "provider_label": "Azure direct",
           "provider_reasoning_effort": "xhigh",
@@ -1271,8 +1271,12 @@
       "simulation_heuristics_vizdoom_d1_v1": 1800,
       "simulation_heuristics_vizdoom_d3_v1": 1800
     },
+    "fairness": {
+      "agent_idle_timeout_sec": 3600,
+      "daytona_pty_readline_timeout_sec": 3600
+    },
     "trials": 5,
-    "version": "2.1"
+    "version": "2.2"
   },
   "rows": [
     {
@@ -1527,13 +1531,13 @@
       }
     },
     {
-      "arithmetic_mean_normalized_score": 41.223767221955555,
-      "average_normalized_score": 41.223767221955555,
-      "final_normalized_score": 36.651764607913044,
-      "final_normalized_score_stddev": 5.524217450335815,
+      "arithmetic_mean_normalized_score": 44.038687475866666,
+      "average_normalized_score": 44.038687475866666,
+      "final_normalized_score": 40.67930709160869,
+      "final_normalized_score_stddev": 11.031024092730283,
       "harness": "opencode",
-      "mean_trial_iqm_normalized_score": 37.73164397808,
-      "median_normalized_score": 32.792734613,
+      "mean_trial_iqm_normalized_score": 41.6809489228,
+      "median_normalized_score": 33.28729024,
       "model": "GPT-5.6 Sol",
       "model_id": "gpt-5.6-sol",
       "model_route": "azure/gpt-5.6-sol",
@@ -1553,32 +1557,32 @@
         "simulation_heuristics_vizdoom_d3_v1": 0
       },
       "raw_task_score_stddevs": {
-        "simulation_heuristics_ant_v1": 419.52351859557746,
+        "simulation_heuristics_ant_v1": 440.7406064520731,
         "simulation_heuristics_atari57_v1": 0.0,
-        "simulation_heuristics_breakout_ram_v1": 225.8501715739884,
+        "simulation_heuristics_breakout_ram_v1": 240.1253839143209,
         "simulation_heuristics_breakout_rgb_v1": 122.53652516698847,
-        "simulation_heuristics_halfcheetah_v1": 291.0085829715705,
+        "simulation_heuristics_halfcheetah_v1": 881.3081092982512,
         "simulation_heuristics_montezuma_v1": 173.26280616450836,
         "simulation_heuristics_pong_ram_v1": 2.345207879911715,
-        "simulation_heuristics_vizdoom_d1_v1": 0.12456464290218099,
-        "simulation_heuristics_vizdoom_d3_v1": 71.79534803871347
+        "simulation_heuristics_vizdoom_d1_v1": 0.13987564345039064,
+        "simulation_heuristics_vizdoom_d3_v1": 60.12946864890792
       },
       "raw_task_scores": {
-        "simulation_heuristics_ant_v1": 2272.356693724495,
+        "simulation_heuristics_ant_v1": 2231.0491055302227,
         "simulation_heuristics_atari57_v1": 0.0,
-        "simulation_heuristics_breakout_ram_v1": 596.4,
+        "simulation_heuristics_breakout_ram_v1": 674.2,
         "simulation_heuristics_breakout_rgb_v1": 647.2,
-        "simulation_heuristics_halfcheetah_v1": 6385.135940620764,
+        "simulation_heuristics_halfcheetah_v1": 6105.10168077257,
         "simulation_heuristics_montezuma_v1": 298.0,
         "simulation_heuristics_pong_ram_v1": 19.0,
-        "simulation_heuristics_vizdoom_d1_v1": 0.6554319871515035,
-        "simulation_heuristics_vizdoom_d3_v1": 80.67999999999999
+        "simulation_heuristics_vizdoom_d1_v1": 0.7171239853203296,
+        "simulation_heuristics_vizdoom_d3_v1": 73.34
       },
       "sandbox": "daytona",
       "source_runs": {
         "simulation_heuristics_ant_v1": [
           "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01",
-          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-02",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-02/simulation_heuristics_ant_v1",
           "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03",
           "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-04/tasks-81ec8d98a4",
           "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-05"
@@ -1594,7 +1598,7 @@
           "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01",
           "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-02",
           "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03",
-          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-04",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-04/simulation_heuristics_breakout_ram_v1",
           "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-05"
         ],
         "simulation_heuristics_breakout_rgb_v1": [
@@ -1605,7 +1609,7 @@
           "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-05"
         ],
         "simulation_heuristics_halfcheetah_v1": [
-          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01/tasks-786d2dde21",
           "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-02",
           "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03",
           "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-04/tasks-81ec8d98a4",
@@ -1628,14 +1632,14 @@
         "simulation_heuristics_vizdoom_d1_v1": [
           "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01",
           "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-02",
-          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03/tasks-8869084d04",
           "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-04",
           "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-05"
         ],
         "simulation_heuristics_vizdoom_d3_v1": [
-          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01/tasks-786d2dde21",
           "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-02",
-          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03/tasks-8869084d04",
           "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-04",
           "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-05"
         ]
@@ -1690,33 +1694,33 @@
         }
       },
       "task_score_stddevs": {
-        "simulation_heuristics_ant_v1": 11.991465810903719,
+        "simulation_heuristics_ant_v1": 12.597925216329989,
         "simulation_heuristics_atari57_v1": 0.0,
-        "simulation_heuristics_breakout_ram_v1": 47.34804435501101,
+        "simulation_heuristics_breakout_ram_v1": 50.34075134460858,
         "simulation_heuristics_breakout_rgb_v1": 22.118506348049813,
-        "simulation_heuristics_halfcheetah_v1": 3.8873875677992533,
+        "simulation_heuristics_halfcheetah_v1": 11.772801175021295,
         "simulation_heuristics_montezuma_v1": 43.31570154112709,
         "simulation_heuristics_pong_ram_v1": 9.771699499561077,
-        "simulation_heuristics_vizdoom_d1_v1": 33.111283305681766,
-        "simulation_heuristics_vizdoom_d3_v1": 23.995771403261536
+        "simulation_heuristics_vizdoom_d1_v1": 37.18119323399795,
+        "simulation_heuristics_vizdoom_d3_v1": 20.096747543003065
       },
       "task_scores": {
-        "simulation_heuristics_ant_v1": -4.9009087386,
+        "simulation_heuristics_ant_v1": -6.081625694,
         "simulation_heuristics_atari57_v1": 0.0,
-        "simulation_heuristics_breakout_ram_v1": 43.899371069400004,
+        "simulation_heuristics_breakout_ram_v1": 60.209643606,
         "simulation_heuristics_breakout_rgb_v1": 60.86642599300001,
-        "simulation_heuristics_halfcheetah_v1": 31.8442100886,
+        "simulation_heuristics_halfcheetah_v1": 28.1034211084,
         "simulation_heuristics_montezuma_v1": 74.5,
         "simulation_heuristics_pong_ram_v1": 91.6666666666,
-        "simulation_heuristics_vizdoom_d1_v1": 56.834663982799995,
-        "simulation_heuristics_vizdoom_d3_v1": 16.3034759358
+        "simulation_heuristics_vizdoom_d1_v1": 73.23338822320001,
+        "simulation_heuristics_vizdoom_d3_v1": 13.850267379600002
       },
       "trial_count": 5,
       "trial_final_normalized_scores": {
-        "1": 37.797729594399996,
+        "1": 27.0114860686,
         "2": 41.203895079,
-        "3": 28.388586371000002,
-        "4": 42.346736302800004,
+        "3": 43.444415417200005,
+        "4": 57.82367550600001,
         "5": 38.921272543200004
       },
       "trial_task_normalized_scores": {
@@ -1725,14 +1729,14 @@
           "simulation_heuristics_atari57_v1": 0.0,
           "simulation_heuristics_breakout_ram_v1": 100.0,
           "simulation_heuristics_breakout_rgb_v1": 70.758122744,
-          "simulation_heuristics_halfcheetah_v1": 26.12140084,
+          "simulation_heuristics_halfcheetah_v1": 7.417455939,
           "simulation_heuristics_montezuma_v1": 0.0,
           "simulation_heuristics_pong_ram_v1": 79.166666667,
           "simulation_heuristics_vizdoom_d1_v1": 42.828284045,
-          "simulation_heuristics_vizdoom_d3_v1": 40.106951872
+          "simulation_heuristics_vizdoom_d3_v1": 4.879679144
         },
         "2": {
-          "simulation_heuristics_ant_v1": -7.591479,
+          "simulation_heuristics_ant_v1": -13.495063777,
           "simulation_heuristics_atari57_v1": 0.0,
           "simulation_heuristics_breakout_ram_v1": 6.918238994,
           "simulation_heuristics_breakout_rgb_v1": 70.758122744,
@@ -1750,13 +1754,13 @@
           "simulation_heuristics_halfcheetah_v1": 36.605449762,
           "simulation_heuristics_montezuma_v1": 100.0,
           "simulation_heuristics_pong_ram_v1": 83.333333333,
-          "simulation_heuristics_vizdoom_d1_v1": 31.015418049,
-          "simulation_heuristics_vizdoom_d3_v1": 0.0
+          "simulation_heuristics_vizdoom_d1_v1": 113.009039251,
+          "simulation_heuristics_vizdoom_d3_v1": 22.961229947
         },
         "4": {
           "simulation_heuristics_ant_v1": -19.696444908,
           "simulation_heuristics_atari57_v1": 0.0,
-          "simulation_heuristics_breakout_ram_v1": 18.448637317,
+          "simulation_heuristics_breakout_ram_v1": 100.0,
           "simulation_heuristics_breakout_rgb_v1": 70.758122744,
           "simulation_heuristics_halfcheetah_v1": 32.792734613,
           "simulation_heuristics_montezuma_v1": 100.0,
@@ -1778,12 +1782,12 @@
       }
     },
     {
-      "arithmetic_mean_normalized_score": 22.06816884377778,
-      "average_normalized_score": 22.06816884377778,
-      "final_normalized_score": 10.662970787652174,
-      "final_normalized_score_stddev": 18.67984640949238,
+      "arithmetic_mean_normalized_score": 24.387644803422226,
+      "average_normalized_score": 24.387644803422226,
+      "final_normalized_score": 13.868245803826087,
+      "final_normalized_score_stddev": 18.296053164135497,
       "harness": "opencode",
-      "mean_trial_iqm_normalized_score": 16.7775760408,
+      "mean_trial_iqm_normalized_score": 17.8186386096,
       "median_normalized_score": 5.870020964,
       "model": "GPT-5.5",
       "model_id": "gpt-5.5",
@@ -1804,24 +1808,24 @@
         "simulation_heuristics_vizdoom_d3_v1": 0
       },
       "raw_task_score_stddevs": {
-        "simulation_heuristics_ant_v1": 306.36385957656836,
+        "simulation_heuristics_ant_v1": 322.25148356656894,
         "simulation_heuristics_atari57_v1": 0.0,
         "simulation_heuristics_breakout_ram_v1": 131.153345363357,
-        "simulation_heuristics_breakout_rgb_v1": 122.53652516698847,
+        "simulation_heuristics_breakout_rgb_v1": 70.65974808899335,
         "simulation_heuristics_halfcheetah_v1": 698.5070322948952,
         "simulation_heuristics_montezuma_v1": 0.0,
-        "simulation_heuristics_pong_ram_v1": 9.705668446840743,
+        "simulation_heuristics_pong_ram_v1": 9.16515138991168,
         "simulation_heuristics_vizdoom_d1_v1": 0.3579053781713541,
         "simulation_heuristics_vizdoom_d3_v1": 122.81457568220475
       },
       "raw_task_scores": {
-        "simulation_heuristics_ant_v1": 2006.0944869926293,
+        "simulation_heuristics_ant_v1": 2015.8768932664839,
         "simulation_heuristics_atari57_v1": 0.0,
         "simulation_heuristics_breakout_ram_v1": 486.8,
-        "simulation_heuristics_breakout_rgb_v1": 647.2,
+        "simulation_heuristics_breakout_rgb_v1": 733.6,
         "simulation_heuristics_halfcheetah_v1": 4717.6162449605235,
         "simulation_heuristics_montezuma_v1": 0.0,
-        "simulation_heuristics_pong_ram_v1": 8.8,
+        "simulation_heuristics_pong_ram_v1": 10.0,
         "simulation_heuristics_vizdoom_d1_v1": 0.6197079806402326,
         "simulation_heuristics_vizdoom_d3_v1": 101.49999999999999
       },
@@ -1831,7 +1835,7 @@
           "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-01",
           "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-02",
           "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-03",
-          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-04",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-04/tasks-e2ced31f9c",
           "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-05/tasks-81ec8d98a4"
         ],
         "simulation_heuristics_atari57_v1": [
@@ -1849,7 +1853,7 @@
           "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-05"
         ],
         "simulation_heuristics_breakout_rgb_v1": [
-          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-01",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-01/simulation_heuristics_breakout_rgb_v1",
           "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-02",
           "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-03",
           "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-04/tasks-885696cfa4",
@@ -1866,14 +1870,14 @@
           "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-01",
           "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-02",
           "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-03",
-          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-04",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-04/tasks-e2ced31f9c",
           "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-05"
         ],
         "simulation_heuristics_pong_ram_v1": [
           "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-01",
           "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-02",
           "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-03",
-          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-04/tasks-885696cfa4",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-04/tasks-e2ced31f9c",
           "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-05"
         ],
         "simulation_heuristics_vizdoom_d1_v1": [
@@ -1941,33 +1945,33 @@
         }
       },
       "task_score_stddevs": {
-        "simulation_heuristics_ant_v1": 8.756962566015595,
+        "simulation_heuristics_ant_v1": 9.211087046248206,
         "simulation_heuristics_atari57_v1": 0.0,
         "simulation_heuristics_breakout_ram_v1": 27.49546024414613,
-        "simulation_heuristics_breakout_rgb_v1": 22.118506348049813,
+        "simulation_heuristics_breakout_rgb_v1": 12.754467163779541,
         "simulation_heuristics_halfcheetah_v1": 9.330884765209642,
         "simulation_heuristics_montezuma_v1": 0.0,
-        "simulation_heuristics_pong_ram_v1": 40.44028519521613,
+        "simulation_heuristics_pong_ram_v1": 38.188130791325946,
         "simulation_heuristics_vizdoom_d1_v1": 95.13699952993868,
         "simulation_heuristics_vizdoom_d3_v1": 41.04765230004701
       },
       "task_scores": {
-        "simulation_heuristics_ant_v1": -12.5116242462,
+        "simulation_heuristics_ant_v1": -12.2320084794,
         "simulation_heuristics_atari57_v1": 0.0,
         "simulation_heuristics_breakout_ram_v1": 20.9224318658,
-        "simulation_heuristics_breakout_rgb_v1": 60.86642599300001,
+        "simulation_heuristics_breakout_rgb_v1": 76.462093863,
         "simulation_heuristics_halfcheetah_v1": 9.5689381094,
         "simulation_heuristics_montezuma_v1": 0.0,
-        "simulation_heuristics_pong_ram_v1": 49.1666666668,
+        "simulation_heuristics_pong_ram_v1": 54.166666666800005,
         "simulation_heuristics_vizdoom_d1_v1": 47.33864911959999,
         "simulation_heuristics_vizdoom_d3_v1": 23.2620320856
       },
       "trial_count": 5,
       "trial_final_normalized_scores": {
-        "1": 5.4339319906,
+        "1": 5.6392448345999995,
         "2": 48.2436373978,
         "3": 18.718893057000002,
-        "4": 9.604625305799999,
+        "4": 14.604625305799999,
         "5": 1.8867924528
       },
       "trial_task_normalized_scores": {
@@ -1975,7 +1979,7 @@
           "simulation_heuristics_ant_v1": -6.720960755,
           "simulation_heuristics_atari57_v1": 0.0,
           "simulation_heuristics_breakout_ram_v1": 5.870020964,
-          "simulation_heuristics_breakout_rgb_v1": 21.299638989,
+          "simulation_heuristics_breakout_rgb_v1": 99.277978339,
           "simulation_heuristics_halfcheetah_v1": 0.0,
           "simulation_heuristics_montezuma_v1": 0.0,
           "simulation_heuristics_pong_ram_v1": 41.666666667,
@@ -2005,13 +2009,13 @@
           "simulation_heuristics_vizdoom_d3_v1": -0.601604278
         },
         "4": {
-          "simulation_heuristics_ant_v1": -1.398078834,
+          "simulation_heuristics_ant_v1": 0.0,
           "simulation_heuristics_atari57_v1": 0.0,
           "simulation_heuristics_breakout_ram_v1": 9.224318658,
           "simulation_heuristics_breakout_rgb_v1": 70.758122744,
           "simulation_heuristics_halfcheetah_v1": 13.798807871,
           "simulation_heuristics_montezuma_v1": 0.0,
-          "simulation_heuristics_pong_ram_v1": 25.0,
+          "simulation_heuristics_pong_ram_v1": 50.0,
           "simulation_heuristics_vizdoom_d1_v1": 111.839447567,
           "simulation_heuristics_vizdoom_d3_v1": 0.0
         },
@@ -2416,7 +2420,7 @@
         "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-01",
         "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-02",
         "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-03",
-        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-04",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-04/tasks-e2ced31f9c",
         "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-05/tasks-81ec8d98a4"
       ],
       "simulation_heuristics_atari57_v1": [
@@ -2434,7 +2438,7 @@
         "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-05"
       ],
       "simulation_heuristics_breakout_rgb_v1": [
-        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-01",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-01/simulation_heuristics_breakout_rgb_v1",
         "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-02",
         "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-03",
         "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-04/tasks-885696cfa4",
@@ -2451,14 +2455,14 @@
         "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-01",
         "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-02",
         "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-03",
-        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-04",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-04/tasks-e2ced31f9c",
         "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-05"
       ],
       "simulation_heuristics_pong_ram_v1": [
         "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-01",
         "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-02",
         "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-03",
-        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-04/tasks-885696cfa4",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-04/tasks-e2ced31f9c",
         "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-05"
       ],
       "simulation_heuristics_vizdoom_d1_v1": [
@@ -2479,7 +2483,7 @@
     "gpt-5.6-sol": {
       "simulation_heuristics_ant_v1": [
         "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01",
-        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-02",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-02/simulation_heuristics_ant_v1",
         "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03",
         "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-04/tasks-81ec8d98a4",
         "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-05"
@@ -2495,7 +2499,7 @@
         "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01",
         "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-02",
         "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03",
-        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-04",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-04/simulation_heuristics_breakout_ram_v1",
         "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-05"
       ],
       "simulation_heuristics_breakout_rgb_v1": [
@@ -2506,7 +2510,7 @@
         "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-05"
       ],
       "simulation_heuristics_halfcheetah_v1": [
-        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01/tasks-786d2dde21",
         "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-02",
         "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03",
         "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-04/tasks-81ec8d98a4",
@@ -2529,14 +2533,14 @@
       "simulation_heuristics_vizdoom_d1_v1": [
         "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01",
         "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-02",
-        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03/tasks-8869084d04",
         "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-04",
         "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-05"
       ],
       "simulation_heuristics_vizdoom_d3_v1": [
-        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01/tasks-786d2dde21",
         "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-02",
-        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03/tasks-8869084d04",
         "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-04",
         "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-05"
       ]
