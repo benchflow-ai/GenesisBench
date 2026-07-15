@@ -338,6 +338,39 @@ def test_aggregate_loader_selects_successful_retry_after_failed_attempt(
     assert leaderboard._normalized_task_score(loaded[task]) == 12.5
 
 
+def test_aggregate_loader_recovers_individual_results_after_interruption(
+    tmp_path: Path,
+) -> None:
+    model_root = tmp_path / "claude-opus-4.8"
+    rollout = model_root / "jobs" / "run" / "task-attempt"
+    verifier = rollout / "verifier"
+    verifier.mkdir(parents=True)
+    task = leaderboard.TASKS[0]
+    (verifier / "genesis-score.json").write_text(
+        json.dumps({"normalized_score": 33.0})
+    )
+    (rollout / "result.json").write_text(
+        json.dumps(
+            {
+                "task_name": task,
+                "rewards": {"reward": 0.33},
+                "error": None,
+                "verifier_error": None,
+                "n_tool_calls": 12,
+                "token_usage": None,
+            }
+        )
+    )
+
+    loaded = leaderboard._load_results(
+        model_root,
+        expected_tasks=(task,),
+    )
+
+    assert leaderboard._normalized_task_score(loaded[task]) == 33.0
+    assert loaded[task]["metrics"]["n_tool_calls"] == 12
+
+
 def test_aggregate_loader_accepts_direct_provider_training_export_warning(
     tmp_path: Path,
 ) -> None:

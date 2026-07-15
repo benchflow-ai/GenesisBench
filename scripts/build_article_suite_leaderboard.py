@@ -150,6 +150,41 @@ def _result_files(model_root: Path) -> list[Path]:
     return candidates
 
 
+def _individual_result_rows(model_root: Path) -> list[dict[str, Any]]:
+    candidates = sorted(
+        (model_root / "jobs").glob("*/*/result.json"),
+        key=lambda path: path.stat().st_mtime,
+    )
+    rows = []
+    for path in candidates:
+        result = json.loads(path.read_text())
+        task_name = result.get("task_name")
+        rewards = result.get("rewards")
+        reward = rewards.get("reward") if isinstance(rewards, dict) else None
+        error = result.get("error")
+        verifier_error = result.get("verifier_error")
+        if error is None and verifier_error is not None:
+            error = {
+                "error": result.get("verifier_error_category")
+                or "verifier_error",
+                "message": verifier_error,
+            }
+        rows.append(
+            {
+                "info": {
+                    "task_name": task_name,
+                    "rollout_dir": str(path.parent),
+                },
+                "reward": reward,
+                "error": error,
+                "metrics": {"n_tool_calls": result.get("n_tool_calls")},
+                "token_usage": result.get("token_usage"),
+                "total_tool_calls": result.get("n_tool_calls"),
+            }
+        )
+    return rows
+
+
 def _load_results(
     model_root: Path,
     *,
@@ -157,17 +192,24 @@ def _load_results(
     allow_partial_errors: bool = False,
 ) -> dict[str, dict[str, Any]]:
     files = _result_files(model_root)
-    if len(files) != 1:
+    if len(files) > 1:
         raise RuntimeError(
-            f"{model_root} must contain exactly one top-level results.jsonl; "
+            f"{model_root} must contain at most one top-level results.jsonl; "
             f"found {len(files)}"
         )
+    if files:
+        source_rows = [
+            json.loads(line)
+            for line in files[0].read_text().splitlines()
+            if line.strip()
+        ]
+    else:
+        source_rows = _individual_result_rows(model_root)
+    if not source_rows:
+        raise RuntimeError(f"{model_root} contains no result rows")
     rows: dict[str, dict[str, Any]] = {}
     invalid_messages: dict[str, str] = {}
-    for line in files[0].read_text().splitlines():
-        if not line.strip():
-            continue
-        row = json.loads(line)
+    for row in source_rows:
         task_name = row.get("info", {}).get("task_name")
         if task_name not in expected_tasks:
             continue
