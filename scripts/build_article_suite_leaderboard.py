@@ -629,6 +629,7 @@ def _trial_batch_results(
         model_id = metadata.get("model", {}).get("id")
         trial = metadata.get("trial")
         configured_tasks = metadata.get("tasks")
+        finished_at = metadata.get("finished_at")
         if (
             model_id not in expected_models
             or not isinstance(trial, int)
@@ -636,8 +637,7 @@ def _trial_batch_results(
             or not isinstance(configured_tasks, list)
             or not configured_tasks
             or not all(task in TASKS for task in configured_tasks)
-            or metadata.get("status") != "completed"
-            or metadata.get("return_code") != 0
+            or not isinstance(finished_at, int | float)
             or metadata.get("dry_run")
         ):
             continue
@@ -655,6 +655,7 @@ def _trial_batch_results(
             rows = _load_results(
                 model_root,
                 expected_tasks=tuple(configured_tasks),
+                allow_partial_errors=True,
             )
         except RuntimeError:
             continue

@@ -692,6 +692,138 @@ def test_latest_complete_model_batches_support_parallel_model_shards(
     assert set(results["model-b"]["task-a"]) == {1, 2}
 
 
+def test_failed_full_trial_combines_with_successful_task_repair(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    tasks = ("task-a", "task-b")
+    monkeypatch.setattr(leaderboard, "TASKS", tasks)
+    protocol = {"version": "test", "trials": 1}
+    batch = tmp_path / "batch"
+    batch.mkdir()
+    (batch / "batch_manifest.json").write_text(
+        json.dumps({"protocol": protocol})
+    )
+
+    full_root = batch / "model-a" / "trial-01"
+    full_job = full_root / "jobs" / "run"
+    full_job.mkdir(parents=True)
+    (full_root / "run_metadata.json").write_text(
+        json.dumps(
+            {
+                "model": {"id": "model-a"},
+                "trial": 1,
+                "tasks": list(tasks),
+                "status": "failed",
+                "return_code": 1,
+                "dry_run": False,
+                "finished_at": 1.0,
+            }
+        )
+    )
+    (full_root / "task_manifest.json").write_text(
+        json.dumps(
+            {
+                "tasks": [
+                    {"task_id": task, "digest": f"sha256:{task}"}
+                    for task in tasks
+                ]
+            }
+        )
+    )
+    rollout_a = full_root / "rollout-a"
+    verifier_a = rollout_a / "verifier"
+    verifier_a.mkdir(parents=True)
+    (verifier_a / "genesis-score.json").write_text(
+        json.dumps({"normalized_score": 10.0})
+    )
+    (full_job / "results.jsonl").write_text(
+        "\n".join(
+            [
+                json.dumps(
+                    {
+                        "info": {
+                            "task_name": "task-a",
+                            "rollout_dir": str(rollout_a),
+                        },
+                        "reward": 0.1,
+                        "error": None,
+                    }
+                ),
+                json.dumps(
+                    {
+                        "info": {"task_name": "task-b"},
+                        "reward": None,
+                        "error": {"error": "verifier_failure"},
+                    }
+                ),
+            ]
+        )
+        + "\n"
+    )
+
+    repair_root = full_root / "task-b"
+    repair_job = repair_root / "jobs" / "run"
+    repair_job.mkdir(parents=True)
+    (repair_root / "run_metadata.json").write_text(
+        json.dumps(
+            {
+                "model": {"id": "model-a"},
+                "trial": 1,
+                "tasks": ["task-b"],
+                "status": "completed",
+                "return_code": 0,
+                "dry_run": False,
+                "finished_at": 2.0,
+            }
+        )
+    )
+    (repair_root / "task_manifest.json").write_text(
+        json.dumps(
+            {
+                "tasks": [
+                    {"task_id": "task-b", "digest": "sha256:task-b"}
+                ]
+            }
+        )
+    )
+    rollout_b = repair_root / "rollout-b"
+    verifier_b = rollout_b / "verifier"
+    verifier_b.mkdir(parents=True)
+    (verifier_b / "genesis-score.json").write_text(
+        json.dumps({"normalized_score": 20.0})
+    )
+    (repair_job / "results.jsonl").write_text(
+        json.dumps(
+            {
+                "info": {
+                    "task_name": "task-b",
+                    "rollout_dir": str(rollout_b),
+                },
+                "reward": 0.2,
+                "error": None,
+            }
+        )
+        + "\n"
+    )
+
+    selected_batches, results = (
+        leaderboard._latest_complete_model_batches(
+            tmp_path,
+            expected_models={"model-a"},
+            protocol=protocol,
+        )
+    )
+
+    assert selected_batches == {"model-a": batch}
+    assert leaderboard._normalized_task_score(
+        results["model-a"]["task-a"][1][1]
+    ) == 10.0
+    assert leaderboard._normalized_task_score(
+        results["model-a"]["task-b"][1][1]
+    ) == 20.0
+
+
 def test_iqm_matches_rliable_25_percent_trimmed_mean() -> None:
     assert leaderboard._interquartile_mean(list(range(9))) == 4.0
     assert leaderboard._interquartile_mean(
