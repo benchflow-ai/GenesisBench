@@ -2,6 +2,11 @@
 
 GenesisBench separates per-task normalization from cross-task aggregation.
 
+All compared models use identical task wall-clock, verifier, build,
+60-minute agent-idle, and 60-minute Daytona PTY-read limits. Infrastructure
+timeouts are repaired at the affected model-task-trial cell rather than scored
+as model performance.
+
 ## Per-task normalized score
 
 Every task evaluates a candidate on its hidden suite and compares the resulting

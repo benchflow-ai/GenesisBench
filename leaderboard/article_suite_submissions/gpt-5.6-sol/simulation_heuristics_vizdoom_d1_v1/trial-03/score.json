@@ -9,7 +9,7 @@
     "suite_process_count": 2,
     "unique_working_directories": true
   },
-  "normalized_score": 31.015418049,
+  "normalized_score": 113.009039251,
   "reference_score": 0.8178199748694897,
   "resource_cleanup": {
     "removed_bytes": 0,
@@ -28,7 +28,7 @@
     ],
     "terminated_processes": 0
   },
-  "score": 0.5582999877631664,
+  "score": 0.866759978607297,
   "starter_score": 0.44161998964846133,
   "suites": {
     "hidden_nominal": {
@@ -37,70 +37,70 @@
       "episodes": [
         {
           "final_variables": {
-            "HEALTH": 68.0
+            "HEALTH": 60.0
           },
           "invalid_action": false,
           "lane": 0,
           "length": 2100,
-          "mean_action_latency_ms": 0.09957417490936461,
+          "mean_action_latency_ms": 0.22186305728696643,
           "policy_error": null,
-          "return": 0.9199999831616879,
+          "return": 0.8799999766051769,
           "seed": 101,
           "terminated": false,
           "truncated": true
         },
         {
           "final_variables": {
-            "HEALTH": 6.0
+            "HEALTH": 43.0
           },
           "invalid_action": false,
           "lane": 1,
-          "length": 1216,
-          "mean_action_latency_ms": 0.1304904075560013,
+          "length": 2100,
+          "mean_action_latency_ms": 0.1953048977468695,
           "policy_error": null,
-          "return": 0.16199998930096626,
+          "return": 0.7949999757111073,
           "seed": 102,
-          "terminated": true,
-          "truncated": false
+          "terminated": false,
+          "truncated": true
         },
         {
           "final_variables": {
-            "HEALTH": 58.0
+            "HEALTH": 46.0
           },
           "invalid_action": false,
           "lane": 2,
           "length": 2100,
-          "mean_action_latency_ms": 0.08596905906285558,
+          "mean_action_latency_ms": 0.19933032847586132,
           "policy_error": null,
-          "return": 0.8699999824166298,
+          "return": 0.8099999837577343,
           "seed": 103,
           "terminated": false,
           "truncated": true
         },
         {
           "final_variables": {
-            "HEALTH": 6.0
+            "HEALTH": 78.0
           },
           "invalid_action": false,
           "lane": 3,
-          "length": 1376,
-          "mean_action_latency_ms": 0.11495853433125587,
+          "length": 2100,
+          "mean_action_latency_ms": 0.1936875833641915,
           "policy_error": null,
-          "return": 0.24199999123811722,
+          "return": 0.9699999801814556,
           "seed": 104,
-          "terminated": true,
-          "truncated": false
+          "terminated": false,
+          "truncated": true
         },
         {
           "final_variables": {
-            "HEALTH": 69.0
+            "HEALTH": 38.0
           },
           "invalid_action": false,
           "lane": 4,
           "length": 2100,
-          "mean_action_latency_ms": 0.08597019705034438,
+          "mean_action_latency_ms": 0.1954846740478561,
           "policy_error": null,
-          "return": 0.8929999880492687,
+          "return": 0.7539999708533287,
           "seed": 105,
           "terminated": false,
           "truncated": true
@@ -108,16 +108,16 @@
       ],
       "frame_skip": 1,
       "invalid_episode_rate": 0.0,
-      "max_return": 0.9199999831616879,
+      "max_return": 0.9699999801814556,
       "max_steps": 2100,
-      "mean_action_latency_ms": 0.10339247458196435,
-      "mean_return": 0.617399986833334,
-      "min_return": 0.16199998930096626,
+      "mean_action_latency_ms": 0.20113410818434901,
+      "mean_return": 0.8417999774217606,
+      "min_return": 0.7539999708533287,
       "policy_path": "submitted_artifact",
       "render_height": 180,
       "render_width": 240,
       "scenario": "d1",
-      "score": 0.617399986833334
+      "score": 0.8417999774217606
     },
     "hidden_secondary": {
       "batch_seed": 607,
@@ -125,87 +125,87 @@
       "episodes": [
         {
           "final_variables": {
-            "HEALTH": 7.0
+            "HEALTH": 76.0
           },
           "invalid_action": false,
           "lane": 0,
-          "length": 672,
-          "mean_action_latency_ms": 0.2247366133988613,
+          "length": 2100,
+          "mean_action_latency_ms": 0.22642912609236582,
           "policy_error": null,
-          "return": -0.10500000417232513,
+          "return": 0.9599999822676182,
           "seed": 607,
-          "terminated": true,
-          "truncated": false
+          "terminated": false,
+          "truncated": true
         },
         {
           "final_variables": {
-            "HEALTH": 69.0
+            "HEALTH": 70.0
           },
           "invalid_action": false,
           "lane": 1,
           "length": 2100,
-          "mean_action_latency_ms": 0.13988662688505082,
+          "mean_action_latency_ms": 0.2081541752531415,
           "policy_error": null,
-          "return": 0.9089999869465828,
+          "return": 0.9299999810755253,
           "seed": 608,
           "terminated": false,
           "truncated": true
         },
         {
           "final_variables": {
-            "HEALTH": 68.0
+            "HEALTH": 60.0
           },
           "invalid_action": false,
           "lane": 2,
           "length": 2100,
-          "mean_action_latency_ms": 0.07088755479171163,
+          "mean_action_latency_ms": 0.20032513709295363,
           "policy_error": null,
-          "return": 0.9199999831616879,
+          "return": 0.8799999766051769,
           "seed": 609,
           "terminated": false,
           "truncated": true
         },
         {
           "final_variables": {
-            "HEALTH": 3.0
+            "HEALTH": 47.0
           },
           "invalid_action": false,
           "lane": 3,
-          "length": 1888,
-          "mean_action_latency_ms": 0.1139322570051556,
+          "length": 2100,
+          "mean_action_latency_ms": 0.19666522918712526,
           "policy_error": null,
-          "return": 0.4829999879002571,
+          "return": 0.8149999864399433,
           "seed": 610,
-          "terminated": true,
-          "truncated": false
+          "terminated": false,
+          "truncated": true
         },
         {
           "final_variables": {
-            "HEALTH": 7.0
+            "HEALTH": 92.0
           },
           "invalid_action": false,
           "lane": 4,
-          "length": 672,
-          "mean_action_latency_ms": 0.13459125988274104,
+          "length": 2100,
+          "mean_action_latency_ms": 0.18393707328609057,
           "policy_error": null,
-          "return": -0.10500000417232513,
+          "return": 1.0399999804794788,
           "seed": 611,
-          "terminated": true,
-          "truncated": false
+          "terminated": false,
+          "truncated": true
         }
       ],
       "frame_skip": 1,
       "invalid_episode_rate": 0.0,
-      "max_return": 0.9199999831616879,
+      "max_return": 1.0399999804794788,
       "max_steps": 2100,
-      "mean_action_latency_ms": 0.13680686239270407,
-      "mean_return": 0.4203999899327755,
-      "min_return": -0.10500000417232513,
+      "mean_action_latency_ms": 0.20310214818233535,
+      "mean_return": 0.9249999813735486,
+      "min_return": 0.8149999864399433,
       "policy_path": "submitted_artifact",
       "render_height": 180,
       "render_width": 240,
       "scenario": "d1",
-      "score": 0.4203999899327755
+      "score": 0.9249999813735486
     }
   }
 }

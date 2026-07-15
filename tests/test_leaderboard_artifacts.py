@@ -15,6 +15,9 @@ ARTICLE_SUITE_MARKDOWN = REPO_ROOT / "leaderboard" / "ARTICLE_SUITE.md"
 ROOT_README = REPO_ROOT / "README.md"
 WEBSITE = REPO_ROOT / "website" / "index.html"
 WEBSITE_DATA = REPO_ROOT / "website" / "assets" / "article_suite.json"
+TIMEOUT_AUDIT = (
+    REPO_ROOT / "leaderboard" / "article_suite_timeout_fairness_audit.json"
+)
 TASK_IMAGE = REPO_ROOT / "leaderboard" / "article_suite_task_leaderboards.png"
 FINAL_IMAGE = REPO_ROOT / "leaderboard" / "article_suite_final_leaderboard.png"
 
@@ -64,7 +67,7 @@ def test_article_suite_leaderboard_is_complete_and_self_contained() -> None:
     assert payload["aggregation"]["primary_metric"] == "interquartile_mean"
     assert payload["aggregation"]["trim_fraction_per_tail"] == 0.25
     if "protocol" in payload:
-        assert payload["protocol"]["version"] == "2.1"
+        assert payload["protocol"]["version"] == "2.2"
         assert payload["protocol"]["trials"] == 5
         assert payload["protocol"]["agent_timeout_multiplier"] == 3
         assert payload["execution"] == {
@@ -303,3 +306,16 @@ def test_article_suite_leaderboard_is_complete_and_self_contained() -> None:
         width, height = _png_dimensions(source)
         assert width >= 1500
         assert height >= 800
+
+
+def test_timeout_fairness_audit_is_clean() -> None:
+    payload = json.loads(TIMEOUT_AUDIT.read_text())
+
+    assert payload["status"] == "ok"
+    assert payload["protocol_version"] == "2.2"
+    assert payload["selected_cells"] == 180
+    assert payload["expected_cells"] == 180
+    assert payload["rerun_cell_count"] == 10
+    assert payload["selected_timeout_influenced_cells"] == []
+    assert payload["fairness"]["agent_idle_timeout_sec"] == 3600
+    assert payload["fairness"]["daytona_pty_readline_timeout_sec"] == 3600

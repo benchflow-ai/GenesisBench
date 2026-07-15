@@ -1,9 +1,12 @@
 {
+  "agent_timeout_info": null,
+  "agent_timeout_sec": 5400,
   "benchmark": "learning_beyond_gradients_article_suite",
   "current_task_digest": "sha256:c338003eab742d732cfd8b1cb13fe3d6a5b8fdd6f58842f6ba2991314d6ab974",
   "digest_compatibility_note": null,
   "finished_at": 1784097871.7138891,
   "harness": "opencode",
+  "idle_timeout_info": null,
   "model": {
     "display_name": "GPT-5.5",
     "id": "gpt-5.5",
@@ -13,12 +16,27 @@
   },
   "normalized_score": -16.436817994,
   "observed_raw_score": 1868.7709005086936,
+  "protocol_agent_idle_timeout_sec": 3600,
+  "protocol_daytona_pty_readline_timeout_sec": 3600,
   "provider_reasoning_effort": "xhigh",
+  "published_protocol_version": "2.2",
   "raw_score": 1868.7709005086936,
   "raw_score_source": "observed",
+  "source_agent_idle_timeout_sec": 600,
+  "source_daytona_pty_readline_timeout_sec": 900,
+  "source_protocol_version": "2.1",
   "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-05/tasks-81ec8d98a4",
   "task": "simulation_heuristics_ant_v1",
   "task_digest": "sha256:c338003eab742d732cfd8b1cb13fe3d6a5b8fdd6f58842f6ba2991314d6ab974",
+  "terminal_error": null,
+  "terminal_error_category": null,
+  "timing": {
+    "agent_execution": 248.6,
+    "agent_setup": 2.8,
+    "environment_setup": 4.3,
+    "total": 2217.6,
+    "verifier": 1937.6
+  },
   "token_usage": {
     "final_input_tokens": 610.0,
     "final_output_tokens": 234.0,
@@ -27,5 +45,7 @@
     "total_tokens": 26444.0
   },
   "tool_calls": 24,
-  "trial": 5
+  "transport_error_info": null,
+  "trial": 5,
+  "verifier_timeout_info": null
 }

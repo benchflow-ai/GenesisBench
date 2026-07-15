@@ -1,7 +1,7 @@
 {
-  "normalized_score": 21.299638989,
+  "normalized_score": 99.277978339,
   "reference_score": 864.0,
-  "score": 428.0,
+  "score": 860.0,
   "starter_score": 310.0,
   "suites": {
     "hidden_nominal": {
@@ -10,11 +10,11 @@
         {
           "final_lives": 0,
           "invalid_action": false,
-          "length": 14382,
-          "mean_action_latency_ms": 0.4408362879364866,
+          "length": 21521,
+          "mean_action_latency_ms": 0.4799090789567914,
           "observation_mode": "rgb",
           "policy_error": null,
-          "return": 428.0,
+          "return": 860.0,
           "seed": 101,
           "terminated": true,
           "truncated": false,
@@ -23,14 +23,14 @@
         }
       ],
       "invalid_episode_rate": 0.0,
-      "max_return": 428.0,
+      "max_return": 860.0,
       "max_steps": 30000,
-      "mean_action_latency_ms": 0.4408362879364866,
-      "mean_return": 428.0,
-      "min_return": 428.0,
+      "mean_action_latency_ms": 0.4799090789567914,
+      "mean_return": 860.0,
+      "min_return": 860.0,
       "observation_mode": "rgb",
       "policy_path": "submitted_artifact",
-      "score": 428.0
+      "score": 860.0
     },
     "hidden_shifted_start": {
       "completion_rate": 0.0,
@@ -38,11 +38,11 @@
         {
           "final_lives": 0,
           "invalid_action": false,
-          "length": 14376,
-          "mean_action_latency_ms": 0.4348243627143722,
+          "length": 21515,
+          "mean_action_latency_ms": 0.49106069311197453,
           "observation_mode": "rgb",
           "policy_error": null,
-          "return": 428.0,
+          "return": 860.0,
           "seed": 211,
           "terminated": true,
           "truncated": false,
@@ -51,16 +51,16 @@
         }
       ],
       "invalid_episode_rate": 0.0,
-      "max_return": 428.0,
+      "max_return": 860.0,
       "max_steps": 30000,
-      "mean_action_latency_ms": 0.4348243627143722,
-      "mean_return": 428.0,
-      "min_return": 428.0,
+      "mean_action_latency_ms": 0.49106069311197453,
+      "mean_return": 860.0,
+      "min_return": 860.0,
       "observation_mode": "rgb",
       "policy_path": "submitted_artifact",
-      "score": 428.0
+      "score": 860.0
     }
   },
-  "target_gap": -436.0,
+  "target_gap": -4.0,
   "target_score": 864.0
 }

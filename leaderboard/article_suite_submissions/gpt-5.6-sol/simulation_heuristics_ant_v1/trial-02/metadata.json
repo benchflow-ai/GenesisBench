@@ -1,31 +1,53 @@
 {
+  "agent_timeout_info": null,
+  "agent_timeout_sec": 5400,
   "benchmark": "learning_beyond_gradients_article_suite",
   "current_task_digest": "sha256:c338003eab742d732cfd8b1cb13fe3d6a5b8fdd6f58842f6ba2991314d6ab974",
   "digest_compatibility_note": null,
-  "finished_at": 1784078883.680485,
+  "finished_at": 1784142166.67042,
   "harness": "opencode",
+  "idle_timeout_info": null,
   "model": {
+    "agent_idle_timeout_sec": 3600,
+    "daytona_pty_readline_timeout_sec": 3600,
     "display_name": "GPT-5.6 Sol",
     "id": "gpt-5.6-sol",
     "model": "azure/gpt-5.6-sol",
     "provider": "azure",
     "provider_reasoning_effort": "max"
   },
-  "normalized_score": -7.591479,
-  "observed_raw_score": 2178.226624807645,
+  "normalized_score": -13.495063777,
+  "observed_raw_score": 1971.688683836282,
+  "protocol_agent_idle_timeout_sec": 3600,
+  "protocol_daytona_pty_readline_timeout_sec": 3600,
   "provider_reasoning_effort": "max",
-  "raw_score": 2178.226624807645,
+  "published_protocol_version": "2.2",
+  "raw_score": 1971.688683836282,
   "raw_score_source": "observed",
-  "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-02",
+  "source_agent_idle_timeout_sec": 3600,
+  "source_daytona_pty_readline_timeout_sec": 3600,
+  "source_protocol_version": "2.2",
+  "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-02/simulation_heuristics_ant_v1",
   "task": "simulation_heuristics_ant_v1",
   "task_digest": "sha256:c338003eab742d732cfd8b1cb13fe3d6a5b8fdd6f58842f6ba2991314d6ab974",
-  "token_usage": {
-    "final_input_tokens": 539.0,
-    "final_output_tokens": 172.0,
-    "input_tokens": 539.0,
-    "output_tokens": 172.0,
-    "total_tokens": 38087.0
+  "terminal_error": null,
+  "terminal_error_category": null,
+  "timing": {
+    "agent_execution": 1452.7,
+    "agent_setup": 3.2,
+    "environment_setup": 2.3,
+    "total": 4253.2,
+    "verifier": 2768.5
   },
-  "tool_calls": 37,
-  "trial": 2
+  "token_usage": {
+    "final_input_tokens": 467.0,
+    "final_output_tokens": 223.0,
+    "input_tokens": 467.0,
+    "output_tokens": 223.0,
+    "total_tokens": 31410.0
+  },
+  "tool_calls": 39,
+  "transport_error_info": null,
+  "trial": 2,
+  "verifier_timeout_info": null
 }

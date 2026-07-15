@@ -9,17 +9,17 @@
     "provider": "azure",
     "provider_reasoning_effort": "xhigh"
   },
-  "normalized_score": 49.1666666668,
-  "normalized_score_stddev": 40.44028519521613,
+  "normalized_score": 54.166666666800005,
+  "normalized_score_stddev": 38.188130791325946,
   "provider_reasoning_effort": "xhigh",
-  "raw_score": 8.8,
+  "raw_score": 10.0,
   "raw_score_imputation_count": 0,
-  "raw_score_stddev": 9.705668446840743,
+  "raw_score_stddev": 9.16515138991168,
   "source_run_ids": [
     "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-01",
     "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-02",
     "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-03",
-    "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-04/tasks-885696cfa4",
+    "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-04/tasks-e2ced31f9c",
     "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-05"
   ],
   "task": "simulation_heuristics_pong_ram_v1",

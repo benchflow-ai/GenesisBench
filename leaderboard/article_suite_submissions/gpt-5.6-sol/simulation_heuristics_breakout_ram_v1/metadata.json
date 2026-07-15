@@ -9,17 +9,17 @@
     "provider": "azure",
     "provider_reasoning_effort": "max"
   },
-  "normalized_score": 43.899371069400004,
-  "normalized_score_stddev": 47.34804435501101,
+  "normalized_score": 60.209643606,
+  "normalized_score_stddev": 50.34075134460858,
   "provider_reasoning_effort": "max",
-  "raw_score": 596.4,
+  "raw_score": 674.2,
   "raw_score_imputation_count": 0,
-  "raw_score_stddev": 225.8501715739884,
+  "raw_score_stddev": 240.1253839143209,
   "source_run_ids": [
     "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01",
     "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-02",
     "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03",
-    "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-04",
+    "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-04/simulation_heuristics_breakout_ram_v1",
     "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-05"
   ],
   "task": "simulation_heuristics_breakout_ram_v1",

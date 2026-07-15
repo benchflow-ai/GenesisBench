@@ -1,22 +1,22 @@
 {
   "benchmark": "learning_beyond_gradients_article_suite",
-  "normalized_score": 16.3034759358,
-  "normalized_score_stddev": 23.995771403261536,
+  "normalized_score": 13.850267379600002,
+  "normalized_score_stddev": 20.096747543003065,
   "raw_score_imputation_count": 0,
   "reference_score": 331.1,
-  "score": 80.67999999999999,
-  "score_stddev": 71.79534803871347,
+  "score": 73.34,
+  "score_stddev": 60.12946864890792,
   "starter_score": 31.9,
   "task": "simulation_heuristics_vizdoom_d3_v1",
   "trial_count": 5,
   "trials": [
     {
-      "normalized_score": 40.106951872,
-      "observed_raw_score": 151.89999999999998,
-      "raw_score": 151.89999999999998,
+      "normalized_score": 4.879679144,
+      "observed_raw_score": 46.5,
+      "raw_score": 46.5,
       "raw_score_source": "observed",
       "score_path": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_vizdoom_d3_v1/trial-01/score.json",
-      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01/tasks-786d2dde21",
       "trial": 1
     },
     {
@@ -29,12 +29,12 @@
       "trial": 2
     },
     {
-      "normalized_score": 0.0,
-      "observed_raw_score": 31.9,
-      "raw_score": 31.9,
+      "normalized_score": 22.961229947,
+      "observed_raw_score": 100.6,
+      "raw_score": 100.6,
       "raw_score_source": "observed",
       "score_path": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_vizdoom_d3_v1/trial-03/score.json",
-      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03/tasks-8869084d04",
       "trial": 3
     },
     {

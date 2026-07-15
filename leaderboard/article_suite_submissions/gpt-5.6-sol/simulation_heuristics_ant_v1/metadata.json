@@ -9,15 +9,15 @@
     "provider": "azure",
     "provider_reasoning_effort": "max"
   },
-  "normalized_score": -4.9009087386,
-  "normalized_score_stddev": 11.991465810903719,
+  "normalized_score": -6.081625694,
+  "normalized_score_stddev": 12.597925216329989,
   "provider_reasoning_effort": "max",
-  "raw_score": 2272.356693724495,
+  "raw_score": 2231.0491055302227,
   "raw_score_imputation_count": 0,
-  "raw_score_stddev": 419.52351859557746,
+  "raw_score_stddev": 440.7406064520731,
   "source_run_ids": [
     "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01",
-    "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-02",
+    "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-02/simulation_heuristics_ant_v1",
     "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03",
     "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-04/tasks-81ec8d98a4",
     "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-05"

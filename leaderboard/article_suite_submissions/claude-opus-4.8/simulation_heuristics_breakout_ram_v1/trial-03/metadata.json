@@ -1,9 +1,12 @@
 {
+  "agent_timeout_info": null,
+  "agent_timeout_sec": 5400,
   "benchmark": "learning_beyond_gradients_article_suite",
   "current_task_digest": "sha256:12eb4ca8814c602a2fbf709f0472c90c8758f3c1ffd0131329b734ca1d8e6b20",
   "digest_compatibility_note": null,
   "finished_at": 1784113784.201615,
   "harness": "opencode",
+  "idle_timeout_info": null,
   "model": {
     "agent_idle_timeout_sec": 3600,
     "daytona_pty_readline_timeout_sec": 3600,
@@ -15,12 +18,27 @@
   },
   "normalized_score": 98.322851153,
   "observed_raw_score": 856.0,
+  "protocol_agent_idle_timeout_sec": 3600,
+  "protocol_daytona_pty_readline_timeout_sec": 3600,
   "provider_reasoning_effort": "max",
+  "published_protocol_version": "2.2",
   "raw_score": 856.0,
   "raw_score_source": "observed",
+  "source_agent_idle_timeout_sec": 3600,
+  "source_daytona_pty_readline_timeout_sec": 3600,
+  "source_protocol_version": "2.1",
   "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-03",
   "task": "simulation_heuristics_breakout_ram_v1",
   "task_digest": "sha256:12eb4ca8814c602a2fbf709f0472c90c8758f3c1ffd0131329b734ca1d8e6b20",
+  "terminal_error": null,
+  "terminal_error_category": null,
+  "timing": {
+    "agent_execution": 1440.1,
+    "agent_setup": 7.6,
+    "environment_setup": 3.4,
+    "total": 1634.6,
+    "verifier": 159.9
+  },
   "token_usage": {
     "final_input_tokens": 2.0,
     "final_output_tokens": 874.0,
@@ -29,5 +47,7 @@
     "total_tokens": 70599.0
   },
   "tool_calls": 52,
-  "trial": 3
+  "transport_error_info": null,
+  "trial": 3,
+  "verifier_timeout_info": null
 }

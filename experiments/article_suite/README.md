@@ -27,6 +27,8 @@ The current leaderboard protocol is defined in `protocol.toml`:
   normalized trial-task scores;
 - variability shown as the sample standard deviation of the five per-trial
   nine-task IQMs.
+- identical 60-minute agent-idle and Daytona PTY-read safeguards for every
+  model, in addition to the task-specific wall-clock limits.
 
 The resulting matrix is:
 
@@ -125,6 +127,11 @@ uv run python scripts/run_article_suite.py \
 The leaderboard builder selects the latest complete per-model batch matching
 `protocol.toml`; it never mixes older single-run results or partial batches into
 the five-trial leaderboard.
+
+The selected 180 cells and timeout safeguards are audited by
+`scripts/audit_article_suite_timeout_fairness.py`. See
+`docs/article-suite-timeout-fairness.md` for the 10 repaired cells and the
+leaderboard impact.
 
 GPT-5.6 Sol is routed directly through OpenCode's Azure Responses-API provider
 with reasoning effort `max`. BenchFlow still owns sandboxing, task staging,

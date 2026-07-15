@@ -15,3 +15,5 @@ The final score is RLiable-style IQM over the complete 5 × 9 trial-task score m
 ![Final GenesisBench article-suite leaderboard](article_suite_final_leaderboard.png)
 
 Machine-readable rankings and score-detail paths are available in [`article_suite.json`](article_suite.json). The scoring rationale is documented in [`docs/article-suite-scoring.md`](../docs/article-suite-scoring.md).
+
+The selected trajectory timeout audit is available in [`article_suite_timeout_fairness_audit.json`](article_suite_timeout_fairness_audit.json) and [`docs/article-suite-timeout-fairness.md`](../docs/article-suite-timeout-fairness.md).

@@ -1,10 +1,15 @@
 {
+  "agent_timeout_info": null,
+  "agent_timeout_sec": 5400,
   "benchmark": "learning_beyond_gradients_article_suite",
   "current_task_digest": "sha256:518afe1cd1a1794ad99057a695c46008f38ebee53f9ed7e2dce017cdecc08dca",
   "digest_compatibility_note": null,
-  "finished_at": 1784093477.189311,
+  "finished_at": 1784140206.649261,
   "harness": "opencode",
+  "idle_timeout_info": null,
   "model": {
+    "agent_idle_timeout_sec": 3600,
+    "daytona_pty_readline_timeout_sec": 3600,
     "display_name": "GPT-5.5",
     "id": "gpt-5.5",
     "model": "azure/gpt-5.5",
@@ -13,19 +18,36 @@
   },
   "normalized_score": 0.0,
   "observed_raw_score": 0.0,
+  "protocol_agent_idle_timeout_sec": 3600,
+  "protocol_daytona_pty_readline_timeout_sec": 3600,
   "provider_reasoning_effort": "xhigh",
+  "published_protocol_version": "2.2",
   "raw_score": 0.0,
   "raw_score_source": "observed",
-  "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-04",
+  "source_agent_idle_timeout_sec": 3600,
+  "source_daytona_pty_readline_timeout_sec": 3600,
+  "source_protocol_version": "2.2",
+  "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-04/tasks-e2ced31f9c",
   "task": "simulation_heuristics_montezuma_v1",
   "task_digest": "sha256:518afe1cd1a1794ad99057a695c46008f38ebee53f9ed7e2dce017cdecc08dca",
-  "token_usage": {
-    "final_input_tokens": 0.0,
-    "final_output_tokens": 0.0,
-    "input_tokens": 0.0,
-    "output_tokens": 0.0,
-    "total_tokens": 0.0
+  "terminal_error": null,
+  "terminal_error_category": null,
+  "timing": {
+    "agent_execution": 90.0,
+    "agent_setup": 3.6,
+    "environment_setup": 3.5,
+    "total": 161.1,
+    "verifier": 35.1
   },
-  "tool_calls": 9,
-  "trial": 4
+  "token_usage": {
+    "final_input_tokens": 1158.0,
+    "final_output_tokens": 171.0,
+    "input_tokens": 1158.0,
+    "output_tokens": 171.0,
+    "total_tokens": 17713.0
+  },
+  "tool_calls": 24,
+  "transport_error_info": null,
+  "trial": 4,
+  "verifier_timeout_info": null
 }

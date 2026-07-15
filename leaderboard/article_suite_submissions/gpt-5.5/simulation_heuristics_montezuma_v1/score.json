@@ -43,7 +43,7 @@
       "raw_score": 0.0,
       "raw_score_source": "observed",
       "score_path": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_montezuma_v1/trial-04/score.json",
-      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-04",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-04/tasks-e2ced31f9c",
       "trial": 4
     },
     {

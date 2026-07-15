@@ -22,9 +22,13 @@ def test_article_suite_declares_exactly_nine_unique_tasks() -> None:
 def test_article_suite_protocol_uses_five_trials_and_triple_timeouts() -> None:
     protocol = runner._protocol()
 
-    assert protocol["version"] == "2.1"
+    assert protocol["version"] == "2.2"
     assert protocol["trials"] == 5
     assert protocol["agent_timeout_multiplier"] == 3
+    assert protocol["fairness"] == {
+        "agent_idle_timeout_sec": 3600,
+        "daytona_pty_readline_timeout_sec": 3600,
+    }
     runner._validate_protocol(runner.TASKS, protocol["trials"])
     with pytest.raises(ValueError, match="must match protocol.toml"):
         runner._validate_protocol(runner.TASKS, 4)
@@ -40,6 +44,19 @@ def test_article_suite_defaults_to_daytona(
     )
 
     assert runner.parse_args().sandbox == "daytona"
+
+
+def test_all_models_share_fair_idle_and_pty_timeouts() -> None:
+    models = runner._models()
+    protocol = runner._protocol()
+
+    runner._validate_model_timeouts(models, protocol)
+    assert {
+        model["agent_idle_timeout_sec"] for model in models
+    } == {3600}
+    assert {
+        model["daytona_pty_readline_timeout_sec"] for model in models
+    } == {3600}
 
 
 def test_execution_protocol_ignores_posthoc_aggregation_changes() -> None:
