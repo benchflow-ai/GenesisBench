@@ -1,8 +1,6 @@
 {
   "benchmark": "learning_beyond_gradients_article_suite",
-  "current_task_digest": "sha256:c7e3b5e466431f4908c1e96cc7de80191f7a7c5ab5a63b3eea4d708f7f447fbf",
-  "digest_compatibility_note": "Score-equivalent to the current task. The later loader fix registers submitted modules before execution so postponed dataclass annotations import correctly; scoring is unchanged.",
-  "finished_at": 1783937429.008938,
+  "current_task_digest": "sha256:aab8a7d4a73765939684373673d03a7811f56e06c4160beee887b3e3e6743d3b",
   "harness": "opencode",
   "model": {
     "display_name": "GPT-5.4 Mini",
@@ -11,17 +9,19 @@
     "provider": "azure",
     "provider_reasoning_effort": "xhigh"
   },
-  "normalized_score": -8.167582379,
+  "normalized_score": -39.8837988972,
+  "normalized_score_stddev": 19.209845675650264,
   "provider_reasoning_effort": "xhigh",
-  "source_run_id": "leaderboard/runs/article_suite/20260713T093314Z/gpt-5.4-mini",
+  "raw_score": 1015.6002588284422,
+  "raw_score_imputation_count": 0,
+  "raw_score_stddev": 1438.0428685581014,
+  "source_run_ids": [
+    "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-01",
+    "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-02",
+    "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-03",
+    "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-04",
+    "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-05"
+  ],
   "task": "simulation_heuristics_halfcheetah_v1",
-  "task_digest": "sha256:80c439f53e4ab964f9d7443cd7fb8f25cf6645a0bc288b0496b871c1800ebe78",
-  "token_usage": {
-    "final_input_tokens": 1370.0,
-    "final_output_tokens": 203.0,
-    "input_tokens": 1370.0,
-    "output_tokens": 203.0,
-    "total_tokens": 16933.0
-  },
-  "tool_calls": 12
+  "trial_count": 5
 }

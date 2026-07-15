@@ -16,14 +16,42 @@ the nine task packages derived from the article:
 Every run uses BenchFlow's registered `opencode` ACP harness. OpenHands is not
 part of this suite.
 
+## Experiment protocol
+
+The current leaderboard protocol is defined in `protocol.toml`:
+
+- five independent full-suite trials per model;
+- three times the original agent wall-clock timeout for every task;
+- task scores reported as mean ± sample standard deviation across trials;
+- final score computed as RLiable-style IQM over all `5 × 9 = 45`
+  normalized trial-task scores;
+- variability shown as the sample standard deviation of the five per-trial
+  nine-task IQMs.
+
+The resulting matrix is:
+
+```text
+4 models × 5 trials × 9 tasks = 180 model-task runs
+```
+
+| Tasks | Previous cap | Current cap |
+| --- | ---: | ---: |
+| Ant, Pong, both Breakouts, Montezuma, VizDoom D1/D3 | 30 min | 90 min |
+| HalfCheetah | 60 min | 180 min |
+| Atari57 aggregate search | 7 days | 21 days |
+
+Atari57's cap is exceptional because one task contains 342 accounted search
+slots. It can be scheduled separately when operating capacity is limited; the
+cap is a maximum, not an expected runtime.
+
 ## Inference settings
 
-| Model | Exact route | Provider-specific reasoning setting |
-| --- | --- | --- |
-| GPT-5.6 Sol | `azure/gpt-5.6-sol` | `max` |
-| GPT-5.5 | `azure/gpt-5.5` | `xhigh` |
-| Claude Opus 4.8 | `anthropic/claude-opus-4-8` via Claude OAuth and the pinned OpenCode plugin | `max` |
-| GPT-5.4 Mini | `azure/gpt-5.4-mini` | `xhigh` |
+| Model | Exact route | Provider-specific reasoning setting | Sandbox |
+| --- | --- | --- | --- |
+| GPT-5.6 Sol | `azure/gpt-5.6-sol` | `max` | Daytona |
+| GPT-5.5 | `azure/gpt-5.5` | `xhigh` | Daytona |
+| Claude Opus 4.8 | `anthropic/claude-opus-4-8` via Claude OAuth and the pinned OpenCode plugin | `max` | Daytona |
+| GPT-5.4 Mini | `azure/gpt-5.4-mini` | `xhigh` | Daytona |
 
 The setting names are categorical labels exposed by each provider integration,
 not a common numeric measure of inference compute. All four routes use the
@@ -50,8 +78,7 @@ CLAUDE_CODE_OAUTH_TOKEN
 
 ## Run
 
-Docker must be running because the authoritative suite uses isolated BenchFlow
-task environments:
+The authoritative suite uses isolated Daytona sandboxes in the `us` target:
 
 ```bash
 uv run python scripts/run_article_suite.py \
@@ -59,30 +86,45 @@ uv run python scripts/run_article_suite.py \
   --model gpt-5.6-sol
 ```
 
-Atari57 requests more CPU, memory, and storage than the current Daytona account
-allows. The all-nine commands therefore use the default local Docker sandbox.
-Use Daytona only for selected non-Atari tasks.
+The July 14, 2026 Atari57 capacity canary confirmed that Daytona runs all nine
+tasks. BenchFlow currently clamps Atari57 from 14 requested CPUs to 4 and from
+102,400 MB requested storage to 10,240 MB; these are execution limits, not score
+transformations, and the remote verifier still completes normally.
+
+Local Docker remains available for development with `--sandbox docker`. Such
+runs default to calibrated `linux/amd64` images; they are not selected for the
+published article-suite leaderboard.
 
 Run all four models sequentially:
 
 ```bash
 uv run python scripts/run_article_suite.py \
   --env-file /path/to/credentials.env \
-  --all-models
+  --all-models \
+  --trials 5 \
+  --batch-id article-suite-v2-daytona
 ```
 
-Long runs are resumable at task granularity. For example:
+Runs are resumable at model-trial granularity. Reusing `--batch-id` skips
+completed trials. Models may also be scheduled into separate batch directories
+for parallel execution. The leaderboard builder chooses one complete
+five-trial batch per model and never mixes trials from different batches within
+the same model.
+
+Use `--trial` to schedule or repair selected trials:
 
 ```bash
 uv run python scripts/run_article_suite.py \
   --env-file /path/to/credentials.env \
   --model gpt-5.6-sol \
   --task simulation_heuristics_halfcheetah_v1 \
-  --sandbox daytona
+  --trial 3 \
+  --batch-id article-suite-v2-daytona
 ```
 
-The leaderboard builder selects the latest successful result for every
-model/task pair across all run batches.
+The leaderboard builder selects the latest complete per-model batch matching
+`protocol.toml`; it never mixes older single-run results or partial batches into
+the five-trial leaderboard.
 
 GPT-5.6 Sol is routed directly through OpenCode's Azure Responses-API provider
 with reasoning effort `max`. BenchFlow still owns sandboxing, task staging,
@@ -109,8 +151,14 @@ The builder writes:
   ranking displayed as `IQM + 100` so every current plotted value is positive.
 
 Each task maps its starter policy to `0` and its trusted article-level reference
-to `100`. The final primary aggregate is the interquartile mean: remove the two
-lowest and two highest of the nine normalized scores, then average the middle
-five. Arithmetic mean and median remain secondary diagnostics. The top-level
-repository README shows only the final image. The additive display offset does
-not affect ranking or score gaps; raw IQM remains available in the JSON.
+to `100`. The final leaderboard flattens the five-by-nine normalized score
+matrix, removes the lowest 11 and highest 11 values, and averages the middle
+23. Per-task sample standard deviations and the sample standard deviation of
+the five trial-level IQMs remain visible diagnostics. The additive display
+offset does not affect ranking or score gaps; raw IQM remains available in the
+JSON.
+
+For task-defined fail-closed verifier timeouts where no native raw score exists,
+the raw-score plot uses the frozen starter anchor as the equivalent of
+normalized `0`. Trial metadata preserves the missing observation and labels the
+display source explicitly.

@@ -49,12 +49,12 @@ zero and are not presented as article reproductions.
 All new leaderboard runs use the BenchFlow `opencode` ACP harness. The canonical
 matrix is:
 
-| Model | Exact route | Harness | Provider reasoning setting |
-| --- | --- | --- | --- |
-| GPT-5.6 Sol | Azure `azure/gpt-5.6-sol` | OpenCode | `max` |
-| GPT-5.5 | Azure `azure/gpt-5.5` | OpenCode | `xhigh` |
-| Claude Opus 4.8 | Claude OAuth `anthropic/claude-opus-4-8` through the pinned OpenCode plugin | OpenCode | `max` |
-| GPT-5.4 Mini | Azure `azure/gpt-5.4-mini` | OpenCode | `xhigh` |
+| Model | Exact route | Harness | Provider reasoning setting | Sandbox |
+| --- | --- | --- | --- | --- |
+| GPT-5.6 Sol | Azure `azure/gpt-5.6-sol` | OpenCode | `max` | Daytona |
+| GPT-5.5 | Azure `azure/gpt-5.5` | OpenCode | `xhigh` | Daytona |
+| Claude Opus 4.8 | Claude OAuth `anthropic/claude-opus-4-8` through the pinned OpenCode plugin | OpenCode | `max` | Daytona |
+| GPT-5.4 Mini | Azure `azure/gpt-5.4-mini` | OpenCode | `xhigh` | Daytona |
 
 `max` and `xhigh` are provider-specific categorical labels. They indicate the
 configured reasoning setting for that route; they are not interchangeable
@@ -62,8 +62,11 @@ units and should not be read as a shared numeric inference-compute scale.
 
 OpenCode talks directly to the provider because BenchFlow 0.6.5's
 chat-completions gateway cannot faithfully transform Azure GPT-5.6 Sol tool
-calls. BenchFlow continues to own task staging, Daytona/Docker isolation, ACP
+calls. BenchFlow continues to own task staging, Daytona isolation, ACP
 trajectory capture, timing, and verifier execution.
+
+The published matrix uses Daytona for every task. Docker is retained only as an
+optional local development backend.
 
 ## Leaderboard outputs
 
@@ -79,10 +82,12 @@ Each task first receives an unbounded anchor-normalized score:
 task score = 100 * (candidate - starter) / (reference - starter)
 ```
 
-The primary final score is the 25% trimmed interquartile mean (IQM). With nine
-tasks, the two lowest and two highest normalized scores are removed and the
-middle five are averaged. Arithmetic mean and median remain secondary
-diagnostics.
+Each model runs five independent trials. Task leaderboards report mean ± sample
+standard deviation across those trials. The primary cross-task score is the
+RLiable-style 25% trimmed interquartile mean (IQM) over the complete `5 × 9`
+score matrix: flatten all 45 normalized scores, remove the lowest 11 and
+highest 11, and average the middle 23. The displayed `±` value is the sample
+standard deviation of the five per-trial nine-task IQMs.
 
 The repository README intentionally shows only the final leaderboard image.
 The nine task panels use each environment's native raw score. The final chart

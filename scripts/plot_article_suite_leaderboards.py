@@ -67,13 +67,6 @@ def _score_limits(task_boards: list[dict[str, Any]]) -> tuple[float, float]:
     return lower, upper
 
 
-def _bar_label_x(score: float, span: float) -> tuple[float, str]:
-    offset = span * 0.012
-    if score >= 0:
-        return score + offset, "left"
-    return score - offset, "right"
-
-
 def _plot_task_leaderboards(
     task_boards: list[dict[str, Any]],
     output: Path,
@@ -87,19 +80,38 @@ def _plot_task_leaderboards(
         rows = board["rows"]
         names = [row["model"] for row in rows]
         scores = [float(row["raw_score"]) for row in rows]
+        score_stddevs = [
+            float(row.get("raw_score_stddev", 0.0)) for row in rows
+        ]
         starter_score = float(rows[0]["starter_score"])
         reference_score = float(rows[0]["reference_score"])
-        all_values = [*scores, starter_score, reference_score]
+        all_values = [
+            *(score - stddev for score, stddev in zip(scores, score_stddevs)),
+            *(score + stddev for score, stddev in zip(scores, score_stddevs)),
+            starter_score,
+            reference_score,
+        ]
         value_min = min(all_values)
         value_max = max(all_values)
-        padding = max((value_max - value_min) * 0.16, abs(value_max) * 0.05, 1.0)
+        padding = max(
+            (value_max - value_min) * 0.35,
+            max(abs(value_min), abs(value_max)) * 0.08,
+            1.0,
+        )
         lower = min(0.0, value_min - padding)
         upper = max(0.0, value_max + padding)
         span = upper - lower
         colors = [
             MODEL_COLORS.get(row["model_id"], "#666666") for row in rows
         ]
-        bars = axis.barh(names, scores, color=colors, height=0.62)
+        bars = axis.barh(
+            names,
+            scores,
+            xerr=score_stddevs,
+            color=colors,
+            height=0.62,
+            error_kw={"ecolor": "#333333", "elinewidth": 0.8, "capsize": 2},
+        )
         axis.invert_yaxis()
         axis.axvline(
             starter_score,
@@ -134,23 +146,27 @@ def _plot_task_leaderboards(
         axis.spines[["top", "right", "left"]].set_visible(False)
         axis.tick_params(axis="y", length=0, labelsize=9.5)
         axis.tick_params(axis="x", labelsize=8.5)
-        for bar, score in zip(bars, scores, strict=True):
-            if score < lower + span * 0.08:
-                x = score + span * 0.012
+        for bar, score, score_stddev in zip(
+            bars,
+            scores,
+            score_stddevs,
+            strict=True,
+        ):
+            if score >= 0:
+                x = score + score_stddev + span * 0.012
                 alignment = "left"
-                label_color = "#ffffff"
             else:
-                x, alignment = _bar_label_x(score, span)
-                label_color = "#171717"
+                x = score - score_stddev - span * 0.012
+                alignment = "right"
             axis.text(
                 x,
                 bar.get_y() + bar.get_height() / 2,
-                f"{score:.1f}",
+                f"{score:.1f} ± {score_stddev:.1f}",
                 va="center",
                 ha=alignment,
-                fontsize=9,
+                fontsize=8.5,
                 fontweight="bold",
-                color=label_color,
+                color="#171717",
             )
 
     figure.suptitle(
@@ -164,7 +180,8 @@ def _plot_task_leaderboards(
     figure.text(
         0.055,
         0.955,
-        "Native raw score for each environment · task-specific axes",
+        "Native raw score mean ± sample SD · task-specific axes · "
+        "raw-null fail-closed trials use starter-equivalent anchors",
         fontsize=11,
         color="#666666",
     )
@@ -207,6 +224,9 @@ def _plot_final_leaderboard(
     rows = final_board["rows"]
     names = [f"{row['rank']}  {row['model']}" for row in rows]
     scores = [float(row["positive_display_score"]) for row in rows]
+    score_stddevs = [
+        float(row.get("final_normalized_score_stddev", 0.0)) for row in rows
+    ]
     colors = [
         MODEL_COLORS.get(row["model_id"], "#666666") for row in rows
     ]
@@ -214,10 +234,30 @@ def _plot_final_leaderboard(
     figure, axis = plt.subplots(figsize=(12, 7.2), dpi=160)
     figure.patch.set_facecolor("#fafafa")
     axis.set_facecolor("#fafafa")
-    bars = axis.barh(names, scores, color=colors, height=0.62)
+    bars = axis.barh(
+        names,
+        scores,
+        xerr=score_stddevs,
+        color=colors,
+        height=0.62,
+        error_kw={"ecolor": "#333333", "elinewidth": 1.0, "capsize": 3},
+    )
     axis.invert_yaxis()
     lower = 0.0
-    upper = max(160.0, math.ceil((max(scores) + 10.0) / 10.0) * 10.0)
+    upper = max(
+        160.0,
+        math.ceil(
+            (
+                max(
+                    score + stddev
+                    for score, stddev in zip(scores, score_stddevs)
+                )
+                + 10.0
+            )
+            / 10.0
+        )
+        * 10.0,
+    )
     span = upper - lower
     axis.set_xlim(lower, upper)
     axis.axvline(
@@ -233,14 +273,21 @@ def _plot_final_leaderboard(
     axis.tick_params(axis="x", labelsize=10)
     axis.set_xlabel("Positive display index (IQM + 100)", fontsize=11)
 
-    for bar, row, score in zip(bars, rows, scores, strict=True):
+    for bar, row, score, score_stddev in zip(
+        bars,
+        rows,
+        scores,
+        score_stddevs,
+        strict=True,
+    ):
         label_color = (
             "#171717" if row["model_id"] == "gpt-5.4-mini" else "#ffffff"
         )
         axis.text(
             score - span * 0.015,
             bar.get_y() + bar.get_height() / 2,
-            f"{score:.2f}  (IQM {row['final_normalized_score']:.2f})",
+            f"{score:.2f} ± {score_stddev:.2f}  "
+            f"(IQM {row['final_normalized_score']:.2f})",
             va="center",
             ha="right",
             fontsize=10.5,

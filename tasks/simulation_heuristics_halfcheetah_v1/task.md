@@ -36,7 +36,7 @@ metadata:
       anchors: verifier/anchors.json
       supports_private_config: true
 agent:
-  timeout_sec: 3600
+  timeout_sec: 10800
   user: agent
   network_mode: public
 verifier:

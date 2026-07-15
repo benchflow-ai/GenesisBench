@@ -23,25 +23,46 @@ This follows the same family of baseline normalization used by benchmarks such
 as [D4RL](https://arxiv.org/abs/2004.07219), which normalizes returns between
 task-specific lower and upper reference scores.
 
+## Five-trial estimator
+
+Each model runs the complete nine-task suite five independent times. For task
+`t`, the published task score is the arithmetic mean of its five normalized
+trial scores. The task leaderboard also publishes their sample standard
+deviation.
+
+Task plots use native raw environment scores. If a task's verifier intentionally
+fails closed with `normalized_score = 0` and no observed raw score, the plot uses
+the frozen starter anchor as the raw-score equivalent. The trial artifact keeps
+`observed_raw_score = null` and records
+`raw_score_source = starter_anchor_equivalent_for_fail_closed_timeout`; this
+case is never presented as an observed environment return.
+
 ## Final normalized score
 
-The primary final metric is the interquartile mean (IQM), implemented as the
-25% trimmed mean used by
-[RLiable](https://github.com/google-research/rliable):
+The primary cross-task metric is the interquartile mean (IQM), implemented as
+the 25% trimmed mean used by
+[RLiable's `aggregate_iqm`](https://github.com/google-research/rliable/blob/master/rliable/metrics.py#L61-L70).
+RLiable computes IQM across the complete `num_runs × num_tasks` score matrix:
 
 ```text
-scores = sort(the nine normalized task scores)
-trim_count = floor(0.25 * 9) = 2
-final_normalized_score = mean(scores[2:7])
+scores = sort(flatten(the 5 × 9 normalized score matrix))
+trim_count = floor(0.25 * 45) = 11
+final_normalized_score = mean(scores[11:34])
 ```
 
-In words: remove the lowest two and highest two task scores and average the
-middle five.
+This retains the middle `23` of the `45` trial-task scores. It matches
+RLiable's `aggregate_iqm`, which applies a 25% trimmed mean with `axis=None`.
+
+For a readable run-to-run variability diagnostic, the leaderboard separately
+computes one nine-task IQM per trial and publishes the sample standard
+deviation of those five trial-level IQMs. That displayed `±` value is not a
+bootstrap confidence interval around the pooled IQM.
 
 The JSON also publishes:
 
 - `arithmetic_mean_normalized_score`;
 - `median_normalized_score`;
+- `mean_trial_iqm_normalized_score`;
 - the original `average_normalized_score` as a backward-compatible alias for
   the arithmetic mean.
 
@@ -88,13 +109,10 @@ endpoints and would rewrite every displayed score whenever the comparison set
 changes. Clipping negative IQM values to zero would erase meaningful
 differences.
 
-## Current statistical limitation
+## Statistical limitation
 
-The published sweep currently has one independent agent run per model/task
-pair. That is sufficient to recompute deterministic aggregate metrics, but not
-to estimate statistically meaningful bootstrap confidence intervals or
-probability of improvement between models.
-
-A future multi-run release should retain IQM and additionally report
-stratified-bootstrap confidence intervals, performance profiles, and pairwise
-probability of improvement following the RLiable protocol.
+Five trials expose run-to-run variability and are materially stronger than a
+single run, but they remain a small sample. The leaderboard reports sample
+standard deviation rather than claiming narrow confidence intervals. A larger
+future release can add stratified-bootstrap confidence intervals, performance
+profiles, and pairwise probability of improvement following RLiable.

@@ -1,66 +1,59 @@
 {
-  "normalized_score": 15.523465704,
+  "benchmark": "learning_beyond_gradients_article_suite",
+  "normalized_score": 14.332129963999998,
+  "normalized_score_stddev": 51.9448986087478,
+  "raw_score_imputation_count": 0,
   "reference_score": 864.0,
-  "score": 396.0,
+  "score": 389.4,
+  "score_stddev": 287.77473829368694,
   "starter_score": 310.0,
-  "suites": {
-    "hidden_nominal": {
-      "completion_rate": 0.0,
-      "episodes": [
-        {
-          "final_lives": 0,
-          "invalid_action": false,
-          "length": 11673,
-          "mean_action_latency_ms": 0.4428296772221238,
-          "observation_mode": "rgb",
-          "policy_error": null,
-          "return": 396.0,
-          "seed": 101,
-          "terminated": true,
-          "truncated": false,
-          "variant": "nominal",
-          "warmup_steps": 0
-        }
-      ],
-      "invalid_episode_rate": 0.0,
-      "max_return": 396.0,
-      "max_steps": 30000,
-      "mean_action_latency_ms": 0.4428296772221238,
-      "mean_return": 396.0,
-      "min_return": 396.0,
-      "observation_mode": "rgb",
-      "policy_path": "submitted_artifact",
-      "score": 396.0
+  "task": "simulation_heuristics_breakout_rgb_v1",
+  "trial_count": 5,
+  "trials": [
+    {
+      "normalized_score": 8.664259928,
+      "observed_raw_score": 358.0,
+      "raw_score": 358.0,
+      "raw_score_source": "observed",
+      "score_path": "leaderboard/article_suite_submissions/gpt-5.4-mini/simulation_heuristics_breakout_rgb_v1/trial-01/score.json",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-01",
+      "trial": 1
     },
-    "hidden_shifted_start": {
-      "completion_rate": 0.0,
-      "episodes": [
-        {
-          "final_lives": 0,
-          "invalid_action": false,
-          "length": 11667,
-          "mean_action_latency_ms": 0.4506273232825088,
-          "observation_mode": "rgb",
-          "policy_error": null,
-          "return": 396.0,
-          "seed": 211,
-          "terminated": true,
-          "truncated": false,
-          "variant": "right_6",
-          "warmup_steps": 6
-        }
-      ],
-      "invalid_episode_rate": 0.0,
-      "max_return": 396.0,
-      "max_steps": 30000,
-      "mean_action_latency_ms": 0.4506273232825088,
-      "mean_return": 396.0,
-      "min_return": 396.0,
-      "observation_mode": "rgb",
-      "policy_path": "submitted_artifact",
-      "score": 396.0
+    {
+      "normalized_score": 95.848375451,
+      "observed_raw_score": 841.0,
+      "raw_score": 841.0,
+      "raw_score_source": "observed",
+      "score_path": "leaderboard/article_suite_submissions/gpt-5.4-mini/simulation_heuristics_breakout_rgb_v1/trial-02/score.json",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-02",
+      "trial": 2
+    },
+    {
+      "normalized_score": 0.0,
+      "observed_raw_score": 310.0,
+      "raw_score": 310.0,
+      "raw_score_source": "observed",
+      "score_path": "leaderboard/article_suite_submissions/gpt-5.4-mini/simulation_heuristics_breakout_rgb_v1/trial-03/score.json",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-03",
+      "trial": 3
+    },
+    {
+      "normalized_score": -48.194945848,
+      "observed_raw_score": 43.0,
+      "raw_score": 43.0,
+      "raw_score_source": "observed",
+      "score_path": "leaderboard/article_suite_submissions/gpt-5.4-mini/simulation_heuristics_breakout_rgb_v1/trial-04/score.json",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-04",
+      "trial": 4
+    },
+    {
+      "normalized_score": 15.342960289,
+      "observed_raw_score": 395.0,
+      "raw_score": 395.0,
+      "raw_score_source": "observed",
+      "score_path": "leaderboard/article_suite_submissions/gpt-5.4-mini/simulation_heuristics_breakout_rgb_v1/trial-05/score.json",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-05",
+      "trial": 5
     }
-  },
-  "target_gap": -468.0,
-  "target_score": 864.0
+  ]
 }

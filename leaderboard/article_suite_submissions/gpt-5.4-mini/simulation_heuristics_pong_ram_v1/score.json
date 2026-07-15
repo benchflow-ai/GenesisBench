@@ -1,133 +1,59 @@
 {
-  "normalized_score": -75.0,
+  "benchmark": "learning_beyond_gradients_article_suite",
+  "normalized_score": -40.8333333332,
+  "normalized_score_stddev": 67.46912874308083,
+  "raw_score_imputation_count": 0,
   "reference_score": 21.0,
-  "score": -21.0,
+  "score": -12.8,
+  "score_stddev": 16.192590898309017,
   "starter_score": -2.9999999999999996,
-  "suite_weights": {
-    "hidden_nominal": 0.7,
-    "hidden_reset_robustness": 0.3
-  },
-  "suites": {
-    "hidden_nominal": {
-      "episodes": [
-        {
-          "invalid_action": false,
-          "length": 3055,
-          "mean_action_latency_ms": 0.009747649163446724,
-          "points_against": 21,
-          "points_for": 0,
-          "policy_error": null,
-          "score": -21.0,
-          "seed": 101,
-          "target_reached": false,
-          "terminated": true,
-          "truncated": false,
-          "variant": "article_nominal",
-          "won": false
-        },
-        {
-          "invalid_action": false,
-          "length": 3055,
-          "mean_action_latency_ms": 0.009773229286928224,
-          "points_against": 21,
-          "points_for": 0,
-          "policy_error": null,
-          "score": -21.0,
-          "seed": 211,
-          "target_reached": false,
-          "terminated": true,
-          "truncated": false,
-          "variant": "article_nominal",
-          "won": false
-        },
-        {
-          "invalid_action": false,
-          "length": 3055,
-          "mean_action_latency_ms": 0.010469134549462463,
-          "points_against": 21,
-          "points_for": 0,
-          "policy_error": null,
-          "score": -21.0,
-          "seed": 307,
-          "target_reached": false,
-          "terminated": true,
-          "truncated": false,
-          "variant": "article_nominal",
-          "won": false
-        }
-      ],
-      "invalid_episode_rate": 0.0,
-      "max_score": -21.0,
-      "max_steps": 27000,
-      "mean_action_latency_ms": 0.009996670999945804,
-      "mean_score": -21.0,
-      "min_score": -21.0,
-      "policy_path": "submitted_artifact",
-      "score": -21.0,
-      "target_score": 21.0,
-      "target_score_rate": 0.0,
-      "win_rate": 0.0
+  "task": "simulation_heuristics_pong_ram_v1",
+  "trial_count": 5,
+  "trials": [
+    {
+      "normalized_score": -75.0,
+      "observed_raw_score": -21.0,
+      "raw_score": -21.0,
+      "raw_score_source": "observed",
+      "score_path": "leaderboard/article_suite_submissions/gpt-5.4-mini/simulation_heuristics_pong_ram_v1/trial-01/score.json",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-01",
+      "trial": 1
     },
-    "hidden_reset_robustness": {
-      "episodes": [
-        {
-          "invalid_action": false,
-          "length": 3055,
-          "mean_action_latency_ms": 0.010082433564182975,
-          "points_against": 21,
-          "points_for": 0,
-          "policy_error": null,
-          "score": -21.0,
-          "seed": 503,
-          "target_reached": false,
-          "terminated": true,
-          "truncated": false,
-          "variant": "randomized_reset",
-          "won": false
-        },
-        {
-          "invalid_action": false,
-          "length": 3051,
-          "mean_action_latency_ms": 0.012134256769949708,
-          "points_against": 21,
-          "points_for": 0,
-          "policy_error": null,
-          "score": -21.0,
-          "seed": 601,
-          "target_reached": false,
-          "terminated": true,
-          "truncated": false,
-          "variant": "randomized_reset",
-          "won": false
-        },
-        {
-          "invalid_action": false,
-          "length": 3052,
-          "mean_action_latency_ms": 0.011448162823895951,
-          "points_against": 21,
-          "points_for": 0,
-          "policy_error": null,
-          "score": -21.0,
-          "seed": 701,
-          "target_reached": false,
-          "terminated": true,
-          "truncated": false,
-          "variant": "randomized_reset",
-          "won": false
-        }
-      ],
-      "invalid_episode_rate": 0.0,
-      "max_score": -21.0,
-      "max_steps": 27000,
-      "mean_action_latency_ms": 0.011221617719342878,
-      "mean_score": -21.0,
-      "min_score": -21.0,
-      "policy_path": "submitted_artifact",
-      "score": -21.0,
-      "target_score": 21.0,
-      "target_score_rate": 0.0,
-      "win_rate": 0.0
+    {
+      "normalized_score": -75.0,
+      "observed_raw_score": -21.0,
+      "raw_score": -21.0,
+      "raw_score_source": "observed",
+      "score_path": "leaderboard/article_suite_submissions/gpt-5.4-mini/simulation_heuristics_pong_ram_v1/trial-02/score.json",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-02",
+      "trial": 2
+    },
+    {
+      "normalized_score": -58.333333333,
+      "observed_raw_score": -17.0,
+      "raw_score": -17.0,
+      "raw_score_source": "observed",
+      "score_path": "leaderboard/article_suite_submissions/gpt-5.4-mini/simulation_heuristics_pong_ram_v1/trial-03/score.json",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-03",
+      "trial": 3
+    },
+    {
+      "normalized_score": -75.0,
+      "observed_raw_score": -21.0,
+      "raw_score": -21.0,
+      "raw_score_source": "observed",
+      "score_path": "leaderboard/article_suite_submissions/gpt-5.4-mini/simulation_heuristics_pong_ram_v1/trial-04/score.json",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-04",
+      "trial": 4
+    },
+    {
+      "normalized_score": 79.166666667,
+      "observed_raw_score": 16.0,
+      "raw_score": 16.0,
+      "raw_score_source": "observed",
+      "score_path": "leaderboard/article_suite_submissions/gpt-5.4-mini/simulation_heuristics_pong_ram_v1/trial-05/score.json",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-05",
+      "trial": 5
     }
-  },
-  "target_score": 21.0
+  ]
 }

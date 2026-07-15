@@ -1,15 +1,59 @@
 {
-  "disqualification_reason": "Official suite requires 342 completed search-ledger records; found 0.",
-  "evaluation": null,
-  "interaction_budget": {
-    "completed_trajectories": 0,
-    "counted_env_steps": 0,
-    "planned_trajectories": 342,
-    "target_env_steps": 6840000000
-  },
+  "benchmark": "learning_beyond_gradients_article_suite",
   "normalized_score": 0.0,
-  "protocol_complete": false,
+  "normalized_score_stddev": 0.0,
+  "raw_score_imputation_count": 0,
   "reference_score": 0.8283015254994576,
   "score": 0.0,
-  "starter_score": 0.0
+  "score_stddev": 0.0,
+  "starter_score": 0.0,
+  "task": "simulation_heuristics_atari57_v1",
+  "trial_count": 5,
+  "trials": [
+    {
+      "normalized_score": 0.0,
+      "observed_raw_score": 0.0,
+      "raw_score": 0.0,
+      "raw_score_source": "observed",
+      "score_path": "leaderboard/article_suite_submissions/gpt-5.4-mini/simulation_heuristics_atari57_v1/trial-01/score.json",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-01",
+      "trial": 1
+    },
+    {
+      "normalized_score": 0.0,
+      "observed_raw_score": 0.0,
+      "raw_score": 0.0,
+      "raw_score_source": "observed",
+      "score_path": "leaderboard/article_suite_submissions/gpt-5.4-mini/simulation_heuristics_atari57_v1/trial-02/score.json",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-02",
+      "trial": 2
+    },
+    {
+      "normalized_score": 0.0,
+      "observed_raw_score": 0.0,
+      "raw_score": 0.0,
+      "raw_score_source": "observed",
+      "score_path": "leaderboard/article_suite_submissions/gpt-5.4-mini/simulation_heuristics_atari57_v1/trial-03/score.json",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-03",
+      "trial": 3
+    },
+    {
+      "normalized_score": 0.0,
+      "observed_raw_score": 0.0,
+      "raw_score": 0.0,
+      "raw_score_source": "observed",
+      "score_path": "leaderboard/article_suite_submissions/gpt-5.4-mini/simulation_heuristics_atari57_v1/trial-04/score.json",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-04",
+      "trial": 4
+    },
+    {
+      "normalized_score": 0.0,
+      "observed_raw_score": 0.0,
+      "raw_score": 0.0,
+      "raw_score_source": "observed",
+      "score_path": "leaderboard/article_suite_submissions/gpt-5.4-mini/simulation_heuristics_atari57_v1/trial-05/score.json",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-05",
+      "trial": 5
+    }
+  ]
 }

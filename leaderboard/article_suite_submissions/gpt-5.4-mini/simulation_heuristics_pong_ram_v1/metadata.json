@@ -1,8 +1,6 @@
 {
   "benchmark": "learning_beyond_gradients_article_suite",
-  "current_task_digest": "sha256:f0b6f90f1d8072e75f0e10f90f4b51e51e31b3590bb2c2736778ba155b23389f",
-  "digest_compatibility_note": null,
-  "finished_at": 1783935048.629668,
+  "current_task_digest": "sha256:23dc66f3d54d291790ea8a04459e3848966a82854ac3bea5107b0b5240e74457",
   "harness": "opencode",
   "model": {
     "display_name": "GPT-5.4 Mini",
@@ -11,17 +9,19 @@
     "provider": "azure",
     "provider_reasoning_effort": "xhigh"
   },
-  "normalized_score": -75.0,
+  "normalized_score": -40.8333333332,
+  "normalized_score_stddev": 67.46912874308083,
   "provider_reasoning_effort": "xhigh",
-  "source_run_id": "leaderboard/runs/article_suite/20260713T091939Z/gpt-5.4-mini",
+  "raw_score": -12.8,
+  "raw_score_imputation_count": 0,
+  "raw_score_stddev": 16.192590898309017,
+  "source_run_ids": [
+    "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-01",
+    "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-02",
+    "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-03",
+    "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-04",
+    "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-05"
+  ],
   "task": "simulation_heuristics_pong_ram_v1",
-  "task_digest": "sha256:f0b6f90f1d8072e75f0e10f90f4b51e51e31b3590bb2c2736778ba155b23389f",
-  "token_usage": {
-    "final_input_tokens": 568.0,
-    "final_output_tokens": 241.0,
-    "input_tokens": 568.0,
-    "output_tokens": 241.0,
-    "total_tokens": 14121.0
-  },
-  "tool_calls": 17
+  "trial_count": 5
 }

@@ -34,9 +34,14 @@ Offline README/report images are generated separately by:
 uv run python scripts/plot_article_suite_leaderboards.py
 ```
 
-The HTML task panels use native raw environment scores. The final HTML plot
-uses a fixed positive display index (`IQM + 100`) while retaining raw IQM as
-the official ranking metric.
+The HTML task panels show five-trial mean ± sample standard deviation for
+native raw environment scores. The final HTML plot shows RLiable-style pooled
+IQM over all 45 trial-task scores, plus the sample standard deviation of the
+five per-trial IQMs, and uses a fixed positive display index (`IQM + 100`) while
+retaining raw IQM as the official ranking metric.
+
+Inference cards also display the exact provider route, OpenCode harness,
+reasoning setting, and Daytona sandbox used by each published model.
 
 ## Deploy — genesisbench.benchflow.ai (Vercel, same as clawsbench)
 

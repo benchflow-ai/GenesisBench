@@ -47,7 +47,8 @@ Requirements:
 
 - Python 3.12+
 - [`uv`](https://docs.astral.sh/uv/)
-- Docker for isolated agent experiments
+- Daytona credentials for authoritative leaderboard experiments
+- Docker only for optional local task development
 
 Install and validate:
 
@@ -98,6 +99,7 @@ Run one model across all nine tasks:
 
 ```bash
 uv run python scripts/run_article_suite.py \
+  --env-file /path/to/credentials.env \
   --model gpt-5.6-sol
 ```
 
@@ -105,6 +107,7 @@ Run all four canonical models and rebuild the 10 leaderboard artifacts:
 
 ```bash
 uv run python scripts/run_article_suite.py \
+  --env-file /path/to/credentials.env \
   --all-models
 uv run python scripts/build_article_suite_leaderboard.py
 ```
@@ -115,7 +118,7 @@ mapping is documented in `docs/learning-beyond-gradients-suite.md`.
 
 ## Article-Suite Leaderboard
 
-The first OpenCode sweep across all nine article-derived tasks:
+The five-trial OpenCode sweep across all nine article-derived tasks:
 
 ![GenesisBench final normalized leaderboard](leaderboard/article_suite_final_leaderboard.png)
 
@@ -128,19 +131,22 @@ Scores are unbounded normalized values: `0` matches the public starter and
 `100` matches the trusted article-level reference. Negative scores are genuine
 regressions; scores above `100` exceed the reference.
 
-The final ranking uses the interquartile mean (IQM) of the nine task scores:
-sort them, remove the lowest two and highest two, then average the middle five.
-The chart uses a plot-only positive index equal to `IQM + 100`; the raw IQM
-remains the ranking metric and is retained in the JSON.
+Each model runs five independent trials. The final ranking uses RLiable-style
+interquartile mean (IQM) over all 45 normalized trial-task scores: remove the
+lowest 11 and highest 11, then average the middle 23. The displayed `±` value
+is the sample standard deviation of the five per-trial nine-task IQMs. The chart
+uses a plot-only positive index equal to `IQM + 100`; raw IQM remains in the
+JSON.
 
 Inference settings are provider-specific: GPT-5.6 Sol and Claude Opus 4.8 use
 `max`; GPT-5.5 and GPT-5.4 Mini use `xhigh`. These labels come from different
 provider interfaces and are categorical settings, not a shared numeric compute
 scale. Exact routes are documented in
 [`docs/learning-beyond-gradients-suite.md`](docs/learning-beyond-gradients-suite.md).
+All published article-suite rows run in Daytona sandboxes.
 
 See [`docs/article-suite-scoring.md`](docs/article-suite-scoring.md) for the
-formula, research precedent, and current single-run limitation.
+formula, research precedent, and statistical limitations.
 
 ## Contribute a Task
 

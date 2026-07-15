@@ -1,141 +1,59 @@
 {
-  "hidden_nominal": {
-    "episodes": [
-      {
-        "invalid_action": false,
-        "length": 1000,
-        "mean_action_latency_ms": 0.028467876109061763,
-        "policy_error": null,
-        "return": 1960.7456949187047,
-        "seed": 101,
-        "terminated": false,
-        "truncated": true,
-        "variant": "nominal",
-        "x_position": 53.32761124336437,
-        "x_velocity": 0.9206927285512734
-      },
-      {
-        "invalid_action": false,
-        "length": 1000,
-        "mean_action_latency_ms": 0.028923347155796364,
-        "policy_error": null,
-        "return": 877.2195257753193,
-        "seed": 211,
-        "terminated": false,
-        "truncated": true,
-        "variant": "nominal",
-        "x_position": -0.9485613953689006,
-        "x_velocity": -1.8377400222706064
-      },
-      {
-        "invalid_action": false,
-        "length": 1000,
-        "mean_action_latency_ms": 0.029911679826909676,
-        "policy_error": null,
-        "return": 2424.075753957914,
-        "seed": 307,
-        "terminated": false,
-        "truncated": true,
-        "variant": "nominal",
-        "x_position": 76.49771178866004,
-        "x_velocity": 1.573669182193953
-      },
-      {
-        "invalid_action": false,
-        "length": 1000,
-        "mean_action_latency_ms": 0.031103011569939554,
-        "policy_error": null,
-        "return": 1210.9204369966183,
-        "seed": 401,
-        "terminated": false,
-        "truncated": true,
-        "variant": "nominal",
-        "x_position": 15.788498223386553,
-        "x_velocity": -1.7502006181826246
-      }
-    ],
-    "fall_rate": 0.0,
-    "invalid_episode_rate": 0.0,
-    "max_return": 2424.075753957914,
-    "max_steps": 1000,
-    "mean_action_latency_ms": 0.02960147866542684,
-    "mean_return": 1618.240352912139,
-    "mean_x_position": 36.166314965010514,
-    "min_return": 877.2195257753193,
-    "policy_path": "submitted_artifact",
-    "score": 1618.240352912139
-  },
-  "hidden_nominal_weight": 0.7,
-  "hidden_robustness": {
-    "episodes": [
-      {
-        "invalid_action": false,
-        "length": 1000,
-        "mean_action_latency_ms": 0.03534062029211782,
-        "policy_error": null,
-        "return": 2816.5356939643866,
-        "seed": 503,
-        "terminated": false,
-        "truncated": true,
-        "variant": "light_low_friction",
-        "x_position": 96.03292689641613,
-        "x_velocity": 1.711305903083371
-      },
-      {
-        "invalid_action": false,
-        "length": 1000,
-        "mean_action_latency_ms": 0.028797698294511065,
-        "policy_error": null,
-        "return": 2494.2487539071335,
-        "seed": 601,
-        "terminated": false,
-        "truncated": true,
-        "variant": "light_low_friction",
-        "x_position": 80.00959841427752,
-        "x_velocity": 2.2284234213796594
-      },
-      {
-        "invalid_action": false,
-        "length": 1000,
-        "mean_action_latency_ms": 0.02896833320846781,
-        "policy_error": null,
-        "return": 2413.6787614355176,
-        "seed": 503,
-        "terminated": false,
-        "truncated": true,
-        "variant": "heavy_weak_actuators",
-        "x_position": 76.42935346107426,
-        "x_velocity": 1.1236195076369881
-      },
-      {
-        "invalid_action": false,
-        "length": 1000,
-        "mean_action_latency_ms": 0.029127599817002192,
-        "policy_error": null,
-        "return": 1876.672105142364,
-        "seed": 601,
-        "terminated": false,
-        "truncated": true,
-        "variant": "heavy_weak_actuators",
-        "x_position": 49.60350134337408,
-        "x_velocity": 1.681621357020333
-      }
-    ],
-    "fall_rate": 0.0,
-    "invalid_episode_rate": 0.0,
-    "max_return": 2816.5356939643866,
-    "max_steps": 1000,
-    "mean_action_latency_ms": 0.030558562903024722,
-    "mean_return": 2400.2838286123506,
-    "mean_x_position": 75.51884502878549,
-    "min_return": 1876.672105142364,
-    "policy_path": "submitted_artifact",
-    "score": 2400.2838286123506
-  },
-  "hidden_robustness_weight": 0.3,
-  "normalized_score": -16.891796576,
+  "benchmark": "learning_beyond_gradients_article_suite",
+  "normalized_score": -12.5116242462,
+  "normalized_score_stddev": 8.756962566015595,
+  "raw_score_imputation_count": 0,
   "reference_score": 5942.333244755838,
-  "score": 1852.8533956222025,
+  "score": 2006.0944869926293,
+  "score_stddev": 306.36385957656836,
   "starter_score": 2443.815838992282,
-  "unique_policy_evaluations": 3
+  "task": "simulation_heuristics_ant_v1",
+  "trial_count": 5,
+  "trials": [
+    {
+      "normalized_score": -6.720960755,
+      "observed_raw_score": 2208.681857129609,
+      "raw_score": 2208.681857129609,
+      "raw_score_source": "observed",
+      "score_path": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_ant_v1/trial-01/score.json",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-01",
+      "trial": 1
+    },
+    {
+      "normalized_score": -24.004147668,
+      "observed_raw_score": 1604.0265547373397,
+      "raw_score": 1604.0265547373397,
+      "raw_score_source": "observed",
+      "score_path": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_ant_v1/trial-02/score.json",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-02",
+      "trial": 2
+    },
+    {
+      "normalized_score": -13.99811598,
+      "observed_raw_score": 1954.0893149644958,
+      "raw_score": 1954.0893149644958,
+      "raw_score_source": "observed",
+      "score_path": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_ant_v1/trial-03/score.json",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-03",
+      "trial": 3
+    },
+    {
+      "normalized_score": -1.398078834,
+      "observed_raw_score": 2394.903807623008,
+      "raw_score": 2394.903807623008,
+      "raw_score_source": "observed",
+      "score_path": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_ant_v1/trial-04/score.json",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-04",
+      "trial": 4
+    },
+    {
+      "normalized_score": -16.436817994,
+      "observed_raw_score": 1868.7709005086936,
+      "raw_score": 1868.7709005086936,
+      "raw_score_source": "observed",
+      "score_path": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_ant_v1/trial-05/score.json",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-05/tasks-81ec8d98a4",
+      "trial": 5
+    }
+  ]
 }

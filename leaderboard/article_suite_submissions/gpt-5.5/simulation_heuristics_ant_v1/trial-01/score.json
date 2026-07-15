@@ -1,0 +1,141 @@
+{
+  "hidden_nominal": {
+    "episodes": [
+      {
+        "invalid_action": false,
+        "length": 1000,
+        "mean_action_latency_ms": 0.01907168049365282,
+        "policy_error": null,
+        "return": 1601.122188022158,
+        "seed": 101,
+        "terminated": false,
+        "truncated": true,
+        "variant": "nominal",
+        "x_position": 34.68738055006754,
+        "x_velocity": 0.03588238448003267
+      },
+      {
+        "invalid_action": false,
+        "length": 1000,
+        "mean_action_latency_ms": 0.019829126074910164,
+        "policy_error": null,
+        "return": 2522.5963748778736,
+        "seed": 211,
+        "terminated": false,
+        "truncated": true,
+        "variant": "nominal",
+        "x_position": 80.66747834675905,
+        "x_velocity": 1.4342086254438868
+      },
+      {
+        "invalid_action": false,
+        "length": 1000,
+        "mean_action_latency_ms": 0.020496094599366188,
+        "policy_error": null,
+        "return": 2449.9497004980203,
+        "seed": 307,
+        "terminated": false,
+        "truncated": true,
+        "variant": "nominal",
+        "x_position": 77.08201897354911,
+        "x_velocity": 2.2766027143123324
+      },
+      {
+        "invalid_action": false,
+        "length": 1000,
+        "mean_action_latency_ms": 0.021072883624583483,
+        "policy_error": null,
+        "return": 2282.0994021923943,
+        "seed": 401,
+        "terminated": false,
+        "truncated": true,
+        "variant": "nominal",
+        "x_position": 68.69290428167095,
+        "x_velocity": 1.3902943972050252
+      }
+    ],
+    "fall_rate": 0.0,
+    "invalid_episode_rate": 0.0,
+    "max_return": 2522.5963748778736,
+    "max_steps": 1000,
+    "mean_action_latency_ms": 0.020117446198128164,
+    "mean_return": 2213.9419163976117,
+    "mean_x_position": 65.28244553801166,
+    "min_return": 1601.122188022158,
+    "policy_path": "submitted_artifact",
+    "score": 2213.9419163976117
+  },
+  "hidden_nominal_weight": 0.7,
+  "hidden_robustness": {
+    "episodes": [
+      {
+        "invalid_action": false,
+        "length": 1000,
+        "mean_action_latency_ms": 0.019811073318123817,
+        "policy_error": null,
+        "return": 2139.659168170233,
+        "seed": 503,
+        "terminated": false,
+        "truncated": true,
+        "variant": "light_low_friction",
+        "x_position": 61.46160671564114,
+        "x_velocity": 2.353856976070574
+      },
+      {
+        "invalid_action": false,
+        "length": 1000,
+        "mean_action_latency_ms": 0.020937751047313213,
+        "policy_error": null,
+        "return": 2654.0438351392863,
+        "seed": 601,
+        "terminated": false,
+        "truncated": true,
+        "variant": "light_low_friction",
+        "x_position": 87.2676711933084,
+        "x_velocity": 1.7041576644825795
+      },
+      {
+        "invalid_action": false,
+        "length": 1000,
+        "mean_action_latency_ms": 0.01916940649971366,
+        "policy_error": null,
+        "return": 1606.122754418626,
+        "seed": 503,
+        "terminated": false,
+        "truncated": true,
+        "variant": "heavy_weak_actuators",
+        "x_position": 35.238836088463565,
+        "x_velocity": -2.113524265761697
+      },
+      {
+        "invalid_action": false,
+        "length": 1000,
+        "mean_action_latency_ms": 0.021226889919489622,
+        "policy_error": null,
+        "return": 2385.8077842889347,
+        "seed": 601,
+        "terminated": false,
+        "truncated": true,
+        "variant": "heavy_weak_actuators",
+        "x_position": 74.29669634060585,
+        "x_velocity": 2.19176681246978
+      }
+    ],
+    "fall_rate": 0.0,
+    "invalid_episode_rate": 0.0,
+    "max_return": 2654.0438351392863,
+    "max_steps": 1000,
+    "mean_action_latency_ms": 0.020286280196160078,
+    "mean_return": 2196.40838550427,
+    "mean_x_position": 64.56620258450474,
+    "min_return": 1606.122754418626,
+    "policy_path": "submitted_artifact",
+    "score": 2196.40838550427
+  },
+  "hidden_robustness_weight": 0.3,
+  "normalized_score": -6.720960755,
+  "reference_score": 5942.333244755838,
+  "score": 2208.681857129609,
+  "starter_score": 2443.815838992282,
+  "unique_policy_evaluations": 3
+}

@@ -1,0 +1,80 @@
+{
+  "normalized_score": 10.062893082,
+  "reference_score": 864.0,
+  "score": 435.0,
+  "starter_score": 387.0,
+  "suites": {
+    "hidden_nominal": {
+      "completion_rate": 0.0,
+      "episodes": [
+        {
+          "final_lives": 0,
+          "invalid_action": false,
+          "length": 12657,
+          "mean_action_latency_ms": 0.008401450276271214,
+          "observation_mode": "ram",
+          "policy_error": null,
+          "return": 435.0,
+          "seed": 101,
+          "terminated": true,
+          "truncated": false,
+          "variant": "nominal",
+          "warmup_steps": 0
+        }
+      ],
+      "invalid_episode_rate": 0.0,
+      "max_return": 435.0,
+      "max_steps": 108000,
+      "mean_action_latency_ms": 0.008401450276271214,
+      "mean_return": 435.0,
+      "min_return": 435.0,
+      "observation_mode": "ram",
+      "policy_path": "submitted_artifact",
+      "score": 435.0
+    },
+    "hidden_shifted_start": {
+      "completion_rate": 0.0,
+      "episodes": [
+        {
+          "final_lives": 0,
+          "invalid_action": false,
+          "length": 12651,
+          "mean_action_latency_ms": 0.00870571632308363,
+          "observation_mode": "ram",
+          "policy_error": null,
+          "return": 435.0,
+          "seed": 211,
+          "terminated": true,
+          "truncated": false,
+          "variant": "left_6",
+          "warmup_steps": 6
+        },
+        {
+          "final_lives": 0,
+          "invalid_action": false,
+          "length": 12651,
+          "mean_action_latency_ms": 0.011082768084531566,
+          "observation_mode": "ram",
+          "policy_error": null,
+          "return": 435.0,
+          "seed": 211,
+          "terminated": true,
+          "truncated": false,
+          "variant": "right_6",
+          "warmup_steps": 6
+        }
+      ],
+      "invalid_episode_rate": 0.0,
+      "max_return": 435.0,
+      "max_steps": 108000,
+      "mean_action_latency_ms": 0.009894242203807597,
+      "mean_return": 435.0,
+      "min_return": 435.0,
+      "observation_mode": "ram",
+      "policy_path": "submitted_artifact",
+      "score": 435.0
+    }
+  },
+  "target_gap": -429.0,
+  "target_score": 864.0
+}

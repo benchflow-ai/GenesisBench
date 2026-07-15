@@ -1,8 +1,6 @@
 {
   "benchmark": "learning_beyond_gradients_article_suite",
-  "current_task_digest": "sha256:5cf3805d59b03cb9d0bebb6f154eab38beb655918b8321500d692f5010a00cb2",
-  "digest_compatibility_note": "Score-equivalent to the current task. Later changes add a fail-closed verifier timeout plus a CI-only smoke config and documentation; the publication scoring config is unchanged.",
-  "finished_at": 1783941566.485236,
+  "current_task_digest": "sha256:c338003eab742d732cfd8b1cb13fe3d6a5b8fdd6f58842f6ba2991314d6ab974",
   "harness": "opencode",
   "model": {
     "display_name": "GPT-5.4 Mini",
@@ -11,17 +9,19 @@
     "provider": "azure",
     "provider_reasoning_effort": "xhigh"
   },
-  "normalized_score": -31.35954984,
+  "normalized_score": -47.232499900200004,
+  "normalized_score_stddev": 10.40778807635678,
   "provider_reasoning_effort": "xhigh",
-  "source_run_id": "leaderboard/runs/article_suite/20260713T104315Z/gpt-5.4-mini",
+  "raw_score": 791.3786088082715,
+  "raw_score_imputation_count": 0,
+  "raw_score_stddev": 364.1182774109385,
+  "source_run_ids": [
+    "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-01",
+    "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-02",
+    "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-03",
+    "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-04",
+    "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-05"
+  ],
   "task": "simulation_heuristics_ant_v1",
-  "task_digest": "sha256:bbb533da0cb86459f4d49dee667e6c73ac54c0188bc40e54e911d50ef3c3bc38",
-  "token_usage": {
-    "final_input_tokens": 937.0,
-    "final_output_tokens": 225.0,
-    "input_tokens": 937.0,
-    "output_tokens": 225.0,
-    "total_tokens": 16010.0
-  },
-  "tool_calls": 16
+  "trial_count": 5
 }

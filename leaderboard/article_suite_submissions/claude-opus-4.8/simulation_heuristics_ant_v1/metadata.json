@@ -1,11 +1,9 @@
 {
   "benchmark": "learning_beyond_gradients_article_suite",
-  "current_task_digest": "sha256:5cf3805d59b03cb9d0bebb6f154eab38beb655918b8321500d692f5010a00cb2",
-  "digest_compatibility_note": "Score-equivalent to the current task. The later change adds only a CI smoke config and documentation; the publication scoring config is unchanged.",
-  "finished_at": 1783956862.2606888,
+  "current_task_digest": "sha256:c338003eab742d732cfd8b1cb13fe3d6a5b8fdd6f58842f6ba2991314d6ab974",
   "harness": "opencode",
   "model": {
-    "agent_idle_timeout_sec": 0,
+    "agent_idle_timeout_sec": 3600,
     "daytona_pty_readline_timeout_sec": 3600,
     "display_name": "Claude Opus 4.8",
     "id": "claude-opus-4.8",
@@ -13,17 +11,19 @@
     "provider": "claude_oauth",
     "provider_reasoning_effort": "max"
   },
-  "normalized_score": 14.050353128,
+  "normalized_score": 1.820348169,
+  "normalized_score_stddev": 4.070422248601275,
   "provider_reasoning_effort": "max",
-  "source_run_id": "leaderboard/runs/article_suite/20260713T142919Z/claude-opus-4.8",
+  "raw_score": 2507.501036532837,
+  "raw_score_imputation_count": 4,
+  "raw_score_stddev": 142.40443086118393,
+  "source_run_ids": [
+    "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-01/tasks-81ec8d98a4",
+    "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-02/tasks-e7ee9d1b4f",
+    "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-03",
+    "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-04",
+    "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-05"
+  ],
   "task": "simulation_heuristics_ant_v1",
-  "task_digest": "sha256:9da0e00147cf66804e6c2fc17869606bea8f260850c5447989a8880eef940d45",
-  "token_usage": {
-    "final_input_tokens": 0.0,
-    "final_output_tokens": 0.0,
-    "input_tokens": 0.0,
-    "output_tokens": 0.0,
-    "total_tokens": 0.0
-  },
-  "tool_calls": 48
+  "trial_count": 5
 }

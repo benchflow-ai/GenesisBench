@@ -1,66 +1,59 @@
 {
-  "normalized_score": 0.0,
+  "benchmark": "learning_beyond_gradients_article_suite",
+  "normalized_score": 89.2779783394,
+  "normalized_score_stddev": 13.287454681897577,
+  "raw_score_imputation_count": 0,
   "reference_score": 864.0,
-  "score": 310.0,
+  "score": 804.6,
+  "score_stddev": 73.61249893869926,
   "starter_score": 310.0,
-  "suites": {
-    "hidden_nominal": {
-      "completion_rate": 0.0,
-      "episodes": [
-        {
-          "final_lives": 0,
-          "invalid_action": false,
-          "length": 11358,
-          "mean_action_latency_ms": 0.4728028780663805,
-          "observation_mode": "rgb",
-          "policy_error": null,
-          "return": 310.0,
-          "seed": 101,
-          "terminated": true,
-          "truncated": false,
-          "variant": "nominal",
-          "warmup_steps": 0
-        }
-      ],
-      "invalid_episode_rate": 0.0,
-      "max_return": 310.0,
-      "max_steps": 30000,
-      "mean_action_latency_ms": 0.4728028780663805,
-      "mean_return": 310.0,
-      "min_return": 310.0,
-      "observation_mode": "rgb",
-      "policy_path": "submitted_artifact",
-      "score": 310.0
+  "task": "simulation_heuristics_breakout_rgb_v1",
+  "trial_count": 5,
+  "trials": [
+    {
+      "normalized_score": 70.758122744,
+      "observed_raw_score": 702.0,
+      "raw_score": 702.0,
+      "raw_score_source": "observed",
+      "score_path": "leaderboard/article_suite_submissions/claude-opus-4.8/simulation_heuristics_breakout_rgb_v1/trial-01/score.json",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-01",
+      "trial": 1
     },
-    "hidden_shifted_start": {
-      "completion_rate": 0.0,
-      "episodes": [
-        {
-          "final_lives": 0,
-          "invalid_action": false,
-          "length": 11352,
-          "mean_action_latency_ms": 0.48375160852496374,
-          "observation_mode": "rgb",
-          "policy_error": null,
-          "return": 310.0,
-          "seed": 211,
-          "terminated": true,
-          "truncated": false,
-          "variant": "right_6",
-          "warmup_steps": 6
-        }
-      ],
-      "invalid_episode_rate": 0.0,
-      "max_return": 310.0,
-      "max_steps": 30000,
-      "mean_action_latency_ms": 0.48375160852496374,
-      "mean_return": 310.0,
-      "min_return": 310.0,
-      "observation_mode": "rgb",
-      "policy_path": "submitted_artifact",
-      "score": 310.0
+    {
+      "normalized_score": 79.783393502,
+      "observed_raw_score": 752.0,
+      "raw_score": 752.0,
+      "raw_score_source": "observed",
+      "score_path": "leaderboard/article_suite_submissions/claude-opus-4.8/simulation_heuristics_breakout_rgb_v1/trial-02/score.json",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-02",
+      "trial": 2
+    },
+    {
+      "normalized_score": 100.0,
+      "observed_raw_score": 864.0,
+      "raw_score": 864.0,
+      "raw_score_source": "observed",
+      "score_path": "leaderboard/article_suite_submissions/claude-opus-4.8/simulation_heuristics_breakout_rgb_v1/trial-03/score.json",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-03",
+      "trial": 3
+    },
+    {
+      "normalized_score": 95.848375451,
+      "observed_raw_score": 841.0,
+      "raw_score": 841.0,
+      "raw_score_source": "observed",
+      "score_path": "leaderboard/article_suite_submissions/claude-opus-4.8/simulation_heuristics_breakout_rgb_v1/trial-04/score.json",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-04",
+      "trial": 4
+    },
+    {
+      "normalized_score": 100.0,
+      "observed_raw_score": 864.0,
+      "raw_score": 864.0,
+      "raw_score_source": "observed",
+      "score_path": "leaderboard/article_suite_submissions/claude-opus-4.8/simulation_heuristics_breakout_rgb_v1/trial-05/score.json",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-05",
+      "trial": 5
     }
-  },
-  "target_gap": -554.0,
-  "target_score": 864.0
+  ]
 }

@@ -4,6 +4,7 @@ import json
 import math
 from pathlib import Path
 import re
+import statistics
 import struct
 
 
@@ -62,8 +63,26 @@ def test_article_suite_leaderboard_is_complete_and_self_contained() -> None:
     assert payload["leaderboards"][-1]["id"] == "final"
     assert payload["aggregation"]["primary_metric"] == "interquartile_mean"
     assert payload["aggregation"]["trim_fraction_per_tail"] == 0.25
-    assert payload["aggregation"]["trimmed_score_count_per_tail"] == 2
-    assert payload["aggregation"]["retained_score_count"] == 5
+    if "protocol" in payload:
+        assert payload["protocol"]["version"] == "2.1"
+        assert payload["protocol"]["trials"] == 5
+        assert payload["protocol"]["agent_timeout_multiplier"] == 3
+        assert payload["execution"] == {
+            "sandbox": "daytona",
+            "sandboxes": ["daytona"],
+        }
+        assert payload["aggregation"]["pooled_score_count"] == 45
+        assert payload["aggregation"]["trimmed_score_count_per_tail"] == 11
+        assert payload["aggregation"]["retained_score_count"] == 23
+        assert set(payload["batch_ids"]) == {
+            "gpt-5.6-sol",
+            "gpt-5.5",
+            "claude-opus-4.8",
+            "gpt-5.4-mini",
+        }
+    else:
+        assert payload["aggregation"]["trimmed_score_count_per_tail"] == 2
+        assert payload["aggregation"]["retained_score_count"] == 5
     assert (
         payload["inference_settings"]["cross_provider_comparability"]
         == "labels_are_not_a_shared_numeric_compute_scale"
@@ -89,12 +108,45 @@ def test_article_suite_leaderboard_is_complete_and_self_contained() -> None:
 
     for row in payload["rows"]:
         assert row["harness"] == "opencode"
+        if row.get("sandbox") is not None:
+            assert row["sandbox"] == "daytona"
         assert set(row["task_scores"]) == set(payload["tasks"])
         assert set(row["raw_task_scores"]) == set(payload["tasks"])
         assert set(row["task_anchors"]) == set(payload["tasks"])
         assert set(row["submission_details"]) == set(payload["tasks"])
-        sorted_scores = sorted(row["task_scores"].values())
-        expected_iqm = sum(sorted_scores[2:7]) / 5
+        trial_final_scores = row.get("trial_final_normalized_scores")
+        if trial_final_scores is None:
+            sorted_scores = sorted(row["task_scores"].values())
+            expected_iqm = sum(sorted_scores[2:7]) / 5
+        else:
+            assert row["trial_count"] == 5
+            assert len(trial_final_scores) == 5
+            trial_values = list(trial_final_scores.values())
+            trial_task_scores = row["trial_task_normalized_scores"]
+            assert len(trial_task_scores) == 5
+            pooled_scores = [
+                trial_scores[task]
+                for _, trial_scores in sorted(
+                    trial_task_scores.items(),
+                    key=lambda item: int(item[0]),
+                )
+                for task in payload["tasks"]
+            ]
+            ordered_scores = sorted(pooled_scores)
+            trim_count = int(len(ordered_scores) * 0.25)
+            expected_iqm = statistics.fmean(
+                ordered_scores[
+                    trim_count : len(ordered_scores) - trim_count
+                ]
+            )
+            assert math.isclose(
+                row["final_normalized_score_stddev"],
+                statistics.stdev(trial_values),
+            )
+            assert math.isclose(
+                row["mean_trial_iqm_normalized_score"],
+                statistics.fmean(trial_values),
+            )
         assert math.isclose(
             row["final_normalized_score"],
             expected_iqm,
@@ -120,6 +172,28 @@ def test_article_suite_leaderboard_is_complete_and_self_contained() -> None:
             assert metadata["harness"] == "opencode"
             assert metadata["normalized_score"] == row["task_scores"][task]
             assert score["normalized_score"] == row["task_scores"][task]
+            if row.get("trial_count") is not None:
+                assert metadata["trial_count"] == 5
+                assert score["trial_count"] == 5
+                assert len(score["trials"]) == 5
+                assert metadata["normalized_score_stddev"] == row[
+                    "task_score_stddevs"
+                ][task]
+                assert score["normalized_score_stddev"] == row[
+                    "task_score_stddevs"
+                ][task]
+                assert metadata["raw_score_stddev"] == row[
+                    "raw_task_score_stddevs"
+                ][task]
+                assert score["score_stddev"] == row[
+                    "raw_task_score_stddevs"
+                ][task]
+                assert metadata["raw_score_imputation_count"] == row[
+                    "raw_task_score_imputation_counts"
+                ][task]
+                assert score["raw_score_imputation_count"] == row[
+                    "raw_task_score_imputation_counts"
+                ][task]
 
             def assert_no_absolute_artifact_paths(value: object) -> None:
                 if isinstance(value, dict):
@@ -152,6 +226,14 @@ def test_article_suite_leaderboard_is_complete_and_self_contained() -> None:
             assert row["reference_score"] == model_row["task_anchors"][
                 board["id"]
             ]["reference_score"]
+            if model_row.get("trial_count") is not None:
+                assert row["trial_count"] == 5
+                assert row["normalized_score_stddev"] == model_row[
+                    "task_score_stddevs"
+                ][board["id"]]
+                assert row["raw_score_stddev"] == model_row[
+                    "raw_task_score_stddevs"
+                ][board["id"]]
 
     final_board = payload["leaderboards"][-1]
     assert [
@@ -165,12 +247,12 @@ def test_article_suite_leaderboard_is_complete_and_self_contained() -> None:
         )
         for row in final_board["rows"]
     )
-    assert [row["model"] for row in payload["rows"]] == [
+    assert {row["model"] for row in payload["rows"]} == {
         "GPT-5.5",
         "GPT-5.6 Sol",
         "Claude Opus 4.8",
         "GPT-5.4 Mini",
-    ]
+    }
 
     markdown = ARTICLE_SUITE_MARKDOWN.read_text()
     assert "article_suite_task_leaderboards.png" in markdown
@@ -188,10 +270,17 @@ def test_article_suite_leaderboard_is_complete_and_self_contained() -> None:
     assert "assets/article_suite_final_leaderboard.png" not in website
     assert '<h3 id="leaderboardsTitle">Leaderboards</h3>' in website
     assert "Task-level view" not in website
+    assert "Four coding models, nine article-derived tasks" not in website
+    assert "The task panels show each environment's native raw score" not in website
+    assert "Pooled IQM across all 45 trial-task scores" in website
+    assert "grid-template-columns:5.2rem minmax(0,1fr) 5.1rem" in website
+    assert 'class="chart-error-range"' in website
+    assert 'class="final-error-range"' in website
     assert 'id="taskLeaderboards"' in website
     assert 'id="finalLeaderboard"' in website
     assert 'id="inferenceSettings"' in website
     assert "not a shared numeric compute scale" in website
+    assert "' · '+esc(row.harness)+' · '+esc(row.sandbox)" in website
     assert 'id="loopScore"' in website
     assert 'id="loopNote"' in website
     assert "loopScore.textContent=t.score" in website

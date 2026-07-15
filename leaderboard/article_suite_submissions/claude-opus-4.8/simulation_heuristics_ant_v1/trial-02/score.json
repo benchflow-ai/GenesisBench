@@ -1,0 +1,141 @@
+{
+  "hidden_nominal": {
+    "episodes": [
+      {
+        "invalid_action": false,
+        "length": 1000,
+        "mean_action_latency_ms": 53.30563308298588,
+        "policy_error": null,
+        "return": 2462.6958737105706,
+        "seed": 101,
+        "terminated": false,
+        "truncated": true,
+        "variant": "nominal",
+        "x_position": 82.17225037670244,
+        "x_velocity": 1.6847347109145971
+      },
+      {
+        "invalid_action": false,
+        "length": 1000,
+        "mean_action_latency_ms": 55.477168429642916,
+        "policy_error": null,
+        "return": 2864.7157423617828,
+        "seed": 211,
+        "terminated": false,
+        "truncated": true,
+        "variant": "nominal",
+        "x_position": 102.17853506143068,
+        "x_velocity": 1.9541062168079293
+      },
+      {
+        "invalid_action": false,
+        "length": 1000,
+        "mean_action_latency_ms": 55.207165353000164,
+        "policy_error": null,
+        "return": 2486.0698110071953,
+        "seed": 307,
+        "terminated": false,
+        "truncated": true,
+        "variant": "nominal",
+        "x_position": 83.28267351663796,
+        "x_velocity": 0.4153314073650449
+      },
+      {
+        "invalid_action": false,
+        "length": 1000,
+        "mean_action_latency_ms": 56.19777377322316,
+        "policy_error": null,
+        "return": 2985.27186137575,
+        "seed": 401,
+        "terminated": false,
+        "truncated": true,
+        "variant": "nominal",
+        "x_position": 108.24431210651534,
+        "x_velocity": 1.64362469988788
+      }
+    ],
+    "fall_rate": 0.0,
+    "invalid_episode_rate": 0.0,
+    "max_return": 2985.27186137575,
+    "max_steps": 1000,
+    "mean_action_latency_ms": 55.04693515971303,
+    "mean_return": 2699.6883221138246,
+    "mean_x_position": 93.9694427653216,
+    "min_return": 2462.6958737105706,
+    "policy_path": "submitted_artifact",
+    "score": 2699.6883221138246
+  },
+  "hidden_nominal_weight": 0.7,
+  "hidden_robustness": {
+    "episodes": [
+      {
+        "invalid_action": false,
+        "length": 1000,
+        "mean_action_latency_ms": 56.27190098166466,
+        "policy_error": null,
+        "return": 3138.8040933119382,
+        "seed": 503,
+        "terminated": false,
+        "truncated": true,
+        "variant": "light_low_friction",
+        "x_position": 115.86236716561513,
+        "x_velocity": 2.2301605735646035
+      },
+      {
+        "invalid_action": false,
+        "length": 1000,
+        "mean_action_latency_ms": 54.710381008684635,
+        "policy_error": null,
+        "return": 3073.575124572617,
+        "seed": 601,
+        "terminated": false,
+        "truncated": true,
+        "variant": "light_low_friction",
+        "x_position": 112.69542014820925,
+        "x_velocity": 2.3028379066158777
+      },
+      {
+        "invalid_action": false,
+        "length": 1000,
+        "mean_action_latency_ms": 55.404857095330954,
+        "policy_error": null,
+        "return": 2715.961883054363,
+        "seed": 503,
+        "terminated": false,
+        "truncated": true,
+        "variant": "heavy_weak_actuators",
+        "x_position": 95.26212960331155,
+        "x_velocity": 1.694659112316117
+      },
+      {
+        "invalid_action": false,
+        "length": 1000,
+        "mean_action_latency_ms": 56.29627299308777,
+        "policy_error": null,
+        "return": 2704.4589152661615,
+        "seed": 601,
+        "terminated": false,
+        "truncated": true,
+        "variant": "heavy_weak_actuators",
+        "x_position": 94.78120825640332,
+        "x_velocity": 2.1434038102083264
+      }
+    ],
+    "fall_rate": 0.0,
+    "invalid_episode_rate": 0.0,
+    "max_return": 3138.8040933119382,
+    "max_steps": 1000,
+    "mean_action_latency_ms": 55.670853019692004,
+    "mean_return": 2908.20000405127,
+    "mean_x_position": 104.65028129338481,
+    "min_return": 2704.4589152661615,
+    "policy_path": "submitted_artifact",
+    "score": 2908.20000405127
+  },
+  "hidden_robustness_weight": 0.3,
+  "normalized_score": 9.101740845,
+  "reference_score": 5942.333244755838,
+  "score": 2762.241826695058,
+  "starter_score": 2443.815838992282,
+  "unique_policy_evaluations": 3
+}

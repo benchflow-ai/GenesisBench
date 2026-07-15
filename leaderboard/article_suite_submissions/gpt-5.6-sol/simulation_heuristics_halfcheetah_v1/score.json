@@ -1,98 +1,59 @@
 {
-  "hidden_nominal": {
-    "episodes": [
-      {
-        "control_cost": 356.07088327407837,
-        "forward_reward": 5632.4692681876395,
-        "invalid_action": false,
-        "length": 1000,
-        "mean_action_latency_ms": 88.74183517647907,
-        "policy_error": null,
-        "return": 5276.398384913561,
-        "seed": 211,
-        "terminated": false,
-        "truncated": true,
-        "variant": "nominal",
-        "x_position": 281.61280558038936,
-        "x_velocity": 6.870092442627187
-      },
-      {
-        "control_cost": 354.76760932803154,
-        "forward_reward": 5644.934512193883,
-        "invalid_action": false,
-        "length": 1000,
-        "mean_action_latency_ms": 87.7370754101139,
-        "policy_error": null,
-        "return": 5290.16690286585,
-        "seed": 307,
-        "terminated": false,
-        "truncated": true,
-        "variant": "nominal",
-        "x_position": 282.2733096756311,
-        "x_velocity": 5.513374251299842
-      }
-    ],
-    "invalid_episode_rate": 0.0,
-    "max_return": 5290.16690286585,
-    "max_steps": 1000,
-    "mean_action_latency_ms": 88.23945529329649,
-    "mean_control_cost": 355.41924630105495,
-    "mean_forward_reward": 5638.701890190761,
-    "mean_return": 5283.2826438897055,
-    "mean_x_position": 281.94305762801025,
-    "min_return": 5276.398384913561,
-    "policy_path": "submitted_artifact",
-    "score": 5283.2826438897055
-  },
-  "hidden_nominal_weight": 0.7,
-  "hidden_robustness": {
-    "episodes": [
-      {
-        "control_cost": 356.7619220018387,
-        "forward_reward": 6306.763750673376,
-        "invalid_action": false,
-        "length": 1000,
-        "mean_action_latency_ms": 87.32058335322654,
-        "policy_error": null,
-        "return": 5950.001828671538,
-        "seed": 503,
-        "terminated": false,
-        "truncated": true,
-        "variant": "light_low_friction",
-        "x_position": 315.32050915627565,
-        "x_velocity": 6.34920209270735
-      },
-      {
-        "control_cost": 354.2664739340544,
-        "forward_reward": 4345.89047307381,
-        "invalid_action": false,
-        "length": 1000,
-        "mean_action_latency_ms": 89.54298742787796,
-        "policy_error": null,
-        "return": 3991.623999139752,
-        "seed": 503,
-        "terminated": false,
-        "truncated": true,
-        "variant": "heavy_weak_actuators",
-        "x_position": 217.2768452762976,
-        "x_velocity": 4.8277047961250705
-      }
-    ],
-    "invalid_episode_rate": 0.0,
-    "max_return": 5950.001828671538,
-    "max_steps": 1000,
-    "mean_action_latency_ms": 88.43178539055225,
-    "mean_control_cost": 355.51419796794653,
-    "mean_forward_reward": 5326.327111873594,
-    "mean_return": 4970.812913905645,
-    "mean_x_position": 266.2986772162866,
-    "min_return": 3991.623999139752,
-    "policy_path": "submitted_artifact",
-    "score": 4970.812913905645
-  },
-  "hidden_robustness_weight": 0.3,
-  "normalized_score": 15.873072595,
+  "benchmark": "learning_beyond_gradients_article_suite",
+  "normalized_score": 31.8442100886,
+  "normalized_score_stddev": 3.8873875677992533,
+  "raw_score_imputation_count": 0,
   "reference_score": 11487.256451471967,
-  "score": 5189.541724894487,
-  "starter_score": 4001.2886158917113
+  "score": 6385.135940620764,
+  "score_stddev": 291.0085829715705,
+  "starter_score": 4001.2886158917113,
+  "task": "simulation_heuristics_halfcheetah_v1",
+  "trial_count": 5,
+  "trials": [
+    {
+      "normalized_score": 26.12140084,
+      "observed_raw_score": 5956.728280971269,
+      "raw_score": 5956.728280971269,
+      "raw_score_source": "observed",
+      "score_path": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_halfcheetah_v1/trial-01/score.json",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01",
+      "trial": 1
+    },
+    {
+      "normalized_score": 33.28729024,
+      "observed_raw_score": 6493.16445658394,
+      "raw_score": 6493.16445658394,
+      "raw_score_source": "observed",
+      "score_path": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_halfcheetah_v1/trial-02/score.json",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-02",
+      "trial": 2
+    },
+    {
+      "normalized_score": 36.605449762,
+      "observed_raw_score": 6741.560811161888,
+      "raw_score": 6741.560811161888,
+      "raw_score_source": "observed",
+      "score_path": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_halfcheetah_v1/trial-03/score.json",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03",
+      "trial": 3
+    },
+    {
+      "normalized_score": 32.792734613,
+      "observed_raw_score": 6456.142181402096,
+      "raw_score": 6456.142181402096,
+      "raw_score_source": "observed",
+      "score_path": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_halfcheetah_v1/trial-04/score.json",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-04/tasks-81ec8d98a4",
+      "trial": 4
+    },
+    {
+      "normalized_score": 30.414174988,
+      "observed_raw_score": 6278.083972984627,
+      "raw_score": 6278.083972984627,
+      "raw_score_source": "observed",
+      "score_path": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_halfcheetah_v1/trial-05/score.json",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-05",
+      "trial": 5
+    }
+  ]
 }
