@@ -188,6 +188,12 @@ def test_article_suite_leaderboard_is_complete_and_self_contained() -> None:
                 assert score["score_stddev"] == row[
                     "raw_task_score_stddevs"
                 ][task]
+                assert metadata["raw_score_imputation_count"] == row[
+                    "raw_task_score_imputation_counts"
+                ][task]
+                assert score["raw_score_imputation_count"] == row[
+                    "raw_task_score_imputation_counts"
+                ][task]
 
             def assert_no_absolute_artifact_paths(value: object) -> None:
                 if isinstance(value, dict):
@@ -267,6 +273,9 @@ def test_article_suite_leaderboard_is_complete_and_self_contained() -> None:
     assert "Four coding models, nine article-derived tasks" not in website
     assert "The task panels show each environment's native raw score" not in website
     assert "Pooled IQM across all 45 trial-task scores" in website
+    assert "grid-template-columns:5.2rem minmax(0,1fr) 5.1rem" in website
+    assert 'class="chart-error-range"' in website
+    assert 'class="final-error-range"' in website
     assert 'id="taskLeaderboards"' in website
     assert 'id="finalLeaderboard"' in website
     assert 'id="inferenceSettings"' in website

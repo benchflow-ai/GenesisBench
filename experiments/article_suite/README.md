@@ -157,3 +157,8 @@ matrix, removes the lowest 11 and highest 11 values, and averages the middle
 the five trial-level IQMs remain visible diagnostics. The additive display
 offset does not affect ranking or score gaps; raw IQM remains available in the
 JSON.
+
+For task-defined fail-closed verifier timeouts where no native raw score exists,
+the raw-score plot uses the frozen starter anchor as the equivalent of
+normalized `0`. Trial metadata preserves the missing observation and labels the
+display source explicitly.

@@ -330,6 +330,90 @@ def _protocol() -> dict[str, Any]:
     return tomllib.loads(PROTOCOL_PATH.read_text())
 
 
+def _finite_number(value: Any) -> bool:
+    return (
+        isinstance(value, int | float)
+        and not isinstance(value, bool)
+        and math.isfinite(float(value))
+    )
+
+
+def _fallback_task_anchors(
+    task_results: dict[
+        str,
+        dict[
+            str,
+            dict[int, tuple[dict[str, Any], dict[str, Any], Path, str]],
+        ],
+    ],
+) -> dict[str, tuple[float, float]]:
+    candidates: dict[str, list[tuple[float, float]]] = {
+        task: [] for task in TASKS
+    }
+    for model_results in task_results.values():
+        for task, trial_results in model_results.items():
+            for _, result_row, _, _ in trial_results.values():
+                rollout_dir = Path(result_row["info"]["rollout_dir"])
+                score_path = rollout_dir / "verifier" / "genesis-score.json"
+                if not score_path.is_file():
+                    continue
+                score = json.loads(score_path.read_text())
+                starter = score.get("starter_score")
+                reference = score.get("reference_score")
+                if _finite_number(starter) and _finite_number(reference):
+                    candidates[task].append(
+                        (float(starter), float(reference))
+                    )
+    anchors = {}
+    for task, values in candidates.items():
+        if not values:
+            raise RuntimeError(f"{task} has no numeric starter/reference anchors")
+        anchors[task] = (
+            statistics.fmean(value[0] for value in values),
+            statistics.fmean(value[1] for value in values),
+        )
+    return anchors
+
+
+def _resolve_raw_score(
+    score: dict[str, Any],
+    *,
+    normalized_score: float,
+    fallback_anchor: tuple[float, float],
+) -> tuple[float, float, float, str, float | None]:
+    raw = score.get("score")
+    starter = score.get("starter_score")
+    reference = score.get("reference_score")
+    if (
+        _finite_number(raw)
+        and _finite_number(starter)
+        and _finite_number(reference)
+    ):
+        return (
+            float(raw),
+            float(starter),
+            float(reference),
+            "observed",
+            float(raw),
+        )
+    if (
+        score.get("verifier_timeout") is True
+        and normalized_score == 0.0
+    ):
+        fallback_starter, fallback_reference = fallback_anchor
+        return (
+            fallback_starter,
+            fallback_starter,
+            fallback_reference,
+            "starter_anchor_equivalent_for_fail_closed_timeout",
+            None,
+        )
+    raise RuntimeError(
+        "score artifact has no finite raw score and is not a fail-closed "
+        "verifier timeout"
+    )
+
+
 def _execution_protocol(protocol: dict[str, Any]) -> dict[str, Any]:
     return {
         key: protocol.get(key)
@@ -455,6 +539,9 @@ def _build_leaderboards(
                 ][task],
                 "raw_score": row["raw_task_scores"][task],
                 "raw_score_stddev": row["raw_task_score_stddevs"][task],
+                "raw_score_imputation_count": row[
+                    "raw_task_score_imputation_counts"
+                ][task],
                 "trial_count": row["trial_count"],
                 "starter_score": row["task_anchors"][task][
                     "starter_score"
@@ -565,7 +652,7 @@ def _render_article_suite_markdown(
         "The nine task panels report five-trial mean ± sample standard "
         "deviation for each environment's native raw score.",
         "",
-        "## Nine task leaderboards",
+        "## Leaderboards",
         "",
         "![Nine task-specific GenesisBench leaderboards]"
         "(article_suite_task_leaderboards.png)",
@@ -839,6 +926,7 @@ def main() -> None:
         expected_models=set(expected_models),
         protocol=protocol,
     )
+    fallback_task_anchors = _fallback_task_anchors(task_results)
     ranked: list[dict[str, Any]] = []
     submissions_root = args.output.parent / "article_suite_submissions"
     for model_id in expected_models:
@@ -848,6 +936,7 @@ def main() -> None:
         task_score_stddevs: dict[str, float] = {}
         raw_task_scores: dict[str, float] = {}
         raw_task_score_stddevs: dict[str, float] = {}
+        raw_task_score_imputation_counts: dict[str, int] = {}
         task_anchors: dict[str, dict[str, float]] = {}
         submission_details: dict[str, str] = {}
         source_runs: dict[str, list[str]] = {}
@@ -865,6 +954,7 @@ def main() -> None:
             raw_values = []
             starter_values = []
             reference_values = []
+            raw_score_imputation_count = 0
             trial_records = []
             for trial in range(1, trial_count + 1):
                 task_metadata, result_row, model_root, digest = trial_results[
@@ -893,23 +983,24 @@ def main() -> None:
                     json.loads(source_score.read_text())
                 )
                 normalized = _normalized_task_score(result_row)
-                raw_score = sanitized_score.get("score")
-                starter_score = sanitized_score.get("starter_score")
-                reference_score = sanitized_score.get("reference_score")
-                for name, value in (
-                    ("score", raw_score),
-                    ("starter_score", starter_score),
-                    ("reference_score", reference_score),
-                ):
-                    if (
-                        not isinstance(value, int | float)
-                        or isinstance(value, bool)
-                        or not math.isfinite(float(value))
-                    ):
-                        raise RuntimeError(
-                            f"{model_id}/{task}/trial-{trial:02d} has "
-                            f"invalid {name} {value!r}"
-                        )
+                try:
+                    (
+                        raw_score,
+                        starter_score,
+                        reference_score,
+                        raw_score_source,
+                        observed_raw_score,
+                    ) = _resolve_raw_score(
+                        sanitized_score,
+                        normalized_score=normalized,
+                        fallback_anchor=fallback_task_anchors[task],
+                    )
+                except RuntimeError as exc:
+                    raise RuntimeError(
+                        f"{model_id}/{task}/trial-{trial:02d}: {exc}"
+                    ) from exc
+                if raw_score_source != "observed":
+                    raw_score_imputation_count += 1
                 trial_destination = destination / f"trial-{trial:02d}"
                 trial_destination.mkdir(parents=True, exist_ok=True)
                 trial_score_path = trial_destination / "score.json"
@@ -936,6 +1027,8 @@ def main() -> None:
                     ],
                     "normalized_score": normalized,
                     "raw_score": float(raw_score),
+                    "observed_raw_score": observed_raw_score,
+                    "raw_score_source": raw_score_source,
                     "source_run_id": source_run,
                     "finished_at": task_metadata["finished_at"],
                     "tool_calls": result_row.get("metrics", {}).get(
@@ -962,6 +1055,8 @@ def main() -> None:
                         "trial": trial,
                         "normalized_score": normalized,
                         "raw_score": float(raw_score),
+                        "observed_raw_score": observed_raw_score,
+                        "raw_score_source": raw_score_source,
                         "score_path": _published_artifact_path(
                             trial_score_path,
                             output_parent=args.output.parent,
@@ -974,6 +1069,9 @@ def main() -> None:
             task_score_stddevs[task] = statistics.stdev(normalized_values)
             raw_task_scores[task] = statistics.fmean(raw_values)
             raw_task_score_stddevs[task] = statistics.stdev(raw_values)
+            raw_task_score_imputation_counts[task] = (
+                raw_score_imputation_count
+            )
             task_anchors[task] = {
                 "starter_score": statistics.fmean(starter_values),
                 "reference_score": statistics.fmean(reference_values),
@@ -986,6 +1084,7 @@ def main() -> None:
                 "normalized_score_stddev": task_score_stddevs[task],
                 "score": raw_task_scores[task],
                 "score_stddev": raw_task_score_stddevs[task],
+                "raw_score_imputation_count": raw_score_imputation_count,
                 "starter_score": task_anchors[task]["starter_score"],
                 "reference_score": task_anchors[task]["reference_score"],
                 "trials": trial_records,
@@ -1008,6 +1107,7 @@ def main() -> None:
                 "normalized_score_stddev": task_score_stddevs[task],
                 "raw_score": raw_task_scores[task],
                 "raw_score_stddev": raw_task_score_stddevs[task],
+                "raw_score_imputation_count": raw_score_imputation_count,
                 "source_run_ids": [
                     record["source_run_id"] for record in trial_records
                 ],
@@ -1054,6 +1154,9 @@ def main() -> None:
                 "task_score_stddevs": task_score_stddevs,
                 "raw_task_scores": raw_task_scores,
                 "raw_task_score_stddevs": raw_task_score_stddevs,
+                "raw_task_score_imputation_counts": (
+                    raw_task_score_imputation_counts
+                ),
                 "task_anchors": task_anchors,
                 "submission_details": submission_details,
                 "source_runs": source_runs,

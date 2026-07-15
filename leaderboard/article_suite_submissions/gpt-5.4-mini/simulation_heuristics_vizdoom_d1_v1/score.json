@@ -1,211 +1,59 @@
 {
-  "anchor_calibration": {
-    "envpool_version": "1.1.1",
-    "mode": "numeric",
-    "platform": "linux-x86_64"
-  },
-  "isolation": {
-    "mode": "subprocess_per_suite",
-    "suite_process_count": 2,
-    "unique_working_directories": true
-  },
-  "normalized_score": -161.116433137,
-  "reference_score": 0.8178199748694897,
-  "resource_cleanup": {
-    "removed_bytes": 0,
-    "removed_resources": 0,
-    "runs": [
-      {
-        "removed_bytes": 0,
-        "removed_resources": 0,
-        "terminated_processes": 0
-      },
-      {
-        "removed_bytes": 0,
-        "removed_resources": 0,
-        "terminated_processes": 0
-      }
-    ],
-    "terminated_processes": 0
-  },
-  "score": -0.16450000800192355,
+  "benchmark": "learning_beyond_gradients_article_suite",
+  "normalized_score": -186.0627378054,
+  "normalized_score_stddev": 3.359451433761567,
+  "raw_score_imputation_count": 0,
+  "reference_score": 0.8178199748694898,
+  "score": -0.25834800247848033,
+  "score_stddev": 0.012638255798059739,
   "starter_score": 0.44161998964846133,
-  "suites": {
-    "hidden_nominal": {
-      "batch_seed": 101,
-      "envpool_version": "1.1.1",
-      "episodes": [
-        {
-          "final_variables": {
-            "HEALTH": 4.0
-          },
-          "invalid_action": false,
-          "lane": 0,
-          "length": 768,
-          "mean_action_latency_ms": 0.439295722268677,
-          "policy_error": null,
-          "return": -0.10400001332163811,
-          "seed": 101,
-          "terminated": true,
-          "truncated": false
-        },
-        {
-          "final_variables": {
-            "HEALTH": 4.0
-          },
-          "invalid_action": false,
-          "lane": 1,
-          "length": 480,
-          "mean_action_latency_ms": 0.38578944901625317,
-          "policy_error": null,
-          "return": -0.2160000056028366,
-          "seed": 102,
-          "terminated": true,
-          "truncated": false
-        },
-        {
-          "final_variables": {
-            "HEALTH": 4.0
-          },
-          "invalid_action": false,
-          "lane": 2,
-          "length": 576,
-          "mean_action_latency_ms": 0.3996389051381912,
-          "policy_error": null,
-          "return": -0.1680000089108944,
-          "seed": 103,
-          "terminated": true,
-          "truncated": false
-        },
-        {
-          "final_variables": {
-            "HEALTH": 5.0
-          },
-          "invalid_action": false,
-          "lane": 3,
-          "length": 800,
-          "mean_action_latency_ms": 0.3952940576709807,
-          "policy_error": null,
-          "return": -0.08300001174211502,
-          "seed": 104,
-          "terminated": true,
-          "truncated": false
-        },
-        {
-          "final_variables": {
-            "HEALTH": 4.0
-          },
-          "invalid_action": false,
-          "lane": 4,
-          "length": 448,
-          "mean_action_latency_ms": 0.3939860575233719,
-          "policy_error": null,
-          "return": -0.23200000450015068,
-          "seed": 105,
-          "terminated": true,
-          "truncated": false
-        }
-      ],
-      "frame_skip": 1,
-      "invalid_episode_rate": 0.0,
-      "max_return": -0.08300001174211502,
-      "max_steps": 2100,
-      "mean_action_latency_ms": 0.4028008383234948,
-      "mean_return": -0.16060000881552697,
-      "min_return": -0.23200000450015068,
-      "policy_path": "submitted_artifact",
-      "render_height": 180,
-      "render_width": 240,
-      "scenario": "d1",
-      "score": -0.16060000881552697
+  "task": "simulation_heuristics_vizdoom_d1_v1",
+  "trial_count": 5,
+  "trials": [
+    {
+      "normalized_score": -180.053168387,
+      "observed_raw_score": -0.2357400032132864,
+      "raw_score": -0.2357400032132864,
+      "raw_score_source": "observed",
+      "score_path": "leaderboard/article_suite_submissions/gpt-5.4-mini/simulation_heuristics_vizdoom_d1_v1/trial-01/score.json",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-01",
+      "trial": 1
     },
-    "hidden_secondary": {
-      "batch_seed": 607,
-      "envpool_version": "1.1.1",
-      "episodes": [
-        {
-          "final_variables": {
-            "HEALTH": 4.0
-          },
-          "invalid_action": false,
-          "lane": 0,
-          "length": 576,
-          "mean_action_latency_ms": 0.42993988285565543,
-          "policy_error": null,
-          "return": -0.20000000670552254,
-          "seed": 607,
-          "terminated": true,
-          "truncated": false
-        },
-        {
-          "final_variables": {
-            "HEALTH": 4.0
-          },
-          "invalid_action": false,
-          "lane": 1,
-          "length": 512,
-          "mean_action_latency_ms": 0.39957215631147847,
-          "policy_error": null,
-          "return": -0.2160000056028366,
-          "seed": 608,
-          "terminated": true,
-          "truncated": false
-        },
-        {
-          "final_variables": {
-            "HEALTH": 8.0
-          },
-          "invalid_action": false,
-          "lane": 2,
-          "length": 768,
-          "mean_action_latency_ms": 0.4345782654127106,
-          "policy_error": null,
-          "return": -0.052000004798173904,
-          "seed": 609,
-          "terminated": true,
-          "truncated": false
-        },
-        {
-          "final_variables": {
-            "HEALTH": 4.0
-          },
-          "invalid_action": false,
-          "lane": 3,
-          "length": 480,
-          "mean_action_latency_ms": 0.3747861715964973,
-          "policy_error": null,
-          "return": -0.2160000056028366,
-          "seed": 610,
-          "terminated": true,
-          "truncated": false
-        },
-        {
-          "final_variables": {
-            "HEALTH": 4.0
-          },
-          "invalid_action": false,
-          "lane": 4,
-          "length": 544,
-          "mean_action_latency_ms": 0.39103973026880445,
-          "policy_error": null,
-          "return": -0.18400000780820847,
-          "seed": 611,
-          "terminated": true,
-          "truncated": false
-        }
-      ],
-      "frame_skip": 1,
-      "invalid_episode_rate": 0.0,
-      "max_return": -0.052000004798173904,
-      "max_steps": 2100,
-      "mean_action_latency_ms": 0.4059832412890293,
-      "mean_return": -0.17360000610351561,
-      "min_return": -0.2160000056028366,
-      "policy_path": "submitted_artifact",
-      "render_height": 180,
-      "render_width": 240,
-      "scenario": "d1",
-      "score": -0.17360000610351561
+    {
+      "normalized_score": -187.56513016,
+      "observed_raw_score": -0.2640000022947788,
+      "raw_score": -0.2640000022947788,
+      "raw_score_source": "observed",
+      "score_path": "leaderboard/article_suite_submissions/gpt-5.4-mini/simulation_heuristics_vizdoom_d1_v1/trial-02/score.json",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-02",
+      "trial": 2
+    },
+    {
+      "normalized_score": -187.56513016,
+      "observed_raw_score": -0.2640000022947788,
+      "raw_score": -0.2640000022947788,
+      "raw_score_source": "observed",
+      "score_path": "leaderboard/article_suite_submissions/gpt-5.4-mini/simulation_heuristics_vizdoom_d1_v1/trial-03/score.json",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-03",
+      "trial": 3
+    },
+    {
+      "normalized_score": -187.56513016,
+      "observed_raw_score": -0.2640000022947788,
+      "raw_score": -0.2640000022947788,
+      "raw_score_source": "observed",
+      "score_path": "leaderboard/article_suite_submissions/gpt-5.4-mini/simulation_heuristics_vizdoom_d1_v1/trial-04/score.json",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-04",
+      "trial": 4
+    },
+    {
+      "normalized_score": -187.56513016,
+      "observed_raw_score": -0.2640000022947788,
+      "raw_score": -0.2640000022947788,
+      "raw_score_source": "observed",
+      "score_path": "leaderboard/article_suite_submissions/gpt-5.4-mini/simulation_heuristics_vizdoom_d1_v1/trial-05/score.json",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-05",
+      "trial": 5
     }
-  }
+  ]
 }

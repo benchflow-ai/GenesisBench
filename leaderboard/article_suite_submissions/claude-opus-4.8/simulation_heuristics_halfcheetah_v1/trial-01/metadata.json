@@ -1,0 +1,33 @@
+{
+  "benchmark": "learning_beyond_gradients_article_suite",
+  "current_task_digest": "sha256:aab8a7d4a73765939684373673d03a7811f56e06c4160beee887b3e3e6743d3b",
+  "digest_compatibility_note": null,
+  "finished_at": 1784105005.326783,
+  "harness": "opencode",
+  "model": {
+    "agent_idle_timeout_sec": 3600,
+    "daytona_pty_readline_timeout_sec": 3600,
+    "display_name": "Claude Opus 4.8",
+    "id": "claude-opus-4.8",
+    "model": "anthropic/claude-opus-4-8",
+    "provider": "claude_oauth",
+    "provider_reasoning_effort": "max"
+  },
+  "normalized_score": 41.669121704,
+  "observed_raw_score": 7120.625663985211,
+  "provider_reasoning_effort": "max",
+  "raw_score": 7120.625663985211,
+  "raw_score_source": "observed",
+  "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-01/tasks-81ec8d98a4",
+  "task": "simulation_heuristics_halfcheetah_v1",
+  "task_digest": "sha256:aab8a7d4a73765939684373673d03a7811f56e06c4160beee887b3e3e6743d3b",
+  "token_usage": {
+    "final_input_tokens": 2.0,
+    "final_output_tokens": 879.0,
+    "input_tokens": 2.0,
+    "output_tokens": 879.0,
+    "total_tokens": 66620.0
+  },
+  "tool_calls": 42,
+  "trial": 1
+}

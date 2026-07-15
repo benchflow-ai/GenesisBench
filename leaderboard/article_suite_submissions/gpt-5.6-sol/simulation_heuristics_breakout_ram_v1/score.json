@@ -1,80 +1,59 @@
 {
-  "normalized_score": 100.0,
+  "benchmark": "learning_beyond_gradients_article_suite",
+  "normalized_score": 43.899371069400004,
+  "normalized_score_stddev": 47.34804435501101,
+  "raw_score_imputation_count": 0,
   "reference_score": 864.0,
-  "score": 864.0,
+  "score": 596.4,
+  "score_stddev": 225.8501715739884,
   "starter_score": 387.0,
-  "suites": {
-    "hidden_nominal": {
-      "completion_rate": 1.0,
-      "episodes": [
-        {
-          "final_lives": 5,
-          "invalid_action": false,
-          "length": 108000,
-          "mean_action_latency_ms": 0.021162176155485213,
-          "observation_mode": "ram",
-          "policy_error": null,
-          "return": 864.0,
-          "seed": 101,
-          "terminated": false,
-          "truncated": true,
-          "variant": "nominal",
-          "warmup_steps": 0
-        }
-      ],
-      "invalid_episode_rate": 0.0,
-      "max_return": 864.0,
-      "max_steps": 108000,
-      "mean_action_latency_ms": 0.021162176155485213,
-      "mean_return": 864.0,
-      "min_return": 864.0,
-      "observation_mode": "ram",
-      "policy_path": "submitted_artifact",
-      "score": 864.0
+  "task": "simulation_heuristics_breakout_ram_v1",
+  "trial_count": 5,
+  "trials": [
+    {
+      "normalized_score": 100.0,
+      "observed_raw_score": 864.0,
+      "raw_score": 864.0,
+      "raw_score_source": "observed",
+      "score_path": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_breakout_ram_v1/trial-01/score.json",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01",
+      "trial": 1
     },
-    "hidden_shifted_start": {
-      "completion_rate": 1.0,
-      "episodes": [
-        {
-          "final_lives": 5,
-          "invalid_action": false,
-          "length": 108000,
-          "mean_action_latency_ms": 0.022908275248482823,
-          "observation_mode": "ram",
-          "policy_error": null,
-          "return": 864.0,
-          "seed": 211,
-          "terminated": false,
-          "truncated": true,
-          "variant": "left_6",
-          "warmup_steps": 6
-        },
-        {
-          "final_lives": 5,
-          "invalid_action": false,
-          "length": 108000,
-          "mean_action_latency_ms": 0.02272433058048288,
-          "observation_mode": "ram",
-          "policy_error": null,
-          "return": 864.0,
-          "seed": 211,
-          "terminated": false,
-          "truncated": true,
-          "variant": "right_6",
-          "warmup_steps": 6
-        }
-      ],
-      "invalid_episode_rate": 0.0,
-      "max_return": 864.0,
-      "max_steps": 108000,
-      "mean_action_latency_ms": 0.022816302914482854,
-      "mean_return": 864.0,
-      "min_return": 864.0,
-      "observation_mode": "ram",
-      "policy_path": "submitted_artifact",
-      "score": 864.0
+    {
+      "normalized_score": 6.918238994,
+      "observed_raw_score": 420.0,
+      "raw_score": 420.0,
+      "raw_score_source": "observed",
+      "score_path": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_breakout_ram_v1/trial-02/score.json",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-02",
+      "trial": 2
+    },
+    {
+      "normalized_score": 3.5639413,
+      "observed_raw_score": 404.0,
+      "raw_score": 404.0,
+      "raw_score_source": "observed",
+      "score_path": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_breakout_ram_v1/trial-03/score.json",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03",
+      "trial": 3
+    },
+    {
+      "normalized_score": 18.448637317,
+      "observed_raw_score": 475.0,
+      "raw_score": 475.0,
+      "raw_score_source": "observed",
+      "score_path": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_breakout_ram_v1/trial-04/score.json",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-04",
+      "trial": 4
+    },
+    {
+      "normalized_score": 90.566037736,
+      "observed_raw_score": 819.0,
+      "raw_score": 819.0,
+      "raw_score_source": "observed",
+      "score_path": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_breakout_ram_v1/trial-05/score.json",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-05",
+      "trial": 5
     }
-  },
-  "target_gap": 0.0,
-  "target_score": 864.0
+  ]
 }

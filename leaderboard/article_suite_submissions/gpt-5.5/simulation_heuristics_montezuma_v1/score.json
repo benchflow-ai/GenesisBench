@@ -1,216 +1,59 @@
 {
-  "normalized_score": 100.0,
+  "benchmark": "learning_beyond_gradients_article_suite",
+  "normalized_score": 0.0,
+  "normalized_score_stddev": 0.0,
+  "raw_score_imputation_count": 0,
   "reference_score": 400.0,
-  "score": 400.0,
+  "score": 0.0,
+  "score_stddev": 0.0,
   "starter_score": 0.0,
-  "suites": {
-    "hidden_seeds": {
-      "evaluation": {
-        "capped_mean_score": 400.0,
-        "episodes": [
-          {
-            "bootstrap_steps": 0,
-            "invalid_action": false,
-            "length": 1769,
-            "mean_action_latency_ms": 0.003403249586821276,
-            "policy_error": null,
-            "policy_steps": 1769,
-            "pre_policy_noops": 0,
-            "return": 400.0,
-            "seed": 10007,
-            "target_reached": true,
-            "terminated": true,
-            "truncated": false,
-            "variant": "canonical"
-          },
-          {
-            "bootstrap_steps": 0,
-            "invalid_action": false,
-            "length": 1769,
-            "mean_action_latency_ms": 0.003197897434099843,
-            "policy_error": null,
-            "policy_steps": 1769,
-            "pre_policy_noops": 0,
-            "return": 400.0,
-            "seed": 10103,
-            "target_reached": true,
-            "terminated": true,
-            "truncated": false,
-            "variant": "canonical"
-          }
-        ],
-        "invalid_episode_rate": 0.0,
-        "max_steps": 2600,
-        "mean_action_latency_ms": 0.0033005735104605595,
-        "mean_return": 400.0,
-        "policy_path": "submitted_artifact",
-        "recovery_success_rate": 0.0,
-        "score": 400.0,
-        "target_score": 400.0,
-        "target_success_rate": 1.0
-      },
-      "score": 400.0,
-      "weight": 0.1
+  "task": "simulation_heuristics_montezuma_v1",
+  "trial_count": 5,
+  "trials": [
+    {
+      "normalized_score": 0.0,
+      "observed_raw_score": 0.0,
+      "raw_score": 0.0,
+      "raw_score_source": "observed",
+      "score_path": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_montezuma_v1/trial-01/score.json",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-01",
+      "trial": 1
     },
-    "noop_variants": {
-      "evaluation": {
-        "capped_mean_score": 400.0,
-        "episodes": [
-          {
-            "bootstrap_steps": 0,
-            "invalid_action": false,
-            "length": 1773,
-            "mean_action_latency_ms": 0.003588716315347596,
-            "policy_error": null,
-            "policy_steps": 1770,
-            "pre_policy_noops": 3,
-            "return": 400.0,
-            "seed": 10001,
-            "target_reached": true,
-            "terminated": true,
-            "truncated": false,
-            "variant": "startup_noop_3"
-          },
-          {
-            "bootstrap_steps": 0,
-            "invalid_action": false,
-            "length": 1769,
-            "mean_action_latency_ms": 0.0032576125598849904,
-            "policy_error": null,
-            "policy_steps": 1756,
-            "pre_policy_noops": 13,
-            "return": 400.0,
-            "seed": 10001,
-            "target_reached": true,
-            "terminated": true,
-            "truncated": false,
-            "variant": "startup_noop_13"
-          }
-        ],
-        "invalid_episode_rate": 0.0,
-        "max_steps": 2600,
-        "mean_action_latency_ms": 0.0034231644376162933,
-        "mean_return": 400.0,
-        "policy_path": "submitted_artifact",
-        "recovery_success_rate": 1.0,
-        "score": 400.0,
-        "target_score": 400.0,
-        "target_success_rate": 1.0
-      },
-      "score": 400.0,
-      "weight": 0.1
+    {
+      "normalized_score": 0.0,
+      "observed_raw_score": 0.0,
+      "raw_score": 0.0,
+      "raw_score_source": "observed",
+      "score_path": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_montezuma_v1/trial-02/score.json",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-02",
+      "trial": 2
     },
-    "recovery": {
-      "evaluation": {
-        "capped_mean_score": 400.0,
-        "episodes": [
-          {
-            "bootstrap_steps": 512,
-            "invalid_action": false,
-            "length": 1773,
-            "mean_action_latency_ms": 0.0038068125123719705,
-            "policy_error": null,
-            "policy_steps": 1257,
-            "pre_policy_noops": 4,
-            "return": 400.0,
-            "seed": 10001,
-            "target_reached": true,
-            "terminated": true,
-            "truncated": false,
-            "variant": "recover_512_noop_4"
-          },
-          {
-            "bootstrap_steps": 512,
-            "invalid_action": false,
-            "length": 1769,
-            "mean_action_latency_ms": 0.0031122399435890877,
-            "policy_error": null,
-            "policy_steps": 1249,
-            "pre_policy_noops": 8,
-            "return": 400.0,
-            "seed": 10001,
-            "target_reached": true,
-            "terminated": true,
-            "truncated": false,
-            "variant": "recover_512_noop_8"
-          },
-          {
-            "bootstrap_steps": 768,
-            "invalid_action": false,
-            "length": 1773,
-            "mean_action_latency_ms": 0.005221254343644215,
-            "policy_error": null,
-            "policy_steps": 1003,
-            "pre_policy_noops": 2,
-            "return": 400.0,
-            "seed": 10001,
-            "target_reached": true,
-            "terminated": true,
-            "truncated": false,
-            "variant": "recover_768_noop_2"
-          },
-          {
-            "bootstrap_steps": 900,
-            "invalid_action": false,
-            "length": 2173,
-            "mean_action_latency_ms": 0.002957832211597829,
-            "policy_error": null,
-            "policy_steps": 1273,
-            "pre_policy_noops": 0,
-            "return": 400.0,
-            "seed": 10001,
-            "target_reached": true,
-            "terminated": true,
-            "truncated": false,
-            "variant": "recover_900"
-          }
-        ],
-        "invalid_episode_rate": 0.0,
-        "max_steps": 2600,
-        "mean_action_latency_ms": 0.003774534752800776,
-        "mean_return": 400.0,
-        "policy_path": "submitted_artifact",
-        "recovery_success_rate": 1.0,
-        "score": 400.0,
-        "target_score": 400.0,
-        "target_success_rate": 1.0
-      },
-      "score": 400.0,
-      "weight": 0.55
+    {
+      "normalized_score": 0.0,
+      "observed_raw_score": 0.0,
+      "raw_score": 0.0,
+      "raw_score_source": "observed",
+      "score_path": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_montezuma_v1/trial-03/score.json",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-03",
+      "trial": 3
     },
-    "reproduction": {
-      "evaluation": {
-        "capped_mean_score": 400.0,
-        "episodes": [
-          {
-            "bootstrap_steps": 0,
-            "invalid_action": false,
-            "length": 1769,
-            "mean_action_latency_ms": 0.0035391858299281247,
-            "policy_error": null,
-            "policy_steps": 1769,
-            "pre_policy_noops": 0,
-            "return": 400.0,
-            "seed": 10001,
-            "target_reached": true,
-            "terminated": true,
-            "truncated": false,
-            "variant": "canonical"
-          }
-        ],
-        "invalid_episode_rate": 0.0,
-        "max_steps": 2600,
-        "mean_action_latency_ms": 0.0035391858299281247,
-        "mean_return": 400.0,
-        "policy_path": "submitted_artifact",
-        "recovery_success_rate": 0.0,
-        "score": 400.0,
-        "target_score": 400.0,
-        "target_success_rate": 1.0
-      },
-      "score": 400.0,
-      "weight": 0.25
+    {
+      "normalized_score": 0.0,
+      "observed_raw_score": 0.0,
+      "raw_score": 0.0,
+      "raw_score_source": "observed",
+      "score_path": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_montezuma_v1/trial-04/score.json",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-04",
+      "trial": 4
+    },
+    {
+      "normalized_score": 0.0,
+      "observed_raw_score": 0.0,
+      "raw_score": 0.0,
+      "raw_score_source": "observed",
+      "score_path": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_montezuma_v1/trial-05/score.json",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-05",
+      "trial": 5
     }
-  },
-  "target_score": 400.0
+  ]
 }

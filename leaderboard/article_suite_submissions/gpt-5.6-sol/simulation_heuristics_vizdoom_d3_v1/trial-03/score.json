@@ -1,0 +1,229 @@
+{
+  "isolation": {
+    "mode": "subprocess_per_suite",
+    "suite_process_count": 2,
+    "unique_working_directories": true
+  },
+  "normalized_score": 0.0,
+  "reference_score": 331.1,
+  "score": 31.9,
+  "starter_score": 31.9,
+  "suites": {
+    "hidden_nominal": {
+      "batch_seed": 101,
+      "envpool_version": "1.1.1",
+      "episodes": [
+        {
+          "final_variables": {
+            "AMMO2": 0.0,
+            "DAMAGECOUNT": 10.0,
+            "HEALTH": 10.0,
+            "HITCOUNT": 2.0,
+            "KILLCOUNT": 2.0
+          },
+          "invalid_action": false,
+          "lane": 0,
+          "length": 711,
+          "mean_action_latency_ms": 2.0836446952970724,
+          "policy_error": null,
+          "return": 30.0,
+          "seed": 101,
+          "terminated": true,
+          "truncated": false
+        },
+        {
+          "final_variables": {
+            "AMMO2": 0.0,
+            "DAMAGECOUNT": 20.0,
+            "HEALTH": 12.0,
+            "HITCOUNT": 2.0,
+            "KILLCOUNT": 2.0
+          },
+          "invalid_action": false,
+          "lane": 1,
+          "length": 980,
+          "mean_action_latency_ms": 2.0975400332589538,
+          "policy_error": null,
+          "return": 40.0,
+          "seed": 102,
+          "terminated": true,
+          "truncated": false
+        },
+        {
+          "final_variables": {
+            "AMMO2": 0.0,
+            "DAMAGECOUNT": 10.0,
+            "HEALTH": 16.0,
+            "HITCOUNT": 2.0,
+            "KILLCOUNT": 2.0
+          },
+          "invalid_action": false,
+          "lane": 2,
+          "length": 317,
+          "mean_action_latency_ms": 2.065451903862156,
+          "policy_error": null,
+          "return": 30.0,
+          "seed": 103,
+          "terminated": true,
+          "truncated": false
+        },
+        {
+          "final_variables": {
+            "AMMO2": 0.0,
+            "DAMAGECOUNT": 0.0,
+            "HEALTH": 13.0,
+            "HITCOUNT": 0.0,
+            "KILLCOUNT": 0.0
+          },
+          "invalid_action": false,
+          "lane": 3,
+          "length": 179,
+          "mean_action_latency_ms": 2.033258387662845,
+          "policy_error": null,
+          "return": 0.0,
+          "seed": 104,
+          "terminated": true,
+          "truncated": false
+        },
+        {
+          "final_variables": {
+            "AMMO2": 0.0,
+            "DAMAGECOUNT": 20.0,
+            "HEALTH": 10.0,
+            "HITCOUNT": 2.0,
+            "KILLCOUNT": 2.0
+          },
+          "invalid_action": false,
+          "lane": 4,
+          "length": 306,
+          "mean_action_latency_ms": 2.0744595676660538,
+          "policy_error": null,
+          "return": 40.0,
+          "seed": 105,
+          "terminated": true,
+          "truncated": false
+        }
+      ],
+      "frame_skip": 2,
+      "invalid_episode_rate": 0.0,
+      "max_return": 40.0,
+      "max_steps": 1050,
+      "mean_action_latency_ms": 2.070870917549416,
+      "mean_return": 28.0,
+      "min_return": 0.0,
+      "policy_path": "submitted_artifact",
+      "render_height": 480,
+      "render_width": 640,
+      "scenario": "d3",
+      "score": 28.0
+    },
+    "hidden_secondary": {
+      "batch_seed": 607,
+      "envpool_version": "1.1.1",
+      "episodes": [
+        {
+          "final_variables": {
+            "AMMO2": 0.0,
+            "DAMAGECOUNT": 35.0,
+            "HEALTH": 90.0,
+            "HITCOUNT": 4.0,
+            "KILLCOUNT": 4.0
+          },
+          "invalid_action": false,
+          "lane": 0,
+          "length": 1050,
+          "mean_action_latency_ms": 1.997888364962169,
+          "policy_error": null,
+          "return": 75.0,
+          "seed": 607,
+          "terminated": false,
+          "truncated": true
+        },
+        {
+          "final_variables": {
+            "AMMO2": 0.0,
+            "DAMAGECOUNT": 10.0,
+            "HEALTH": 10.0,
+            "HITCOUNT": 1.0,
+            "KILLCOUNT": 1.0
+          },
+          "invalid_action": false,
+          "lane": 1,
+          "length": 262,
+          "mean_action_latency_ms": 2.115637646945378,
+          "policy_error": null,
+          "return": 20.0,
+          "seed": 608,
+          "terminated": true,
+          "truncated": false
+        },
+        {
+          "final_variables": {
+            "AMMO2": 0.0,
+            "DAMAGECOUNT": 0.0,
+            "HEALTH": 4.0,
+            "HITCOUNT": 0.0,
+            "KILLCOUNT": 0.0
+          },
+          "invalid_action": false,
+          "lane": 2,
+          "length": 473,
+          "mean_action_latency_ms": 2.0683587353526915,
+          "policy_error": null,
+          "return": 0.0,
+          "seed": 609,
+          "terminated": true,
+          "truncated": false
+        },
+        {
+          "final_variables": {
+            "AMMO2": 0.0,
+            "DAMAGECOUNT": 0.0,
+            "HEALTH": 19.0,
+            "HITCOUNT": 0.0,
+            "KILLCOUNT": 0.0
+          },
+          "invalid_action": false,
+          "lane": 3,
+          "length": 400,
+          "mean_action_latency_ms": 2.0626725628972054,
+          "policy_error": null,
+          "return": 0.0,
+          "seed": 610,
+          "terminated": true,
+          "truncated": false
+        },
+        {
+          "final_variables": {
+            "AMMO2": 0.0,
+            "DAMAGECOUNT": 60.0,
+            "HEALTH": 19.0,
+            "HITCOUNT": 5.0,
+            "KILLCOUNT": 5.0
+          },
+          "invalid_action": false,
+          "lane": 4,
+          "length": 373,
+          "mean_action_latency_ms": 2.069716169511345,
+          "policy_error": null,
+          "return": 110.0,
+          "seed": 611,
+          "terminated": true,
+          "truncated": false
+        }
+      ],
+      "frame_skip": 2,
+      "invalid_episode_rate": 0.0,
+      "max_return": 110.0,
+      "max_steps": 1050,
+      "mean_action_latency_ms": 2.0628546959337575,
+      "mean_return": 41.0,
+      "min_return": 0.0,
+      "policy_path": "submitted_artifact",
+      "render_height": 480,
+      "render_width": 640,
+      "scenario": "d3",
+      "score": 41.0
+    }
+  }
+}

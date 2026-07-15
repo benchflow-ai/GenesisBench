@@ -30,6 +30,13 @@ Each model runs the complete nine-task suite five independent times. For task
 trial scores. The task leaderboard also publishes their sample standard
 deviation.
 
+Task plots use native raw environment scores. If a task's verifier intentionally
+fails closed with `normalized_score = 0` and no observed raw score, the plot uses
+the frozen starter anchor as the raw-score equivalent. The trial artifact keeps
+`observed_raw_score = null` and records
+`raw_score_source = starter_anchor_equivalent_for_fail_closed_timeout`; this
+case is never presented as an observed environment return.
+
 ## Final normalized score
 
 The primary cross-task metric is the interquartile mean (IQM), implemented as

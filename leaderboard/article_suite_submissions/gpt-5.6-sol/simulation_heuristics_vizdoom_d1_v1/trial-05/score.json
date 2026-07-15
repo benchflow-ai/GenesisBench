@@ -1,0 +1,211 @@
+{
+  "anchor_calibration": {
+    "envpool_version": "1.1.1",
+    "mode": "numeric",
+    "platform": "linux-x86_64"
+  },
+  "isolation": {
+    "mode": "subprocess_per_suite",
+    "suite_process_count": 2,
+    "unique_working_directories": true
+  },
+  "normalized_score": 25.539607563,
+  "reference_score": 0.8178199748694897,
+  "resource_cleanup": {
+    "removed_bytes": 0,
+    "removed_resources": 0,
+    "runs": [
+      {
+        "removed_bytes": 0,
+        "removed_resources": 0,
+        "terminated_processes": 0
+      },
+      {
+        "removed_bytes": 0,
+        "removed_resources": 0,
+        "terminated_processes": 0
+      }
+    ],
+    "terminated_processes": 0
+  },
+  "score": 0.5376999895274639,
+  "starter_score": 0.44161998964846133,
+  "suites": {
+    "hidden_nominal": {
+      "batch_seed": 101,
+      "envpool_version": "1.1.1",
+      "episodes": [
+        {
+          "final_variables": {
+            "HEALTH": 72.0
+          },
+          "invalid_action": false,
+          "lane": 0,
+          "length": 2100,
+          "mean_action_latency_ms": 0.21995443318571364,
+          "policy_error": null,
+          "return": 0.9399999864399433,
+          "seed": 101,
+          "terminated": false,
+          "truncated": true
+        },
+        {
+          "final_variables": {
+            "HEALTH": 55.0
+          },
+          "invalid_action": false,
+          "lane": 1,
+          "length": 2100,
+          "mean_action_latency_ms": 0.2012049202762899,
+          "policy_error": null,
+          "return": 0.8229999877512455,
+          "seed": 102,
+          "terminated": false,
+          "truncated": true
+        },
+        {
+          "final_variables": {
+            "HEALTH": 47.0
+          },
+          "invalid_action": false,
+          "lane": 2,
+          "length": 2100,
+          "mean_action_latency_ms": 0.19551001311767668,
+          "policy_error": null,
+          "return": 0.7989999875426292,
+          "seed": 103,
+          "terminated": false,
+          "truncated": true
+        },
+        {
+          "final_variables": {
+            "HEALTH": 5.0
+          },
+          "invalid_action": false,
+          "lane": 3,
+          "length": 480,
+          "mean_action_latency_ms": 0.17379071020210782,
+          "policy_error": null,
+          "return": -0.2110000029206276,
+          "seed": 104,
+          "terminated": true,
+          "truncated": false
+        },
+        {
+          "final_variables": {
+            "HEALTH": 8.0
+          },
+          "invalid_action": false,
+          "lane": 4,
+          "length": 1568,
+          "mean_action_latency_ms": 0.1861551985600773,
+          "policy_error": null,
+          "return": 0.3479999899864197,
+          "seed": 105,
+          "terminated": true,
+          "truncated": false
+        }
+      ],
+      "frame_skip": 1,
+      "invalid_episode_rate": 0.0,
+      "max_return": 0.9399999864399433,
+      "max_steps": 2100,
+      "mean_action_latency_ms": 0.19532305506837305,
+      "mean_return": 0.539799989759922,
+      "min_return": -0.2110000029206276,
+      "policy_path": "submitted_artifact",
+      "render_height": 180,
+      "render_width": 240,
+      "scenario": "d1",
+      "score": 0.539799989759922
+    },
+    "hidden_secondary": {
+      "batch_seed": 607,
+      "envpool_version": "1.1.1",
+      "episodes": [
+        {
+          "final_variables": {
+            "HEALTH": 2.0
+          },
+          "invalid_action": false,
+          "lane": 0,
+          "length": 992,
+          "mean_action_latency_ms": 0.2011167666604442,
+          "policy_error": null,
+          "return": 0.0299999937415123,
+          "seed": 607,
+          "terminated": true,
+          "truncated": false
+        },
+        {
+          "final_variables": {
+            "HEALTH": 47.0
+          },
+          "invalid_action": false,
+          "lane": 1,
+          "length": 2100,
+          "mean_action_latency_ms": 0.17853501740665662,
+          "policy_error": null,
+          "return": 0.8149999864399433,
+          "seed": 608,
+          "terminated": false,
+          "truncated": true
+        },
+        {
+          "final_variables": {
+            "HEALTH": 5.0
+          },
+          "invalid_action": false,
+          "lane": 2,
+          "length": 1280,
+          "mean_action_latency_ms": 0.16564973775530234,
+          "policy_error": null,
+          "return": 0.188999991863966,
+          "seed": 609,
+          "terminated": true,
+          "truncated": false
+        },
+        {
+          "final_variables": {
+            "HEALTH": 47.0
+          },
+          "invalid_action": false,
+          "lane": 3,
+          "length": 2100,
+          "mean_action_latency_ms": 0.16895033153040068,
+          "policy_error": null,
+          "return": 0.8149999864399433,
+          "seed": 610,
+          "terminated": false,
+          "truncated": true
+        },
+        {
+          "final_variables": {
+            "HEALTH": 47.0
+          },
+          "invalid_action": false,
+          "lane": 4,
+          "length": 2100,
+          "mean_action_latency_ms": 0.16575174317473457,
+          "policy_error": null,
+          "return": 0.8149999864399433,
+          "seed": 611,
+          "terminated": false,
+          "truncated": true
+        }
+      ],
+      "frame_skip": 1,
+      "invalid_episode_rate": 0.0,
+      "max_return": 0.8149999864399433,
+      "max_steps": 2100,
+      "mean_action_latency_ms": 0.17600071930550767,
+      "mean_return": 0.5327999889850616,
+      "min_return": 0.0299999937415123,
+      "policy_path": "submitted_artifact",
+      "render_height": 180,
+      "render_width": 240,
+      "scenario": "d1",
+      "score": 0.5327999889850616
+    }
+  }
+}

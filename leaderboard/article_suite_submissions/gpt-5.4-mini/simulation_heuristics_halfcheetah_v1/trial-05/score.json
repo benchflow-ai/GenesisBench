@@ -1,0 +1,98 @@
+{
+  "hidden_nominal": {
+    "episodes": [
+      {
+        "control_cost": 21.065339737804607,
+        "forward_reward": 79.29325042535999,
+        "invalid_action": false,
+        "length": 1000,
+        "mean_action_latency_ms": 0.24139313492923975,
+        "policy_error": null,
+        "return": 58.22791068755541,
+        "seed": 211,
+        "terminated": false,
+        "truncated": true,
+        "variant": "nominal",
+        "x_position": 3.9540046922757175,
+        "x_velocity": 0.20219197257589955
+      },
+      {
+        "control_cost": 21.083589614136145,
+        "forward_reward": 77.07591265678883,
+        "invalid_action": false,
+        "length": 1000,
+        "mean_action_latency_ms": 0.23547821794636548,
+        "policy_error": null,
+        "return": 55.99232304265263,
+        "seed": 307,
+        "terminated": false,
+        "truncated": true,
+        "variant": "nominal",
+        "x_position": 3.880379698776389,
+        "x_velocity": 0.2019426829676266
+      }
+    ],
+    "invalid_episode_rate": 0.0,
+    "max_return": 58.22791068755541,
+    "max_steps": 1000,
+    "mean_action_latency_ms": 0.2384356764378026,
+    "mean_control_cost": 21.074464675970376,
+    "mean_forward_reward": 78.18458154107441,
+    "mean_return": 57.11011686510402,
+    "mean_x_position": 3.917192195526053,
+    "min_return": 55.99232304265263,
+    "policy_path": "submitted_artifact",
+    "score": 57.11011686510402
+  },
+  "hidden_nominal_weight": 0.7,
+  "hidden_robustness": {
+    "episodes": [
+      {
+        "control_cost": 19.409622317412868,
+        "forward_reward": 54.47101878826277,
+        "invalid_action": false,
+        "length": 1000,
+        "mean_action_latency_ms": 0.23511882545426488,
+        "policy_error": null,
+        "return": 35.061396470849886,
+        "seed": 503,
+        "terminated": false,
+        "truncated": true,
+        "variant": "light_low_friction",
+        "x_position": 2.705872562020459,
+        "x_velocity": 0.09250549261443558
+      },
+      {
+        "control_cost": 23.10210151481442,
+        "forward_reward": 78.36093106667289,
+        "invalid_action": false,
+        "length": 1000,
+        "mean_action_latency_ms": 0.2396400817669928,
+        "policy_error": null,
+        "return": 55.25882955185853,
+        "seed": 503,
+        "terminated": false,
+        "truncated": true,
+        "variant": "heavy_weak_actuators",
+        "x_position": 3.900368175940971,
+        "x_velocity": 0.1225159928213048
+      }
+    ],
+    "invalid_episode_rate": 0.0,
+    "max_return": 55.25882955185853,
+    "max_steps": 1000,
+    "mean_action_latency_ms": 0.23737945361062884,
+    "mean_control_cost": 21.255861916113645,
+    "mean_forward_reward": 66.41597492746783,
+    "mean_return": 45.16011301135421,
+    "mean_x_position": 3.303120368980715,
+    "min_return": 35.061396470849886,
+    "policy_path": "submitted_artifact",
+    "score": 45.16011301135421
+  },
+  "hidden_robustness_weight": 0.3,
+  "normalized_score": -52.735512453,
+  "reference_score": 11487.256451471967,
+  "score": 53.52511570897907,
+  "starter_score": 4001.2886158917113
+}

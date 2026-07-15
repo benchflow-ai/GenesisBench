@@ -1,0 +1,66 @@
+{
+  "normalized_score": 0.0,
+  "reference_score": 864.0,
+  "score": 310.0,
+  "starter_score": 310.0,
+  "suites": {
+    "hidden_nominal": {
+      "completion_rate": 0.0,
+      "episodes": [
+        {
+          "final_lives": 0,
+          "invalid_action": false,
+          "length": 11358,
+          "mean_action_latency_ms": 0.4277758664658336,
+          "observation_mode": "rgb",
+          "policy_error": null,
+          "return": 310.0,
+          "seed": 101,
+          "terminated": true,
+          "truncated": false,
+          "variant": "nominal",
+          "warmup_steps": 0
+        }
+      ],
+      "invalid_episode_rate": 0.0,
+      "max_return": 310.0,
+      "max_steps": 30000,
+      "mean_action_latency_ms": 0.4277758664658336,
+      "mean_return": 310.0,
+      "min_return": 310.0,
+      "observation_mode": "rgb",
+      "policy_path": "submitted_artifact",
+      "score": 310.0
+    },
+    "hidden_shifted_start": {
+      "completion_rate": 0.0,
+      "episodes": [
+        {
+          "final_lives": 0,
+          "invalid_action": false,
+          "length": 11352,
+          "mean_action_latency_ms": 0.42319861327032504,
+          "observation_mode": "rgb",
+          "policy_error": null,
+          "return": 310.0,
+          "seed": 211,
+          "terminated": true,
+          "truncated": false,
+          "variant": "right_6",
+          "warmup_steps": 6
+        }
+      ],
+      "invalid_episode_rate": 0.0,
+      "max_return": 310.0,
+      "max_steps": 30000,
+      "mean_action_latency_ms": 0.42319861327032504,
+      "mean_return": 310.0,
+      "min_return": 310.0,
+      "observation_mode": "rgb",
+      "policy_path": "submitted_artifact",
+      "score": 310.0
+    }
+  },
+  "target_gap": -554.0,
+  "target_score": 864.0
+}

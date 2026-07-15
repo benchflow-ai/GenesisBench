@@ -1,133 +1,59 @@
 {
-  "normalized_score": 52.916666667,
+  "benchmark": "learning_beyond_gradients_article_suite",
+  "normalized_score": 91.6666666666,
+  "normalized_score_stddev": 9.771699499561077,
+  "raw_score_imputation_count": 0,
   "reference_score": 21.0,
-  "score": 9.7,
+  "score": 19.0,
+  "score_stddev": 2.345207879911715,
   "starter_score": -2.9999999999999996,
-  "suite_weights": {
-    "hidden_nominal": 0.7,
-    "hidden_reset_robustness": 0.3
-  },
-  "suites": {
-    "hidden_nominal": {
-      "episodes": [
-        {
-          "invalid_action": false,
-          "length": 27000,
-          "mean_action_latency_ms": 0.0035600767867570676,
-          "points_against": 2,
-          "points_for": 11,
-          "policy_error": null,
-          "score": 9.0,
-          "seed": 101,
-          "target_reached": false,
-          "terminated": false,
-          "truncated": true,
-          "variant": "article_nominal",
-          "won": true
-        },
-        {
-          "invalid_action": false,
-          "length": 27000,
-          "mean_action_latency_ms": 0.0040982644573819855,
-          "points_against": 2,
-          "points_for": 11,
-          "policy_error": null,
-          "score": 9.0,
-          "seed": 211,
-          "target_reached": false,
-          "terminated": false,
-          "truncated": true,
-          "variant": "article_nominal",
-          "won": true
-        },
-        {
-          "invalid_action": false,
-          "length": 27000,
-          "mean_action_latency_ms": 0.004250124277960923,
-          "points_against": 2,
-          "points_for": 11,
-          "policy_error": null,
-          "score": 9.0,
-          "seed": 307,
-          "target_reached": false,
-          "terminated": false,
-          "truncated": true,
-          "variant": "article_nominal",
-          "won": true
-        }
-      ],
-      "invalid_episode_rate": 0.0,
-      "max_score": 9.0,
-      "max_steps": 27000,
-      "mean_action_latency_ms": 0.003969488507366658,
-      "mean_score": 9.0,
-      "min_score": 9.0,
-      "policy_path": "submitted_artifact",
-      "score": 9.0,
-      "target_score": 21.0,
-      "target_score_rate": 0.0,
-      "win_rate": 1.0
+  "task": "simulation_heuristics_pong_ram_v1",
+  "trial_count": 5,
+  "trials": [
+    {
+      "normalized_score": 79.166666667,
+      "observed_raw_score": 16.0,
+      "raw_score": 16.0,
+      "raw_score_source": "observed",
+      "score_path": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_pong_ram_v1/trial-01/score.json",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01",
+      "trial": 1
     },
-    "hidden_reset_robustness": {
-      "episodes": [
-        {
-          "invalid_action": false,
-          "length": 27000,
-          "mean_action_latency_ms": 0.004065527891119321,
-          "points_against": 2,
-          "points_for": 11,
-          "policy_error": null,
-          "score": 9.0,
-          "seed": 503,
-          "target_reached": false,
-          "terminated": false,
-          "truncated": true,
-          "variant": "randomized_reset",
-          "won": true
-        },
-        {
-          "invalid_action": false,
-          "length": 27000,
-          "mean_action_latency_ms": 0.004138178468026497,
-          "points_against": 0,
-          "points_for": 4,
-          "policy_error": null,
-          "score": 4.0,
-          "seed": 601,
-          "target_reached": false,
-          "terminated": false,
-          "truncated": true,
-          "variant": "randomized_reset",
-          "won": true
-        },
-        {
-          "invalid_action": false,
-          "length": 26459,
-          "mean_action_latency_ms": 0.003632126502959365,
-          "points_against": 0,
-          "points_for": 21,
-          "policy_error": null,
-          "score": 21.0,
-          "seed": 701,
-          "target_reached": true,
-          "terminated": true,
-          "truncated": false,
-          "variant": "randomized_reset",
-          "won": true
-        }
-      ],
-      "invalid_episode_rate": 0.0,
-      "max_score": 21.0,
-      "max_steps": 27000,
-      "mean_action_latency_ms": 0.0039452776207017275,
-      "mean_score": 11.333333333333334,
-      "min_score": 4.0,
-      "policy_path": "submitted_artifact",
-      "score": 11.333333333333334,
-      "target_score": 21.0,
-      "target_score_rate": 0.3333333333333333,
-      "win_rate": 1.0
+    {
+      "normalized_score": 100.0,
+      "observed_raw_score": 21.0,
+      "raw_score": 21.0,
+      "raw_score_source": "observed",
+      "score_path": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_pong_ram_v1/trial-02/score.json",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-02",
+      "trial": 2
+    },
+    {
+      "normalized_score": 83.333333333,
+      "observed_raw_score": 17.0,
+      "raw_score": 17.0,
+      "raw_score_source": "observed",
+      "score_path": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_pong_ram_v1/trial-03/score.json",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03",
+      "trial": 3
+    },
+    {
+      "normalized_score": 95.833333333,
+      "observed_raw_score": 20.0,
+      "raw_score": 20.0,
+      "raw_score_source": "observed",
+      "score_path": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_pong_ram_v1/trial-04/score.json",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-04",
+      "trial": 4
+    },
+    {
+      "normalized_score": 100.0,
+      "observed_raw_score": 21.0,
+      "raw_score": 21.0,
+      "raw_score_source": "observed",
+      "score_path": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_pong_ram_v1/trial-05/score.json",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-05",
+      "trial": 5
     }
-  },
-  "target_score": 21.0
+  ]
 }

@@ -7,20 +7,39 @@
       "ranking_field": "final_normalized_score",
       "type": "additive_offset"
     },
+    "final_estimator": "iqm_across_all_45_trial_task_normalized_scores",
+    "final_variability": "sample_standard_deviation_of_five_trial_iqms",
+    "pooled_score_count": 45,
     "primary_field": "final_normalized_score",
     "primary_metric": "interquartile_mean",
-    "retained_score_count": 5,
+    "retained_score_count": 23,
     "score_bounds": "unbounded",
     "secondary_fields": [
       "arithmetic_mean_normalized_score",
-      "median_normalized_score"
+      "median_normalized_score",
+      "mean_trial_iqm_normalized_score"
     ],
+    "task_estimator": "mean_across_five_trials",
+    "task_variability": "sample_standard_deviation",
+    "trial_estimator": "iqm_across_nine_tasks",
     "trim_fraction_per_tail": 0.25,
-    "trimmed_score_count_per_tail": 2,
-    "uncertainty": "not_estimated_single_run_per_model_task"
+    "trimmed_score_count_per_tail": 11
+  },
+  "batch_id": "per-model-batches",
+  "batch_ids": {
+    "claude-opus-4.8": "article-suite-v2-daytona-20260714-claude",
+    "gpt-5.4-mini": "article-suite-v2-daytona-20260714-gpt54mini",
+    "gpt-5.5": "article-suite-v2-daytona-20260714-gpt55",
+    "gpt-5.6-sol": "article-suite-v2-daytona-20260714-gpt56"
   },
   "benchmark": "learning_beyond_gradients_article_suite",
-  "generated_at": "2026-07-13T15:34:22.260689+00:00",
+  "execution": {
+    "sandbox": "daytona",
+    "sandboxes": [
+      "daytona"
+    ]
+  },
+  "generated_at": "2026-07-15T12:56:18.690710+00:00",
   "inference_settings": {
     "cross_provider_comparability": "labels_are_not_a_shared_numeric_compute_scale",
     "field": "provider_reasoning_effort",
@@ -28,12 +47,13 @@
     "models": [
       {
         "harness": "opencode",
-        "model": "GPT-5.5",
-        "model_id": "gpt-5.5",
-        "model_route": "azure/gpt-5.5",
-        "provider": "azure",
-        "provider_label": "Azure direct",
-        "provider_reasoning_effort": "xhigh"
+        "model": "Claude Opus 4.8",
+        "model_id": "claude-opus-4.8",
+        "model_route": "anthropic/claude-opus-4-8",
+        "provider": "claude_oauth",
+        "provider_label": "Claude OAuth via pinned OpenCode plugin",
+        "provider_reasoning_effort": "max",
+        "sandbox": "daytona"
       },
       {
         "harness": "opencode",
@@ -42,16 +62,18 @@
         "model_route": "azure/gpt-5.6-sol",
         "provider": "azure",
         "provider_label": "Azure direct",
-        "provider_reasoning_effort": "max"
+        "provider_reasoning_effort": "max",
+        "sandbox": "daytona"
       },
       {
         "harness": "opencode",
-        "model": "Claude Opus 4.8",
-        "model_id": "claude-opus-4.8",
-        "model_route": "anthropic/claude-opus-4-8",
-        "provider": "claude_oauth",
-        "provider_label": "Claude OAuth via pinned OpenCode plugin",
-        "provider_reasoning_effort": "max"
+        "model": "GPT-5.5",
+        "model_id": "gpt-5.5",
+        "model_route": "azure/gpt-5.5",
+        "provider": "azure",
+        "provider_label": "Azure direct",
+        "provider_reasoning_effort": "xhigh",
+        "sandbox": "daytona"
       },
       {
         "harness": "opencode",
@@ -60,7 +82,8 @@
         "model_route": "azure/gpt-5.4-mini",
         "provider": "azure",
         "provider_label": "Azure direct",
-        "provider_reasoning_effort": "xhigh"
+        "provider_reasoning_effort": "xhigh",
+        "sandbox": "daytona"
       }
     ]
   },
@@ -77,67 +100,111 @@
       "rows": [
         {
           "harness": "opencode",
-          "model": "GPT-5.6 Sol",
-          "model_id": "gpt-5.6-sol",
-          "model_route": "azure/gpt-5.6-sol",
-          "normalized_score": 39.203600385,
-          "provider": "azure",
-          "provider_label": "Azure direct",
-          "provider_reasoning_effort": "max",
-          "rank": 1,
-          "raw_score": 3815.360622145591,
-          "reference_score": 5942.333244755838,
-          "source_run": "leaderboard/runs/article_suite/20260713T093815Z/gpt-5.6-sol",
-          "starter_score": 2443.815838992282,
-          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_ant_v1/score.json"
-        },
-        {
-          "harness": "opencode",
           "model": "Claude Opus 4.8",
           "model_id": "claude-opus-4.8",
           "model_route": "anthropic/claude-opus-4-8",
-          "normalized_score": 14.050353128,
+          "normalized_score": 1.820348169,
+          "normalized_score_stddev": 4.070422248601275,
           "provider": "claude_oauth",
           "provider_label": "Claude OAuth via pinned OpenCode plugin",
           "provider_reasoning_effort": "max",
-          "rank": 2,
-          "raw_score": 2935.3698887625987,
+          "rank": 1,
+          "raw_score": 2507.501036532837,
+          "raw_score_imputation_count": 4,
+          "raw_score_stddev": 142.40443086118393,
           "reference_score": 5942.333244755838,
-          "source_run": "leaderboard/runs/article_suite/20260713T142919Z/claude-opus-4.8",
+          "sandbox": "daytona",
+          "source_run": [
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-01/tasks-81ec8d98a4",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-02/tasks-e7ee9d1b4f",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-03",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-04",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-05"
+          ],
           "starter_score": 2443.815838992282,
-          "submission_detail": "leaderboard/article_suite_submissions/claude-opus-4.8/simulation_heuristics_ant_v1/score.json"
+          "submission_detail": "leaderboard/article_suite_submissions/claude-opus-4.8/simulation_heuristics_ant_v1/score.json",
+          "trial_count": 5
+        },
+        {
+          "harness": "opencode",
+          "model": "GPT-5.6 Sol",
+          "model_id": "gpt-5.6-sol",
+          "model_route": "azure/gpt-5.6-sol",
+          "normalized_score": -4.9009087386,
+          "normalized_score_stddev": 11.991465810903719,
+          "provider": "azure",
+          "provider_label": "Azure direct",
+          "provider_reasoning_effort": "max",
+          "rank": 2,
+          "raw_score": 2272.356693724495,
+          "raw_score_imputation_count": 0,
+          "raw_score_stddev": 419.52351859557746,
+          "reference_score": 5942.333244755838,
+          "sandbox": "daytona",
+          "source_run": [
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-02",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-04/tasks-81ec8d98a4",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-05"
+          ],
+          "starter_score": 2443.815838992282,
+          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_ant_v1/score.json",
+          "trial_count": 5
         },
         {
           "harness": "opencode",
           "model": "GPT-5.5",
           "model_id": "gpt-5.5",
           "model_route": "azure/gpt-5.5",
-          "normalized_score": -16.891796576,
+          "normalized_score": -12.5116242462,
+          "normalized_score_stddev": 8.756962566015595,
           "provider": "azure",
           "provider_label": "Azure direct",
           "provider_reasoning_effort": "xhigh",
           "rank": 3,
-          "raw_score": 1852.8533956222025,
+          "raw_score": 2006.0944869926293,
+          "raw_score_imputation_count": 0,
+          "raw_score_stddev": 306.36385957656836,
           "reference_score": 5942.333244755838,
-          "source_run": "leaderboard/runs/article_suite/20260713T095807Z/gpt-5.5",
+          "sandbox": "daytona",
+          "source_run": [
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-01",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-02",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-03",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-04",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-05/tasks-81ec8d98a4"
+          ],
           "starter_score": 2443.815838992282,
-          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_ant_v1/score.json"
+          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_ant_v1/score.json",
+          "trial_count": 5
         },
         {
           "harness": "opencode",
           "model": "GPT-5.4 Mini",
           "model_id": "gpt-5.4-mini",
           "model_route": "azure/gpt-5.4-mini",
-          "normalized_score": -31.35954984,
+          "normalized_score": -47.232499900200004,
+          "normalized_score_stddev": 10.40778807635678,
           "provider": "azure",
           "provider_label": "Azure direct",
           "provider_reasoning_effort": "xhigh",
           "rank": 4,
-          "raw_score": 1346.6965294546999,
+          "raw_score": 791.3786088082715,
+          "raw_score_imputation_count": 0,
+          "raw_score_stddev": 364.1182774109385,
           "reference_score": 5942.333244755838,
-          "source_run": "leaderboard/runs/article_suite/20260713T104315Z/gpt-5.4-mini",
+          "sandbox": "daytona",
+          "source_run": [
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-01",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-02",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-03",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-04",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-05"
+          ],
           "starter_score": 2443.815838992282,
-          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.4-mini/simulation_heuristics_ant_v1/score.json"
+          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.4-mini/simulation_heuristics_ant_v1/score.json",
+          "trial_count": 5
         }
       ]
     },
@@ -155,64 +222,108 @@
           "model": "Claude Opus 4.8",
           "model_id": "claude-opus-4.8",
           "model_route": "anthropic/claude-opus-4-8",
-          "normalized_score": 100.0,
+          "normalized_score": 99.6666666666,
+          "normalized_score_stddev": 0.7453559926490017,
           "provider": "claude_oauth",
           "provider_label": "Claude OAuth via pinned OpenCode plugin",
           "provider_reasoning_effort": "max",
           "rank": 1,
-          "raw_score": 21.0,
+          "raw_score": 20.919999999999998,
+          "raw_score_imputation_count": 0,
+          "raw_score_stddev": 0.17888543819998254,
           "reference_score": 21.0,
-          "source_run": "leaderboard/runs/article_suite/20260713T090958Z/claude-opus-4.8",
+          "sandbox": "daytona",
+          "source_run": [
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-01",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-02/tasks-e7ee9d1b4f",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-03",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-04",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-05"
+          ],
           "starter_score": -2.9999999999999996,
-          "submission_detail": "leaderboard/article_suite_submissions/claude-opus-4.8/simulation_heuristics_pong_ram_v1/score.json"
+          "submission_detail": "leaderboard/article_suite_submissions/claude-opus-4.8/simulation_heuristics_pong_ram_v1/score.json",
+          "trial_count": 5
         },
         {
           "harness": "opencode",
           "model": "GPT-5.6 Sol",
           "model_id": "gpt-5.6-sol",
           "model_route": "azure/gpt-5.6-sol",
-          "normalized_score": 52.916666667,
+          "normalized_score": 91.6666666666,
+          "normalized_score_stddev": 9.771699499561077,
           "provider": "azure",
           "provider_label": "Azure direct",
           "provider_reasoning_effort": "max",
           "rank": 2,
-          "raw_score": 9.7,
+          "raw_score": 19.0,
+          "raw_score_imputation_count": 0,
+          "raw_score_stddev": 2.345207879911715,
           "reference_score": 21.0,
-          "source_run": "leaderboard/runs/article_suite/20260713T080935Z/gpt-5.6-sol",
+          "sandbox": "daytona",
+          "source_run": [
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-02",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-04",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-05"
+          ],
           "starter_score": -2.9999999999999996,
-          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_pong_ram_v1/score.json"
+          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_pong_ram_v1/score.json",
+          "trial_count": 5
         },
         {
           "harness": "opencode",
           "model": "GPT-5.5",
           "model_id": "gpt-5.5",
           "model_route": "azure/gpt-5.5",
-          "normalized_score": 45.833333333,
+          "normalized_score": 49.1666666668,
+          "normalized_score_stddev": 40.44028519521613,
           "provider": "azure",
           "provider_label": "Azure direct",
           "provider_reasoning_effort": "xhigh",
           "rank": 3,
-          "raw_score": 8.0,
+          "raw_score": 8.8,
+          "raw_score_imputation_count": 0,
+          "raw_score_stddev": 9.705668446840743,
           "reference_score": 21.0,
-          "source_run": "leaderboard/runs/article_suite/20260713T084111Z/gpt-5.5",
+          "sandbox": "daytona",
+          "source_run": [
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-01",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-02",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-03",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-04/tasks-885696cfa4",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-05"
+          ],
           "starter_score": -2.9999999999999996,
-          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_pong_ram_v1/score.json"
+          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_pong_ram_v1/score.json",
+          "trial_count": 5
         },
         {
           "harness": "opencode",
           "model": "GPT-5.4 Mini",
           "model_id": "gpt-5.4-mini",
           "model_route": "azure/gpt-5.4-mini",
-          "normalized_score": -75.0,
+          "normalized_score": -40.8333333332,
+          "normalized_score_stddev": 67.46912874308083,
           "provider": "azure",
           "provider_label": "Azure direct",
           "provider_reasoning_effort": "xhigh",
           "rank": 4,
-          "raw_score": -21.0,
+          "raw_score": -12.8,
+          "raw_score_imputation_count": 0,
+          "raw_score_stddev": 16.192590898309017,
           "reference_score": 21.0,
-          "source_run": "leaderboard/runs/article_suite/20260713T091939Z/gpt-5.4-mini",
+          "sandbox": "daytona",
+          "source_run": [
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-01",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-02",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-03",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-04",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-05"
+          ],
           "starter_score": -2.9999999999999996,
-          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.4-mini/simulation_heuristics_pong_ram_v1/score.json"
+          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.4-mini/simulation_heuristics_pong_ram_v1/score.json",
+          "trial_count": 5
         }
       ]
     },
@@ -227,67 +338,111 @@
       "rows": [
         {
           "harness": "opencode",
+          "model": "Claude Opus 4.8",
+          "model_id": "claude-opus-4.8",
+          "model_route": "anthropic/claude-opus-4-8",
+          "normalized_score": 94.004192872,
+          "normalized_score_stddev": 7.012257406411853,
+          "provider": "claude_oauth",
+          "provider_label": "Claude OAuth via pinned OpenCode plugin",
+          "provider_reasoning_effort": "max",
+          "rank": 1,
+          "raw_score": 835.4,
+          "raw_score_imputation_count": 0,
+          "raw_score_stddev": 33.448467827390836,
+          "reference_score": 864.0,
+          "sandbox": "daytona",
+          "source_run": [
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-01",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-02",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-03",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-04",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-05"
+          ],
+          "starter_score": 387.0,
+          "submission_detail": "leaderboard/article_suite_submissions/claude-opus-4.8/simulation_heuristics_breakout_ram_v1/score.json",
+          "trial_count": 5
+        },
+        {
+          "harness": "opencode",
           "model": "GPT-5.6 Sol",
           "model_id": "gpt-5.6-sol",
           "model_route": "azure/gpt-5.6-sol",
-          "normalized_score": 100.0,
+          "normalized_score": 43.899371069400004,
+          "normalized_score_stddev": 47.34804435501101,
           "provider": "azure",
           "provider_label": "Azure direct",
           "provider_reasoning_effort": "max",
-          "rank": 1,
-          "raw_score": 864.0,
+          "rank": 2,
+          "raw_score": 596.4,
+          "raw_score_imputation_count": 0,
+          "raw_score_stddev": 225.8501715739884,
           "reference_score": 864.0,
-          "source_run": "leaderboard/runs/article_suite/20260713T080935Z/gpt-5.6-sol",
+          "sandbox": "daytona",
+          "source_run": [
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-02",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-04",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-05"
+          ],
           "starter_score": 387.0,
-          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_breakout_ram_v1/score.json"
+          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_breakout_ram_v1/score.json",
+          "trial_count": 5
         },
         {
           "harness": "opencode",
           "model": "GPT-5.5",
           "model_id": "gpt-5.5",
           "model_route": "azure/gpt-5.5",
-          "normalized_score": 95.597484277,
+          "normalized_score": 20.9224318658,
+          "normalized_score_stddev": 27.49546024414613,
           "provider": "azure",
           "provider_label": "Azure direct",
           "provider_reasoning_effort": "xhigh",
-          "rank": 2,
-          "raw_score": 843.0,
+          "rank": 3,
+          "raw_score": 486.8,
+          "raw_score_imputation_count": 0,
+          "raw_score_stddev": 131.153345363357,
           "reference_score": 864.0,
-          "source_run": "leaderboard/runs/article_suite/20260713T084111Z/gpt-5.5",
+          "sandbox": "daytona",
+          "source_run": [
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-01",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-02",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-03",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-04/tasks-e6fa3546aa",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-05"
+          ],
           "starter_score": 387.0,
-          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_breakout_ram_v1/score.json"
+          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_breakout_ram_v1/score.json",
+          "trial_count": 5
         },
         {
           "harness": "opencode",
           "model": "GPT-5.4 Mini",
           "model_id": "gpt-5.4-mini",
           "model_route": "azure/gpt-5.4-mini",
-          "normalized_score": 2.51572327,
+          "normalized_score": -1.3417190774,
+          "normalized_score_stddev": 9.228605826577622,
           "provider": "azure",
           "provider_label": "Azure direct",
           "provider_reasoning_effort": "xhigh",
-          "rank": 3,
-          "raw_score": 399.0,
-          "reference_score": 864.0,
-          "source_run": "leaderboard/runs/article_suite/20260713T091939Z/gpt-5.4-mini",
-          "starter_score": 387.0,
-          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.4-mini/simulation_heuristics_breakout_ram_v1/score.json"
-        },
-        {
-          "harness": "opencode",
-          "model": "Claude Opus 4.8",
-          "model_id": "claude-opus-4.8",
-          "model_route": "anthropic/claude-opus-4-8",
-          "normalized_score": 0.0,
-          "provider": "claude_oauth",
-          "provider_label": "Claude OAuth via pinned OpenCode plugin",
-          "provider_reasoning_effort": "max",
           "rank": 4,
-          "raw_score": 387.0,
+          "raw_score": 380.6,
+          "raw_score_imputation_count": 0,
+          "raw_score_stddev": 44.0204497932495,
           "reference_score": 864.0,
-          "source_run": "leaderboard/runs/article_suite/20260713T090958Z/claude-opus-4.8",
+          "sandbox": "daytona",
+          "source_run": [
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-01",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-02/simulation_heuristics_breakout_ram_v1",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-03",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-04",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-05"
+          ],
           "starter_score": 387.0,
-          "submission_detail": "leaderboard/article_suite_submissions/claude-opus-4.8/simulation_heuristics_breakout_ram_v1/score.json"
+          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.4-mini/simulation_heuristics_breakout_ram_v1/score.json",
+          "trial_count": 5
         }
       ]
     },
@@ -302,67 +457,111 @@
       "rows": [
         {
           "harness": "opencode",
+          "model": "Claude Opus 4.8",
+          "model_id": "claude-opus-4.8",
+          "model_route": "anthropic/claude-opus-4-8",
+          "normalized_score": 89.2779783394,
+          "normalized_score_stddev": 13.287454681897577,
+          "provider": "claude_oauth",
+          "provider_label": "Claude OAuth via pinned OpenCode plugin",
+          "provider_reasoning_effort": "max",
+          "rank": 1,
+          "raw_score": 804.6,
+          "raw_score_imputation_count": 0,
+          "raw_score_stddev": 73.61249893869926,
+          "reference_score": 864.0,
+          "sandbox": "daytona",
+          "source_run": [
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-01",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-02",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-03",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-04",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-05"
+          ],
+          "starter_score": 310.0,
+          "submission_detail": "leaderboard/article_suite_submissions/claude-opus-4.8/simulation_heuristics_breakout_rgb_v1/score.json",
+          "trial_count": 5
+        },
+        {
+          "harness": "opencode",
           "model": "GPT-5.5",
           "model_id": "gpt-5.5",
           "model_route": "azure/gpt-5.5",
-          "normalized_score": 70.758122744,
+          "normalized_score": 60.86642599300001,
+          "normalized_score_stddev": 22.118506348049813,
           "provider": "azure",
           "provider_label": "Azure direct",
           "provider_reasoning_effort": "xhigh",
-          "rank": 1,
-          "raw_score": 702.0,
+          "rank": 2,
+          "raw_score": 647.2,
+          "raw_score_imputation_count": 0,
+          "raw_score_stddev": 122.53652516698847,
           "reference_score": 864.0,
-          "source_run": "leaderboard/runs/article_suite/20260713T084111Z/gpt-5.5",
+          "sandbox": "daytona",
+          "source_run": [
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-01",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-02",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-03",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-04/tasks-885696cfa4",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-05"
+          ],
           "starter_score": 310.0,
-          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_breakout_rgb_v1/score.json"
+          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_breakout_rgb_v1/score.json",
+          "trial_count": 5
         },
         {
           "harness": "opencode",
           "model": "GPT-5.6 Sol",
           "model_id": "gpt-5.6-sol",
           "model_route": "azure/gpt-5.6-sol",
-          "normalized_score": 70.758122744,
+          "normalized_score": 60.86642599300001,
+          "normalized_score_stddev": 22.118506348049813,
           "provider": "azure",
           "provider_label": "Azure direct",
           "provider_reasoning_effort": "max",
-          "rank": 1,
-          "raw_score": 702.0,
+          "rank": 2,
+          "raw_score": 647.2,
+          "raw_score_imputation_count": 0,
+          "raw_score_stddev": 122.53652516698847,
           "reference_score": 864.0,
-          "source_run": "leaderboard/runs/article_suite/20260713T080935Z/gpt-5.6-sol",
+          "sandbox": "daytona",
+          "source_run": [
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-02",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-04",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-05"
+          ],
           "starter_score": 310.0,
-          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_breakout_rgb_v1/score.json"
+          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_breakout_rgb_v1/score.json",
+          "trial_count": 5
         },
         {
           "harness": "opencode",
           "model": "GPT-5.4 Mini",
           "model_id": "gpt-5.4-mini",
           "model_route": "azure/gpt-5.4-mini",
-          "normalized_score": 15.523465704,
+          "normalized_score": 14.332129963999998,
+          "normalized_score_stddev": 51.9448986087478,
           "provider": "azure",
           "provider_label": "Azure direct",
           "provider_reasoning_effort": "xhigh",
-          "rank": 3,
-          "raw_score": 396.0,
-          "reference_score": 864.0,
-          "source_run": "leaderboard/runs/article_suite/20260713T091939Z/gpt-5.4-mini",
-          "starter_score": 310.0,
-          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.4-mini/simulation_heuristics_breakout_rgb_v1/score.json"
-        },
-        {
-          "harness": "opencode",
-          "model": "Claude Opus 4.8",
-          "model_id": "claude-opus-4.8",
-          "model_route": "anthropic/claude-opus-4-8",
-          "normalized_score": 0.0,
-          "provider": "claude_oauth",
-          "provider_label": "Claude OAuth via pinned OpenCode plugin",
-          "provider_reasoning_effort": "max",
           "rank": 4,
-          "raw_score": 310.0,
+          "raw_score": 389.4,
+          "raw_score_imputation_count": 0,
+          "raw_score_stddev": 287.77473829368694,
           "reference_score": 864.0,
-          "source_run": "leaderboard/runs/article_suite/20260713T090958Z/claude-opus-4.8",
+          "sandbox": "daytona",
+          "source_run": [
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-01",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-02",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-03",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-04",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-05"
+          ],
           "starter_score": 310.0,
-          "submission_detail": "leaderboard/article_suite_submissions/claude-opus-4.8/simulation_heuristics_breakout_rgb_v1/score.json"
+          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.4-mini/simulation_heuristics_breakout_rgb_v1/score.json",
+          "trial_count": 5
         }
       ]
     },
@@ -380,64 +579,108 @@
           "model": "Claude Opus 4.8",
           "model_id": "claude-opus-4.8",
           "model_route": "anthropic/claude-opus-4-8",
-          "normalized_score": 26.986707946,
+          "normalized_score": 40.934675074999994,
+          "normalized_score_stddev": 24.40596858830019,
           "provider": "claude_oauth",
           "provider_label": "Claude OAuth via pinned OpenCode plugin",
           "provider_reasoning_effort": "max",
           "rank": 1,
-          "raw_score": 6021.504892591717,
+          "raw_score": 7065.645225601496,
+          "raw_score_imputation_count": 0,
+          "raw_score_stddev": 1827.0229584820154,
           "reference_score": 11487.256451471967,
-          "source_run": "leaderboard/runs/article_suite/20260713T111714Z/claude-opus-4.8",
+          "sandbox": "daytona",
+          "source_run": [
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-01/tasks-81ec8d98a4",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-02/tasks-e7ee9d1b4f",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-03",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-04",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-05"
+          ],
           "starter_score": 4001.2886158917113,
-          "submission_detail": "leaderboard/article_suite_submissions/claude-opus-4.8/simulation_heuristics_halfcheetah_v1/score.json"
+          "submission_detail": "leaderboard/article_suite_submissions/claude-opus-4.8/simulation_heuristics_halfcheetah_v1/score.json",
+          "trial_count": 5
         },
         {
           "harness": "opencode",
           "model": "GPT-5.6 Sol",
           "model_id": "gpt-5.6-sol",
           "model_route": "azure/gpt-5.6-sol",
-          "normalized_score": 15.873072595,
+          "normalized_score": 31.8442100886,
+          "normalized_score_stddev": 3.8873875677992533,
           "provider": "azure",
           "provider_label": "Azure direct",
           "provider_reasoning_effort": "max",
           "rank": 2,
-          "raw_score": 5189.541724894487,
+          "raw_score": 6385.135940620764,
+          "raw_score_imputation_count": 0,
+          "raw_score_stddev": 291.0085829715705,
           "reference_score": 11487.256451471967,
-          "source_run": "leaderboard/runs/article_suite/20260713T084340Z/gpt-5.6-sol",
+          "sandbox": "daytona",
+          "source_run": [
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-02",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-04/tasks-81ec8d98a4",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-05"
+          ],
           "starter_score": 4001.2886158917113,
-          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_halfcheetah_v1/score.json"
+          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_halfcheetah_v1/score.json",
+          "trial_count": 5
         },
         {
           "harness": "opencode",
           "model": "GPT-5.5",
           "model_id": "gpt-5.5",
           "model_route": "azure/gpt-5.5",
-          "normalized_score": 2.73755349,
+          "normalized_score": 9.5689381094,
+          "normalized_score_stddev": 9.330884765209642,
           "provider": "azure",
           "provider_label": "Azure direct",
           "provider_reasoning_effort": "xhigh",
           "rank": 3,
-          "raw_score": 4206.220989602626,
+          "raw_score": 4717.6162449605235,
+          "raw_score_imputation_count": 0,
+          "raw_score_stddev": 698.5070322948952,
           "reference_score": 11487.256451471967,
-          "source_run": "leaderboard/runs/article_suite/20260713T103810Z/gpt-5.5",
+          "sandbox": "daytona",
+          "source_run": [
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-01/simulation_heuristics_halfcheetah_v1",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-02",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-03",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-04/tasks-e6fa3546aa",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-05/tasks-81ec8d98a4"
+          ],
           "starter_score": 4001.2886158917113,
-          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_halfcheetah_v1/score.json"
+          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_halfcheetah_v1/score.json",
+          "trial_count": 5
         },
         {
           "harness": "opencode",
           "model": "GPT-5.4 Mini",
           "model_id": "gpt-5.4-mini",
           "model_route": "azure/gpt-5.4-mini",
-          "normalized_score": -8.167582379,
+          "normalized_score": -39.8837988972,
+          "normalized_score_stddev": 19.209845675650264,
           "provider": "azure",
           "provider_label": "Azure direct",
           "provider_reasoning_effort": "xhigh",
           "rank": 4,
-          "raw_score": 3389.8660260183765,
+          "raw_score": 1015.6002588284422,
+          "raw_score_imputation_count": 0,
+          "raw_score_stddev": 1438.0428685581014,
           "reference_score": 11487.256451471967,
-          "source_run": "leaderboard/runs/article_suite/20260713T093314Z/gpt-5.4-mini",
+          "sandbox": "daytona",
+          "source_run": [
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-01",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-02",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-03",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-04",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-05"
+          ],
           "starter_score": 4001.2886158917113,
-          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.4-mini/simulation_heuristics_halfcheetah_v1/score.json"
+          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.4-mini/simulation_heuristics_halfcheetah_v1/score.json",
+          "trial_count": 5
         }
       ]
     },
@@ -455,64 +698,108 @@
           "model": "Claude Opus 4.8",
           "model_id": "claude-opus-4.8",
           "model_route": "anthropic/claude-opus-4-8",
-          "normalized_score": 95.055812742,
+          "normalized_score": 107.1451288772,
+          "normalized_score_stddev": 14.745599637347764,
           "provider": "claude_oauth",
           "provider_label": "Claude OAuth via pinned OpenCode plugin",
           "provider_reasoning_effort": "max",
           "rank": 1,
-          "raw_score": 0.7992199431359768,
-          "reference_score": 0.8178199748694897,
-          "source_run": "leaderboard/runs/article_suite/20260713T110612Z/claude-opus-4.8",
+          "raw_score": 0.8446999486498534,
+          "raw_score_imputation_count": 0,
+          "raw_score_stddev": 0.05547294365604739,
+          "reference_score": 0.8178199748694898,
+          "sandbox": "daytona",
+          "source_run": [
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-01",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-02/tasks-e7ee9d1b4f",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-03",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-04",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-05"
+          ],
           "starter_score": 0.44161998964846133,
-          "submission_detail": "leaderboard/article_suite_submissions/claude-opus-4.8/simulation_heuristics_vizdoom_d1_v1/score.json"
-        },
-        {
-          "harness": "opencode",
-          "model": "GPT-5.5",
-          "model_id": "gpt-5.5",
-          "model_route": "azure/gpt-5.5",
-          "normalized_score": 85.199359782,
-          "provider": "azure",
-          "provider_label": "Azure direct",
-          "provider_reasoning_effort": "xhigh",
-          "rank": 2,
-          "raw_score": 0.7621399685554205,
-          "reference_score": 0.8178199748694897,
-          "source_run": "leaderboard/runs/article_suite/20260713T102218Z/gpt-5.5",
-          "starter_score": 0.44161998964846133,
-          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_vizdoom_d1_v1/score.json"
+          "submission_detail": "leaderboard/article_suite_submissions/claude-opus-4.8/simulation_heuristics_vizdoom_d1_v1/score.json",
+          "trial_count": 5
         },
         {
           "harness": "opencode",
           "model": "GPT-5.6 Sol",
           "model_id": "gpt-5.6-sol",
           "model_route": "azure/gpt-5.6-sol",
-          "normalized_score": 49.409889366,
+          "normalized_score": 56.834663982799995,
+          "normalized_score_stddev": 33.111283305681766,
           "provider": "azure",
           "provider_label": "Azure direct",
           "provider_reasoning_effort": "max",
-          "rank": 3,
-          "raw_score": 0.62749998614192,
-          "reference_score": 0.8178199748694897,
-          "source_run": "leaderboard/runs/article_suite/20260713T101636Z/gpt-5.6-sol",
+          "rank": 2,
+          "raw_score": 0.6554319871515035,
+          "raw_score_imputation_count": 0,
+          "raw_score_stddev": 0.12456464290218099,
+          "reference_score": 0.8178199748694898,
+          "sandbox": "daytona",
+          "source_run": [
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-02",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-04",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-05"
+          ],
           "starter_score": 0.44161998964846133,
-          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_vizdoom_d1_v1/score.json"
+          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_vizdoom_d1_v1/score.json",
+          "trial_count": 5
+        },
+        {
+          "harness": "opencode",
+          "model": "GPT-5.5",
+          "model_id": "gpt-5.5",
+          "model_route": "azure/gpt-5.5",
+          "normalized_score": 47.33864911959999,
+          "normalized_score_stddev": 95.13699952993868,
+          "provider": "azure",
+          "provider_label": "Azure direct",
+          "provider_reasoning_effort": "xhigh",
+          "rank": 3,
+          "raw_score": 0.6197079806402326,
+          "raw_score_imputation_count": 0,
+          "raw_score_stddev": 0.3579053781713541,
+          "reference_score": 0.8178199748694898,
+          "sandbox": "daytona",
+          "source_run": [
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-01",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-02",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-03",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-04",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-05"
+          ],
+          "starter_score": 0.44161998964846133,
+          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_vizdoom_d1_v1/score.json",
+          "trial_count": 5
         },
         {
           "harness": "opencode",
           "model": "GPT-5.4 Mini",
           "model_id": "gpt-5.4-mini",
           "model_route": "azure/gpt-5.4-mini",
-          "normalized_score": -161.116433137,
+          "normalized_score": -186.0627378054,
+          "normalized_score_stddev": 3.359451433761567,
           "provider": "azure",
           "provider_label": "Azure direct",
           "provider_reasoning_effort": "xhigh",
           "rank": 4,
-          "raw_score": -0.16450000800192355,
-          "reference_score": 0.8178199748694897,
-          "source_run": "leaderboard/runs/article_suite/20260713T102707Z/gpt-5.4-mini",
+          "raw_score": -0.25834800247848033,
+          "raw_score_imputation_count": 0,
+          "raw_score_stddev": 0.012638255798059739,
+          "reference_score": 0.8178199748694898,
+          "sandbox": "daytona",
+          "source_run": [
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-01",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-02",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-03",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-04",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-05"
+          ],
           "starter_score": 0.44161998964846133,
-          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.4-mini/simulation_heuristics_vizdoom_d1_v1/score.json"
+          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.4-mini/simulation_heuristics_vizdoom_d1_v1/score.json",
+          "trial_count": 5
         }
       ]
     },
@@ -530,64 +817,108 @@
           "model": "Claude Opus 4.8",
           "model_id": "claude-opus-4.8",
           "model_route": "anthropic/claude-opus-4-8",
-          "normalized_score": 122.259358289,
+          "normalized_score": 96.4371657756,
+          "normalized_score_stddev": 42.45851366513837,
           "provider": "claude_oauth",
           "provider_label": "Claude OAuth via pinned OpenCode plugin",
           "provider_reasoning_effort": "max",
           "rank": 1,
-          "raw_score": 397.7,
+          "raw_score": 320.44,
+          "raw_score_imputation_count": 0,
+          "raw_score_stddev": 127.03587288636228,
           "reference_score": 331.1,
-          "source_run": "leaderboard/runs/article_suite/20260713T110612Z/claude-opus-4.8",
+          "sandbox": "daytona",
+          "source_run": [
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-01",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-02/tasks-e7ee9d1b4f",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-03",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-04",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-05"
+          ],
           "starter_score": 31.9,
-          "submission_detail": "leaderboard/article_suite_submissions/claude-opus-4.8/simulation_heuristics_vizdoom_d3_v1/score.json"
-        },
-        {
-          "harness": "opencode",
-          "model": "GPT-5.6 Sol",
-          "model_id": "gpt-5.6-sol",
-          "model_route": "azure/gpt-5.6-sol",
-          "normalized_score": 26.236631016,
-          "provider": "azure",
-          "provider_label": "Azure direct",
-          "provider_reasoning_effort": "max",
-          "rank": 2,
-          "raw_score": 110.39999999999998,
-          "reference_score": 331.1,
-          "source_run": "leaderboard/runs/article_suite/20260713T083940Z/gpt-5.6-sol",
-          "starter_score": 31.9,
-          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_vizdoom_d3_v1/score.json"
+          "submission_detail": "leaderboard/article_suite_submissions/claude-opus-4.8/simulation_heuristics_vizdoom_d3_v1/score.json",
+          "trial_count": 5
         },
         {
           "harness": "opencode",
           "model": "GPT-5.5",
           "model_id": "gpt-5.5",
           "model_route": "azure/gpt-5.5",
-          "normalized_score": 5.481283422,
+          "normalized_score": 23.2620320856,
+          "normalized_score_stddev": 41.04765230004701,
           "provider": "azure",
           "provider_label": "Azure direct",
           "provider_reasoning_effort": "xhigh",
-          "rank": 3,
-          "raw_score": 48.3,
+          "rank": 2,
+          "raw_score": 101.49999999999999,
+          "raw_score_imputation_count": 0,
+          "raw_score_stddev": 122.81457568220475,
           "reference_score": 331.1,
-          "source_run": "leaderboard/runs/article_suite/20260713T084111Z/gpt-5.5",
+          "sandbox": "daytona",
+          "source_run": [
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-01",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-02",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-03",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-04",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-05"
+          ],
           "starter_score": 31.9,
-          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_vizdoom_d3_v1/score.json"
+          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_vizdoom_d3_v1/score.json",
+          "trial_count": 5
         },
         {
           "harness": "opencode",
           "model": "GPT-5.4 Mini",
           "model_id": "gpt-5.4-mini",
           "model_route": "azure/gpt-5.4-mini",
-          "normalized_score": -9.859625668,
+          "normalized_score": 16.5307486632,
+          "normalized_score_stddev": 45.27484310055022,
           "provider": "azure",
           "provider_label": "Azure direct",
           "provider_reasoning_effort": "xhigh",
-          "rank": 4,
-          "raw_score": 2.4,
+          "rank": 3,
+          "raw_score": 81.36,
+          "raw_score_imputation_count": 0,
+          "raw_score_stddev": 135.46233055724386,
           "reference_score": 331.1,
-          "source_run": "leaderboard/runs/article_suite/20260713T104034Z/gpt-5.4-mini",
+          "sandbox": "daytona",
+          "source_run": [
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-01/simulation_heuristics_vizdoom_d3_v1",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-02",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-03",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-04",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-05"
+          ],
           "starter_score": 31.9,
-          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.4-mini/simulation_heuristics_vizdoom_d3_v1/score.json"
+          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.4-mini/simulation_heuristics_vizdoom_d3_v1/score.json",
+          "trial_count": 5
+        },
+        {
+          "harness": "opencode",
+          "model": "GPT-5.6 Sol",
+          "model_id": "gpt-5.6-sol",
+          "model_route": "azure/gpt-5.6-sol",
+          "normalized_score": 16.3034759358,
+          "normalized_score_stddev": 23.995771403261536,
+          "provider": "azure",
+          "provider_label": "Azure direct",
+          "provider_reasoning_effort": "max",
+          "rank": 4,
+          "raw_score": 80.67999999999999,
+          "raw_score_imputation_count": 0,
+          "raw_score_stddev": 71.79534803871347,
+          "reference_score": 331.1,
+          "sandbox": "daytona",
+          "source_run": [
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-02",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-04",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-05"
+          ],
+          "starter_score": 31.9,
+          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_vizdoom_d3_v1/score.json",
+          "trial_count": 5
         }
       ]
     },
@@ -606,15 +937,26 @@
           "model_id": "claude-opus-4.8",
           "model_route": "anthropic/claude-opus-4-8",
           "normalized_score": 0.0,
+          "normalized_score_stddev": 0.0,
           "provider": "claude_oauth",
           "provider_label": "Claude OAuth via pinned OpenCode plugin",
           "provider_reasoning_effort": "max",
           "rank": 1,
           "raw_score": 0.0,
+          "raw_score_imputation_count": 0,
+          "raw_score_stddev": 0.0,
           "reference_score": 0.8283015254994576,
-          "source_run": "leaderboard/runs/article_suite/20260713T123222Z/claude-opus-4.8",
+          "sandbox": "daytona",
+          "source_run": [
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-01",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-02",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-03",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-04",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-05"
+          ],
           "starter_score": 0.0,
-          "submission_detail": "leaderboard/article_suite_submissions/claude-opus-4.8/simulation_heuristics_atari57_v1/score.json"
+          "submission_detail": "leaderboard/article_suite_submissions/claude-opus-4.8/simulation_heuristics_atari57_v1/score.json",
+          "trial_count": 5
         },
         {
           "harness": "opencode",
@@ -622,15 +964,26 @@
           "model_id": "gpt-5.4-mini",
           "model_route": "azure/gpt-5.4-mini",
           "normalized_score": 0.0,
+          "normalized_score_stddev": 0.0,
           "provider": "azure",
           "provider_label": "Azure direct",
           "provider_reasoning_effort": "xhigh",
           "rank": 1,
           "raw_score": 0.0,
+          "raw_score_imputation_count": 0,
+          "raw_score_stddev": 0.0,
           "reference_score": 0.8283015254994576,
-          "source_run": "leaderboard/runs/article_suite/20260713T111944Z/gpt-5.4-mini",
+          "sandbox": "daytona",
+          "source_run": [
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-01",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-02",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-03",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-04",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-05"
+          ],
           "starter_score": 0.0,
-          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.4-mini/simulation_heuristics_atari57_v1/score.json"
+          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.4-mini/simulation_heuristics_atari57_v1/score.json",
+          "trial_count": 5
         },
         {
           "harness": "opencode",
@@ -638,15 +991,26 @@
           "model_id": "gpt-5.5",
           "model_route": "azure/gpt-5.5",
           "normalized_score": 0.0,
+          "normalized_score_stddev": 0.0,
           "provider": "azure",
           "provider_label": "Azure direct",
           "provider_reasoning_effort": "xhigh",
           "rank": 1,
           "raw_score": 0.0,
+          "raw_score_imputation_count": 0,
+          "raw_score_stddev": 0.0,
           "reference_score": 0.8283015254994576,
-          "source_run": "leaderboard/runs/article_suite/20260713T111604Z/gpt-5.5",
+          "sandbox": "daytona",
+          "source_run": [
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-01",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-02",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-03",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-04",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-05"
+          ],
           "starter_score": 0.0,
-          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_atari57_v1/score.json"
+          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_atari57_v1/score.json",
+          "trial_count": 5
         },
         {
           "harness": "opencode",
@@ -654,15 +1018,26 @@
           "model_id": "gpt-5.6-sol",
           "model_route": "azure/gpt-5.6-sol",
           "normalized_score": 0.0,
+          "normalized_score_stddev": 0.0,
           "provider": "azure",
           "provider_label": "Azure direct",
           "provider_reasoning_effort": "max",
           "rank": 1,
           "raw_score": 0.0,
+          "raw_score_imputation_count": 0,
+          "raw_score_stddev": 0.0,
           "reference_score": 0.8283015254994576,
-          "source_run": "leaderboard/runs/article_suite/20260713T111156Z/gpt-5.6-sol",
+          "sandbox": "daytona",
+          "source_run": [
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-02",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-04",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-05"
+          ],
           "starter_score": 0.0,
-          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_atari57_v1/score.json"
+          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_atari57_v1/score.json",
+          "trial_count": 5
         }
       ]
     },
@@ -677,19 +1052,30 @@
       "rows": [
         {
           "harness": "opencode",
-          "model": "GPT-5.5",
-          "model_id": "gpt-5.5",
-          "model_route": "azure/gpt-5.5",
-          "normalized_score": 100.0,
+          "model": "GPT-5.6 Sol",
+          "model_id": "gpt-5.6-sol",
+          "model_route": "azure/gpt-5.6-sol",
+          "normalized_score": 74.5,
+          "normalized_score_stddev": 43.31570154112709,
           "provider": "azure",
           "provider_label": "Azure direct",
-          "provider_reasoning_effort": "xhigh",
+          "provider_reasoning_effort": "max",
           "rank": 1,
-          "raw_score": 400.0,
+          "raw_score": 298.0,
+          "raw_score_imputation_count": 0,
+          "raw_score_stddev": 173.26280616450836,
           "reference_score": 400.0,
-          "source_run": "leaderboard/runs/article_suite/20260713T084111Z/gpt-5.5",
+          "sandbox": "daytona",
+          "source_run": [
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-02",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-04",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-05"
+          ],
           "starter_score": 0.0,
-          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_montezuma_v1/score.json"
+          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_montezuma_v1/score.json",
+          "trial_count": 5
         },
         {
           "harness": "opencode",
@@ -697,15 +1083,26 @@
           "model_id": "claude-opus-4.8",
           "model_route": "anthropic/claude-opus-4-8",
           "normalized_score": 0.0,
+          "normalized_score_stddev": 0.0,
           "provider": "claude_oauth",
           "provider_label": "Claude OAuth via pinned OpenCode plugin",
           "provider_reasoning_effort": "max",
           "rank": 2,
           "raw_score": 0.0,
+          "raw_score_imputation_count": 0,
+          "raw_score_stddev": 0.0,
           "reference_score": 400.0,
-          "source_run": "leaderboard/runs/article_suite/20260713T110612Z/claude-opus-4.8",
+          "sandbox": "daytona",
+          "source_run": [
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-01",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-02/tasks-e7ee9d1b4f",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-03",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-04",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-05"
+          ],
           "starter_score": 0.0,
-          "submission_detail": "leaderboard/article_suite_submissions/claude-opus-4.8/simulation_heuristics_montezuma_v1/score.json"
+          "submission_detail": "leaderboard/article_suite_submissions/claude-opus-4.8/simulation_heuristics_montezuma_v1/score.json",
+          "trial_count": 5
         },
         {
           "harness": "opencode",
@@ -713,31 +1110,53 @@
           "model_id": "gpt-5.4-mini",
           "model_route": "azure/gpt-5.4-mini",
           "normalized_score": 0.0,
+          "normalized_score_stddev": 0.0,
           "provider": "azure",
           "provider_label": "Azure direct",
           "provider_reasoning_effort": "xhigh",
           "rank": 2,
           "raw_score": 0.0,
+          "raw_score_imputation_count": 0,
+          "raw_score_stddev": 0.0,
           "reference_score": 400.0,
-          "source_run": "leaderboard/runs/article_suite/20260713T091939Z/gpt-5.4-mini",
+          "sandbox": "daytona",
+          "source_run": [
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-01",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-02",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-03",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-04",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-05"
+          ],
           "starter_score": 0.0,
-          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.4-mini/simulation_heuristics_montezuma_v1/score.json"
+          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.4-mini/simulation_heuristics_montezuma_v1/score.json",
+          "trial_count": 5
         },
         {
           "harness": "opencode",
-          "model": "GPT-5.6 Sol",
-          "model_id": "gpt-5.6-sol",
-          "model_route": "azure/gpt-5.6-sol",
+          "model": "GPT-5.5",
+          "model_id": "gpt-5.5",
+          "model_route": "azure/gpt-5.5",
           "normalized_score": 0.0,
+          "normalized_score_stddev": 0.0,
           "provider": "azure",
           "provider_label": "Azure direct",
-          "provider_reasoning_effort": "max",
+          "provider_reasoning_effort": "xhigh",
           "rank": 2,
           "raw_score": 0.0,
+          "raw_score_imputation_count": 0,
+          "raw_score_stddev": 0.0,
           "reference_score": 400.0,
-          "source_run": "leaderboard/runs/article_suite/20260713T080935Z/gpt-5.6-sol",
+          "sandbox": "daytona",
+          "source_run": [
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-01",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-02",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-03",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-04",
+            "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-05"
+          ],
           "starter_score": 0.0,
-          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_montezuma_v1/score.json"
+          "submission_detail": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_montezuma_v1/score.json",
+          "trial_count": 5
         }
       ]
     },
@@ -754,295 +1173,221 @@
       "metric": "final_normalized_score",
       "rows": [
         {
-          "arithmetic_mean_normalized_score": 43.19059338577778,
-          "average_normalized_score": 43.19059338577778,
-          "final_normalized_score": 42.0019305542,
+          "arithmetic_mean_normalized_score": 58.80957286386666,
+          "average_normalized_score": 58.80957286386666,
+          "final_normalized_score": 62.03374323269565,
+          "final_normalized_score_stddev": 10.38022421100604,
           "harness": "opencode",
-          "median_normalized_score": 45.833333333,
-          "model": "GPT-5.5",
-          "model_id": "gpt-5.5",
-          "model_route": "azure/gpt-5.5",
-          "positive_display_score": 142.0019305542,
-          "provider": "azure",
-          "provider_label": "Azure direct",
-          "provider_reasoning_effort": "xhigh",
-          "rank": 1
-        },
-        {
-          "arithmetic_mean_normalized_score": 39.37755364144445,
-          "average_normalized_score": 39.37755364144445,
-          "final_normalized_score": 36.7279720058,
-          "harness": "opencode",
-          "median_normalized_score": 39.203600385,
-          "model": "GPT-5.6 Sol",
-          "model_id": "gpt-5.6-sol",
-          "model_route": "azure/gpt-5.6-sol",
-          "positive_display_score": 136.72797200579998,
-          "provider": "azure",
-          "provider_label": "Azure direct",
-          "provider_reasoning_effort": "max",
-          "rank": 2
-        },
-        {
-          "arithmetic_mean_normalized_score": 39.81691467833333,
-          "average_normalized_score": 39.81691467833333,
-          "final_normalized_score": 27.218574763200003,
-          "harness": "opencode",
-          "median_normalized_score": 14.050353128,
+          "mean_trial_iqm_normalized_score": 61.137710440759996,
+          "median_normalized_score": 79.783393502,
           "model": "Claude Opus 4.8",
           "model_id": "claude-opus-4.8",
           "model_route": "anthropic/claude-opus-4-8",
-          "positive_display_score": 127.2185747632,
+          "positive_display_score": 162.03374323269566,
           "provider": "claude_oauth",
           "provider_label": "Claude OAuth via pinned OpenCode plugin",
           "provider_reasoning_effort": "max",
-          "rank": 3
+          "rank": 1,
+          "sandbox": "daytona",
+          "trial_count": 5
         },
         {
-          "arithmetic_mean_normalized_score": -29.71822245,
-          "average_normalized_score": -29.71822245,
-          "final_normalized_score": -9.8773515774,
+          "arithmetic_mean_normalized_score": 41.223767221955555,
+          "average_normalized_score": 41.223767221955555,
+          "final_normalized_score": 36.651764607913044,
+          "final_normalized_score_stddev": 5.524217450335815,
           "harness": "opencode",
-          "median_normalized_score": -8.167582379,
-          "model": "GPT-5.4 Mini",
-          "model_id": "gpt-5.4-mini",
-          "model_route": "azure/gpt-5.4-mini",
-          "positive_display_score": 90.1226484226,
+          "mean_trial_iqm_normalized_score": 37.73164397808,
+          "median_normalized_score": 32.792734613,
+          "model": "GPT-5.6 Sol",
+          "model_id": "gpt-5.6-sol",
+          "model_route": "azure/gpt-5.6-sol",
+          "positive_display_score": 136.65176460791304,
+          "provider": "azure",
+          "provider_label": "Azure direct",
+          "provider_reasoning_effort": "max",
+          "rank": 2,
+          "sandbox": "daytona",
+          "trial_count": 5
+        },
+        {
+          "arithmetic_mean_normalized_score": 22.06816884377778,
+          "average_normalized_score": 22.06816884377778,
+          "final_normalized_score": 10.662970787652174,
+          "final_normalized_score_stddev": 18.67984640949238,
+          "harness": "opencode",
+          "mean_trial_iqm_normalized_score": 16.7775760408,
+          "median_normalized_score": 5.870020964,
+          "model": "GPT-5.5",
+          "model_id": "gpt-5.5",
+          "model_route": "azure/gpt-5.5",
+          "positive_display_score": 110.66297078765217,
           "provider": "azure",
           "provider_label": "Azure direct",
           "provider_reasoning_effort": "xhigh",
-          "rank": 4
+          "rank": 3,
+          "sandbox": "daytona",
+          "trial_count": 5
+        },
+        {
+          "arithmetic_mean_normalized_score": -31.610134487355555,
+          "average_normalized_score": -31.610134487355555,
+          "final_normalized_score": -17.411123288956524,
+          "final_normalized_score_stddev": 5.902995817222085,
+          "harness": "opencode",
+          "mean_trial_iqm_normalized_score": -18.58872338544,
+          "median_normalized_score": -3.609625668,
+          "model": "GPT-5.4 Mini",
+          "model_id": "gpt-5.4-mini",
+          "model_route": "azure/gpt-5.4-mini",
+          "positive_display_score": 82.58887671104347,
+          "provider": "azure",
+          "provider_label": "Azure direct",
+          "provider_reasoning_effort": "xhigh",
+          "rank": 4,
+          "sandbox": "daytona",
+          "trial_count": 5
         }
       ]
     }
   ],
+  "protocol": {
+    "agent_timeout_multiplier": 3,
+    "aggregation": {
+      "final_score": "interquartile_mean_across_all_trial_task_scores",
+      "final_variability": "sample_standard_deviation_of_trial_level_iqms",
+      "task_score": "arithmetic_mean_across_trials",
+      "task_variability": "sample_standard_deviation",
+      "trial_score": "interquartile_mean_across_nine_tasks"
+    },
+    "baseline_agent_timeout_sec": {
+      "simulation_heuristics_ant_v1": 1800,
+      "simulation_heuristics_atari57_v1": 604800,
+      "simulation_heuristics_breakout_ram_v1": 1800,
+      "simulation_heuristics_breakout_rgb_v1": 1800,
+      "simulation_heuristics_halfcheetah_v1": 3600,
+      "simulation_heuristics_montezuma_v1": 1800,
+      "simulation_heuristics_pong_ram_v1": 1800,
+      "simulation_heuristics_vizdoom_d1_v1": 1800,
+      "simulation_heuristics_vizdoom_d3_v1": 1800
+    },
+    "trials": 5,
+    "version": "2.1"
+  },
   "rows": [
     {
-      "arithmetic_mean_normalized_score": 43.19059338577778,
-      "average_normalized_score": 43.19059338577778,
-      "final_normalized_score": 42.0019305542,
+      "arithmetic_mean_normalized_score": 58.80957286386666,
+      "average_normalized_score": 58.80957286386666,
+      "final_normalized_score": 62.03374323269565,
+      "final_normalized_score_stddev": 10.38022421100604,
       "harness": "opencode",
-      "median_normalized_score": 45.833333333,
-      "model": "GPT-5.5",
-      "model_id": "gpt-5.5",
-      "model_route": "azure/gpt-5.5",
-      "provider": "azure",
-      "provider_label": "Azure direct",
-      "provider_reasoning_effort": "xhigh",
-      "rank": 1,
-      "raw_task_scores": {
-        "simulation_heuristics_ant_v1": 1852.8533956222025,
-        "simulation_heuristics_atari57_v1": 0.0,
-        "simulation_heuristics_breakout_ram_v1": 843.0,
-        "simulation_heuristics_breakout_rgb_v1": 702.0,
-        "simulation_heuristics_halfcheetah_v1": 4206.220989602626,
-        "simulation_heuristics_montezuma_v1": 400.0,
-        "simulation_heuristics_pong_ram_v1": 8.0,
-        "simulation_heuristics_vizdoom_d1_v1": 0.7621399685554205,
-        "simulation_heuristics_vizdoom_d3_v1": 48.3
-      },
-      "source_runs": {
-        "simulation_heuristics_ant_v1": "leaderboard/runs/article_suite/20260713T095807Z/gpt-5.5",
-        "simulation_heuristics_atari57_v1": "leaderboard/runs/article_suite/20260713T111604Z/gpt-5.5",
-        "simulation_heuristics_breakout_ram_v1": "leaderboard/runs/article_suite/20260713T084111Z/gpt-5.5",
-        "simulation_heuristics_breakout_rgb_v1": "leaderboard/runs/article_suite/20260713T084111Z/gpt-5.5",
-        "simulation_heuristics_halfcheetah_v1": "leaderboard/runs/article_suite/20260713T103810Z/gpt-5.5",
-        "simulation_heuristics_montezuma_v1": "leaderboard/runs/article_suite/20260713T084111Z/gpt-5.5",
-        "simulation_heuristics_pong_ram_v1": "leaderboard/runs/article_suite/20260713T084111Z/gpt-5.5",
-        "simulation_heuristics_vizdoom_d1_v1": "leaderboard/runs/article_suite/20260713T102218Z/gpt-5.5",
-        "simulation_heuristics_vizdoom_d3_v1": "leaderboard/runs/article_suite/20260713T084111Z/gpt-5.5"
-      },
-      "submission_details": {
-        "simulation_heuristics_ant_v1": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_ant_v1/score.json",
-        "simulation_heuristics_atari57_v1": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_atari57_v1/score.json",
-        "simulation_heuristics_breakout_ram_v1": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_breakout_ram_v1/score.json",
-        "simulation_heuristics_breakout_rgb_v1": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_breakout_rgb_v1/score.json",
-        "simulation_heuristics_halfcheetah_v1": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_halfcheetah_v1/score.json",
-        "simulation_heuristics_montezuma_v1": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_montezuma_v1/score.json",
-        "simulation_heuristics_pong_ram_v1": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_pong_ram_v1/score.json",
-        "simulation_heuristics_vizdoom_d1_v1": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_vizdoom_d1_v1/score.json",
-        "simulation_heuristics_vizdoom_d3_v1": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_vizdoom_d3_v1/score.json"
-      },
-      "task_anchors": {
-        "simulation_heuristics_ant_v1": {
-          "reference_score": 5942.333244755838,
-          "starter_score": 2443.815838992282
-        },
-        "simulation_heuristics_atari57_v1": {
-          "reference_score": 0.8283015254994576,
-          "starter_score": 0.0
-        },
-        "simulation_heuristics_breakout_ram_v1": {
-          "reference_score": 864.0,
-          "starter_score": 387.0
-        },
-        "simulation_heuristics_breakout_rgb_v1": {
-          "reference_score": 864.0,
-          "starter_score": 310.0
-        },
-        "simulation_heuristics_halfcheetah_v1": {
-          "reference_score": 11487.256451471967,
-          "starter_score": 4001.2886158917113
-        },
-        "simulation_heuristics_montezuma_v1": {
-          "reference_score": 400.0,
-          "starter_score": 0.0
-        },
-        "simulation_heuristics_pong_ram_v1": {
-          "reference_score": 21.0,
-          "starter_score": -2.9999999999999996
-        },
-        "simulation_heuristics_vizdoom_d1_v1": {
-          "reference_score": 0.8178199748694897,
-          "starter_score": 0.44161998964846133
-        },
-        "simulation_heuristics_vizdoom_d3_v1": {
-          "reference_score": 331.1,
-          "starter_score": 31.9
-        }
-      },
-      "task_scores": {
-        "simulation_heuristics_ant_v1": -16.891796576,
-        "simulation_heuristics_atari57_v1": 0.0,
-        "simulation_heuristics_breakout_ram_v1": 95.597484277,
-        "simulation_heuristics_breakout_rgb_v1": 70.758122744,
-        "simulation_heuristics_halfcheetah_v1": 2.73755349,
-        "simulation_heuristics_montezuma_v1": 100.0,
-        "simulation_heuristics_pong_ram_v1": 45.833333333,
-        "simulation_heuristics_vizdoom_d1_v1": 85.199359782,
-        "simulation_heuristics_vizdoom_d3_v1": 5.481283422
-      }
-    },
-    {
-      "arithmetic_mean_normalized_score": 39.37755364144445,
-      "average_normalized_score": 39.37755364144445,
-      "final_normalized_score": 36.7279720058,
-      "harness": "opencode",
-      "median_normalized_score": 39.203600385,
-      "model": "GPT-5.6 Sol",
-      "model_id": "gpt-5.6-sol",
-      "model_route": "azure/gpt-5.6-sol",
-      "provider": "azure",
-      "provider_label": "Azure direct",
-      "provider_reasoning_effort": "max",
-      "rank": 2,
-      "raw_task_scores": {
-        "simulation_heuristics_ant_v1": 3815.360622145591,
-        "simulation_heuristics_atari57_v1": 0.0,
-        "simulation_heuristics_breakout_ram_v1": 864.0,
-        "simulation_heuristics_breakout_rgb_v1": 702.0,
-        "simulation_heuristics_halfcheetah_v1": 5189.541724894487,
-        "simulation_heuristics_montezuma_v1": 0.0,
-        "simulation_heuristics_pong_ram_v1": 9.7,
-        "simulation_heuristics_vizdoom_d1_v1": 0.62749998614192,
-        "simulation_heuristics_vizdoom_d3_v1": 110.39999999999998
-      },
-      "source_runs": {
-        "simulation_heuristics_ant_v1": "leaderboard/runs/article_suite/20260713T093815Z/gpt-5.6-sol",
-        "simulation_heuristics_atari57_v1": "leaderboard/runs/article_suite/20260713T111156Z/gpt-5.6-sol",
-        "simulation_heuristics_breakout_ram_v1": "leaderboard/runs/article_suite/20260713T080935Z/gpt-5.6-sol",
-        "simulation_heuristics_breakout_rgb_v1": "leaderboard/runs/article_suite/20260713T080935Z/gpt-5.6-sol",
-        "simulation_heuristics_halfcheetah_v1": "leaderboard/runs/article_suite/20260713T084340Z/gpt-5.6-sol",
-        "simulation_heuristics_montezuma_v1": "leaderboard/runs/article_suite/20260713T080935Z/gpt-5.6-sol",
-        "simulation_heuristics_pong_ram_v1": "leaderboard/runs/article_suite/20260713T080935Z/gpt-5.6-sol",
-        "simulation_heuristics_vizdoom_d1_v1": "leaderboard/runs/article_suite/20260713T101636Z/gpt-5.6-sol",
-        "simulation_heuristics_vizdoom_d3_v1": "leaderboard/runs/article_suite/20260713T083940Z/gpt-5.6-sol"
-      },
-      "submission_details": {
-        "simulation_heuristics_ant_v1": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_ant_v1/score.json",
-        "simulation_heuristics_atari57_v1": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_atari57_v1/score.json",
-        "simulation_heuristics_breakout_ram_v1": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_breakout_ram_v1/score.json",
-        "simulation_heuristics_breakout_rgb_v1": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_breakout_rgb_v1/score.json",
-        "simulation_heuristics_halfcheetah_v1": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_halfcheetah_v1/score.json",
-        "simulation_heuristics_montezuma_v1": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_montezuma_v1/score.json",
-        "simulation_heuristics_pong_ram_v1": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_pong_ram_v1/score.json",
-        "simulation_heuristics_vizdoom_d1_v1": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_vizdoom_d1_v1/score.json",
-        "simulation_heuristics_vizdoom_d3_v1": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_vizdoom_d3_v1/score.json"
-      },
-      "task_anchors": {
-        "simulation_heuristics_ant_v1": {
-          "reference_score": 5942.333244755838,
-          "starter_score": 2443.815838992282
-        },
-        "simulation_heuristics_atari57_v1": {
-          "reference_score": 0.8283015254994576,
-          "starter_score": 0.0
-        },
-        "simulation_heuristics_breakout_ram_v1": {
-          "reference_score": 864.0,
-          "starter_score": 387.0
-        },
-        "simulation_heuristics_breakout_rgb_v1": {
-          "reference_score": 864.0,
-          "starter_score": 310.0
-        },
-        "simulation_heuristics_halfcheetah_v1": {
-          "reference_score": 11487.256451471967,
-          "starter_score": 4001.2886158917113
-        },
-        "simulation_heuristics_montezuma_v1": {
-          "reference_score": 400.0,
-          "starter_score": 0.0
-        },
-        "simulation_heuristics_pong_ram_v1": {
-          "reference_score": 21.0,
-          "starter_score": -2.9999999999999996
-        },
-        "simulation_heuristics_vizdoom_d1_v1": {
-          "reference_score": 0.8178199748694897,
-          "starter_score": 0.44161998964846133
-        },
-        "simulation_heuristics_vizdoom_d3_v1": {
-          "reference_score": 331.1,
-          "starter_score": 31.9
-        }
-      },
-      "task_scores": {
-        "simulation_heuristics_ant_v1": 39.203600385,
-        "simulation_heuristics_atari57_v1": 0.0,
-        "simulation_heuristics_breakout_ram_v1": 100.0,
-        "simulation_heuristics_breakout_rgb_v1": 70.758122744,
-        "simulation_heuristics_halfcheetah_v1": 15.873072595,
-        "simulation_heuristics_montezuma_v1": 0.0,
-        "simulation_heuristics_pong_ram_v1": 52.916666667,
-        "simulation_heuristics_vizdoom_d1_v1": 49.409889366,
-        "simulation_heuristics_vizdoom_d3_v1": 26.236631016
-      }
-    },
-    {
-      "arithmetic_mean_normalized_score": 39.81691467833333,
-      "average_normalized_score": 39.81691467833333,
-      "final_normalized_score": 27.218574763200003,
-      "harness": "opencode",
-      "median_normalized_score": 14.050353128,
+      "mean_trial_iqm_normalized_score": 61.137710440759996,
+      "median_normalized_score": 79.783393502,
       "model": "Claude Opus 4.8",
       "model_id": "claude-opus-4.8",
       "model_route": "anthropic/claude-opus-4-8",
       "provider": "claude_oauth",
       "provider_label": "Claude OAuth via pinned OpenCode plugin",
       "provider_reasoning_effort": "max",
-      "rank": 3,
-      "raw_task_scores": {
-        "simulation_heuristics_ant_v1": 2935.3698887625987,
-        "simulation_heuristics_atari57_v1": 0.0,
-        "simulation_heuristics_breakout_ram_v1": 387.0,
-        "simulation_heuristics_breakout_rgb_v1": 310.0,
-        "simulation_heuristics_halfcheetah_v1": 6021.504892591717,
-        "simulation_heuristics_montezuma_v1": 0.0,
-        "simulation_heuristics_pong_ram_v1": 21.0,
-        "simulation_heuristics_vizdoom_d1_v1": 0.7992199431359768,
-        "simulation_heuristics_vizdoom_d3_v1": 397.7
+      "rank": 1,
+      "raw_task_score_imputation_counts": {
+        "simulation_heuristics_ant_v1": 4,
+        "simulation_heuristics_atari57_v1": 0,
+        "simulation_heuristics_breakout_ram_v1": 0,
+        "simulation_heuristics_breakout_rgb_v1": 0,
+        "simulation_heuristics_halfcheetah_v1": 0,
+        "simulation_heuristics_montezuma_v1": 0,
+        "simulation_heuristics_pong_ram_v1": 0,
+        "simulation_heuristics_vizdoom_d1_v1": 0,
+        "simulation_heuristics_vizdoom_d3_v1": 0
       },
+      "raw_task_score_stddevs": {
+        "simulation_heuristics_ant_v1": 142.40443086118393,
+        "simulation_heuristics_atari57_v1": 0.0,
+        "simulation_heuristics_breakout_ram_v1": 33.448467827390836,
+        "simulation_heuristics_breakout_rgb_v1": 73.61249893869926,
+        "simulation_heuristics_halfcheetah_v1": 1827.0229584820154,
+        "simulation_heuristics_montezuma_v1": 0.0,
+        "simulation_heuristics_pong_ram_v1": 0.17888543819998254,
+        "simulation_heuristics_vizdoom_d1_v1": 0.05547294365604739,
+        "simulation_heuristics_vizdoom_d3_v1": 127.03587288636228
+      },
+      "raw_task_scores": {
+        "simulation_heuristics_ant_v1": 2507.501036532837,
+        "simulation_heuristics_atari57_v1": 0.0,
+        "simulation_heuristics_breakout_ram_v1": 835.4,
+        "simulation_heuristics_breakout_rgb_v1": 804.6,
+        "simulation_heuristics_halfcheetah_v1": 7065.645225601496,
+        "simulation_heuristics_montezuma_v1": 0.0,
+        "simulation_heuristics_pong_ram_v1": 20.919999999999998,
+        "simulation_heuristics_vizdoom_d1_v1": 0.8446999486498534,
+        "simulation_heuristics_vizdoom_d3_v1": 320.44
+      },
+      "sandbox": "daytona",
       "source_runs": {
-        "simulation_heuristics_ant_v1": "leaderboard/runs/article_suite/20260713T142919Z/claude-opus-4.8",
-        "simulation_heuristics_atari57_v1": "leaderboard/runs/article_suite/20260713T123222Z/claude-opus-4.8",
-        "simulation_heuristics_breakout_ram_v1": "leaderboard/runs/article_suite/20260713T090958Z/claude-opus-4.8",
-        "simulation_heuristics_breakout_rgb_v1": "leaderboard/runs/article_suite/20260713T090958Z/claude-opus-4.8",
-        "simulation_heuristics_halfcheetah_v1": "leaderboard/runs/article_suite/20260713T111714Z/claude-opus-4.8",
-        "simulation_heuristics_montezuma_v1": "leaderboard/runs/article_suite/20260713T110612Z/claude-opus-4.8",
-        "simulation_heuristics_pong_ram_v1": "leaderboard/runs/article_suite/20260713T090958Z/claude-opus-4.8",
-        "simulation_heuristics_vizdoom_d1_v1": "leaderboard/runs/article_suite/20260713T110612Z/claude-opus-4.8",
-        "simulation_heuristics_vizdoom_d3_v1": "leaderboard/runs/article_suite/20260713T110612Z/claude-opus-4.8"
+        "simulation_heuristics_ant_v1": [
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-01/tasks-81ec8d98a4",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-02/tasks-e7ee9d1b4f",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-03",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-04",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-05"
+        ],
+        "simulation_heuristics_atari57_v1": [
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-01",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-02",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-03",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-04",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-05"
+        ],
+        "simulation_heuristics_breakout_ram_v1": [
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-01",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-02",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-03",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-04",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-05"
+        ],
+        "simulation_heuristics_breakout_rgb_v1": [
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-01",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-02",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-03",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-04",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-05"
+        ],
+        "simulation_heuristics_halfcheetah_v1": [
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-01/tasks-81ec8d98a4",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-02/tasks-e7ee9d1b4f",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-03",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-04",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-05"
+        ],
+        "simulation_heuristics_montezuma_v1": [
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-01",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-02/tasks-e7ee9d1b4f",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-03",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-04",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-05"
+        ],
+        "simulation_heuristics_pong_ram_v1": [
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-01",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-02/tasks-e7ee9d1b4f",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-03",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-04",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-05"
+        ],
+        "simulation_heuristics_vizdoom_d1_v1": [
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-01",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-02/tasks-e7ee9d1b4f",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-03",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-04",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-05"
+        ],
+        "simulation_heuristics_vizdoom_d3_v1": [
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-01",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-02/tasks-e7ee9d1b4f",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-03",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-04",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-05"
+        ]
       },
       "submission_details": {
         "simulation_heuristics_ant_v1": "leaderboard/article_suite_submissions/claude-opus-4.8/simulation_heuristics_ant_v1/score.json",
@@ -1085,7 +1430,7 @@
           "starter_score": -2.9999999999999996
         },
         "simulation_heuristics_vizdoom_d1_v1": {
-          "reference_score": 0.8178199748694897,
+          "reference_score": 0.8178199748694898,
           "starter_score": 0.44161998964846133
         },
         "simulation_heuristics_vizdoom_d3_v1": {
@@ -1093,24 +1438,604 @@
           "starter_score": 31.9
         }
       },
-      "task_scores": {
-        "simulation_heuristics_ant_v1": 14.050353128,
+      "task_score_stddevs": {
+        "simulation_heuristics_ant_v1": 4.070422248601275,
         "simulation_heuristics_atari57_v1": 0.0,
-        "simulation_heuristics_breakout_ram_v1": 0.0,
-        "simulation_heuristics_breakout_rgb_v1": 0.0,
-        "simulation_heuristics_halfcheetah_v1": 26.986707946,
+        "simulation_heuristics_breakout_ram_v1": 7.012257406411853,
+        "simulation_heuristics_breakout_rgb_v1": 13.287454681897577,
+        "simulation_heuristics_halfcheetah_v1": 24.40596858830019,
         "simulation_heuristics_montezuma_v1": 0.0,
-        "simulation_heuristics_pong_ram_v1": 100.0,
-        "simulation_heuristics_vizdoom_d1_v1": 95.055812742,
-        "simulation_heuristics_vizdoom_d3_v1": 122.259358289
+        "simulation_heuristics_pong_ram_v1": 0.7453559926490017,
+        "simulation_heuristics_vizdoom_d1_v1": 14.745599637347764,
+        "simulation_heuristics_vizdoom_d3_v1": 42.45851366513837
+      },
+      "task_scores": {
+        "simulation_heuristics_ant_v1": 1.820348169,
+        "simulation_heuristics_atari57_v1": 0.0,
+        "simulation_heuristics_breakout_ram_v1": 94.004192872,
+        "simulation_heuristics_breakout_rgb_v1": 89.2779783394,
+        "simulation_heuristics_halfcheetah_v1": 40.934675074999994,
+        "simulation_heuristics_montezuma_v1": 0.0,
+        "simulation_heuristics_pong_ram_v1": 99.6666666666,
+        "simulation_heuristics_vizdoom_d1_v1": 107.1451288772,
+        "simulation_heuristics_vizdoom_d3_v1": 96.4371657756
+      },
+      "trial_count": 5,
+      "trial_final_normalized_scores": {
+        "1": 59.1255877926,
+        "2": 66.2620495092,
+        "3": 44.389717685200004,
+        "4": 71.6451968772,
+        "5": 64.2660003396
+      },
+      "trial_task_normalized_scores": {
+        "1": {
+          "simulation_heuristics_ant_v1": 0.0,
+          "simulation_heuristics_atari57_v1": 0.0,
+          "simulation_heuristics_breakout_ram_v1": 98.742138365,
+          "simulation_heuristics_breakout_rgb_v1": 70.758122744,
+          "simulation_heuristics_halfcheetah_v1": 41.669121704,
+          "simulation_heuristics_montezuma_v1": 0.0,
+          "simulation_heuristics_pong_ram_v1": 100.0,
+          "simulation_heuristics_vizdoom_d1_v1": 124.779364311,
+          "simulation_heuristics_vizdoom_d3_v1": 84.45855615
+        },
+        "2": {
+          "simulation_heuristics_ant_v1": 9.101740845,
+          "simulation_heuristics_atari57_v1": 0.0,
+          "simulation_heuristics_breakout_ram_v1": 100.0,
+          "simulation_heuristics_breakout_rgb_v1": 79.783393502,
+          "simulation_heuristics_halfcheetah_v1": 42.425113199,
+          "simulation_heuristics_montezuma_v1": 0.0,
+          "simulation_heuristics_pong_ram_v1": 100.0,
+          "simulation_heuristics_vizdoom_d1_v1": 100.2179605,
+          "simulation_heuristics_vizdoom_d3_v1": 114.104278075
+        },
+        "3": {
+          "simulation_heuristics_ant_v1": 0.0,
+          "simulation_heuristics_atari57_v1": 0.0,
+          "simulation_heuristics_breakout_ram_v1": 98.322851153,
+          "simulation_heuristics_breakout_rgb_v1": 100.0,
+          "simulation_heuristics_halfcheetah_v1": 9.827504681,
+          "simulation_heuristics_montezuma_v1": 0.0,
+          "simulation_heuristics_pong_ram_v1": 98.333333333,
+          "simulation_heuristics_vizdoom_d1_v1": 85.890478581,
+          "simulation_heuristics_vizdoom_d3_v1": 27.907754011
+        },
+        "4": {
+          "simulation_heuristics_ant_v1": 0.0,
+          "simulation_heuristics_atari57_v1": 0.0,
+          "simulation_heuristics_breakout_ram_v1": 84.696016771,
+          "simulation_heuristics_breakout_rgb_v1": 95.848375451,
+          "simulation_heuristics_halfcheetah_v1": 77.681592164,
+          "simulation_heuristics_montezuma_v1": 0.0,
+          "simulation_heuristics_pong_ram_v1": 100.0,
+          "simulation_heuristics_vizdoom_d1_v1": 113.721417769,
+          "simulation_heuristics_vizdoom_d3_v1": 134.35828877
+        },
+        "5": {
+          "simulation_heuristics_ant_v1": 0.0,
+          "simulation_heuristics_atari57_v1": 0.0,
+          "simulation_heuristics_breakout_ram_v1": 88.259958071,
+          "simulation_heuristics_breakout_rgb_v1": 100.0,
+          "simulation_heuristics_halfcheetah_v1": 33.070043627,
+          "simulation_heuristics_montezuma_v1": 0.0,
+          "simulation_heuristics_pong_ram_v1": 100.0,
+          "simulation_heuristics_vizdoom_d1_v1": 111.116423225,
+          "simulation_heuristics_vizdoom_d3_v1": 121.356951872
+        }
       }
     },
     {
-      "arithmetic_mean_normalized_score": -29.71822245,
-      "average_normalized_score": -29.71822245,
-      "final_normalized_score": -9.8773515774,
+      "arithmetic_mean_normalized_score": 41.223767221955555,
+      "average_normalized_score": 41.223767221955555,
+      "final_normalized_score": 36.651764607913044,
+      "final_normalized_score_stddev": 5.524217450335815,
       "harness": "opencode",
-      "median_normalized_score": -8.167582379,
+      "mean_trial_iqm_normalized_score": 37.73164397808,
+      "median_normalized_score": 32.792734613,
+      "model": "GPT-5.6 Sol",
+      "model_id": "gpt-5.6-sol",
+      "model_route": "azure/gpt-5.6-sol",
+      "provider": "azure",
+      "provider_label": "Azure direct",
+      "provider_reasoning_effort": "max",
+      "rank": 2,
+      "raw_task_score_imputation_counts": {
+        "simulation_heuristics_ant_v1": 0,
+        "simulation_heuristics_atari57_v1": 0,
+        "simulation_heuristics_breakout_ram_v1": 0,
+        "simulation_heuristics_breakout_rgb_v1": 0,
+        "simulation_heuristics_halfcheetah_v1": 0,
+        "simulation_heuristics_montezuma_v1": 0,
+        "simulation_heuristics_pong_ram_v1": 0,
+        "simulation_heuristics_vizdoom_d1_v1": 0,
+        "simulation_heuristics_vizdoom_d3_v1": 0
+      },
+      "raw_task_score_stddevs": {
+        "simulation_heuristics_ant_v1": 419.52351859557746,
+        "simulation_heuristics_atari57_v1": 0.0,
+        "simulation_heuristics_breakout_ram_v1": 225.8501715739884,
+        "simulation_heuristics_breakout_rgb_v1": 122.53652516698847,
+        "simulation_heuristics_halfcheetah_v1": 291.0085829715705,
+        "simulation_heuristics_montezuma_v1": 173.26280616450836,
+        "simulation_heuristics_pong_ram_v1": 2.345207879911715,
+        "simulation_heuristics_vizdoom_d1_v1": 0.12456464290218099,
+        "simulation_heuristics_vizdoom_d3_v1": 71.79534803871347
+      },
+      "raw_task_scores": {
+        "simulation_heuristics_ant_v1": 2272.356693724495,
+        "simulation_heuristics_atari57_v1": 0.0,
+        "simulation_heuristics_breakout_ram_v1": 596.4,
+        "simulation_heuristics_breakout_rgb_v1": 647.2,
+        "simulation_heuristics_halfcheetah_v1": 6385.135940620764,
+        "simulation_heuristics_montezuma_v1": 298.0,
+        "simulation_heuristics_pong_ram_v1": 19.0,
+        "simulation_heuristics_vizdoom_d1_v1": 0.6554319871515035,
+        "simulation_heuristics_vizdoom_d3_v1": 80.67999999999999
+      },
+      "sandbox": "daytona",
+      "source_runs": {
+        "simulation_heuristics_ant_v1": [
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-02",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-04/tasks-81ec8d98a4",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-05"
+        ],
+        "simulation_heuristics_atari57_v1": [
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-02",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-04",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-05"
+        ],
+        "simulation_heuristics_breakout_ram_v1": [
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-02",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-04",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-05"
+        ],
+        "simulation_heuristics_breakout_rgb_v1": [
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-02",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-04",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-05"
+        ],
+        "simulation_heuristics_halfcheetah_v1": [
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-02",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-04/tasks-81ec8d98a4",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-05"
+        ],
+        "simulation_heuristics_montezuma_v1": [
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-02",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-04",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-05"
+        ],
+        "simulation_heuristics_pong_ram_v1": [
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-02",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-04",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-05"
+        ],
+        "simulation_heuristics_vizdoom_d1_v1": [
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-02",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-04",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-05"
+        ],
+        "simulation_heuristics_vizdoom_d3_v1": [
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-02",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-04",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-05"
+        ]
+      },
+      "submission_details": {
+        "simulation_heuristics_ant_v1": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_ant_v1/score.json",
+        "simulation_heuristics_atari57_v1": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_atari57_v1/score.json",
+        "simulation_heuristics_breakout_ram_v1": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_breakout_ram_v1/score.json",
+        "simulation_heuristics_breakout_rgb_v1": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_breakout_rgb_v1/score.json",
+        "simulation_heuristics_halfcheetah_v1": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_halfcheetah_v1/score.json",
+        "simulation_heuristics_montezuma_v1": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_montezuma_v1/score.json",
+        "simulation_heuristics_pong_ram_v1": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_pong_ram_v1/score.json",
+        "simulation_heuristics_vizdoom_d1_v1": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_vizdoom_d1_v1/score.json",
+        "simulation_heuristics_vizdoom_d3_v1": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_vizdoom_d3_v1/score.json"
+      },
+      "task_anchors": {
+        "simulation_heuristics_ant_v1": {
+          "reference_score": 5942.333244755838,
+          "starter_score": 2443.815838992282
+        },
+        "simulation_heuristics_atari57_v1": {
+          "reference_score": 0.8283015254994576,
+          "starter_score": 0.0
+        },
+        "simulation_heuristics_breakout_ram_v1": {
+          "reference_score": 864.0,
+          "starter_score": 387.0
+        },
+        "simulation_heuristics_breakout_rgb_v1": {
+          "reference_score": 864.0,
+          "starter_score": 310.0
+        },
+        "simulation_heuristics_halfcheetah_v1": {
+          "reference_score": 11487.256451471967,
+          "starter_score": 4001.2886158917113
+        },
+        "simulation_heuristics_montezuma_v1": {
+          "reference_score": 400.0,
+          "starter_score": 0.0
+        },
+        "simulation_heuristics_pong_ram_v1": {
+          "reference_score": 21.0,
+          "starter_score": -2.9999999999999996
+        },
+        "simulation_heuristics_vizdoom_d1_v1": {
+          "reference_score": 0.8178199748694898,
+          "starter_score": 0.44161998964846133
+        },
+        "simulation_heuristics_vizdoom_d3_v1": {
+          "reference_score": 331.1,
+          "starter_score": 31.9
+        }
+      },
+      "task_score_stddevs": {
+        "simulation_heuristics_ant_v1": 11.991465810903719,
+        "simulation_heuristics_atari57_v1": 0.0,
+        "simulation_heuristics_breakout_ram_v1": 47.34804435501101,
+        "simulation_heuristics_breakout_rgb_v1": 22.118506348049813,
+        "simulation_heuristics_halfcheetah_v1": 3.8873875677992533,
+        "simulation_heuristics_montezuma_v1": 43.31570154112709,
+        "simulation_heuristics_pong_ram_v1": 9.771699499561077,
+        "simulation_heuristics_vizdoom_d1_v1": 33.111283305681766,
+        "simulation_heuristics_vizdoom_d3_v1": 23.995771403261536
+      },
+      "task_scores": {
+        "simulation_heuristics_ant_v1": -4.9009087386,
+        "simulation_heuristics_atari57_v1": 0.0,
+        "simulation_heuristics_breakout_ram_v1": 43.899371069400004,
+        "simulation_heuristics_breakout_rgb_v1": 60.86642599300001,
+        "simulation_heuristics_halfcheetah_v1": 31.8442100886,
+        "simulation_heuristics_montezuma_v1": 74.5,
+        "simulation_heuristics_pong_ram_v1": 91.6666666666,
+        "simulation_heuristics_vizdoom_d1_v1": 56.834663982799995,
+        "simulation_heuristics_vizdoom_d3_v1": 16.3034759358
+      },
+      "trial_count": 5,
+      "trial_final_normalized_scores": {
+        "1": 37.797729594399996,
+        "2": 41.203895079,
+        "3": 28.388586371000002,
+        "4": 42.346736302800004,
+        "5": 38.921272543200004
+      },
+      "trial_task_normalized_scores": {
+        "1": {
+          "simulation_heuristics_ant_v1": 9.173888471,
+          "simulation_heuristics_atari57_v1": 0.0,
+          "simulation_heuristics_breakout_ram_v1": 100.0,
+          "simulation_heuristics_breakout_rgb_v1": 70.758122744,
+          "simulation_heuristics_halfcheetah_v1": 26.12140084,
+          "simulation_heuristics_montezuma_v1": 0.0,
+          "simulation_heuristics_pong_ram_v1": 79.166666667,
+          "simulation_heuristics_vizdoom_d1_v1": 42.828284045,
+          "simulation_heuristics_vizdoom_d3_v1": 40.106951872
+        },
+        "2": {
+          "simulation_heuristics_ant_v1": -7.591479,
+          "simulation_heuristics_atari57_v1": 0.0,
+          "simulation_heuristics_breakout_ram_v1": 6.918238994,
+          "simulation_heuristics_breakout_rgb_v1": 70.758122744,
+          "simulation_heuristics_halfcheetah_v1": 33.28729024,
+          "simulation_heuristics_montezuma_v1": 100.0,
+          "simulation_heuristics_pong_ram_v1": 100.0,
+          "simulation_heuristics_vizdoom_d1_v1": 95.055823417,
+          "simulation_heuristics_vizdoom_d3_v1": -3.442513369
+        },
+        "3": {
+          "simulation_heuristics_ant_v1": -11.713338376,
+          "simulation_heuristics_atari57_v1": 0.0,
+          "simulation_heuristics_breakout_ram_v1": 3.5639413,
+          "simulation_heuristics_breakout_rgb_v1": 70.758122744,
+          "simulation_heuristics_halfcheetah_v1": 36.605449762,
+          "simulation_heuristics_montezuma_v1": 100.0,
+          "simulation_heuristics_pong_ram_v1": 83.333333333,
+          "simulation_heuristics_vizdoom_d1_v1": 31.015418049,
+          "simulation_heuristics_vizdoom_d3_v1": 0.0
+        },
+        "4": {
+          "simulation_heuristics_ant_v1": -19.696444908,
+          "simulation_heuristics_atari57_v1": 0.0,
+          "simulation_heuristics_breakout_ram_v1": 18.448637317,
+          "simulation_heuristics_breakout_rgb_v1": 70.758122744,
+          "simulation_heuristics_halfcheetah_v1": 32.792734613,
+          "simulation_heuristics_montezuma_v1": 100.0,
+          "simulation_heuristics_pong_ram_v1": 95.833333333,
+          "simulation_heuristics_vizdoom_d1_v1": 89.73418684,
+          "simulation_heuristics_vizdoom_d3_v1": 0.0
+        },
+        "5": {
+          "simulation_heuristics_ant_v1": 5.32283012,
+          "simulation_heuristics_atari57_v1": 0.0,
+          "simulation_heuristics_breakout_ram_v1": 90.566037736,
+          "simulation_heuristics_breakout_rgb_v1": 21.299638989,
+          "simulation_heuristics_halfcheetah_v1": 30.414174988,
+          "simulation_heuristics_montezuma_v1": 72.5,
+          "simulation_heuristics_pong_ram_v1": 100.0,
+          "simulation_heuristics_vizdoom_d1_v1": 25.539607563,
+          "simulation_heuristics_vizdoom_d3_v1": 44.852941176
+        }
+      }
+    },
+    {
+      "arithmetic_mean_normalized_score": 22.06816884377778,
+      "average_normalized_score": 22.06816884377778,
+      "final_normalized_score": 10.662970787652174,
+      "final_normalized_score_stddev": 18.67984640949238,
+      "harness": "opencode",
+      "mean_trial_iqm_normalized_score": 16.7775760408,
+      "median_normalized_score": 5.870020964,
+      "model": "GPT-5.5",
+      "model_id": "gpt-5.5",
+      "model_route": "azure/gpt-5.5",
+      "provider": "azure",
+      "provider_label": "Azure direct",
+      "provider_reasoning_effort": "xhigh",
+      "rank": 3,
+      "raw_task_score_imputation_counts": {
+        "simulation_heuristics_ant_v1": 0,
+        "simulation_heuristics_atari57_v1": 0,
+        "simulation_heuristics_breakout_ram_v1": 0,
+        "simulation_heuristics_breakout_rgb_v1": 0,
+        "simulation_heuristics_halfcheetah_v1": 0,
+        "simulation_heuristics_montezuma_v1": 0,
+        "simulation_heuristics_pong_ram_v1": 0,
+        "simulation_heuristics_vizdoom_d1_v1": 0,
+        "simulation_heuristics_vizdoom_d3_v1": 0
+      },
+      "raw_task_score_stddevs": {
+        "simulation_heuristics_ant_v1": 306.36385957656836,
+        "simulation_heuristics_atari57_v1": 0.0,
+        "simulation_heuristics_breakout_ram_v1": 131.153345363357,
+        "simulation_heuristics_breakout_rgb_v1": 122.53652516698847,
+        "simulation_heuristics_halfcheetah_v1": 698.5070322948952,
+        "simulation_heuristics_montezuma_v1": 0.0,
+        "simulation_heuristics_pong_ram_v1": 9.705668446840743,
+        "simulation_heuristics_vizdoom_d1_v1": 0.3579053781713541,
+        "simulation_heuristics_vizdoom_d3_v1": 122.81457568220475
+      },
+      "raw_task_scores": {
+        "simulation_heuristics_ant_v1": 2006.0944869926293,
+        "simulation_heuristics_atari57_v1": 0.0,
+        "simulation_heuristics_breakout_ram_v1": 486.8,
+        "simulation_heuristics_breakout_rgb_v1": 647.2,
+        "simulation_heuristics_halfcheetah_v1": 4717.6162449605235,
+        "simulation_heuristics_montezuma_v1": 0.0,
+        "simulation_heuristics_pong_ram_v1": 8.8,
+        "simulation_heuristics_vizdoom_d1_v1": 0.6197079806402326,
+        "simulation_heuristics_vizdoom_d3_v1": 101.49999999999999
+      },
+      "sandbox": "daytona",
+      "source_runs": {
+        "simulation_heuristics_ant_v1": [
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-01",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-02",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-03",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-04",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-05/tasks-81ec8d98a4"
+        ],
+        "simulation_heuristics_atari57_v1": [
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-01",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-02",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-03",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-04",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-05"
+        ],
+        "simulation_heuristics_breakout_ram_v1": [
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-01",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-02",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-03",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-04/tasks-e6fa3546aa",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-05"
+        ],
+        "simulation_heuristics_breakout_rgb_v1": [
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-01",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-02",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-03",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-04/tasks-885696cfa4",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-05"
+        ],
+        "simulation_heuristics_halfcheetah_v1": [
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-01/simulation_heuristics_halfcheetah_v1",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-02",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-03",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-04/tasks-e6fa3546aa",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-05/tasks-81ec8d98a4"
+        ],
+        "simulation_heuristics_montezuma_v1": [
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-01",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-02",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-03",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-04",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-05"
+        ],
+        "simulation_heuristics_pong_ram_v1": [
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-01",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-02",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-03",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-04/tasks-885696cfa4",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-05"
+        ],
+        "simulation_heuristics_vizdoom_d1_v1": [
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-01",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-02",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-03",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-04",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-05"
+        ],
+        "simulation_heuristics_vizdoom_d3_v1": [
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-01",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-02",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-03",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-04",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-05"
+        ]
+      },
+      "submission_details": {
+        "simulation_heuristics_ant_v1": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_ant_v1/score.json",
+        "simulation_heuristics_atari57_v1": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_atari57_v1/score.json",
+        "simulation_heuristics_breakout_ram_v1": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_breakout_ram_v1/score.json",
+        "simulation_heuristics_breakout_rgb_v1": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_breakout_rgb_v1/score.json",
+        "simulation_heuristics_halfcheetah_v1": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_halfcheetah_v1/score.json",
+        "simulation_heuristics_montezuma_v1": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_montezuma_v1/score.json",
+        "simulation_heuristics_pong_ram_v1": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_pong_ram_v1/score.json",
+        "simulation_heuristics_vizdoom_d1_v1": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_vizdoom_d1_v1/score.json",
+        "simulation_heuristics_vizdoom_d3_v1": "leaderboard/article_suite_submissions/gpt-5.5/simulation_heuristics_vizdoom_d3_v1/score.json"
+      },
+      "task_anchors": {
+        "simulation_heuristics_ant_v1": {
+          "reference_score": 5942.333244755838,
+          "starter_score": 2443.815838992282
+        },
+        "simulation_heuristics_atari57_v1": {
+          "reference_score": 0.8283015254994576,
+          "starter_score": 0.0
+        },
+        "simulation_heuristics_breakout_ram_v1": {
+          "reference_score": 864.0,
+          "starter_score": 387.0
+        },
+        "simulation_heuristics_breakout_rgb_v1": {
+          "reference_score": 864.0,
+          "starter_score": 310.0
+        },
+        "simulation_heuristics_halfcheetah_v1": {
+          "reference_score": 11487.256451471967,
+          "starter_score": 4001.2886158917113
+        },
+        "simulation_heuristics_montezuma_v1": {
+          "reference_score": 400.0,
+          "starter_score": 0.0
+        },
+        "simulation_heuristics_pong_ram_v1": {
+          "reference_score": 21.0,
+          "starter_score": -2.9999999999999996
+        },
+        "simulation_heuristics_vizdoom_d1_v1": {
+          "reference_score": 0.8178199748694898,
+          "starter_score": 0.44161998964846133
+        },
+        "simulation_heuristics_vizdoom_d3_v1": {
+          "reference_score": 331.1,
+          "starter_score": 31.9
+        }
+      },
+      "task_score_stddevs": {
+        "simulation_heuristics_ant_v1": 8.756962566015595,
+        "simulation_heuristics_atari57_v1": 0.0,
+        "simulation_heuristics_breakout_ram_v1": 27.49546024414613,
+        "simulation_heuristics_breakout_rgb_v1": 22.118506348049813,
+        "simulation_heuristics_halfcheetah_v1": 9.330884765209642,
+        "simulation_heuristics_montezuma_v1": 0.0,
+        "simulation_heuristics_pong_ram_v1": 40.44028519521613,
+        "simulation_heuristics_vizdoom_d1_v1": 95.13699952993868,
+        "simulation_heuristics_vizdoom_d3_v1": 41.04765230004701
+      },
+      "task_scores": {
+        "simulation_heuristics_ant_v1": -12.5116242462,
+        "simulation_heuristics_atari57_v1": 0.0,
+        "simulation_heuristics_breakout_ram_v1": 20.9224318658,
+        "simulation_heuristics_breakout_rgb_v1": 60.86642599300001,
+        "simulation_heuristics_halfcheetah_v1": 9.5689381094,
+        "simulation_heuristics_montezuma_v1": 0.0,
+        "simulation_heuristics_pong_ram_v1": 49.1666666668,
+        "simulation_heuristics_vizdoom_d1_v1": 47.33864911959999,
+        "simulation_heuristics_vizdoom_d3_v1": 23.2620320856
+      },
+      "trial_count": 5,
+      "trial_final_normalized_scores": {
+        "1": 5.4339319906,
+        "2": 48.2436373978,
+        "3": 18.718893057000002,
+        "4": 9.604625305799999,
+        "5": 1.8867924528
+      },
+      "trial_task_normalized_scores": {
+        "1": {
+          "simulation_heuristics_ant_v1": -6.720960755,
+          "simulation_heuristics_atari57_v1": 0.0,
+          "simulation_heuristics_breakout_ram_v1": 5.870020964,
+          "simulation_heuristics_breakout_rgb_v1": 21.299638989,
+          "simulation_heuristics_halfcheetah_v1": 0.0,
+          "simulation_heuristics_montezuma_v1": 0.0,
+          "simulation_heuristics_pong_ram_v1": 41.666666667,
+          "simulation_heuristics_vizdoom_d1_v1": -117.814998349,
+          "simulation_heuristics_vizdoom_d3_v1": 22.326203209
+        },
+        "2": {
+          "simulation_heuristics_ant_v1": -24.004147668,
+          "simulation_heuristics_atari57_v1": 0.0,
+          "simulation_heuristics_breakout_ram_v1": 70.020964361,
+          "simulation_heuristics_breakout_rgb_v1": 70.758122744,
+          "simulation_heuristics_halfcheetah_v1": 21.272433217,
+          "simulation_heuristics_montezuma_v1": 0.0,
+          "simulation_heuristics_pong_ram_v1": 79.166666667,
+          "simulation_heuristics_vizdoom_d1_v1": 85.486445859,
+          "simulation_heuristics_vizdoom_d3_v1": 94.585561497
+        },
+        "3": {
+          "simulation_heuristics_ant_v1": -13.99811598,
+          "simulation_heuristics_atari57_v1": 0.0,
+          "simulation_heuristics_breakout_ram_v1": 10.062893082,
+          "simulation_heuristics_breakout_rgb_v1": 70.758122744,
+          "simulation_heuristics_halfcheetah_v1": 12.773449459,
+          "simulation_heuristics_montezuma_v1": 0.0,
+          "simulation_heuristics_pong_ram_v1": 100.0,
+          "simulation_heuristics_vizdoom_d1_v1": 104.662416785,
+          "simulation_heuristics_vizdoom_d3_v1": -0.601604278
+        },
+        "4": {
+          "simulation_heuristics_ant_v1": -1.398078834,
+          "simulation_heuristics_atari57_v1": 0.0,
+          "simulation_heuristics_breakout_ram_v1": 9.224318658,
+          "simulation_heuristics_breakout_rgb_v1": 70.758122744,
+          "simulation_heuristics_halfcheetah_v1": 13.798807871,
+          "simulation_heuristics_montezuma_v1": 0.0,
+          "simulation_heuristics_pong_ram_v1": 25.0,
+          "simulation_heuristics_vizdoom_d1_v1": 111.839447567,
+          "simulation_heuristics_vizdoom_d3_v1": 0.0
+        },
+        "5": {
+          "simulation_heuristics_ant_v1": -16.436817994,
+          "simulation_heuristics_atari57_v1": 0.0,
+          "simulation_heuristics_breakout_ram_v1": 9.433962264,
+          "simulation_heuristics_breakout_rgb_v1": 70.758122744,
+          "simulation_heuristics_halfcheetah_v1": 0.0,
+          "simulation_heuristics_montezuma_v1": 0.0,
+          "simulation_heuristics_pong_ram_v1": 0.0,
+          "simulation_heuristics_vizdoom_d1_v1": 52.519933736,
+          "simulation_heuristics_vizdoom_d3_v1": 0.0
+        }
+      }
+    },
+    {
+      "arithmetic_mean_normalized_score": -31.610134487355555,
+      "average_normalized_score": -31.610134487355555,
+      "final_normalized_score": -17.411123288956524,
+      "final_normalized_score_stddev": 5.902995817222085,
+      "harness": "opencode",
+      "mean_trial_iqm_normalized_score": -18.58872338544,
+      "median_normalized_score": -3.609625668,
       "model": "GPT-5.4 Mini",
       "model_id": "gpt-5.4-mini",
       "model_route": "azure/gpt-5.4-mini",
@@ -1118,27 +2043,104 @@
       "provider_label": "Azure direct",
       "provider_reasoning_effort": "xhigh",
       "rank": 4,
-      "raw_task_scores": {
-        "simulation_heuristics_ant_v1": 1346.6965294546999,
-        "simulation_heuristics_atari57_v1": 0.0,
-        "simulation_heuristics_breakout_ram_v1": 399.0,
-        "simulation_heuristics_breakout_rgb_v1": 396.0,
-        "simulation_heuristics_halfcheetah_v1": 3389.8660260183765,
-        "simulation_heuristics_montezuma_v1": 0.0,
-        "simulation_heuristics_pong_ram_v1": -21.0,
-        "simulation_heuristics_vizdoom_d1_v1": -0.16450000800192355,
-        "simulation_heuristics_vizdoom_d3_v1": 2.4
+      "raw_task_score_imputation_counts": {
+        "simulation_heuristics_ant_v1": 0,
+        "simulation_heuristics_atari57_v1": 0,
+        "simulation_heuristics_breakout_ram_v1": 0,
+        "simulation_heuristics_breakout_rgb_v1": 0,
+        "simulation_heuristics_halfcheetah_v1": 0,
+        "simulation_heuristics_montezuma_v1": 0,
+        "simulation_heuristics_pong_ram_v1": 0,
+        "simulation_heuristics_vizdoom_d1_v1": 0,
+        "simulation_heuristics_vizdoom_d3_v1": 0
       },
+      "raw_task_score_stddevs": {
+        "simulation_heuristics_ant_v1": 364.1182774109385,
+        "simulation_heuristics_atari57_v1": 0.0,
+        "simulation_heuristics_breakout_ram_v1": 44.0204497932495,
+        "simulation_heuristics_breakout_rgb_v1": 287.77473829368694,
+        "simulation_heuristics_halfcheetah_v1": 1438.0428685581014,
+        "simulation_heuristics_montezuma_v1": 0.0,
+        "simulation_heuristics_pong_ram_v1": 16.192590898309017,
+        "simulation_heuristics_vizdoom_d1_v1": 0.012638255798059739,
+        "simulation_heuristics_vizdoom_d3_v1": 135.46233055724386
+      },
+      "raw_task_scores": {
+        "simulation_heuristics_ant_v1": 791.3786088082715,
+        "simulation_heuristics_atari57_v1": 0.0,
+        "simulation_heuristics_breakout_ram_v1": 380.6,
+        "simulation_heuristics_breakout_rgb_v1": 389.4,
+        "simulation_heuristics_halfcheetah_v1": 1015.6002588284422,
+        "simulation_heuristics_montezuma_v1": 0.0,
+        "simulation_heuristics_pong_ram_v1": -12.8,
+        "simulation_heuristics_vizdoom_d1_v1": -0.25834800247848033,
+        "simulation_heuristics_vizdoom_d3_v1": 81.36
+      },
+      "sandbox": "daytona",
       "source_runs": {
-        "simulation_heuristics_ant_v1": "leaderboard/runs/article_suite/20260713T104315Z/gpt-5.4-mini",
-        "simulation_heuristics_atari57_v1": "leaderboard/runs/article_suite/20260713T111944Z/gpt-5.4-mini",
-        "simulation_heuristics_breakout_ram_v1": "leaderboard/runs/article_suite/20260713T091939Z/gpt-5.4-mini",
-        "simulation_heuristics_breakout_rgb_v1": "leaderboard/runs/article_suite/20260713T091939Z/gpt-5.4-mini",
-        "simulation_heuristics_halfcheetah_v1": "leaderboard/runs/article_suite/20260713T093314Z/gpt-5.4-mini",
-        "simulation_heuristics_montezuma_v1": "leaderboard/runs/article_suite/20260713T091939Z/gpt-5.4-mini",
-        "simulation_heuristics_pong_ram_v1": "leaderboard/runs/article_suite/20260713T091939Z/gpt-5.4-mini",
-        "simulation_heuristics_vizdoom_d1_v1": "leaderboard/runs/article_suite/20260713T102707Z/gpt-5.4-mini",
-        "simulation_heuristics_vizdoom_d3_v1": "leaderboard/runs/article_suite/20260713T104034Z/gpt-5.4-mini"
+        "simulation_heuristics_ant_v1": [
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-01",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-02",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-03",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-04",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-05"
+        ],
+        "simulation_heuristics_atari57_v1": [
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-01",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-02",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-03",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-04",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-05"
+        ],
+        "simulation_heuristics_breakout_ram_v1": [
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-01",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-02/simulation_heuristics_breakout_ram_v1",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-03",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-04",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-05"
+        ],
+        "simulation_heuristics_breakout_rgb_v1": [
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-01",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-02",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-03",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-04",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-05"
+        ],
+        "simulation_heuristics_halfcheetah_v1": [
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-01",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-02",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-03",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-04",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-05"
+        ],
+        "simulation_heuristics_montezuma_v1": [
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-01",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-02",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-03",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-04",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-05"
+        ],
+        "simulation_heuristics_pong_ram_v1": [
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-01",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-02",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-03",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-04",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-05"
+        ],
+        "simulation_heuristics_vizdoom_d1_v1": [
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-01",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-02",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-03",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-04",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-05"
+        ],
+        "simulation_heuristics_vizdoom_d3_v1": [
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-01/simulation_heuristics_vizdoom_d3_v1",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-02",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-03",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-04",
+          "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-05"
+        ]
       },
       "submission_details": {
         "simulation_heuristics_ant_v1": "leaderboard/article_suite_submissions/gpt-5.4-mini/simulation_heuristics_ant_v1/score.json",
@@ -1181,7 +2183,7 @@
           "starter_score": -2.9999999999999996
         },
         "simulation_heuristics_vizdoom_d1_v1": {
-          "reference_score": 0.8178199748694897,
+          "reference_score": 0.8178199748694898,
           "starter_score": 0.44161998964846133
         },
         "simulation_heuristics_vizdoom_d3_v1": {
@@ -1189,63 +2191,355 @@
           "starter_score": 31.9
         }
       },
-      "task_scores": {
-        "simulation_heuristics_ant_v1": -31.35954984,
+      "task_score_stddevs": {
+        "simulation_heuristics_ant_v1": 10.40778807635678,
         "simulation_heuristics_atari57_v1": 0.0,
-        "simulation_heuristics_breakout_ram_v1": 2.51572327,
-        "simulation_heuristics_breakout_rgb_v1": 15.523465704,
-        "simulation_heuristics_halfcheetah_v1": -8.167582379,
+        "simulation_heuristics_breakout_ram_v1": 9.228605826577622,
+        "simulation_heuristics_breakout_rgb_v1": 51.9448986087478,
+        "simulation_heuristics_halfcheetah_v1": 19.209845675650264,
         "simulation_heuristics_montezuma_v1": 0.0,
-        "simulation_heuristics_pong_ram_v1": -75.0,
-        "simulation_heuristics_vizdoom_d1_v1": -161.116433137,
-        "simulation_heuristics_vizdoom_d3_v1": -9.859625668
+        "simulation_heuristics_pong_ram_v1": 67.46912874308083,
+        "simulation_heuristics_vizdoom_d1_v1": 3.359451433761567,
+        "simulation_heuristics_vizdoom_d3_v1": 45.27484310055022
+      },
+      "task_scores": {
+        "simulation_heuristics_ant_v1": -47.232499900200004,
+        "simulation_heuristics_atari57_v1": 0.0,
+        "simulation_heuristics_breakout_ram_v1": -1.3417190774,
+        "simulation_heuristics_breakout_rgb_v1": 14.332129963999998,
+        "simulation_heuristics_halfcheetah_v1": -39.8837988972,
+        "simulation_heuristics_montezuma_v1": 0.0,
+        "simulation_heuristics_pong_ram_v1": -40.8333333332,
+        "simulation_heuristics_vizdoom_d1_v1": -186.0627378054,
+        "simulation_heuristics_vizdoom_d3_v1": 16.5307486632
+      },
+      "trial_count": 5,
+      "trial_final_normalized_scores": {
+        "1": -17.9990639644,
+        "2": -14.669657405,
+        "3": -18.885235435600002,
+        "4": -28.268315785200002,
+        "5": -13.121344337
+      },
+      "trial_task_normalized_scores": {
+        "1": {
+          "simulation_heuristics_ant_v1": -36.632193477,
+          "simulation_heuristics_atari57_v1": 0.0,
+          "simulation_heuristics_breakout_ram_v1": 0.209643606,
+          "simulation_heuristics_breakout_rgb_v1": 8.664259928,
+          "simulation_heuristics_halfcheetah_v1": -53.572769951,
+          "simulation_heuristics_montezuma_v1": 0.0,
+          "simulation_heuristics_pong_ram_v1": -75.0,
+          "simulation_heuristics_vizdoom_d1_v1": -180.053168387,
+          "simulation_heuristics_vizdoom_d3_v1": 97.159090909
+        },
+        "2": {
+          "simulation_heuristics_ant_v1": -50.421772091,
+          "simulation_heuristics_atari57_v1": 0.0,
+          "simulation_heuristics_breakout_ram_v1": -0.628930818,
+          "simulation_heuristics_breakout_rgb_v1": 95.848375451,
+          "simulation_heuristics_halfcheetah_v1": -12.137156309,
+          "simulation_heuristics_montezuma_v1": 0.0,
+          "simulation_heuristics_pong_ram_v1": -75.0,
+          "simulation_heuristics_vizdoom_d1_v1": -187.56513016,
+          "simulation_heuristics_vizdoom_d3_v1": -10.160427807
+        },
+        "3": {
+          "simulation_heuristics_ant_v1": -40.65567106,
+          "simulation_heuristics_atari57_v1": 0.0,
+          "simulation_heuristics_breakout_ram_v1": 3.983228512,
+          "simulation_heuristics_breakout_rgb_v1": 0.0,
+          "simulation_heuristics_halfcheetah_v1": -53.770506118,
+          "simulation_heuristics_montezuma_v1": 0.0,
+          "simulation_heuristics_pong_ram_v1": -58.333333333,
+          "simulation_heuristics_vizdoom_d1_v1": -187.56513016,
+          "simulation_heuristics_vizdoom_d3_v1": 1.771390374
+        },
+        "4": {
+          "simulation_heuristics_ant_v1": -63.436898931,
+          "simulation_heuristics_atari57_v1": 0.0,
+          "simulation_heuristics_breakout_ram_v1": 6.708595388,
+          "simulation_heuristics_breakout_rgb_v1": -48.194945848,
+          "simulation_heuristics_halfcheetah_v1": -27.203049655,
+          "simulation_heuristics_montezuma_v1": 0.0,
+          "simulation_heuristics_pong_ram_v1": -75.0,
+          "simulation_heuristics_vizdoom_d1_v1": -187.56513016,
+          "simulation_heuristics_vizdoom_d3_v1": -2.506684492
+        },
+        "5": {
+          "simulation_heuristics_ant_v1": -45.015963942,
+          "simulation_heuristics_atari57_v1": 0.0,
+          "simulation_heuristics_breakout_ram_v1": -16.981132075,
+          "simulation_heuristics_breakout_rgb_v1": 15.342960289,
+          "simulation_heuristics_halfcheetah_v1": -52.735512453,
+          "simulation_heuristics_montezuma_v1": 0.0,
+          "simulation_heuristics_pong_ram_v1": 79.166666667,
+          "simulation_heuristics_vizdoom_d1_v1": -187.56513016,
+          "simulation_heuristics_vizdoom_d3_v1": -3.609625668
+        }
       }
     }
   ],
   "source_runs": {
     "claude-opus-4.8": {
-      "simulation_heuristics_ant_v1": "leaderboard/runs/article_suite/20260713T142919Z/claude-opus-4.8",
-      "simulation_heuristics_atari57_v1": "leaderboard/runs/article_suite/20260713T123222Z/claude-opus-4.8",
-      "simulation_heuristics_breakout_ram_v1": "leaderboard/runs/article_suite/20260713T090958Z/claude-opus-4.8",
-      "simulation_heuristics_breakout_rgb_v1": "leaderboard/runs/article_suite/20260713T090958Z/claude-opus-4.8",
-      "simulation_heuristics_halfcheetah_v1": "leaderboard/runs/article_suite/20260713T111714Z/claude-opus-4.8",
-      "simulation_heuristics_montezuma_v1": "leaderboard/runs/article_suite/20260713T110612Z/claude-opus-4.8",
-      "simulation_heuristics_pong_ram_v1": "leaderboard/runs/article_suite/20260713T090958Z/claude-opus-4.8",
-      "simulation_heuristics_vizdoom_d1_v1": "leaderboard/runs/article_suite/20260713T110612Z/claude-opus-4.8",
-      "simulation_heuristics_vizdoom_d3_v1": "leaderboard/runs/article_suite/20260713T110612Z/claude-opus-4.8"
+      "simulation_heuristics_ant_v1": [
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-01/tasks-81ec8d98a4",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-02/tasks-e7ee9d1b4f",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-03",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-04",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-05"
+      ],
+      "simulation_heuristics_atari57_v1": [
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-01",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-02",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-03",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-04",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-05"
+      ],
+      "simulation_heuristics_breakout_ram_v1": [
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-01",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-02",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-03",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-04",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-05"
+      ],
+      "simulation_heuristics_breakout_rgb_v1": [
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-01",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-02",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-03",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-04",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-05"
+      ],
+      "simulation_heuristics_halfcheetah_v1": [
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-01/tasks-81ec8d98a4",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-02/tasks-e7ee9d1b4f",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-03",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-04",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-05"
+      ],
+      "simulation_heuristics_montezuma_v1": [
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-01",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-02/tasks-e7ee9d1b4f",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-03",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-04",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-05"
+      ],
+      "simulation_heuristics_pong_ram_v1": [
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-01",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-02/tasks-e7ee9d1b4f",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-03",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-04",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-05"
+      ],
+      "simulation_heuristics_vizdoom_d1_v1": [
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-01",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-02/tasks-e7ee9d1b4f",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-03",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-04",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-05"
+      ],
+      "simulation_heuristics_vizdoom_d3_v1": [
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-01",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-02/tasks-e7ee9d1b4f",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-03",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-04",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-05"
+      ]
     },
     "gpt-5.4-mini": {
-      "simulation_heuristics_ant_v1": "leaderboard/runs/article_suite/20260713T104315Z/gpt-5.4-mini",
-      "simulation_heuristics_atari57_v1": "leaderboard/runs/article_suite/20260713T111944Z/gpt-5.4-mini",
-      "simulation_heuristics_breakout_ram_v1": "leaderboard/runs/article_suite/20260713T091939Z/gpt-5.4-mini",
-      "simulation_heuristics_breakout_rgb_v1": "leaderboard/runs/article_suite/20260713T091939Z/gpt-5.4-mini",
-      "simulation_heuristics_halfcheetah_v1": "leaderboard/runs/article_suite/20260713T093314Z/gpt-5.4-mini",
-      "simulation_heuristics_montezuma_v1": "leaderboard/runs/article_suite/20260713T091939Z/gpt-5.4-mini",
-      "simulation_heuristics_pong_ram_v1": "leaderboard/runs/article_suite/20260713T091939Z/gpt-5.4-mini",
-      "simulation_heuristics_vizdoom_d1_v1": "leaderboard/runs/article_suite/20260713T102707Z/gpt-5.4-mini",
-      "simulation_heuristics_vizdoom_d3_v1": "leaderboard/runs/article_suite/20260713T104034Z/gpt-5.4-mini"
+      "simulation_heuristics_ant_v1": [
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-01",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-02",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-03",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-04",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-05"
+      ],
+      "simulation_heuristics_atari57_v1": [
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-01",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-02",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-03",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-04",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-05"
+      ],
+      "simulation_heuristics_breakout_ram_v1": [
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-01",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-02/simulation_heuristics_breakout_ram_v1",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-03",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-04",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-05"
+      ],
+      "simulation_heuristics_breakout_rgb_v1": [
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-01",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-02",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-03",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-04",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-05"
+      ],
+      "simulation_heuristics_halfcheetah_v1": [
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-01",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-02",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-03",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-04",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-05"
+      ],
+      "simulation_heuristics_montezuma_v1": [
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-01",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-02",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-03",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-04",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-05"
+      ],
+      "simulation_heuristics_pong_ram_v1": [
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-01",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-02",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-03",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-04",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-05"
+      ],
+      "simulation_heuristics_vizdoom_d1_v1": [
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-01",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-02",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-03",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-04",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-05"
+      ],
+      "simulation_heuristics_vizdoom_d3_v1": [
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-01/simulation_heuristics_vizdoom_d3_v1",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-02",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-03",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-04",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt54mini/gpt-5.4-mini/trial-05"
+      ]
     },
     "gpt-5.5": {
-      "simulation_heuristics_ant_v1": "leaderboard/runs/article_suite/20260713T095807Z/gpt-5.5",
-      "simulation_heuristics_atari57_v1": "leaderboard/runs/article_suite/20260713T111604Z/gpt-5.5",
-      "simulation_heuristics_breakout_ram_v1": "leaderboard/runs/article_suite/20260713T084111Z/gpt-5.5",
-      "simulation_heuristics_breakout_rgb_v1": "leaderboard/runs/article_suite/20260713T084111Z/gpt-5.5",
-      "simulation_heuristics_halfcheetah_v1": "leaderboard/runs/article_suite/20260713T103810Z/gpt-5.5",
-      "simulation_heuristics_montezuma_v1": "leaderboard/runs/article_suite/20260713T084111Z/gpt-5.5",
-      "simulation_heuristics_pong_ram_v1": "leaderboard/runs/article_suite/20260713T084111Z/gpt-5.5",
-      "simulation_heuristics_vizdoom_d1_v1": "leaderboard/runs/article_suite/20260713T102218Z/gpt-5.5",
-      "simulation_heuristics_vizdoom_d3_v1": "leaderboard/runs/article_suite/20260713T084111Z/gpt-5.5"
+      "simulation_heuristics_ant_v1": [
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-01",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-02",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-03",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-04",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-05/tasks-81ec8d98a4"
+      ],
+      "simulation_heuristics_atari57_v1": [
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-01",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-02",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-03",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-04",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-05"
+      ],
+      "simulation_heuristics_breakout_ram_v1": [
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-01",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-02",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-03",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-04/tasks-e6fa3546aa",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-05"
+      ],
+      "simulation_heuristics_breakout_rgb_v1": [
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-01",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-02",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-03",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-04/tasks-885696cfa4",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-05"
+      ],
+      "simulation_heuristics_halfcheetah_v1": [
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-01/simulation_heuristics_halfcheetah_v1",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-02",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-03",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-04/tasks-e6fa3546aa",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-05/tasks-81ec8d98a4"
+      ],
+      "simulation_heuristics_montezuma_v1": [
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-01",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-02",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-03",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-04",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-05"
+      ],
+      "simulation_heuristics_pong_ram_v1": [
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-01",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-02",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-03",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-04/tasks-885696cfa4",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-05"
+      ],
+      "simulation_heuristics_vizdoom_d1_v1": [
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-01",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-02",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-03",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-04",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-05"
+      ],
+      "simulation_heuristics_vizdoom_d3_v1": [
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-01",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-02",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-03",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-04",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt55/gpt-5.5/trial-05"
+      ]
     },
     "gpt-5.6-sol": {
-      "simulation_heuristics_ant_v1": "leaderboard/runs/article_suite/20260713T093815Z/gpt-5.6-sol",
-      "simulation_heuristics_atari57_v1": "leaderboard/runs/article_suite/20260713T111156Z/gpt-5.6-sol",
-      "simulation_heuristics_breakout_ram_v1": "leaderboard/runs/article_suite/20260713T080935Z/gpt-5.6-sol",
-      "simulation_heuristics_breakout_rgb_v1": "leaderboard/runs/article_suite/20260713T080935Z/gpt-5.6-sol",
-      "simulation_heuristics_halfcheetah_v1": "leaderboard/runs/article_suite/20260713T084340Z/gpt-5.6-sol",
-      "simulation_heuristics_montezuma_v1": "leaderboard/runs/article_suite/20260713T080935Z/gpt-5.6-sol",
-      "simulation_heuristics_pong_ram_v1": "leaderboard/runs/article_suite/20260713T080935Z/gpt-5.6-sol",
-      "simulation_heuristics_vizdoom_d1_v1": "leaderboard/runs/article_suite/20260713T101636Z/gpt-5.6-sol",
-      "simulation_heuristics_vizdoom_d3_v1": "leaderboard/runs/article_suite/20260713T083940Z/gpt-5.6-sol"
+      "simulation_heuristics_ant_v1": [
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-02",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-04/tasks-81ec8d98a4",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-05"
+      ],
+      "simulation_heuristics_atari57_v1": [
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-02",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-04",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-05"
+      ],
+      "simulation_heuristics_breakout_ram_v1": [
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-02",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-04",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-05"
+      ],
+      "simulation_heuristics_breakout_rgb_v1": [
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-02",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-04",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-05"
+      ],
+      "simulation_heuristics_halfcheetah_v1": [
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-02",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-04/tasks-81ec8d98a4",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-05"
+      ],
+      "simulation_heuristics_montezuma_v1": [
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-02",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-04",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-05"
+      ],
+      "simulation_heuristics_pong_ram_v1": [
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-02",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-04",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-05"
+      ],
+      "simulation_heuristics_vizdoom_d1_v1": [
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-02",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-04",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-05"
+      ],
+      "simulation_heuristics_vizdoom_d3_v1": [
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-02",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-04",
+        "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-05"
+      ]
     }
   },
   "task_count": 9,

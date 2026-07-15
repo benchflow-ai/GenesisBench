@@ -1,27 +1,29 @@
 {
   "benchmark": "learning_beyond_gradients_article_suite",
-  "current_task_digest": "sha256:77215337f89f950f83b8f7436f799959c2ddccd4102552c6302b13d30cc57199",
-  "digest_compatibility_note": null,
-  "finished_at": 1783940397.5345018,
+  "current_task_digest": "sha256:12eb4ca8814c602a2fbf709f0472c90c8758f3c1ffd0131329b734ca1d8e6b20",
   "harness": "opencode",
   "model": {
+    "agent_idle_timeout_sec": 3600,
+    "daytona_pty_readline_timeout_sec": 3600,
     "display_name": "Claude Opus 4.8",
     "id": "claude-opus-4.8",
     "model": "anthropic/claude-opus-4-8",
     "provider": "claude_oauth",
     "provider_reasoning_effort": "max"
   },
-  "normalized_score": 0.0,
+  "normalized_score": 94.004192872,
+  "normalized_score_stddev": 7.012257406411853,
   "provider_reasoning_effort": "max",
-  "source_run_id": "leaderboard/runs/article_suite/20260713T090958Z/claude-opus-4.8",
+  "raw_score": 835.4,
+  "raw_score_imputation_count": 0,
+  "raw_score_stddev": 33.448467827390836,
+  "source_run_ids": [
+    "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-01",
+    "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-02",
+    "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-03",
+    "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-04",
+    "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-claude/claude-opus-4.8/trial-05"
+  ],
   "task": "simulation_heuristics_breakout_ram_v1",
-  "task_digest": "sha256:77215337f89f950f83b8f7436f799959c2ddccd4102552c6302b13d30cc57199",
-  "token_usage": {
-    "final_input_tokens": 0.0,
-    "final_output_tokens": 0.0,
-    "input_tokens": 0.0,
-    "output_tokens": 0.0,
-    "total_tokens": 0.0
-  },
-  "tool_calls": 53
+  "trial_count": 5
 }

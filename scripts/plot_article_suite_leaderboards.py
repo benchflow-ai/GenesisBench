@@ -67,13 +67,6 @@ def _score_limits(task_boards: list[dict[str, Any]]) -> tuple[float, float]:
     return lower, upper
 
 
-def _bar_label_x(score: float, span: float) -> tuple[float, str]:
-    offset = span * 0.012
-    if score >= 0:
-        return score + offset, "left"
-    return score - offset, "right"
-
-
 def _plot_task_leaderboards(
     task_boards: list[dict[str, Any]],
     output: Path,
@@ -100,7 +93,11 @@ def _plot_task_leaderboards(
         ]
         value_min = min(all_values)
         value_max = max(all_values)
-        padding = max((value_max - value_min) * 0.16, abs(value_max) * 0.05, 1.0)
+        padding = max(
+            (value_max - value_min) * 0.35,
+            max(abs(value_min), abs(value_max)) * 0.08,
+            1.0,
+        )
         lower = min(0.0, value_min - padding)
         upper = max(0.0, value_max + padding)
         span = upper - lower
@@ -155,22 +152,21 @@ def _plot_task_leaderboards(
             score_stddevs,
             strict=True,
         ):
-            if score < lower + span * 0.08:
-                x = score + span * 0.012
+            if score >= 0:
+                x = score + score_stddev + span * 0.012
                 alignment = "left"
-                label_color = "#ffffff"
             else:
-                x, alignment = _bar_label_x(score, span)
-                label_color = "#171717"
+                x = score - score_stddev - span * 0.012
+                alignment = "right"
             axis.text(
                 x,
                 bar.get_y() + bar.get_height() / 2,
                 f"{score:.1f} ± {score_stddev:.1f}",
                 va="center",
                 ha=alignment,
-                fontsize=9,
+                fontsize=8.5,
                 fontweight="bold",
-                color=label_color,
+                color="#171717",
             )
 
     figure.suptitle(
@@ -184,7 +180,8 @@ def _plot_task_leaderboards(
     figure.text(
         0.055,
         0.955,
-        "Native raw score for each environment · task-specific axes",
+        "Native raw score mean ± sample SD · task-specific axes · "
+        "raw-null fail-closed trials use starter-equivalent anchors",
         fontsize=11,
         color="#666666",
     )

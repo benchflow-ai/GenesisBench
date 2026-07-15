@@ -1,8 +1,6 @@
 {
   "benchmark": "learning_beyond_gradients_article_suite",
-  "current_task_digest": "sha256:c7e3b5e466431f4908c1e96cc7de80191f7a7c5ab5a63b3eea4d708f7f447fbf",
-  "digest_compatibility_note": "Score-equivalent to the current task. The later loader fix registers submitted modules before execution so postponed dataclass annotations import correctly; scoring is unchanged.",
-  "finished_at": 1783935158.328714,
+  "current_task_digest": "sha256:aab8a7d4a73765939684373673d03a7811f56e06c4160beee887b3e3e6743d3b",
   "harness": "opencode",
   "model": {
     "display_name": "GPT-5.6 Sol",
@@ -11,17 +9,19 @@
     "provider": "azure",
     "provider_reasoning_effort": "max"
   },
-  "normalized_score": 15.873072595,
+  "normalized_score": 31.8442100886,
+  "normalized_score_stddev": 3.8873875677992533,
   "provider_reasoning_effort": "max",
-  "source_run_id": "leaderboard/runs/article_suite/20260713T084340Z/gpt-5.6-sol",
+  "raw_score": 6385.135940620764,
+  "raw_score_imputation_count": 0,
+  "raw_score_stddev": 291.0085829715705,
+  "source_run_ids": [
+    "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01",
+    "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-02",
+    "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03",
+    "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-04/tasks-81ec8d98a4",
+    "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-05"
+  ],
   "task": "simulation_heuristics_halfcheetah_v1",
-  "task_digest": "sha256:80c439f53e4ab964f9d7443cd7fb8f25cf6645a0bc288b0496b871c1800ebe78",
-  "token_usage": {
-    "final_input_tokens": 670.0,
-    "final_output_tokens": 192.0,
-    "input_tokens": 670.0,
-    "output_tokens": 192.0,
-    "total_tokens": 19806.0
-  },
-  "tool_calls": 28
+  "trial_count": 5
 }

@@ -916,6 +916,24 @@ def test_iqm_matches_rliable_25_percent_trimmed_mean() -> None:
     assert leaderboard._interquartile_mean(list(range(45))) == 22.0
 
 
+def test_fail_closed_timeout_uses_starter_equivalent_raw_score() -> None:
+    raw, starter, reference, source, observed = (
+        leaderboard._resolve_raw_score(
+            {
+                "score": None,
+                "normalized_score": 0.0,
+                "verifier_timeout": True,
+            },
+            normalized_score=0.0,
+            fallback_anchor=(12.0, 34.0),
+        )
+    )
+
+    assert (raw, starter, reference) == (12.0, 12.0, 34.0)
+    assert source == "starter_anchor_equivalent_for_fail_closed_timeout"
+    assert observed is None
+
+
 def test_five_trial_final_score_pools_runs_and_tasks(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
@@ -1000,6 +1018,9 @@ def test_offline_report_builds_nine_task_boards_then_final() -> None:
                 "raw_task_scores": task_scores,
                 "raw_task_score_stddevs": {
                     task: 2.0 for task in leaderboard.TASKS
+                },
+                "raw_task_score_imputation_counts": {
+                    task: 0 for task in leaderboard.TASKS
                 },
                 "task_anchors": {
                     task: {

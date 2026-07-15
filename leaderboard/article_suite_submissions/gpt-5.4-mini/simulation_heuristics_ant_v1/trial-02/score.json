@@ -1,0 +1,141 @@
+{
+  "hidden_nominal": {
+    "episodes": [
+      {
+        "invalid_action": false,
+        "length": 1000,
+        "mean_action_latency_ms": 0.03470570407807827,
+        "policy_error": null,
+        "return": 661.1200549894642,
+        "seed": 101,
+        "terminated": false,
+        "truncated": true,
+        "variant": "nominal",
+        "x_position": 3.4621582770031734,
+        "x_velocity": 0.2025644351883038
+      },
+      {
+        "invalid_action": false,
+        "length": 1000,
+        "mean_action_latency_ms": 0.033866518177092075,
+        "policy_error": null,
+        "return": 664.0100186648003,
+        "seed": 211,
+        "terminated": false,
+        "truncated": true,
+        "variant": "nominal",
+        "x_position": 3.559100932920981,
+        "x_velocity": -0.7384183769069175
+      },
+      {
+        "invalid_action": false,
+        "length": 1000,
+        "mean_action_latency_ms": 0.034416694194078445,
+        "policy_error": null,
+        "return": 725.6258347266435,
+        "seed": 307,
+        "terminated": false,
+        "truncated": true,
+        "variant": "nominal",
+        "x_position": 6.670450530919695,
+        "x_velocity": -0.9298584352459294
+      },
+      {
+        "invalid_action": false,
+        "length": 1000,
+        "mean_action_latency_ms": 0.03547857282683253,
+        "policy_error": null,
+        "return": 696.0138896824699,
+        "seed": 401,
+        "terminated": false,
+        "truncated": true,
+        "variant": "nominal",
+        "x_position": 5.226447659407584,
+        "x_velocity": -0.7061748742179041
+      }
+    ],
+    "fall_rate": 0.0,
+    "invalid_episode_rate": 0.0,
+    "max_return": 725.6258347266435,
+    "max_steps": 1000,
+    "mean_action_latency_ms": 0.03461687231902033,
+    "mean_return": 686.6924495158444,
+    "mean_x_position": 4.729539350062858,
+    "min_return": 661.1200549894642,
+    "policy_path": "submitted_artifact",
+    "score": 686.6924495158444
+  },
+  "hidden_nominal_weight": 0.7,
+  "hidden_robustness": {
+    "episodes": [
+      {
+        "invalid_action": false,
+        "length": 1000,
+        "mean_action_latency_ms": 0.036167888436466455,
+        "policy_error": null,
+        "return": 711.448754210964,
+        "seed": 503,
+        "terminated": false,
+        "truncated": true,
+        "variant": "light_low_friction",
+        "x_position": 5.932994803747869,
+        "x_velocity": -0.961583320736743
+      },
+      {
+        "invalid_action": false,
+        "length": 1000,
+        "mean_action_latency_ms": 0.03447609907016158,
+        "policy_error": null,
+        "return": 661.9436724841174,
+        "seed": 601,
+        "terminated": false,
+        "truncated": true,
+        "variant": "light_low_friction",
+        "x_position": 3.617944828961479,
+        "x_velocity": -1.0404538157633425
+      },
+      {
+        "invalid_action": false,
+        "length": 1000,
+        "mean_action_latency_ms": 0.03433279972523451,
+        "policy_error": null,
+        "return": 616.2518542379725,
+        "seed": 503,
+        "terminated": false,
+        "truncated": true,
+        "variant": "heavy_weak_actuators",
+        "x_position": 0.9972236887030465,
+        "x_velocity": 0.45277562220235046
+      },
+      {
+        "invalid_action": false,
+        "length": 1000,
+        "mean_action_latency_ms": 0.03465622337535024,
+        "policy_error": null,
+        "return": 665.2444049139627,
+        "seed": 601,
+        "terminated": false,
+        "truncated": true,
+        "variant": "heavy_weak_actuators",
+        "x_position": 3.5082959468421335,
+        "x_velocity": -0.778853255686327
+      }
+    ],
+    "fall_rate": 0.0,
+    "invalid_episode_rate": 0.0,
+    "max_return": 711.448754210964,
+    "max_steps": 1000,
+    "mean_action_latency_ms": 0.034908252651803195,
+    "mean_return": 663.7221714617541,
+    "mean_x_position": 3.514114817063632,
+    "min_return": 616.2518542379725,
+    "policy_path": "submitted_artifact",
+    "score": 663.7221714617541
+  },
+  "hidden_robustness_weight": 0.3,
+  "normalized_score": -50.421772091,
+  "reference_score": 5942.333244755838,
+  "score": 679.8013660996173,
+  "starter_score": 2443.815838992282,
+  "unique_policy_evaluations": 3
+}

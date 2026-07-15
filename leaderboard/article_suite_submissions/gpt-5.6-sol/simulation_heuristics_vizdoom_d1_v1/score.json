@@ -1,211 +1,59 @@
 {
-  "anchor_calibration": {
-    "envpool_version": "1.1.1",
-    "mode": "numeric",
-    "platform": "linux-x86_64"
-  },
-  "isolation": {
-    "mode": "subprocess_per_suite",
-    "suite_process_count": 2,
-    "unique_working_directories": true
-  },
-  "normalized_score": 49.409889366,
-  "reference_score": 0.8178199748694897,
-  "resource_cleanup": {
-    "removed_bytes": 0,
-    "removed_resources": 0,
-    "runs": [
-      {
-        "removed_bytes": 0,
-        "removed_resources": 0,
-        "terminated_processes": 0
-      },
-      {
-        "removed_bytes": 0,
-        "removed_resources": 0,
-        "terminated_processes": 0
-      }
-    ],
-    "terminated_processes": 0
-  },
-  "score": 0.62749998614192,
+  "benchmark": "learning_beyond_gradients_article_suite",
+  "normalized_score": 56.834663982799995,
+  "normalized_score_stddev": 33.111283305681766,
+  "raw_score_imputation_count": 0,
+  "reference_score": 0.8178199748694898,
+  "score": 0.6554319871515035,
+  "score_stddev": 0.12456464290218099,
   "starter_score": 0.44161998964846133,
-  "suites": {
-    "hidden_nominal": {
-      "batch_seed": 101,
-      "envpool_version": "1.1.1",
-      "episodes": [
-        {
-          "final_variables": {
-            "HEALTH": 19.0
-          },
-          "invalid_action": false,
-          "lane": 0,
-          "length": 2100,
-          "mean_action_latency_ms": 0.17381823754736356,
-          "policy_error": null,
-          "return": 0.6429999805986881,
-          "seed": 101,
-          "terminated": false,
-          "truncated": true
-        },
-        {
-          "final_variables": {
-            "HEALTH": 3.0
-          },
-          "invalid_action": false,
-          "lane": 1,
-          "length": 1088,
-          "mean_action_latency_ms": 0.14961455770603874,
-          "policy_error": null,
-          "return": 0.08299999311566353,
-          "seed": 102,
-          "terminated": true,
-          "truncated": false
-        },
-        {
-          "final_variables": {
-            "HEALTH": 22.0
-          },
-          "invalid_action": false,
-          "lane": 2,
-          "length": 2100,
-          "mean_action_latency_ms": 0.15601739109981627,
-          "policy_error": null,
-          "return": 0.6899999864399433,
-          "seed": 103,
-          "terminated": false,
-          "truncated": true
-        },
-        {
-          "final_variables": {
-            "HEALTH": 71.0
-          },
-          "invalid_action": false,
-          "lane": 3,
-          "length": 2100,
-          "mean_action_latency_ms": 0.1531444631871723,
-          "policy_error": null,
-          "return": 0.9349999837577343,
-          "seed": 104,
-          "terminated": false,
-          "truncated": true
-        },
-        {
-          "final_variables": {
-            "HEALTH": 47.0
-          },
-          "invalid_action": false,
-          "lane": 4,
-          "length": 2100,
-          "mean_action_latency_ms": 0.15155099775819553,
-          "policy_error": null,
-          "return": 0.8149999864399433,
-          "seed": 105,
-          "terminated": false,
-          "truncated": true
-        }
-      ],
-      "frame_skip": 1,
-      "invalid_episode_rate": 0.0,
-      "max_return": 0.9349999837577343,
-      "max_steps": 2100,
-      "mean_action_latency_ms": 0.15682912945971728,
-      "mean_return": 0.6331999860703945,
-      "min_return": 0.08299999311566353,
-      "policy_path": "submitted_artifact",
-      "render_height": 180,
-      "render_width": 240,
-      "scenario": "d1",
-      "score": 0.6331999860703945
+  "task": "simulation_heuristics_vizdoom_d1_v1",
+  "trial_count": 5,
+  "trials": [
+    {
+      "normalized_score": 42.828284045,
+      "observed_raw_score": 0.6027399878948927,
+      "raw_score": 0.6027399878948927,
+      "raw_score_source": "observed",
+      "score_path": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_vizdoom_d1_v1/trial-01/score.json",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-01",
+      "trial": 1
     },
-    "hidden_secondary": {
-      "batch_seed": 607,
-      "envpool_version": "1.1.1",
-      "episodes": [
-        {
-          "final_variables": {
-            "HEALTH": 38.0
-          },
-          "invalid_action": false,
-          "lane": 0,
-          "length": 2100,
-          "mean_action_latency_ms": 0.14928735703939483,
-          "policy_error": null,
-          "return": 0.769999984651804,
-          "seed": 607,
-          "terminated": false,
-          "truncated": true
-        },
-        {
-          "final_variables": {
-            "HEALTH": 47.0
-          },
-          "invalid_action": false,
-          "lane": 1,
-          "length": 2100,
-          "mean_action_latency_ms": 0.13680784031748772,
-          "policy_error": null,
-          "return": 0.7989999875426292,
-          "seed": 608,
-          "terminated": false,
-          "truncated": true
-        },
-        {
-          "final_variables": {
-            "HEALTH": 37.0
-          },
-          "invalid_action": false,
-          "lane": 2,
-          "length": 2100,
-          "mean_action_latency_ms": 0.13356554454990796,
-          "policy_error": null,
-          "return": 0.764999981969595,
-          "seed": 609,
-          "terminated": false,
-          "truncated": true
-        },
-        {
-          "final_variables": {
-            "HEALTH": 47.0
-          },
-          "invalid_action": false,
-          "lane": 3,
-          "length": 2100,
-          "mean_action_latency_ms": 0.1317734359985306,
-          "policy_error": null,
-          "return": 0.8149999864399433,
-          "seed": 610,
-          "terminated": false,
-          "truncated": true
-        },
-        {
-          "final_variables": {
-            "HEALTH": 6.0
-          },
-          "invalid_action": false,
-          "lane": 4,
-          "length": 736,
-          "mean_action_latency_ms": 0.12118354662442984,
-          "policy_error": null,
-          "return": -0.078000009059906,
-          "seed": 611,
-          "terminated": true,
-          "truncated": false
-        }
-      ],
-      "frame_skip": 1,
-      "invalid_episode_rate": 0.0,
-      "max_return": 0.8149999864399433,
-      "max_steps": 2100,
-      "mean_action_latency_ms": 0.1345235449059502,
-      "mean_return": 0.6141999863088131,
-      "min_return": -0.078000009059906,
-      "policy_path": "submitted_artifact",
-      "render_height": 180,
-      "render_width": 240,
-      "scenario": "d1",
-      "score": 0.6141999863088131
+    {
+      "normalized_score": 95.055823417,
+      "observed_raw_score": 0.7992199832946062,
+      "raw_score": 0.7992199832946062,
+      "raw_score_source": "observed",
+      "score_path": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_vizdoom_d1_v1/trial-02/score.json",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-02",
+      "trial": 2
+    },
+    {
+      "normalized_score": 31.015418049,
+      "observed_raw_score": 0.5582999877631664,
+      "raw_score": 0.5582999877631664,
+      "raw_score_source": "observed",
+      "score_path": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_vizdoom_d1_v1/trial-03/score.json",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-03",
+      "trial": 3
+    },
+    {
+      "normalized_score": 89.73418684,
+      "observed_raw_score": 0.7791999872773886,
+      "raw_score": 0.7791999872773886,
+      "raw_score_source": "observed",
+      "score_path": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_vizdoom_d1_v1/trial-04/score.json",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-04",
+      "trial": 4
+    },
+    {
+      "normalized_score": 25.539607563,
+      "observed_raw_score": 0.5376999895274639,
+      "raw_score": 0.5376999895274639,
+      "raw_score_source": "observed",
+      "score_path": "leaderboard/article_suite_submissions/gpt-5.6-sol/simulation_heuristics_vizdoom_d1_v1/trial-05/score.json",
+      "source_run_id": "leaderboard/runs/article_suite/article-suite-v2-daytona-20260714-gpt56/gpt-5.6-sol/trial-05",
+      "trial": 5
     }
-  }
+  ]
 }

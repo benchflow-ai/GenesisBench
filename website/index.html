@@ -251,7 +251,7 @@ section.block + section.block{border-top:1px solid var(--line)}
   background:var(--paper);overflow:hidden}
 .chart-card h4{font-size:.9875rem;font-weight:600;letter-spacing:-.01em}
 .chart-metric{display:block;margin-top:.12rem;font-size:.7rem;color:var(--ink-soft);line-height:1.35}
-.chart-body{display:grid;grid-template-columns:5.2rem minmax(0,1fr) 3.7rem;
+.chart-body{display:grid;grid-template-columns:5.2rem minmax(0,1fr) 5.1rem;
   gap:.35rem;align-items:stretch;min-width:0;margin-top:.8rem}
 .chart-labels,.chart-values,.chart-bars{display:grid;grid-template-rows:repeat(4,16px);gap:.48rem}
 .chart-model{font-size:.69rem;line-height:16px;color:var(--ink);overflow-wrap:anywhere}
@@ -265,6 +265,12 @@ section.block + section.block{border-top:1px solid var(--line)}
 .chart-bars{position:relative;z-index:1}
 .chart-bar-row{position:relative;height:16px}
 .chart-bar{position:absolute;top:2px;height:12px;min-width:2px;border-radius:1px;background:#555}
+.chart-error-range,.final-error-range{position:absolute;height:1px;background:#222;opacity:.7;z-index:2}
+.chart-error-range{top:7px}.final-error-range{top:14px}
+.chart-error-range::before,.chart-error-range::after,
+.final-error-range::before,.final-error-range::after{content:"";position:absolute;top:-2px;width:1px;height:5px;background:#222}
+.chart-error-range::before,.final-error-range::before{left:0}
+.chart-error-range::after,.final-error-range::after{right:0}
 .model-gpt-5-5{background:#111}.model-gpt-5-6-sol{background:#4b4b4b}
 .model-claude-opus-4-8{background:#858585}.model-gpt-5-4-mini{background:#b7b7b7}
 .chart-anchors{display:flex;justify-content:space-between;gap:.6rem;margin-top:.7rem;
@@ -286,7 +292,7 @@ section.block + section.block{border-top:1px solid var(--line)}
 .result-actions a:hover{text-decoration-color:var(--forest)}
 @media(max-width:680px){
   .leaderboard-grid{grid-template-columns:1fr}
-  .chart-body{grid-template-columns:5.2rem minmax(0,1fr) 3.7rem}
+  .chart-body{grid-template-columns:5.2rem minmax(0,1fr) 5.1rem}
   .final-row{grid-template-columns:1fr}
   .final-plot{height:26px}.final-bar{height:18px}
   .final-value{text-align:left;display:flex;align-items:baseline;gap:.6rem}
@@ -493,7 +499,7 @@ footer{background:var(--paper-2);border-top:1px solid var(--line);padding-block:
         <div class="results-stack">
           <section class="result-panel" aria-labelledby="leaderboardsTitle">
             <h3 id="leaderboardsTitle">Leaderboards</h3>
-            <p class="result-note">Five-trial mean ± sample standard deviation for each environment's native raw score. Dotted markers show the starter; dashed markers show the article reference.</p>
+            <p class="result-note">Five-trial mean ± sample standard deviation for each environment's native raw score. Fail-closed raw-null trials use the starter-equivalent anchor. Dotted markers show the starter; dashed markers show the article reference.</p>
             <div class="leaderboard-grid" id="taskLeaderboards">
               <p class="chart-error">Loading task leaderboards…</p>
             </div>
@@ -856,7 +862,13 @@ footer{background:var(--paper-2);border-top:1px solid var(--line);padding-block:
   function taskDomain(board){
     var values=[0];
     board.rows.forEach(function(row){
-      values.push(row.raw_score,row.starter_score,row.reference_score);
+      var deviation=row.raw_score_stddev||0;
+      values.push(
+        row.raw_score-deviation,
+        row.raw_score+deviation,
+        row.starter_score,
+        row.reference_score
+      );
     });
     var min=Math.min.apply(null,values),max=Math.max.apply(null,values);
     var span=max-min;
@@ -880,10 +892,14 @@ footer{background:var(--paper-2);border-top:1px solid var(--line);padding-block:
     }).join("");
     var bars=board.rows.map(function(row){
       var score=percent(row.raw_score,domain.min,domain.max);
+      var deviation=row.raw_score_stddev||0;
+      var low=percent(row.raw_score-deviation,domain.min,domain.max);
+      var high=percent(row.raw_score+deviation,domain.min,domain.max);
       var left=Math.min(zero,score);
       var width=Math.max(.5,Math.abs(score-zero));
       return'<span class="chart-bar-row">'+
         '<i class="chart-bar '+modelClass(row.model_id)+'" style="left:'+left+'%;width:'+width+'%"></i>'+
+        '<i class="chart-error-range" style="left:'+low+'%;width:'+Math.max(.5,high-low)+'%"></i>'+
       '</span>';
     }).join("");
     return'<article class="chart-card">'+
@@ -904,16 +920,22 @@ footer{background:var(--paper-2);border-top:1px solid var(--line);padding-block:
     '</article>';
   }
   function finalBoard(board){
-    var max=Math.max.apply(null,board.rows.map(function(row){return row.positive_display_score;}));
+    var max=Math.max.apply(null,board.rows.map(function(row){
+      return row.positive_display_score+(row.final_normalized_score_stddev||0);
+    }));
     var ceiling=Math.max(160,Math.ceil((max+10)/10)*10);
     var anchor=100/ceiling*100;
     return board.rows.map(function(row){
       var width=row.positive_display_score/ceiling*100;
+      var deviation=row.final_normalized_score_stddev||0;
+      var low=Math.max(0,(row.positive_display_score-deviation)/ceiling*100);
+      var high=Math.min(100,(row.positive_display_score+deviation)/ceiling*100);
       return'<div class="final-row">'+
         '<span class="final-model">'+row.rank+'&nbsp;&nbsp;'+esc(row.model)+'</span>'+
         '<span class="final-plot" aria-hidden="true">'+
           '<i class="chart-anchor is-starter" style="left:'+anchor+'%"></i>'+
           '<i class="final-bar '+modelClass(row.model_id)+'" style="width:'+width+'%"></i>'+
+          '<i class="final-error-range" style="left:'+low+'%;width:'+Math.max(.5,high-low)+'%"></i>'+
         '</span>'+
         '<strong class="final-value">'+row.positive_display_score.toFixed(2)+' ± '+
           (row.final_normalized_score_stddev||0).toFixed(2)+

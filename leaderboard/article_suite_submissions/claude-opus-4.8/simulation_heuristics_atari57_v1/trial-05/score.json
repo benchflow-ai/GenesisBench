@@ -1,0 +1,15 @@
+{
+  "disqualification_reason": "Official suite requires 342 completed search-ledger records; found 0.",
+  "evaluation": null,
+  "interaction_budget": {
+    "completed_trajectories": 0,
+    "counted_env_steps": 0,
+    "planned_trajectories": 342,
+    "target_env_steps": 6840000000
+  },
+  "normalized_score": 0.0,
+  "protocol_complete": false,
+  "reference_score": 0.8283015254994576,
+  "score": 0.0,
+  "starter_score": 0.0
+}
