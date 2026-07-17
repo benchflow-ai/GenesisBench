@@ -3,10 +3,10 @@
 This task reimplements the RAM Breakout experiment described in **Learning
 Beyond Gradients**.
 
-- Upstream project: `Trinkle23897/learning-beyond-gradients`
-- Reviewed revision: `3555c2956c257d49a5015b782cbe485b14fd659e`
-- Reviewed artifact: `atari/breakout/heuristic_breakout.py`
 - Reported progression: `387 -> 507 -> 839 -> 864`
+
+Exact upstream repository paths, revisions, and answer-file hashes are retained
+outside the agent image in the repository's maintainer provenance records.
 
 The starter and reference policies adapt the published geometric controller
 structure and retain its `Copyright 2021 Garena Online Private Limited` and

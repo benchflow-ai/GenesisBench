@@ -1,8 +1,8 @@
 """GenesisBench evaluation utilities."""
 
 from genesisbench.ant import (
-    AntEvaluation,
     AntEpisode,
+    AntEvaluation,
     DynamicsVariant,
     evaluate_ant_policy,
 )

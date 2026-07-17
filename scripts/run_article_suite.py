@@ -409,6 +409,12 @@ def _opencode_config(model: dict[str, Any]) -> dict[str, Any]:
         }
     config: dict[str, Any] = {
         "$schema": "https://opencode.ai/config.json",
+        "permission": {
+            "external_directory": "deny",
+            "task": "deny",
+            "webfetch": "deny",
+            "websearch": "deny",
+        },
         "provider": {
             provider: {
                 "models": {

@@ -16,6 +16,11 @@ the nine task packages derived from the article:
 Every run uses BenchFlow's registered `opencode` ACP harness. OpenHands is not
 part of this suite.
 
+All task and agent network access is disabled. The managed OpenCode
+configuration denies `webfetch`, `websearch`, external-directory access, and
+subagents. Final policies execute in an unprivileged Landlock worker, and any
+confirmed trajectory or artifact integrity violation forces reward to zero.
+
 ## Experiment protocol
 
 The current leaderboard protocol is defined in `protocol.toml`:

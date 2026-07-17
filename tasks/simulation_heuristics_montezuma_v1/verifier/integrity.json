@@ -1,0 +1,10 @@
+{
+  "forbidden_source_sha256": [
+    "39b25e1222623d5a1b46a5a69260bea58797cf6173eb4bd5f56f1c2487d6b049",
+    "4221305855cefcba357717ce11cd97b00e96ba8cfe8e610ca622961ab2437162",
+    "490a6e9538ff50d647e5fcb1936e76d2941a26c1303d94abb74093760594c637",
+    "72f7211be1c73d556c727b5ef1dc1fbd6aeddc7fe96d44ce99c764089f147aa1"
+  ],
+  "require_trajectory": true,
+  "schema_version": "1.0"
+}

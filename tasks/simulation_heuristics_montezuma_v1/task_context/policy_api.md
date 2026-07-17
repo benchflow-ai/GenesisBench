@@ -1,6 +1,10 @@
 # Policy API
 
 The evaluator imports `final_policy/policy.py` in a clean Python process.
+
+The final verifier runs the policy in an isolated process and passes
+`seed=0` to constructors and `reset`. Environment reset seeds remain private;
+policies must recover from images rather than branch on hidden seed IDs.
 Define `Policy` or `make_policy`:
 
 ```python

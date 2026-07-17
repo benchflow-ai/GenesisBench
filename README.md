@@ -80,6 +80,16 @@ uv run python scripts/prepare_task.py \
 The prepared OpenCode workspace deliberately excludes `verifier/`, `oracle/`,
 and `evidence/`.
 
+## Reward Integrity
+
+Article-suite agents run without network access, trusted task files are
+root-owned, and submitted policies execute in an unprivileged Landlock worker
+outside the root verifier process. A deterministic trajectory and artifact
+audit forces reward to zero on confirmed integrity violations.
+
+See [`docs/reward-integrity.md`](docs/reward-integrity.md) for the threat model,
+violation codes, and required adversarial tests.
+
 ## OpenCode Article-Suite Experiment
 
 OpenCode is the default and only leaderboard harness for the nine-task suite.

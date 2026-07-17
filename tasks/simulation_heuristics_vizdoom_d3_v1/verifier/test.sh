@@ -3,6 +3,8 @@ set -euo pipefail
 
 mkdir -p /logs/verifier
 policy=/app/final_policy/policy.py
+submission=/app/final_policy
+integrity_report=/logs/verifier/integrity.json
 
 if [ ! -f "$policy" ]; then
   printf '0.0\n' > /logs/verifier/reward.txt
@@ -10,6 +12,29 @@ if [ ! -f "$policy" ]; then
   exit 0
 fi
 
+set +e
+python -m genesisbench.integrity \
+  --submission "$submission" \
+  --trajectory /logs/agent/acp_trajectory.jsonl \
+  --config /verifier/integrity.json \
+  --output "$integrity_report"
+integrity_status=$?
+set -e
+if [ "$integrity_status" -ne 0 ]; then
+  cp -R "$submission" /logs/verifier/final_policy
+  printf '0.0\n' > /logs/verifier/reward.txt
+  python - <<'PY'
+import json
+from pathlib import Path
+
+Path("/logs/verifier/reward.json").write_text(
+    json.dumps({"reward": 0.0}, indent=2) + "\n"
+)
+PY
+  exit 0
+fi
+
+export GENESISBENCH_POLICY_ISOLATION=required
 python /verifier/evaluate_hidden.py \
   "$policy" \
   --config /verifier/config.toml \
@@ -28,3 +53,4 @@ Path("/logs/verifier/reward.json").write_text(
 )
 PY
 
+cp -R "$submission" /logs/verifier/final_policy

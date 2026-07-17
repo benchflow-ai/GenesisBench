@@ -53,13 +53,15 @@ verifier:
   timeout_sec: 172800
   user: root
   network_mode: no-network
+  hardening:
+    cleanup_conftests: true
 environment:
   build_timeout_sec: 1800
   cpus: 14
   memory_mb: 8192
   storage_mb: 102400
-  network_mode: public
-  allow_internet: true
+  network_mode: no-network
+  allow_internet: false
   workdir: /app
 benchflow:
   document_version: "0.6"

@@ -6,15 +6,10 @@ This task packages the Pong 21 reproduction described in:
 
 ```text
 Jiayi Weng, Learning Beyond Gradients, 2026
-https://github.com/Trinkle23897/learning-beyond-gradients
 ```
 
-The implementation was derived from the source artifact:
-
-```text
-atari/pong/heuristic_pong.py
-commit 3555c2956c257d49a5015b782cbe485b14fd659e
-```
+Exact upstream repository paths, revisions, and answer-file hashes are retained
+outside the agent image in the repository's maintainer provenance records.
 
 That artifact documents the expected seed-0 result:
 
@@ -50,6 +45,5 @@ Copyright 2021 Garena Online Private Limited
 Licensed under the Apache License, Version 2.0
 ```
 
-The starter, oracle, and trusted anchor policy files retain that notice and
-identify the exact upstream artifact and commit. The surrounding GenesisBench
-task packaging is authored for this repository.
+The starter, oracle, and trusted anchor policy files retain that notice. The
+surrounding GenesisBench task packaging is authored for this repository.

@@ -31,6 +31,13 @@ fixed public starter
 
 The task workspace never contains `verifier/`, `oracle/`, or `evidence/`.
 
+The agent and environment also run with `network_mode: no-network`. Managed
+OpenCode permissions deny web retrieval, external-directory access, and
+subagents. During final evaluation, submitted policy code runs as UID `agent`
+inside a Landlock worker and cannot share the root verifier's filesystem or
+Python process. The trajectory and final artifact must pass the deterministic
+integrity gate before scientific reward is accepted.
+
 ## Atari57 exception
 
 Atari57 is one aggregate task rather than 114 standalone tasks. Its artifact

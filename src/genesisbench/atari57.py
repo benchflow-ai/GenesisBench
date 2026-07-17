@@ -1,19 +1,24 @@
 from __future__ import annotations
 
 import csv
-import importlib.util
 import inspect
 import json
 import statistics
-import sys
 import time
 from collections import defaultdict
+from collections.abc import Callable, Iterable
 from dataclasses import dataclass
 from pathlib import Path
 from types import ModuleType
-from typing import Any, Callable, Iterable
+from typing import Any
 
 import numpy as np
+
+from genesisbench.policy_isolation import (
+    close_policy,
+    instantiate_policy,
+    load_policy_module,
+)
 
 ATARI57_GAMES = (
     "Alien-v5",
@@ -360,21 +365,11 @@ def aggregate_atari57_episodes(
 
 def _load_policy_module(path: Path) -> ModuleType:
     module_name = f"genesisbench_atari57_submission_{abs(hash(path.resolve()))}"
-    spec = importlib.util.spec_from_file_location(module_name, path)
-    if spec is None or spec.loader is None:
-        raise RuntimeError(f"Unable to import policy from {path}")
-    module = importlib.util.module_from_spec(spec)
-    previous = sys.dont_write_bytecode
-    sys.dont_write_bytecode = True
-    sys.modules[module_name] = module
-    try:
-        spec.loader.exec_module(module)
-    except Exception:
-        sys.modules.pop(module_name, None)
-        raise
-    finally:
-        sys.dont_write_bytecode = previous
-    return module
+    return load_policy_module(
+        path,
+        module_name=module_name,
+        suppress_bytecode=True,
+    )
 
 
 def _call_with_supported_kwargs(callable_: Any, kwargs: dict[str, Any]) -> Any:
@@ -408,11 +403,11 @@ def _instantiate_policy(
         "seed": seed,
         "config": dict(spec.config),
     }
-    if hasattr(module, "make_policy"):
-        return _call_with_supported_kwargs(module.make_policy, kwargs)
-    if hasattr(module, "Policy"):
-        return _call_with_supported_kwargs(module.Policy, kwargs)
-    raise AttributeError(f"{spec.module_path} must define Policy or make_policy")
+    return instantiate_policy(
+        module,
+        init_kwargs=kwargs,
+        missing_message=f"{spec.module_path} must define Policy or make_policy",
+    )
 
 
 def _reset_policy(policy: Any, seed: int) -> None:
@@ -720,6 +715,7 @@ def evaluate_atari57_artifact(
                     else:
                         truncated = True
                 finally:
+                    close_policy(policy)
                     close = getattr(env, "close", None)
                     if close is not None:
                         close()

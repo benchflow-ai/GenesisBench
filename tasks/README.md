@@ -35,9 +35,12 @@ Every task must define:
    `metadata.genesisbench.submission` in `task.md`.
 6. **Clean final verifier** — executed after the agent exits and not exposed in
    the task workspace.
-7. **Robust final suite** — unseen seeds, scenarios, dynamics, or hardware
+7. **Reward-integrity gate** — no network access, root-owned trusted files,
+   isolated submitted-code execution, and deterministic trajectory/artifact
+   checks that force reward to zero on confirmed violations.
+8. **Robust final suite** — unseen seeds, scenarios, dynamics, or hardware
    conditions that measure generalization rather than one public trajectory.
-8. **Reproducible score** — deterministic where possible; otherwise specify
+9. **Reproducible score** — deterministic where possible; otherwise specify
    seeds, confidence intervals, and rerun policy.
 
 ## Required files
@@ -84,6 +87,11 @@ instructions to protect hidden evaluation data.
 The checked-in verifier can be a reproducibility suite. An official public
 leaderboard should inject a private final suite when public source access would
 otherwise reveal seeds, scenarios, answers, or dynamics parameters.
+
+Submitted Python must never be imported into the root verifier process. Use the
+shared `genesisbench.policy_isolation` worker, include
+`verifier/integrity.json`, and invoke `genesisbench.integrity` before scientific
+scoring. See [`../docs/reward-integrity.md`](../docs/reward-integrity.md).
 
 ## `task.md` core fields
 

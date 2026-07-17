@@ -38,18 +38,20 @@ metadata:
 agent:
   timeout_sec: 5400
   user: agent
-  network_mode: public
+  network_mode: no-network
 verifier:
   timeout_sec: 600
   user: root
   network_mode: no-network
+  hardening:
+    cleanup_conftests: true
 environment:
   build_timeout_sec: 1200
   cpus: 4
   memory_mb: 4096
   storage_mb: 10240
-  network_mode: public
-  allow_internet: true
+  network_mode: no-network
+  allow_internet: false
   workdir: /app
 benchflow:
   document_version: "0.6"
@@ -159,11 +161,12 @@ for paddle up, and `3` for paddle down.
 2. Use the fixed wall-clock budget for iterative improvement.
 3. Do not modify `evaluate.py` or trusted runtime files.
 4. Do not access `/oracle`, `/verifier`, or reconstruct hidden seeds/config.
-5. The policy receives RAM only. It does not receive reward, `info`, emulator
+5. Do not fetch or copy a completed Pong solution or upstream policy.
+6. The policy receives RAM only. It does not receive reward, `info`, emulator
    objects, screenshots, or hidden evaluator parameters.
-6. The policy may keep recurrent state and load files stored below
+7. The policy may keep recurrent state and load files stored below
    `final_policy/`.
-7. The final policy must run offline with packages installed in the task
+8. The final policy must run offline with packages installed in the task
    environment.
-8. Before finishing, evaluate `final_policy/policy.py` and leave the best
+9. Before finishing, evaluate `final_policy/policy.py` and leave the best
    working version in place.

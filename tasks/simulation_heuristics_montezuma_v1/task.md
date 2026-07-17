@@ -39,18 +39,20 @@ metadata:
 agent:
   timeout_sec: 5400
   user: agent
-  network_mode: public
+  network_mode: no-network
 verifier:
   timeout_sec: 600
   user: root
   network_mode: no-network
+  hardening:
+    cleanup_conftests: true
 environment:
   build_timeout_sec: 1200
   cpus: 4
   memory_mb: 4096
   storage_mb: 10240
-  network_mode: public
-  allow_internet: true
+  network_mode: no-network
+  allow_internet: false
   workdir: /app
 benchflow:
   document_version: "0.6"

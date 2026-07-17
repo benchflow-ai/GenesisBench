@@ -29,6 +29,10 @@ class Policy:
 
 The action must be one integer in `[0, action_count)`.
 
+The final verifier supplies `seed=0` to policy construction and reset while
+keeping environment seeds private. Policies must use observations, `env_id`,
+observation mode, and repeat identity rather than hidden seed IDs.
+
 For `native_obs`, `info` is always `None`. For `ram`, `info` is a dictionary
 containing only `ram` when EnvPool exposes it. Batch dimension one is removed
 from both observations and RAM before the policy call.
