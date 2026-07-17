@@ -1,8 +1,8 @@
 # Learning Beyond Gradients Ant reference
 
-The trusted reference adapts the final `mpc` configuration from
-`mujoco/ant/heuristic_ant.py` at revision
-`3555c2956c257d49a5015b782cbe485b14fd659e`.
+The trusted reference adapts the article's final `mpc` configuration. Exact
+upstream repository paths, revisions, and answer-file hashes are retained
+outside the agent image in `evidence/source_provenance.json`.
 
 Its controller is composed of:
 

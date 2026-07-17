@@ -11,6 +11,8 @@ This directory was generated from the GenesisBench task template.
 5. Add reproducibility and private-suite configuration.
 6. Calibrate random, starter, and stronger reference anchors.
 7. Run a real coding-agent canary.
+8. Add task-specific prohibited answer hashes to
+   `verifier/integrity.json` and adversarial reward-zero tests.
 
 Study `tasks/simulation_heuristics_ant_v1/` for a complete implementation.
 The scaffold intentionally contains verifier/oracle placeholders, so

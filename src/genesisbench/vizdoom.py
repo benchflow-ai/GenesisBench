@@ -1,18 +1,22 @@
 from __future__ import annotations
 
 import ast
-import importlib.util
 import json
-import sys
 import tempfile
 import time
+from collections.abc import Iterable, Mapping
 from dataclasses import asdict, dataclass
 from pathlib import Path
 from types import MappingProxyType, ModuleType
-from typing import Any, Iterable, Mapping
+from typing import Any
 
 import numpy as np
 
+from genesisbench.policy_isolation import (
+    close_policy,
+    instantiate_policy,
+    load_policy_module,
+)
 
 D1_ALLOWED_VARIABLES = ("HEALTH",)
 D3_ALLOWED_VARIABLES = (
@@ -207,25 +211,11 @@ def audit_vizdoom_policy(policy_path: str | Path) -> None:
 
 def _load_policy_module(policy_path: Path) -> ModuleType:
     module_name = f"genesisbench_vizdoom_submission_{abs(hash(policy_path))}"
-    spec = importlib.util.spec_from_file_location(module_name, policy_path)
-    if spec is None or spec.loader is None:
-        raise RuntimeError(f"Unable to import policy from {policy_path}")
-    module = importlib.util.module_from_spec(spec)
-    sys.modules[module_name] = module
-    try:
-        spec.loader.exec_module(module)
-    except Exception:
-        sys.modules.pop(module_name, None)
-        raise
-    return module
+    return load_policy_module(policy_path, module_name=module_name)
 
 
 def _instantiate_policy(module: ModuleType) -> Any:
-    if hasattr(module, "make_policy"):
-        return module.make_policy()
-    if hasattr(module, "Policy"):
-        return module.Policy()
-    raise AttributeError("Submission must define Policy or make_policy")
+    return instantiate_policy(module, init_kwargs={})
 
 
 def _reset_policy(policy: Any) -> None:
@@ -547,13 +537,13 @@ def evaluate_vizdoom_policy(
     final_variables: list[dict[str, float]] = [
         {} for _ in range(episodes)
     ]
+    policies: dict[int, Any] = {}
 
     try:
         observations, info = env.reset()
         active_ids = np.asarray(info["env_id"], dtype=np.int64)
         active_info: dict[str, Any] = dict(info)
         active_observations = np.asarray(observations)
-        policies: dict[int, Any] = {}
         for lane in range(episodes):
             try:
                 policy = _instantiate_policy(module)
@@ -656,6 +646,8 @@ def evaluate_vizdoom_policy(
         for lane in unfinished:
             truncated_by_lane[lane] = True
     finally:
+        for policy in policies.values():
+            close_policy(policy)
         env.close()
         if temporary_directory is not None:
             temporary_directory.cleanup()

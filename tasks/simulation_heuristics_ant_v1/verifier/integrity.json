@@ -1,0 +1,7 @@
+{
+  "forbidden_source_sha256": [
+    "500fda167833d8373d006afbd2f428a612af50d856cadb23cd3ee68a09bec17a"
+  ],
+  "require_trajectory": true,
+  "schema_version": "1.0"
+}

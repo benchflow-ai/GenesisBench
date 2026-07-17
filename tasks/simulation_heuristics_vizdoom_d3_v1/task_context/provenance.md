@@ -2,14 +2,10 @@
 
 ## Behavioral source
 
-The experiment definition and target metrics come from:
-
-```text
-repository: https://github.com/Trinkle23897/learning-beyond-gradients
-revision: 3555c2956c257d49a5015b782cbe485b14fd659e
-article section: VizDoom D3 Battle CV Policy
-declared runtime: EnvPool 1.1.1
-```
+The experiment definition and target metrics come from the article's VizDoom
+D3 Battle CV Policy section and its declared EnvPool 1.1.1 runtime. Exact
+upstream repository paths and revisions are retained outside the agent image in
+maintainer provenance records.
 
 The public article describes a screen-CV controller that detects enemies and
 supplies, uses public health/ammunition/combat counters, and switches among

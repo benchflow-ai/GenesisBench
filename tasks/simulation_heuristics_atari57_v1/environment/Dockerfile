@@ -1,4 +1,17 @@
+FROM debian:bookworm-slim AS restrict-builder
+
+RUN apt-get update -qq \
+    && apt-get install -y -qq --no-install-recommends \
+        gcc libc6-dev linux-libc-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+COPY security/restrict_exec.c /tmp/restrict_exec.c
+RUN gcc -O2 -Wall -Wextra -Werror \
+    /tmp/restrict_exec.c -o /restrict-exec
+
 FROM python:3.11-slim
+
+COPY --from=restrict-builder /restrict-exec /usr/local/bin/restrict-exec
 
 RUN apt-get update -qq \
     && apt-get install -y -qq --no-install-recommends \
@@ -7,6 +20,7 @@ RUN apt-get update -qq \
         libgl1 \
         libglib2.0-0 \
         libgomp1 \
+        util-linux \
     && rm -rf /var/lib/apt/lists/*
 
 RUN python -m pip install --no-cache-dir \
@@ -24,11 +38,14 @@ COPY tasks/simulation_heuristics_atari57_v1/starter_artifact /app/starter_artifa
 COPY tasks/simulation_heuristics_atari57_v1/task_context /app/task_context
 
 RUN cp -R /app/starter_artifact /app/final_artifact \
-    && chown -R root:root /opt/genesisbench \
-    && chmod -R a-w /opt/genesisbench \
-    && chown -R agent:agent /app
+    && mkdir -p /app/work \
+    && chown -R root:root /app /opt/genesisbench \
+    && chmod -R a-w /opt/genesisbench /app/evaluate.py \
+        /app/starter_artifact /app/task_context \
+    && chown -R agent:agent /app/final_artifact /app/work
 
-ENV PYTHONPATH="/opt/genesisbench"
+ENV PYTHONPATH="/opt/genesisbench" \
+    GENESISBENCH_POLICY_ISOLATION="required"
 
 WORKDIR /app
 

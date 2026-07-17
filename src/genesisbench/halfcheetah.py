@@ -1,20 +1,25 @@
 from __future__ import annotations
 
-import importlib.util
 import inspect
 import json
 import math
-import sys
 import tempfile
 import time
 import xml.etree.ElementTree as ET
+from collections.abc import Iterable
 from dataclasses import asdict, dataclass
 from pathlib import Path
 from types import ModuleType
-from typing import Any, Iterable
+from typing import Any
 
 import gymnasium as gym
 import numpy as np
+
+from genesisbench.policy_isolation import (
+    close_policy,
+    instantiate_policy,
+    load_policy_module,
+)
 
 
 @dataclass(frozen=True)
@@ -119,41 +124,15 @@ def _load_policy_module(policy_path: Path) -> ModuleType:
     module_name = (
         f"genesisbench_halfcheetah_submission_{abs(hash(policy_path.resolve()))}"
     )
-    spec = importlib.util.spec_from_file_location(module_name, policy_path)
-    if spec is None or spec.loader is None:
-        raise RuntimeError(f"Unable to import policy from {policy_path}")
-
-    module = importlib.util.module_from_spec(spec)
-    parent = str(policy_path.parent)
-    added_to_path = parent not in sys.path
-    if added_to_path:
-        sys.path.insert(0, parent)
-    sys.modules[module_name] = module
-    try:
-        spec.loader.exec_module(module)
-    except Exception:
-        sys.modules.pop(module_name, None)
-        raise
-    finally:
-        if added_to_path:
-            sys.path.remove(parent)
-    return module
+    return load_policy_module(
+        policy_path,
+        module_name=module_name,
+        add_parent_to_path=True,
+    )
 
 
 def _instantiate_policy(module: ModuleType, seed: int) -> Any:
-    if hasattr(module, "make_policy"):
-        factory = module.make_policy
-        try:
-            return factory(seed=seed)
-        except TypeError:
-            return factory()
-    if hasattr(module, "Policy"):
-        policy_class = module.Policy
-        try:
-            return policy_class(seed=seed)
-        except TypeError:
-            return policy_class()
-    raise AttributeError("Submission must define Policy or make_policy")
+    return instantiate_policy(module, init_kwargs={"seed": seed})
 
 
 def _configure_policy(
@@ -340,6 +319,7 @@ def evaluate_halfcheetah_policy(
             latencies: list[float] = []
             info: dict[str, Any] = {}
             length = 0
+            policy: Any | None = None
 
             try:
                 try:
@@ -354,7 +334,8 @@ def evaluate_halfcheetah_policy(
                     policy_error = f"{type(error).__name__}: {error}"
                     episode_return = failure_return
                 else:
-                    for length in range(1, max_steps + 1):
+                    for step_index in range(1, max_steps + 1):
+                        length = step_index
                         started_at = time.perf_counter()
                         try:
                             action = _validate_action(policy.act(observation))
@@ -377,6 +358,8 @@ def evaluate_halfcheetah_policy(
                         if terminated or truncated:
                             break
             finally:
+                if policy is not None:
+                    close_policy(policy)
                 x_position = float(env.unwrapped.data.qpos[0])
                 x_velocity = float(env.unwrapped.data.qvel[0])
                 env.close()

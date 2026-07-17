@@ -40,6 +40,10 @@ FORBIDDEN_SPLIT_FILES = (
     "instruction.md",
     "prompt.md",
 )
+FORBIDDEN_AGENT_CONTEXT_FRAGMENTS = (
+    "github.com/",
+    "raw.githubusercontent.com/",
+)
 
 
 def _safe_relative_path(value: object, *, field: str) -> Path:
@@ -132,6 +136,23 @@ def validate_task(
 
     if benchflow_document.config.agent.timeout_sec is None:
         issues.append("agent.timeout_sec is required")
+    agent_config = document.frontmatter.get("agent", {})
+    verifier_config = document.frontmatter.get("verifier", {})
+    environment_config = document.frontmatter.get("environment", {})
+    if agent_config.get("user") != "agent":
+        issues.append("agent.user must be agent")
+    if agent_config.get("network_mode") != "no-network":
+        issues.append("agent.network_mode must be no-network")
+    if verifier_config.get("user") != "root":
+        issues.append("verifier.user must be root")
+    if verifier_config.get("network_mode") != "no-network":
+        issues.append("verifier.network_mode must be no-network")
+    if verifier_config.get("hardening", {}).get("cleanup_conftests") is not True:
+        issues.append("verifier.hardening.cleanup_conftests must be true")
+    if environment_config.get("network_mode") != "no-network":
+        issues.append("environment.network_mode must be no-network")
+    if environment_config.get("allow_internet") is not False:
+        issues.append("environment.allow_internet must be false")
 
     if starter_path is not None:
         starter = task_directory / starter_path
@@ -189,12 +210,45 @@ def validate_task(
     task_context = task_directory / "task_context"
     if not task_context.is_dir() or not any(task_context.glob("*.md")):
         issues.append("task_context/ must contain at least one Markdown file")
-    if not (task_directory / "environment" / "Dockerfile").is_file():
+    else:
+        for context_path in task_context.glob("*.md"):
+            context_text = context_path.read_text().lower()
+            for fragment in FORBIDDEN_AGENT_CONTEXT_FRAGMENTS:
+                if fragment in context_text:
+                    issues.append(
+                        "agent-visible task context contains external source "
+                        f"locator {fragment!r}: {context_path.name}"
+                    )
+    dockerfile_path = task_directory / "environment" / "Dockerfile"
+    if not dockerfile_path.is_file():
         issues.append("environment/Dockerfile is required")
+    else:
+        dockerfile = dockerfile_path.read_text()
+        for required_fragment in (
+            "security/restrict_exec.c",
+            'GENESISBENCH_POLICY_ISOLATION="required"',
+            "/app/work",
+        ):
+            if required_fragment not in dockerfile:
+                issues.append(
+                    "environment/Dockerfile is missing integrity control: "
+                    f"{required_fragment}"
+                )
     if not (task_directory / "verifier" / "verifier.md").is_file():
         issues.append("verifier/verifier.md is required")
-    if not (task_directory / "verifier" / "test.sh").is_file():
+    verifier_script_path = task_directory / "verifier" / "test.sh"
+    if not verifier_script_path.is_file():
         issues.append("verifier/test.sh is required")
+    else:
+        verifier_script = verifier_script_path.read_text()
+        if "genesisbench.integrity" not in verifier_script:
+            issues.append("verifier/test.sh must run genesisbench.integrity")
+        if "GENESISBENCH_POLICY_ISOLATION=required" not in verifier_script:
+            issues.append(
+                "verifier/test.sh must require policy isolation"
+            )
+    if not (task_directory / "verifier" / "integrity.json").is_file():
+        issues.append("verifier/integrity.json is required")
     for filename in FORBIDDEN_SPLIT_FILES:
         if (task_directory / filename).exists():
             issues.append(

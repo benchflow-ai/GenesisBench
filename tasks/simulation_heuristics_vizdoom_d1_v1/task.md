@@ -39,18 +39,20 @@ metadata:
 agent:
   timeout_sec: 5400
   user: agent
-  network_mode: public
+  network_mode: no-network
 verifier:
   timeout_sec: 300
   user: root
   network_mode: no-network
+  hardening:
+    cleanup_conftests: true
 environment:
   build_timeout_sec: 1200
   cpus: 4
   memory_mb: 4096
   storage_mb: 10240
-  network_mode: public
-  allow_internet: true
+  network_mode: no-network
+  allow_internet: false
   workdir: /app
 benchflow:
   document_version: "0.6"
@@ -144,8 +146,9 @@ The returned action must be an integer in `[0, 5]`:
 4. Do not import EnvPool or VizDoom from the policy.
 5. Do not read WAD/config files, map geometry, labels, object coordinates,
    automaps, or simulator state.
-6. Do not hard-code routes or behavior for the public seed batch.
-7. The final controller must use rendered pixels plus public `HEALTH` only.
-8. The final policy must run offline with the installed packages.
-9. Before finishing, evaluate `final_policy/policy.py` and leave the best
+6. Do not fetch or copy a completed VizDoom solution or upstream policy.
+7. Do not hard-code routes or behavior for the public seed batch.
+8. The final controller must use rendered pixels plus public `HEALTH` only.
+9. The final policy must run offline with the installed packages.
+10. Before finishing, evaluate `final_policy/policy.py` and leave the best
    working version in place.
